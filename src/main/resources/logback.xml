@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.ccloomi.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ccloomi.com schemas/logback.xsd">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder的默认实现类是ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+    		<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread]%-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+<!--
+    <appender name="FILEOUT" class="ch.qos.logback.core.FileAppender">
+    	<file>C:/Users/Chenxj/Desktop/log.txt</file>
+    	<encoder>
+    		<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread]%-5level %logger{5} - %msg%n</pattern>
+    	</encoder>
+    </appender>
+    
+	<property name="log.base" value="../logs/" />
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.base}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="db-classic-oracle" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<dataSource class="org.apache.commons.dbcp.BasicDataSource">
+				<driverClassName>oracle.jdbc.driver.OracleDriver</driverClassName>
+				<url>jdbc:oracle:thin:@192.168.3.250:1521:devdb</url>
+				<user>logback</user>
+				<password>logback</password>
+			</dataSource>
+		</connectionSource>
+	</appender>
+
+	<appender name="db-classic-mysql" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+			<driverClass>com.mysql.jdbc.Driver</driverClass>
+			<url>jdbc:mysql://localhost:3306/logbackdb</url>
+			<user>root</user>
+			<password>qqqqqq</password>
+		</connectionSource>
+	</appender>
+
+	<appender name="db-access" class="ch.qos.logback.access.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+			<driverClass>com.mysql.jdbc.Driver</driverClass>
+			<url>jdbc:mysql://localhost:3306/logbackdb</url>
+			<user>root</user>
+			<password>qqqqqq</password>
+		</connectionSource>
+		<insertHeaders>true</insertHeaders>
+	</appender>
+
+
+	<appender name="db-classic-mysql-pool" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<dataSource class="org.apache.commons.dbcp.BasicDataSource">
+				<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+				<url>jdbc:mysql://localhost:3306/logbackdb</url>
+				<username>root</username>
+				<password>qqqqqq</password>
+			</dataSource>
+		</connectionSource>
+	</appender>
+	
+	<appender name="db-classic-oracle-pool" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<dataSource class="org.apache.commons.dbcp.BasicDataSource">
+				<driverClassName>oracle.jdbc.driver.OracleDriver</driverClassName>
+				<url>jdbc:oracle:thin:@192.168.3.250:1521:devdb</url>
+				<username>logback</username>
+				<password>logback</password>
+			</dataSource>
+		</connectionSource>
+	</appender>
+	
+	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+    <smtpHost>smtp.szlanyou.com</smtpHost>
+    <to>收件地址1</to>
+    <to>收件地址2</to>
+    <from>发件地址</from>
+    <subject>%logger{20} - %m</subject>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>%date %-5level %logger - %message%n</pattern>
+    </layout>	    
+  </appender>
+-->   
+    <!-- name值可以是包名或具体的类名：该包（包括子包）下的类或该类将采用此logger -->
+    <!--<logger name="test" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>-->
+    <!-- root的默认level是DEBUG -->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
