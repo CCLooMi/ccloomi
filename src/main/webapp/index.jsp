@@ -17,7 +17,23 @@
 	</div>
 	<script>
 		var site="http://mvnrepository.com";
-		$("#page").load("site/agent.xhtml?site=http://mvnrepository.com/search?q=spring #maincontent", function () {});
+		loadSite("/search?q=spring");
+//		$("#page").load("site/agent.xhtml?site=http://mvnrepository.com/search?q=spring #maincontent", function () {
+//			$("a").each(function () {
+//				var $this=$(this);
+//				$this.attr("href","site/agent.xhtml?site=http://mvnrepository.com"+$this.attr("href"));
+//			});
+//		});
+		function loadSite(url){
+			$("#page").load("site/agent.xhtml?site=http://mvnrepository.com"+url+" #maincontent");
+		}
+		$("#page").click(function (e) {
+			var target=$(e.target);
+			e.preventDefault();
+			if(target.is($("a"))){
+				loadSite(target.attr("href"));
+			}
+		});
 	</script>
 </body>
 </html>
