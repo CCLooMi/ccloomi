@@ -3,37 +3,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>CCLooMIi</title>
 	<base href="<%=basePath%>">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-	<title>CCLooMIi</title>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
+	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+	<script src="bower_components/Chart.js/Chart.min.js"></script>
+
+	<script src="scripts/app.js"></script>
 </head>
 <body>
-	<div class="container">
-		<h1>Welcome!</h1>
-		<div id="page"></div>
+	<div ng-app="ccloomi">
+		<div ui-view></div>
 	</div>
-	<script>
-		var site="http://mvnrepository.com";
-		loadSite("/search?q=spring");
-//		$("#page").load("site/agent.xhtml?site=http://mvnrepository.com/search?q=spring #maincontent", function () {
-//			$("a").each(function () {
-//				var $this=$(this);
-//				$this.attr("href","site/agent.xhtml?site=http://mvnrepository.com"+$this.attr("href"));
-//			});
-//		});
-		function loadSite(url){
-			$("#page").load("site/agent.xhtml?site=http://mvnrepository.com"+url+" #maincontent");
-		}
-		$("#page").click(function (e) {
-			var target=$(e.target);
-			e.preventDefault();
-			if(target.is($("a"))){
-				loadSite(target.attr("href"));
-			}
-		});
-	</script>
 </body>
 </html>
