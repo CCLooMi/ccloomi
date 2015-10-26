@@ -24,6 +24,7 @@
 	<script src="bower_components/Chart.js/Chart.min.js"></script>
 
 	<script src="scripts/app.js"></script>
+	<script src="scripts/services/commonService.js"></script>
 </head>
 <body>
 	<div ng-app="ccloomi">

@@ -1,0 +1,11 @@
+/**
+ * Created by chenxianjun on 15/10/26.
+ */
+angular.module('ccloomi')
+    .controller('loginCtrl',['$scope','S_user', function ($scope,S_user) {
+        $scope.user={};
+        S_user.user=$scope.user;
+        $scope.submit= function () {
+            alert(JSON.stringify(S_user));
+        }
+    }])

@@ -2,8 +2,11 @@ package com.ccloomi.web.system.filters;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.web.filter.authc.AuthenticationFilter;
+
+import com.ccloomi.core.constant.HttpResponseStatus;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SystemAuthenticationFilter
@@ -16,8 +19,8 @@ public class SystemAuthenticationFilter extends AuthenticationFilter{
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		System.out.println(response);
-		return false;
+		((HttpServletResponse)response).setStatus(HttpResponseStatus.SC_UNAUTHORIZED);
+		return true;
 	}
 
 }

@@ -2,8 +2,11 @@ package com.ccloomi.web.system.filters;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
+
+import com.ccloomi.core.constant.HttpResponseStatus;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SystemAuthorizationFilter
@@ -16,8 +19,8 @@ public class SystemAuthorizationFilter extends AuthorizationFilter{
 
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)throws Exception {
-		System.out.println(response);
-		return false;
+		((HttpServletResponse)response).setStatus(HttpResponseStatus.SC_FORBIDDEN);
+		return true;
 	}
 
 }
