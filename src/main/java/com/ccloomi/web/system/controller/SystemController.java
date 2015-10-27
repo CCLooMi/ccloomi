@@ -2,13 +2,14 @@ package com.ccloomi.web.system.controller;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
-import com.ccloomi.web.system.service.UserService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SystemController
@@ -20,13 +21,13 @@ import com.ccloomi.web.system.service.UserService;
 @Controller
 @RequestMapping("/sys")
 public class SystemController extends BaseController{
-	@Autowired
-	private UserService userService;
 	
 	@RequestMapping("/login")
 	public Message login(Map<String, String>map){
 		Message m=new Message();
-		
+		UsernamePasswordToken token=new UsernamePasswordToken("Chenxj","apple");
+		Subject sub=SecurityUtils.getSubject();
+		sub.login(token);
 		return m;
 	}
 }

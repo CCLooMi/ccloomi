@@ -13,11 +13,12 @@
 		 http://www.springframework.org/schema/aop		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd"
 	default-lazy-init="false">
 	<!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroDbRealm.java -->
-  
+	<bean id="systemRealm" class="com.ccloomi.web.system.shiro.realm.SystemRealm"/>
     <!-- Shiro默认会使用Servlet容器的Session,可通过sessionMode属性来指定使用Shiro原生Session -->
     <!--  即<property name="sessionMode" value="native"/>,详细说明见官方文 档 -->
     <!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    	<property name="realm" ref="systemRealm"/>
     </bean>
     <bean id="systemAuthenticationFilter" class="com.ccloomi.web.system.filters.SystemAuthenticationFilter"/>
     <bean id="systemAuthorizationFilter" class="com.ccloomi.web.system.filters.SystemAuthorizationFilter"/>
