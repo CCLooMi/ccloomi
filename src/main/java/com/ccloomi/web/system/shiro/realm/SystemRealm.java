@@ -1,14 +1,20 @@
 package com.ccloomi.web.system.shiro.realm;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-
-import com.ccloomi.web.system.shiro.SystemAuthenticationInfo;
-import com.ccloomi.web.system.shiro.SystemAuthorizationInfo;
+import org.apache.shiro.subject.Subject;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SystemRealm
@@ -21,13 +27,24 @@ public class SystemRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		SystemAuthorizationInfo info=new SystemAuthorizationInfo();
+		SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+		System.out.println(principals);
 		return info;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		SystemAuthenticationInfo info=new SystemAuthenticationInfo();
+		UsernamePasswordToken utoken=(UsernamePasswordToken) token;
+		SimpleAuthenticationInfo info=new SimpleAuthenticationInfo("ID-7786-DEW9-JID0-QQEW12",utoken.getPassword(),utoken.getUsername());
+		Subject sub=SecurityUtils.getSubject();
+		Session session=sub.getSession();
+		
+		Map<String, Object>user=new HashMap<>();
+		user.put("ID", "ID-7786-DEW9-JID0-QQEW12");
+		user.put("name", "Chenxj");
+		user.put("pass", "apple");
+		user.put("email", "chenos@foxmail.com");
+		session.setAttribute("user", user);
 		return info;
 	}
 

@@ -28,6 +28,14 @@ public class SystemController extends BaseController{
 		UsernamePasswordToken token=new UsernamePasswordToken("Chenxj","apple");
 		Subject sub=SecurityUtils.getSubject();
 		sub.login(token);
+		System.out.println(sub.getPrincipal());
+		System.out.println(sub.getPrincipals());
+		System.out.println(sub.getSession());
+		
+		System.out.println(sub.hasRole("admin"));
+		System.out.println(sub.isPermitted("add"));
+		
+		System.out.println(sub.getSession().getAttribute("user"));
 		return m;
 	}
 }
