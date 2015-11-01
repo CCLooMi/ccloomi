@@ -6,8 +6,9 @@ angular.module('ccloomi')
         $scope.user={};
         S_user.user=$scope.user;
         $scope.submit= function () {
-            S_user.login($scope.user);
-            $('form').fadeOut(500);
-            $('.wrapper').addClass('form-success');
+            S_user.login($scope.user, function () {
+                $('form').fadeOut(500);
+                $('.wrapper').addClass('form-success');
+            });
         }
     }])

@@ -2,7 +2,7 @@
  * Created by chenxianjun on 15/10/24.
  */
 angular.module('ccloomi')
-    .factory('S_user', ['$http','$location',function ($http,$location) {
+    .factory('S_user', ['$http','$location','$timeout',function ($http,$location,$timeout) {
         var service={
                 user:{},
                 views:[],
@@ -18,7 +18,7 @@ angular.module('ccloomi')
                 hasPermission:function(permission){
                     return service.permissions.indexOf(permission)==-1?false:true;
                 },
-                login: function (user,from) {
+                login: function (user,callback,from) {
                 	from=from||'/main';
                     $http.post('sys/login.xhtml',user).success(function(data){
                         if(data.code==0){
@@ -26,7 +26,10 @@ angular.module('ccloomi')
                             service.views=data.info.views;
                             service.roles=data.info.roles;
                             service.permissions=data.info.permissions;
-                            $location.path(from);
+                            callback();
+                            $timeout(function () {
+                                $location.path(from);
+                            },1000);
                         }else{
                             swal('登录失败',data.info,'error');
                         }
