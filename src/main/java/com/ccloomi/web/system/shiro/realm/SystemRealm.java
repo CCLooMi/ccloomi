@@ -19,6 +19,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ccloomi.web.system.entity.UserEntity;
+import com.ccloomi.web.system.service.RoleService;
 import com.ccloomi.web.system.service.UserService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
@@ -31,9 +32,14 @@ import com.ccloomi.web.system.service.UserService;
 public class SystemRealm extends AuthorizingRealm{
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		Object idUser=principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+		info.addRoles(roleService.findRolesByIdUser(idUser));
+		info.addStringPermissions(roleService.findPermissionsByIdUser(idUser));
 		return info;
 	}
 
@@ -44,6 +50,10 @@ public class SystemRealm extends AuthorizingRealm{
 		if(user!=null){
 			Map<String, Object>userMap=new HashMap<>();
 			userMap.put("user", user);
+			userMap.put("views", roleService.findViewsByIdUser(user.getId()));
+			userMap.put("roles", roleService.findRolesByIdUser(user.getId()));
+			userMap.put("permissions", roleService.findPermissionsByIdUser(user.getId()));
+			
 			Subject sub=SecurityUtils.getSubject();
 			Session session=sub.getSession();
 			session.setAttribute("user", userMap);

@@ -71,7 +71,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		this.rolePermissionDao = rolePermissionDao;
 	}
 	@Override
-	public List<ViewEntity> findViewsByIdUser(String idUser) {
+	public List<ViewEntity> findViewsByIdUser(Object idUser) {
 		SQLMaker sm=new SQLMaker();
 		sm.SELECT("v.*")
 		.FROM(new RoleUserEntity(), "ru")
@@ -81,7 +81,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		return findBySQLGod(sm, ViewEntity.class);
 	}
 	@Override
-	public List<String> findPermissionsByIdUser(String idUser) {
+	public List<String> findPermissionsByIdUser(Object idUser) {
 		List<String>ls=new ArrayList<>();
 		SQLMaker sm=new SQLMaker();
 		sm.SELECT("p.code")
@@ -95,7 +95,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		return ls;
 	}
 	@Override
-	public List<String> findRolesByIdUser(String idUser) {
+	public List<String> findRolesByIdUser(Object idUser) {
 		List<String>ls=new ArrayList<>();
 		SQLMaker sm=new SQLMaker();
 		sm.SELECT("r.code")

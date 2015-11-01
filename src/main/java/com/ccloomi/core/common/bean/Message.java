@@ -10,17 +10,17 @@ package com.ccloomi.core.common.bean;
 public class Message extends BaseBean{
 	private static final long serialVersionUID = 3237437916356473926L;
 	private String code;
-	private String info;
+	private Object info;
 	public String getCode() {
 		return code;
 	}
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getInfo() {
+	public Object getInfo() {
 		return info;
 	}
-	public void setInfo(String info) {
+	public void setInfo(Object info) {
 		this.info = info;
 	}
 	

@@ -13,6 +13,9 @@
 	<link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
 	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="styles/common.css">
+
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

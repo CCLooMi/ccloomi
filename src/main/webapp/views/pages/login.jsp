@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <div class="htmleaf-container" ng-controller="loginCtrl">
     <div class="wrapper">
-        <div class="container">
+        <div class="container-login">
             <h1>Welcome</h1>
             <form class="form">
                 <input placeholder="Username" ng-model="user.username" type="text">

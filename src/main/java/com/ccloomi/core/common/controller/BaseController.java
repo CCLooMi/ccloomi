@@ -18,6 +18,12 @@ public abstract class BaseController {
 		m.setCode("0");
 		return m;
 	}
+	protected Message responseMessageSuccess(Object data){
+		Message m=new Message();
+		m.setCode("0");
+		m.setInfo(data);
+		return m;
+	}
 	protected Message responseMessageError(String error){
 		Message m=new Message();
 		m.setCode("1");

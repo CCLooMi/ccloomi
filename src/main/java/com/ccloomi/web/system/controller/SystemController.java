@@ -32,7 +32,7 @@ public class SystemController extends BaseController{
 		Subject sub=SecurityUtils.getSubject();
 		try{
 			sub.login(token);
-			return responseMessageSuccess();
+			return responseMessageSuccess(sub.getSession().getAttribute("user"));
 		}catch(Exception e){
 			log.error("登录异常", e);
 			return responseMessageError("登录异常");

@@ -14,7 +14,7 @@ import com.ccloomi.web.system.entity.ViewEntity;
  * 日    期：2015年7月4日-上午8:55:14
  */
 public interface RoleService extends BaseService<RoleEntity>{
-	public List<ViewEntity> findViewsByIdUser(String idUser);
-	public List<String> findPermissionsByIdUser(String idUser);
-	public List<String> findRolesByIdUser(String idUser);
+	public List<ViewEntity> findViewsByIdUser(Object idUser);
+	public List<String> findPermissionsByIdUser(Object idUser);
+	public List<String> findRolesByIdUser(Object idUser);
 }

@@ -5,8 +5,9 @@ angular.module('ccloomi')
     .factory('S_user', function ($http) {
         var service={
             user:{},
-            roles:['admin','user'],
-            permissions:['add','update','delete','select'],
+            views:[],
+            roles:[],
+            permissions:[],
             setName: function (newName) {
                 service.user['name']=newName;
             },
