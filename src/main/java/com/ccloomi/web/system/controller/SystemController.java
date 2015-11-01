@@ -3,6 +3,7 @@ package com.ccloomi.web.system.controller;
 import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
@@ -33,6 +34,8 @@ public class SystemController extends BaseController{
 		try{
 			sub.login(token);
 			return responseMessageSuccess(sub.getSession().getAttribute("user"));
+		}catch(UnknownAccountException e){
+			return responseMessageError("账号或密码错误");
 		}catch(Exception e){
 			log.error("登录异常", e);
 			return responseMessageError("登录异常");
