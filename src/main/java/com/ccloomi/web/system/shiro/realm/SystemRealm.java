@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -15,6 +16,10 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ccloomi.web.system.entity.UserEntity;
+import com.ccloomi.web.system.service.UserService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SystemRealm
@@ -24,28 +29,29 @@ import org.apache.shiro.subject.Subject;
  * 日    期：2015年10月27日-下午9:27:55
  */
 public class SystemRealm extends AuthorizingRealm{
-
+	@Autowired
+	private UserService userService;
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
-		System.out.println(principals);
 		return info;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken utoken=(UsernamePasswordToken) token;
-		SimpleAuthenticationInfo info=new SimpleAuthenticationInfo("ID-7786-DEW9-JID0-QQEW12",utoken.getPassword(),utoken.getUsername());
-		Subject sub=SecurityUtils.getSubject();
-		Session session=sub.getSession();
-		
-		Map<String, Object>user=new HashMap<>();
-		user.put("ID", "ID-7786-DEW9-JID0-QQEW12");
-		user.put("name", "Chenxj");
-		user.put("pass", "apple");
-		user.put("email", "chenos@foxmail.com");
-		session.setAttribute("user", user);
-		return info;
+		UserEntity user=userService.findByUsernameAndPassword(utoken.getUsername(), String.valueOf(utoken.getPassword()));
+		if(user!=null){
+			Map<String, Object>userMap=new HashMap<>();
+			userMap.put("user", user);
+			Subject sub=SecurityUtils.getSubject();
+			Session session=sub.getSession();
+			session.setAttribute("user", userMap);
+			SimpleAuthenticationInfo info=new SimpleAuthenticationInfo(user.getId(),user.getPassword(),user.getUsername());
+			return info;
+		}else{
+			throw new UnknownAccountException();
+		}
 	}
 
 }

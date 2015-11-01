@@ -1,9 +1,12 @@
 package com.ccloomi.web.system.service.imp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.AbstractService;
+import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.web.system.dao.RoleUserDao;
 import com.ccloomi.web.system.dao.UserDao;
 import com.ccloomi.web.system.entity.UserEntity;
@@ -40,5 +43,19 @@ public class UserServiceImp extends AbstractService<UserEntity> implements UserS
 	/**设置 roleUserDao*/
 	public void setRoleUserDao(RoleUserDao roleUserDao) {
 		this.roleUserDao = roleUserDao;
+	}
+
+	@Override
+	public UserEntity findByUsernameAndPassword(String username, String password) {
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("*")
+		.FROM(new UserEntity(), "u")
+		.WHERE("u.username=?", username)
+		.AND("u.password=?", password);
+		List<UserEntity>ls=userDao.findBySQLGod(sm, UserEntity.class);
+		if(ls.size()>0){
+			return ls.get(0);
+		}
+		return null;
 	}
 }

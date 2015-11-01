@@ -4,9 +4,12 @@ import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
@@ -23,19 +26,22 @@ import com.ccloomi.core.common.controller.BaseController;
 public class SystemController extends BaseController{
 	
 	@RequestMapping("/login")
-	public Message login(Map<String, String>map){
-		Message m=new Message();
-		UsernamePasswordToken token=new UsernamePasswordToken("Chenxj","apple");
+	@ResponseBody
+	public Message login(@RequestBody Map<String, String>map){
+		UsernamePasswordToken token=new UsernamePasswordToken(map.get("username"),map.get("password"));
 		Subject sub=SecurityUtils.getSubject();
-		sub.login(token);
-		System.out.println(sub.getPrincipal());
-		System.out.println(sub.getPrincipals());
-		System.out.println(sub.getSession());
-		
-		System.out.println(sub.hasRole("admin"));
-		System.out.println(sub.isPermitted("add"));
-		
-		System.out.println(sub.getSession().getAttribute("user"));
-		return m;
+		try{
+			sub.login(token);
+			return responseMessageSuccess();
+		}catch(Exception e){
+			log.error("登录异常", e);
+			return responseMessageError("登录异常");
+		}
+	}
+	@RequestMapping("/currentUser")
+	@ResponseBody
+	@RequiresAuthentication
+	public Object currentUser(){
+		return SecurityUtils.getSubject().getSession().getAttribute("user");
 	}
 }

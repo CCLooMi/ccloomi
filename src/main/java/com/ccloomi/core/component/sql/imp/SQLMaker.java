@@ -2,8 +2,10 @@ package com.ccloomi.core.component.sql.imp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +30,7 @@ public class SQLMaker implements SQLGod{
 	private StringBuilder sb;
 	private Map<String, String>table_alias;
 	private Map<String, BaseEntity>alias_entity;
-	private Map<String, String>join_table_alias_on;
+	private Set<String>join_table_alias_on;
 	private List<String>columns;
 	private String where;
 	private List<String>andor;
@@ -48,7 +50,7 @@ public class SQLMaker implements SQLGod{
 		this.where			= "1=1";
 		this.andor			= new ArrayList<String>();
 		//select
-		this.join_table_alias_on= new HashMap<String, String>();
+		this.join_table_alias_on= new HashSet<>();
 		this.order_by		= new ArrayList<String>();
 		this.group_by		= new ArrayList<String>();
 		this.limit			= "";
@@ -131,12 +133,12 @@ public class SQLMaker implements SQLGod{
 		return this;
 	}
 	public SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on){
-		this.join_table_alias_on.put(" LEFT JOIN "+entity.tableName(), alias+" ON "+on);
+		this.join_table_alias_on.add(" LEFT JOIN "+entity.tableName()+" "+alias+" ON "+on);
 		this.alias_entity.put(alias, entity);
 		return this;
 	}
 	public SQLMaker RIGHT_JOIN(BaseEntity entity,String alias,String on){
-		this.join_table_alias_on.put(" RIGHT JOIN "+entity.tableName(), alias+" ON "+on);
+		this.join_table_alias_on.add(" RIGHT JOIN "+entity.tableName()+" "+alias+" ON "+on);
 		this.alias_entity.put(alias, entity);
 		return this;
 	}
@@ -209,9 +211,8 @@ public class SQLMaker implements SQLGod{
 				tableNames.add(StringUtil.joinString(" ",tableName,alias));
 			}
 			sb.append(" FROM ").append(StringUtil.join(",", tableNames.toArray()));
-			for(String join:this.join_table_alias_on.keySet()){
-				String on=this.join_table_alias_on.get(join);
-				sb.append(StringUtil.joinString(" ", join,on));
+			for(String join:this.join_table_alias_on){
+				sb.append(join);
 			}
 			sb.append(" WHERE ").append(this.where);
 			sb.append(StringUtil.join(" ", this.andor.toArray()));

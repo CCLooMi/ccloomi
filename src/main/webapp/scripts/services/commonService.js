@@ -16,6 +16,9 @@ angular.module('ccloomi')
             },
             hasPermission:function(permission){
                 return service.permissions.indexOf(permission)==-1?false:true;
+            },
+            login: function (user,callback) {
+                $http.post('sys/login.xhtml',user).success(callback);
             }
         };
         return service;

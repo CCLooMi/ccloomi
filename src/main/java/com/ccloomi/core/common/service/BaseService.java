@@ -24,6 +24,6 @@ public interface BaseService<T> {
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);
 	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
 	public int[]						batchDelete			(Object...ids);
-	public List<T> 						findBySQLGod		(SQLGod sg,Class<T>elementType);
+	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
 	public int[]						batchDelete			(Collection<? extends Object>ids);
 }

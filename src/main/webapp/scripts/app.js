@@ -40,7 +40,8 @@ var app=angular
                         return $ocLazyLoad.load({
                             name:'loginCtrl',
                             files:[
-                                'scripts/controllers/loginController.js'
+                                'scripts/controllers/loginController.js',
+                                'styles/login.css'
                             ]
                         })
                     }

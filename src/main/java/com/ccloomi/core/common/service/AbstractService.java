@@ -65,7 +65,7 @@ public abstract class AbstractService<T> {
 		return baseDao.findBySQLGod(sg);
 	}
 
-	public List<T> findBySQLGod(SQLGod sg, Class<T> elementType) {
+	public <E>List<E> findBySQLGod(SQLGod sg, Class<E> elementType) {
 		return baseDao.findBySQLGod(sg, elementType);
 	}
 }

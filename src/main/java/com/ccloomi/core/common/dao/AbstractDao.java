@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.persistence.Table;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.component.sql.SQLGod;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**深圳市设计同道技术有限公司
  * 类    名：AbstractDao
  * 类描述：基础Dao抽象类
  * 作    者：Chenxj
  * 日    期：2015年10月19日-下午4:17:54
+ * @param <E>
  */
 public abstract class AbstractDao<T> {
 	protected final Logger log=LoggerFactory.getLogger(getClass());
@@ -30,8 +31,6 @@ public abstract class AbstractDao<T> {
 	protected String tableName;
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
-	@Autowired
-	protected SqlSessionTemplate sqlSession;
 	
 	public AbstractDao (){
 		this.entityClass=getEntityClass();
@@ -142,11 +141,17 @@ public abstract class AbstractDao<T> {
 		}
 		return new ArrayList<Map<String,Object>>();
 	}
-	public List<T> findBySQLGod(SQLGod sg,Class<T>elementType) {
+	public <E> List<E> findBySQLGod(SQLGod sg,Class<E>elementType) {
 		Map<String, List<? extends Object>>map=sg.sql();
 		for(String sql:map.keySet()){
-			return jdbcTemplate.queryForList(sql,elementType,map.get(sql).toArray());
+			List<Map<String, Object>>ls=jdbcTemplate.queryForList(sql,map.get(sql).toArray());
+			ObjectMapper objMapper=new ObjectMapper();
+			List<E>tList=new ArrayList<>();
+			for(Map<String, Object>m:ls){
+				tList.add(objMapper.convertValue(m, elementType));
+			}
+			return tList;
 		}
-		return new ArrayList<T>();
+		return new ArrayList<E>();
 	}
 }

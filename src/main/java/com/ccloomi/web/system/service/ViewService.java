@@ -1,15 +1,15 @@
 package com.ccloomi.web.system.service;
 
 import com.ccloomi.core.common.service.BaseService;
-import com.ccloomi.web.system.entity.AuthorityEntity;
+import com.ccloomi.web.system.entity.ViewEntity;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
- * 类    名：AuthorityService
+ * 类    名：ViewService
  * 类 描 述：
  * 作    者：Chenxj
  * 邮    箱：chenios@foxmail.com
- * 日    期：2015年8月1日-上午9:26:13
+ * 日    期：2015年10月31日-下午10:58:19
  */
-public interface AuthorityService extends BaseService<AuthorityEntity>{
-
+public interface ViewService extends BaseService<ViewEntity>{
+	
 }
