@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
 	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
 
 	<link rel="stylesheet" href="styles/common.css">
 
@@ -25,6 +26,7 @@
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 	<script src="bower_components/Chart.js/Chart.min.js"></script>
+	<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
 
 	<script src="scripts/app.js"></script>
 	<script src="scripts/services/commonService.js"></script>
