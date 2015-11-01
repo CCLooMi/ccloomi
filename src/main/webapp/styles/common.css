@@ -1,4 +1,16 @@
-@import url(http://fonts.useso.com/css?family=Source+Sans+Pro:200,300);
+/*@import url(http://fonts.useso.com/css?family=Source+Sans+Pro:200,300);*/
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 200;
+    src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(../fonts/toadOcfmlt9b38dHJxOBGIAPdqzPmKFFIYQ-46z3JxY.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(../fonts/toadOcfmlt9b38dHJxOBGCP2LEk6lMzYsRqr3dHFImA.woff2) format('woff2');
+}
 body {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
