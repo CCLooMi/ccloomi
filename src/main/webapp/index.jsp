@@ -31,9 +31,7 @@
 	<script src="scripts/app.js"></script>
 	<script src="scripts/services/commonService.js"></script>
 </head>
-<body>
-	<div ng-app="ccloomi">
-		<div ui-view></div>
-	</div>
+<body ng-app="ccloomi">
+	<div ui-view></div>
 </body>
 </html>
