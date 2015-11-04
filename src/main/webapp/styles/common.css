@@ -19,27 +19,50 @@ body {
 .shadow-box {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-.sidebar {
-    width: 340px;
-    top: 50px;
-    left: 0px;
-    bottom: 0px;
-    position: fixed;
-    padding: 0 15px 0 0;
-    background: white none repeat scroll 0 0;
-}
-.sidebar ul {
-    color: #5f6f81;
-    font-weight: 300;
-    line-height: 60px;
-    list-style: outside none none;
-    margin: 0;
-    padding: 0;
-    text-transform: none;
+
+#page-wrapper {
+    background-color: #fff;
+    height: 100%;
     width: 100%;
+    position: fixed;
+}
+@media(min-width:768px) {
+    #page-wrapper {
+        margin: 0;
+        padding: 0 30px 0 280px;
+        border-left: 1px solid #e7e7e7;
+    }
+}
+@media(min-width:768px) {
+    .sidebar {
+        height: 100%;
+        margin-top: 51px;
+        padding-bottom: 51px;
+        position: fixed;
+        width: 250px;
+        z-index: 1;
+    }
+}
+.sidebar .sidebar-nav.navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
 }
 .sidebar ul li {
-	box-shadow: 0 1px #c6d0da inset;
-    width: 100%;
-    border-bottom: 1px solid #c6d0da;
+    list-style: none;
+    line-height: 45px;
+}
+.sidebar ul li a, .sidebar ul li span {
+    display: block;
+    border-bottom: 1px solid #e7e7e7;
+    padding-left: 20px;
+}
+.sidebar ul li a {
+	padding-left: 30px;
+}
+.sidebar ul, .list-group-item {
+    padding: 0;
+}
+.nav > li.active > a {
+    background-color: #eee;
+    text-decoration: none;
 }

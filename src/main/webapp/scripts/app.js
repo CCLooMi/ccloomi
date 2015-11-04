@@ -21,16 +21,18 @@ var app=angular
             .state('main',{
                 url:'/main',
                 templateUrl:'views/pages/main.jsp',
-//                resolve:{
-//                    loadMyFiles: function ($ocLazyLoad) {
-//                        return $ocLazyLoad.load({
-//                            name:'ccloomi',
-//                            files:[
-//                                'scripts/services/commonService.js'
-//                            ]
-//                        })
-//                    }
-//                }
+                resolve:{
+                    loadMyDirectives: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                            'scripts/directives/header/header.js',
+                            'scripts/directives/header/header-notification/header-notification.js',
+                            'scripts/directives/sidebar/sidebar.js'
+                            ]
+                        })
+                    }
+                }
             })
             .state('login',{
                 url:'/login',
