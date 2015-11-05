@@ -34,6 +34,20 @@ var app=angular
                     }
                 }
             })
+            .state('main.menu',{
+                url:'/menu',
+                templateUrl:'views/menu/menu.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/controllers/menuController.js'
+                            ]
+                        })
+                    }
+                }
+            })
             .state('login',{
                 url:'/login',
                 templateUrl:'views/pages/login.jsp',
