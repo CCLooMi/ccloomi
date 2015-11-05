@@ -2,11 +2,10 @@
     <div class="sidebar-nav collapse navbar-collapse">
         <ul class="nav list-group" id="side-menu">
             <sidebar-search></sidebar-search>
-            <li class="list-group-item">
-                <span>系统管理</span>
-                <ul>
-                    <li><a>菜单配置</a></li>
-                    <li><a>数据字典</a></li>
+            <li class="list-group-item" ng-repeat="view in views|filter:{deepIndex:0}">
+                <span>{{view.name}}</span>
+                <ul ng-repeat="v in views|filter:{pid:view.id}">
+                    <li><a href="{{v.url}}">{{v.name}}</a></li>
                 </ul>
             </li>
         </ul>

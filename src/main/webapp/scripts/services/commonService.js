@@ -4,10 +4,10 @@
 angular.module('ccloomi')
     .factory('S_user', ['$http','$location','$timeout',function ($http,$location,$timeout) {
         var service={
-                user:{},
-                views:[],
-                roles:[],
-                permissions:[],
+                //user:{},
+                //views:[],
+                //roles:[],
+                //permissions:[],
                 setName: function (newName) {
                     service.user['name']=newName;
                 },
@@ -34,7 +34,17 @@ angular.module('ccloomi')
                             swal('登录失败',data.info,'error');
                         }
                     });
+                },
+                currentUser: function (scope) {
+                    $http.post('sys/currentUser.json').success(function (data) {
+                        service.user=data.user;
+                        service.views=data.views;
+                        service.roles=data.roles;
+                        service.permissions=data.permissions;
+                        scope.views=data.views;
+                    })
                 }
+
             };
             return service;
         }])
