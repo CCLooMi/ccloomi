@@ -48,3 +48,22 @@ angular.module('ccloomi')
             };
             return service;
         }])
+    .factory('S_pagination',['$http', function ($http) {
+        var service={
+            pagination: function (paginationContainer,dataUrl,pageSize,callback,data,beforeSend) {
+                paginationContainer.pagination({
+                    dataSource: dataUrl,
+                    locator: 'data',
+                    pageSize: pageSize,
+                    ajax: {
+                        type:'POST',
+                        data:data,
+                        contentType:'application/json ;charset=UTF-8',
+                        beforeSend: beforeSend|| function () {}
+                    },
+                    callback: callback
+                })
+            }
+        };
+        return service;
+    }])

@@ -117,7 +117,16 @@ public abstract class AbstractDao<T> {
 		}
 		return r;
 	}
-	
+	public long countBySQLGod(SQLGod sg){
+		Map<String, List<? extends Object>>map=sg.countSql();
+		for(String sql:map.keySet()){
+			List<Map<String, Object>>ls=jdbcTemplate.queryForList(sql, map.get(sql).toArray());
+			if(ls.size()>0){
+				return (long) ls.get(0).get("count");
+			}
+		}
+		return 0;
+	}
 	public int updateBySQLGod(SQLGod sg) {
 		Map<String, List<? extends Object>>map=sg.sql();
 		for(String sql:map.keySet()){

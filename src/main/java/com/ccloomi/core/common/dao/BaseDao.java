@@ -20,6 +20,7 @@ public interface BaseDao<T> {
 	public int 							update				(T entity);
 	public int 							delete				(Object id);
 	public T 							getById				(Object id);
+	public long							countBySQLGod		(SQLGod sg);
 	public int 							updateBySQLGod		(SQLGod sg);
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);
 	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);

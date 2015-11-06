@@ -281,6 +281,36 @@ public class SQLMaker implements SQLGod{
 		sb=new StringBuilder();
 		return sql;
 	}
+	private String countSqlString(){
+		StringBuilder stringBuilder=new StringBuilder();
+		if(this.type==0){
+			stringBuilder.append("SELECT COUNT(*) AS 'count'");
+			List<String>tableNames=new ArrayList<String>();
+			for(String tableName:this.table_alias.keySet()){
+				String alias=this.table_alias.get(tableName);
+				tableNames.add(StringUtil.joinString(" ",tableName,alias));
+			}
+			stringBuilder.append(" FROM ").append(StringUtil.join(",", tableNames.toArray()));
+			for(String join:this.join_table_alias_on){
+				stringBuilder.append(join);
+			}
+			stringBuilder.append(" WHERE ").append(this.where);
+			stringBuilder.append(StringUtil.join(" ", this.andor.toArray()));
+		}
+		for(String alias:this.alias_entity.keySet()){
+			StringBuffer sbf=new StringBuffer();
+			Pattern pattern=Pattern.compile(alias+"\\.\\w+");
+			BaseEntity entity=this.alias_entity.get(alias);
+			Matcher matcher=pattern.matcher(stringBuilder.toString());
+			while(matcher.find()){
+				String pname=matcher.group().split("\\.")[1];
+				matcher.appendReplacement(sbf, alias+"."+entity.getPropertyTableColumn(pname));
+			}
+			matcher.appendTail(sbf);
+			stringBuilder=new StringBuilder(sbf);
+		}
+		return stringBuilder.toString();
+	}
 	@Override
 	public Map<String, List<? extends Object>> sql(){
 		Map<String, List<? extends Object>>result=new HashMap<String, List<? extends Object>>();
@@ -294,6 +324,18 @@ public class SQLMaker implements SQLGod{
 		Map<String, List<Object[]>>result=new HashMap<String, List<Object[]>>();
 		String sql=sqlString();
 		result.put(sql, batchArgs);
+		log.debug("SQLGod生成SQL::[{}]",result);
+		return result;
+	}
+	@Override
+	public Map<String, List<? extends Object>> countSql(){
+		Map<String, List<? extends Object>>result=new HashMap<String, List<? extends Object>>();
+		String sql=countSqlString();
+		if(this.limit.length()>0){
+			result.put(sql, values.subList(0, values.size()-2));
+		}else{
+			result.put(sql, values);
+		}
 		log.debug("SQLGod生成SQL::[{}]",result);
 		return result;
 	}

@@ -28,7 +28,9 @@ var app=angular
                             files:[
                             'scripts/directives/header/header.js',
                             'scripts/directives/header/header-notification/header-notification.js',
-                            'scripts/directives/sidebar/sidebar.js'
+                            'scripts/directives/sidebar/sidebar.js',
+                            'bower_components/paginationjs/dist/pagination.js',
+                            'bower_components/paginationjs/dist/pagination.css'
                             ]
                         })
                     }

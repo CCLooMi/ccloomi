@@ -25,4 +25,11 @@ public interface SQLGod {
 	 * @return
 	 */
 	public Map<String, List<Object[]>>batchSql();
+	/**
+	 * 描述：
+	 * 作者：Chenxj
+	 * 日期：2015年11月6日 - 下午9:49:21
+	 * @return
+	 */
+	public Map<String, List<? extends Object>> countSql();
 }
