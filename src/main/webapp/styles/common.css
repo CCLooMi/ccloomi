@@ -28,6 +28,9 @@ fieldset legend {
     width: auto;
     margin: 0;
 }
+#pagination {
+	float: right;
+}
 #page-wrapper {
     background-color: #fff;
     height: 100%;

@@ -56,8 +56,8 @@ angular.module('ccloomi')
                     locator: 'data',
                     pageSize: pageSize,
                     showGoInput: true,
-                    autoHidePrevious: true,
                     autoHideNext: true,
+                    autoHidePrevious: true,
                     ajax: {
                         type:'POST',
                         data:data,

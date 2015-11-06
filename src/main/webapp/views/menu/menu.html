@@ -8,8 +8,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td><td></td><td></td><td></td><td></td>
+                <tr ng-repeat="view in views">
+                    <td>{{view.name}}</td><td>{{view.url}}</td><td>{{view.pid}}</td><td>{{view.rootId}}</td>
+                    <td>
+                        <button class="btn btn-default">添加</button>
+                        <button class="btn btn-default">修改</button>
+                        <button class="btn btn-default">删除</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
