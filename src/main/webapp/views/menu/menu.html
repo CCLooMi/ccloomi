@@ -4,12 +4,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>名称</th><th>地址</th><th>父ID</th><th>根ID</th><th>操作</th>
+                    <th>图标</th><th>名称</th><th>地址</th><th>父ID</th><th>根ID</th><th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="view in views">
-                    <td>{{view.name}}</td><td>{{view.url}}</td><td>{{view.pid}}</td><td>{{view.rootId}}</td>
+                    <td>{{view.iconClass}}</td><td>{{view.name}}</td><td>{{view.url}}</td><td>{{view.pid}}</td><td>{{view.rootId}}</td>
                     <td>
                         <button class="btn btn-default">添加</button>
                         <button class="btn btn-default">修改</button>
