@@ -68,7 +68,7 @@ var app=angular
 
     }]);
 
-app.factory('securityInterceptor', ['$q','$location',function($q, $location) {
+app.factory('securityInterceptor', ['$q','$location','$timeout',function($q,$location,$timeout) {
     return {
         // optional method
         'request': function(config) {
@@ -84,9 +84,10 @@ app.factory('securityInterceptor', ['$q','$location',function($q, $location) {
         },
         // optional method
         'responseError': function(rejection) {
-            if(rejection.status===401){
-                $location.path('/login');
-                $location.replace();
+            if(rejection.status==401){
+            	$timeout(function () {
+                    $location.path('/login');
+                },0);
             }
             return $q.reject(rejection);
         }

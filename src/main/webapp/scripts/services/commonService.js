@@ -50,11 +50,14 @@ angular.module('ccloomi')
         }])
     .factory('S_pagination',['$http', function ($http) {
         var service={
-            pagination: function (paginationContainer,dataUrl,pageSize,callback,data,beforeSend) {
+            pagination: function (paginationContainer,dataUrl,pageSize,data,callback,beforeSend) {
                 paginationContainer.pagination({
                     dataSource: dataUrl,
                     locator: 'data',
                     pageSize: pageSize,
+                    showGoInput: true,
+                    autoHidePrevious: true,
+                    autoHideNext: true,
                     ajax: {
                         type:'POST',
                         data:data,

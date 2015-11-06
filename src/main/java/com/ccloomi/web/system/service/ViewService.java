@@ -1,5 +1,7 @@
 package com.ccloomi.web.system.service;
 
+import java.util.Map;
+
 import com.ccloomi.core.common.service.BaseService;
 import com.ccloomi.web.system.entity.ViewEntity;
 
@@ -11,5 +13,5 @@ import com.ccloomi.web.system.entity.ViewEntity;
  * 日    期：2015年10月31日-下午10:58:19
  */
 public interface ViewService extends BaseService<ViewEntity>{
-	
+	public Map<String, Object> findViewsByPage(Map<String, Object>map);
 }

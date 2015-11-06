@@ -19,7 +19,15 @@ body {
 .shadow-box {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-
+fieldset {
+    padding: 10px;
+    /*border: 1px solid #e5e5e5;*/
+}
+fieldset legend {
+    border: none;
+    width: auto;
+    margin: 0;
+}
 #page-wrapper {
     background-color: #fff;
     height: 100%;
