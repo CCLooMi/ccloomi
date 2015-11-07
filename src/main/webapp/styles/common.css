@@ -14,7 +14,6 @@
 body {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
-    background: #34495e none repeat scroll 0 0;
 }
 .navbar-toggle {
 	border-radius: 0;
@@ -39,7 +38,7 @@ fieldset legend {
     background-color: #fff;
     height: 100%;
     width: 100%;
-    position: fixed;
+    /*position: fixed;*/
 }
 @media(min-width:768px) {
     #page-wrapper {
@@ -53,7 +52,7 @@ fieldset legend {
         height: 100%;
         margin-top: 51px;
         padding-bottom: 51px;
-        position: fixed;
+        position: absolute;
         width: 250px;
         z-index: 1;
     }
