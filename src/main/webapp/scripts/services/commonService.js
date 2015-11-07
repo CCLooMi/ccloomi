@@ -67,7 +67,7 @@ angular.module('ccloomi')
         };
         return service;
     }])
-    .factory('S_dialog',['$http', function ($http) {
+    .factory('S_dialog',['$http','$compile', function ($http,$compile) {
         var service={
             dialog: function (title,templateUrl,scope,ok,cancel,width) {
                 $http.get(templateUrl,{cache:true}).success(function (data) {
@@ -81,6 +81,7 @@ angular.module('ccloomi')
                         cancel: cancel||function(){}
                     });
                     d.showModal();
+                    $compile('.ui-dialog')(scope);
                 });
             }
         };
