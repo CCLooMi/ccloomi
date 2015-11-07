@@ -67,3 +67,22 @@ angular.module('ccloomi')
         };
         return service;
     }])
+    .factory('S_dialog',['$http', function ($http) {
+        var service={
+            dialog: function (title,templateUrl,scope,ok,cancel,width) {
+                $http.get(templateUrl,{cache:true}).success(function (data) {
+                    var d=dialog({
+                        title:'添加菜单',
+                        content:data,
+                        okValue:'确定',
+                        width:width||500,
+                        ok: ok||function(){},
+                        cancelValue:'取消',
+                        cancel: cancel||function(){}
+                    });
+                    d.showModal();
+                });
+            }
+        };
+        return service;
+    }])

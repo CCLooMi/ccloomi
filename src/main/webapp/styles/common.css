@@ -35,6 +35,9 @@ fieldset legend {
     width: auto;
     margin: 0;
 }
+legend.btn {
+    color: #23c416;
+}
 #pagination {
 	float: right;
 }
