@@ -22,5 +22,6 @@ angular.module('ccloomi')
         };
     	S_pagination.pagination($('#pagination'),'view/byPage.json',20,{}, function (data,pagination) {
             $scope.views=data;
+            refreshScope($scope);
         });
     }])

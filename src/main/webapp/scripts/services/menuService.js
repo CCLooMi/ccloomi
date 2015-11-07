@@ -22,6 +22,7 @@ angular.module('ccloomi')
                 }, function () {
                     alert('取消修改');
                     cloneA2B(cloneObj,scope.menu);
+                    refreshScope(scope);
                 })
             },
             remove: function (menu) {

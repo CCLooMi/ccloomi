@@ -13,3 +13,8 @@ function cloneA2B(a,b){
         b[k]=a[k];
     }
 }
+function refreshScope(scope){
+    if(!scope.$$phase){
+        scope.$apply();
+    }
+}
