@@ -40,6 +40,7 @@
     "sweetalert": "~1.1.3",
     "Context.js": "git://github.com/CCLooMi/Context.js",
     "ng-file-upload": "~9.0.19",
-    "paginationjs": "git://github.com/CCLooMi/paginationjs#2.0.6"
+    "paginationjs": "git://github.com/CCLooMi/paginationjs#2.0.6",
+    "less": "less.js#~2.5.3"
   }
 }

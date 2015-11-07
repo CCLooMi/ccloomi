@@ -30,7 +30,7 @@ var app=angular
                             'scripts/directives/header/header-notification/header-notification.js',
                             'scripts/directives/sidebar/sidebar.js',
                             'bower_components/paginationjs/dist/pagination.js',
-                            'bower_components/paginationjs/dist/pagination.css'
+                            'css/pagination.css'
                             ]
                         })
                     }
