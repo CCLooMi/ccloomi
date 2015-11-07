@@ -38,6 +38,14 @@ fieldset legend {
 legend.btn {
     color: #23c416;
 }
+input:focus {
+    color: #53e3a6;
+}
+.form-control:focus {
+    border-color: #e8faaa;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(200, 230, 150, 0.6);
+    outline: 0 none;
+}
 #pagination {
 	float: right;
 }
