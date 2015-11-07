@@ -83,6 +83,24 @@ angular.module('ccloomi')
                     d.showModal();
                     $compile('.ui-dialog')(scope);
                 });
+            },
+            alertRemove: function (title,text,url,data) {
+                swal({
+                    title:title,
+                    text:text,
+                    type:'warning',
+                    showCancelButton:true,
+                    cancelButtonText:'取消',
+                    closeOnConfirm:false,
+                    closeOnCancel:false,
+                    showLoaderOnConfirm:true
+                }, function (isConfirm) {
+                    if(isConfirm){
+                        swal('删除成功','数据已删除','success');
+                    }else{
+                        swal('已取消','数据将不会删除','error');
+                    }
+                });
             }
         };
         return service;

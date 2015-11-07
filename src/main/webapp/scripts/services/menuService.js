@@ -26,7 +26,7 @@ angular.module('ccloomi')
                 })
             },
             remove: function (menu) {
-
+                S_dialog.alertRemove('你确定要删除['+menu.name+']吗?','删除之后将无法恢复.','',menu);
             }
         };
         return service;

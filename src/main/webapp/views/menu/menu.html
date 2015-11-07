@@ -9,7 +9,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="view in views">
-                    <td>{{view.iconClass}}</td><td>{{view.name}}</td><td>{{view.url}}</td><td>{{view.pid}}</td><td>{{view.rootId}}</td>
+                    <td><span class="{{view.iconClass}}"></span></td><td>{{view.name}}</td><td>{{view.url}}</td><td>{{view.pid}}</td><td>{{view.rootId}}</td>
                     <td>
                         <button class="btn shadow-box" ng-click="add(view)">添加</button>
                         <button class="btn shadow-box" ng-click="update(view)">修改</button>
