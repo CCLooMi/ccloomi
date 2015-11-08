@@ -107,3 +107,10 @@ input:focus {
     background-color: #eee;
     text-decoration: none;
 }
+.table td {
+    vertical-align: middle !important;
+}
+.table tbody tr td:first-child span {
+    display: block;
+    font-size: 20px;
+}
