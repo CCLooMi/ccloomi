@@ -3,9 +3,9 @@
         <ul class="nav list-group" id="side-menu">
             <sidebar-search></sidebar-search>
             <li class="list-group-item" ng-repeat="view in views|filter:{deepIndex:0}">
-                <span>{{view.name}}</span>
+                <span><span class="{{view.iconClass}}"></span>{{view.name}}</span>
                 <ul ng-repeat="v in views|filter:{pid:view.id}">
-                    <li><a href="{{v.url}}">{{v.name}}</a></li>
+                    <li><a href="{{v.url}}"><span class="{{v.iconClass}}"></span>{{v.name}}</a></li>
                 </ul>
             </li>
         </ul>
