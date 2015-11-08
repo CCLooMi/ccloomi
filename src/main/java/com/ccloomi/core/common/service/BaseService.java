@@ -15,7 +15,7 @@ import com.ccloomi.core.component.sql.SQLGod;
  * @param <T>
  */
 public interface BaseService<T> {
-	public Object 						add					(T entity);
+	public int 							add					(T entity);
 	public Object 						save				(T entity);
 	public int 							update				(T entity);
 	public int 							delete				(Object id);

@@ -3,6 +3,7 @@ package com.ccloomi.web.system.dao.imp;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.dao.GenericDao;
+import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.system.dao.ViewDao;
 import com.ccloomi.web.system.entity.ViewEntity;
 
@@ -16,4 +17,15 @@ import com.ccloomi.web.system.entity.ViewEntity;
 @Service("viewDao")
 public class ViewDaoImp extends GenericDao<ViewEntity> implements ViewDao{
 	
+	@Override
+	public Object save(ViewEntity entity){
+		if(entity.getId()==null){
+			entity.setId(StringUtil.buildUUID());
+			if(entity.getPid()==null){
+				entity.setDeepIndex(0);
+				entity.setIdRoot(entity.getId());
+			}
+		}
+		return super.save(entity);
+	}
 }

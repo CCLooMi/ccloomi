@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.ccloomi.core.common.dao.AbstractDao;
+import com.ccloomi.core.common.dao.GenericDao;
 import com.ccloomi.web.system.dao.UserDao;
 import com.ccloomi.web.system.entity.UserEntity;
 
@@ -17,7 +17,7 @@ import com.ccloomi.web.system.entity.UserEntity;
  * 日    期：2015年7月3日-下午10:26:54
  */
 @Service("userDao")
-public class UserDaoImp extends AbstractDao<UserEntity> implements UserDao{
+public class UserDaoImp extends GenericDao<UserEntity> implements UserDao{
 	@Override
 	protected Class<UserEntity> getEntityClass() {
 		return UserEntity.class;

@@ -33,6 +33,8 @@ angular.module('ccloomi')
                         }else{
                             swal('登录失败',data.info,'error');
                         }
+                    }).error(function () {
+                        swal('操作异常','网络错误','error');
                     });
                 },
                 currentUser: function (scope) {
@@ -82,21 +84,38 @@ angular.module('ccloomi')
                     });
                     d.showModal();
                     $compile('.ui-dialog')(scope);
+                }).error(function () {
+                    swal('操作异常','网络错误','error');
                 });
             },
-            alertRemove: function (title,text,url,data) {
+            alert: function (title,text,type) {
+                swal(title,text,type||'info');
+            },
+            alertRemove: function (url,data,callback) {
                 swal({
-                    title:title,
-                    text:text,
+                    title:'你确定要删除'+(data.name?('['+data.name+']'):'')+'吗?',
+                    text:'删除之后将无法恢复!',
                     type:'warning',
                     showCancelButton:true,
                     cancelButtonText:'取消',
+                    confirmButtonText:'确定',
                     closeOnConfirm:false,
                     closeOnCancel:false,
                     showLoaderOnConfirm:true
                 }, function (isConfirm) {
                     if(isConfirm){
-                        swal('删除成功','数据已删除','success');
+                        $http.post(url,data).success(function (dt) {
+                            if(dt.code==0){
+                                swal('删除成功','数据已删除','success');
+                                callback();
+                            }else if(dt.code==1){
+                                swal('删除失败',dt.info,'error');
+                            }else {
+                                swal('删除失败','接口['+url+']调用失败','error');
+                            }
+                        }).error(function () {
+                            swal('操作异常','网络错误','error');
+                        });
                     }else{
                         swal('已取消','数据将不会删除','error');
                     }

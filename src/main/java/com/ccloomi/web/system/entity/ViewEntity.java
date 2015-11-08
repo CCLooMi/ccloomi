@@ -20,7 +20,7 @@ public class ViewEntity extends IdEntity{
 	private String iconClass;
 	private String type;
 	private String idRoot;
-	private String deepIndex;
+	private int deepIndex;
 	/**获取 name*/
 	public String getName() {
 		return name;
@@ -70,11 +70,11 @@ public class ViewEntity extends IdEntity{
 		this.idRoot = idRoot;
 	}
 	/**获取 deepIndex*/
-	public String getDeepIndex() {
+	public int getDeepIndex() {
 		return deepIndex;
 	}
 	/**设置 deepIndex*/
-	public void setDeepIndex(String deepIndex) {
+	public void setDeepIndex(int deepIndex) {
 		this.deepIndex = deepIndex;
 	}
 	

@@ -25,7 +25,7 @@ public abstract class AbstractService<T> {
 	@Autowired
 	protected BaseDao<T> baseDao;
 	
-	public Object add(T entity) {
+	public int add(T entity) {
 		return baseDao.add(entity);
 	}
 

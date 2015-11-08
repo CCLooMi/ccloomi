@@ -18,7 +18,7 @@ angular.module('ccloomi')
             S_menu.update($scope,menu);
         };
         $scope.remove= function (menu) {
-            S_menu.remove(menu);
+            S_menu.remove($scope,menu);
         };
     	S_pagination.pagination($('#pagination'),'view/byPage.json',20,{}, function (data,pagination) {
             $scope.views=data;

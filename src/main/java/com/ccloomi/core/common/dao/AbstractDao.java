@@ -49,14 +49,10 @@ public abstract class AbstractDao<T> {
 		return (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
-	public Object add(T entity) {
+	public int add(T entity) {
 		return updateBySQLGod(new SQLMaker().INSERT_INTO((BaseEntity)entity, "#"));
 	}
-
-	public Object save(T entity) {
-		return add(entity);
-	}
-
+	
 	public int update(T entity) {
 		BaseEntity _bt=(BaseEntity) entity;
 		String alias="et";

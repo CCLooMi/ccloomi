@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.web.system.dao.ViewDao;
 import com.ccloomi.web.system.entity.ViewEntity;
 import com.ccloomi.web.system.service.ViewService;
 
@@ -20,7 +22,12 @@ import com.ccloomi.web.system.service.ViewService;
  */
 @Service("viewService")
 public class ViewServiceImp extends GenericService<ViewEntity> implements ViewService{
-
+	@Autowired
+	private ViewDao viewDao;
+	@Override
+	public Object save(ViewEntity entity){
+		return viewDao.save(entity);
+	}
 	@Override
 	public Map<String, Object> findViewsByPage(Map<String, Object> map) {
 		Map<String, Object>rm=new HashMap<>();

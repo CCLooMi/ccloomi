@@ -79,7 +79,7 @@ public class SystemInitializer implements WebApplicationInitializer{
 		springDispatcherServlet.setContextConfigLocation("classpath:spring/spring.xml");
 		servletDynamic=sc.addServlet("spring3", springDispatcherServlet);
 		servletDynamic.setLoadOnStartup(1);
-		servletDynamic.addMapping("*.xhtml","*.json");
+		servletDynamic.addMapping("*.xhtml","*.json","*.do");
 		log.debug("注册SpringDispatcherServlet完成，处理地址：{}",servletDynamic.getMappings());
 		
 		log.debug("已注册servlet：{}",sc.getServletRegistrations().keySet());

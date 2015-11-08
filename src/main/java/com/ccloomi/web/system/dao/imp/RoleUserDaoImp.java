@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.ccloomi.core.common.dao.AbstractDao;
+import com.ccloomi.core.common.dao.GenericDao;
 import com.ccloomi.web.system.dao.RoleUserDao;
 import com.ccloomi.web.system.entity.RoleUserEntity;
 
@@ -18,7 +18,7 @@ import com.ccloomi.web.system.entity.RoleUserEntity;
  * 日    期：2015年7月3日-下午10:39:56
  */
 @Service("roleUserDao")
-public class RoleUserDaoImp extends AbstractDao<RoleUserEntity> implements RoleUserDao{
+public class RoleUserDaoImp extends GenericDao<RoleUserEntity> implements RoleUserDao{
 
 	@Override
 	public List<Object> getIdRoleByIdUser(Serializable idUser) {

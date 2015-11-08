@@ -15,8 +15,14 @@ import com.ccloomi.core.util.StringUtil;
 public class GenericDao<T extends IdEntity> extends AbstractDao<T> implements BaseDao<T>{
 	@Override
 	public Object save(T entity){
-		if(entity.getId()==null)
+		if(entity.getId()==null){
 			entity.setId(StringUtil.buildUUID());
-		return super.save(entity);
+		}
+		int i=add(entity);
+		if(i>0){
+			return entity.getId();
+		}else{
+			return null;
+		}
 	}
 }
