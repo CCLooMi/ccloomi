@@ -53,6 +53,24 @@ var app=angular
                     }
                 }
             })
+            .state('main.role',{
+                url:'/role',
+                templateUrl:'views/role/role.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/controllers/roleController.js'
+                            ]
+                        })
+                    }
+                }
+            })
+            .state('main.dd',{
+                url:'/dd',
+                templateUrl:'views/dd/dataDictionary.html'
+            })
             .state('login',{
                 url:'/login',
                 templateUrl:'views/pages/login.jsp',

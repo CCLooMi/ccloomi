@@ -1,0 +1,26 @@
+<div class="container-fluid" ng-controller="roleCtrl">
+    <fieldset class="shadow-box">
+        <legend class="btn"><span class="fa fa-plus"></span>Role.</legend>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>名称</th><th>编码</th><th>ID</th><th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="role in roles">
+                    <td>{{role.name}}</td><td>{{role.code}}</td><td>{{role.id}}</td>
+                    <td>
+                        <button class="btn shadow-box" >添加</button>
+                        <button class="btn shadow-box" >修改</button>
+                        <button class="btn shadow-box" >删除</button>
+
+                        <button class="btn shadow-box" >用户配置</button>
+                        <button class="btn shadow-box" >权限配置</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </fieldset>
+</div>

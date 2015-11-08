@@ -16,7 +16,6 @@ angular.module('ccloomi')
                             S_dialog.alert('添加成功','添加菜单['+scope.menu.name+']成功','success');
                             if(!scope.menu.id){
                                 scope.menu.id=data.info;
-                                scope.menu.idRoot=data.info;
                                 scope.views.push(scope.menu);
                                 refreshScope(scope);
                             }

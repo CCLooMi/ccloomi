@@ -1,6 +1,7 @@
 package com.ccloomi.web.system.service.imp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,26 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 	/**设置 rolePermissionDao*/
 	public void setRolePermissionDao(RolePermissionDao rolePermissionDao) {
 		this.rolePermissionDao = rolePermissionDao;
+	}
+	@Override
+	public Map<String, Object> findRolesByPage(Map<String, Object> map) {
+		Map<String, Object>rm=new HashMap<>();
+		int page=-1+(int) map.get("pageNumber");
+		int pageSize=(int) map.get("pageSize");
+		String keywords=(String) map.get("keywords");
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("*")
+		.FROM(new RoleEntity(), "r");
+		if(keywords!=null){
+			sm.WHERE("r.id LIKE '%?%' OR r.name LIKE '%?%' OR r.code LIKE '%?%'".replaceAll("\\?", keywords));
+		}
+		sm.LIMIT(page*pageSize, pageSize);
+		if(page==0){
+			rm.put("totalNumber", countBySQLGod(sm));
+		}
+		List<Map<String, Object>>ls=findBySQLGod(sm);
+		rm.put("data", ls);
+		return rm;
 	}
 	@Override
 	public List<ViewEntity> findViewsByIdUser(Object idUser) {
