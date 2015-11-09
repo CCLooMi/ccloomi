@@ -71,7 +71,7 @@ angular.module('ccloomi')
     }])
     .factory('S_dialog',['$http','$compile', function ($http,$compile) {
         var service={
-            dialog: function (title,templateUrl,scope,ok,cancel,width) {
+            dialog: function (title,templateUrl,scope,ok,cancel,afterShow,width) {
                 $http.get(templateUrl,{cache:true}).success(function (data) {
                     var d=dialog({
                         title:title,
@@ -83,6 +83,9 @@ angular.module('ccloomi')
                         cancel: cancel||function(){}
                     });
                     d.showModal();
+                    if(afterShow){
+                        afterShow();
+                    }
                     $compile('.ui-dialog')(scope);
                 }).error(function () {
                     swal('操作异常','网络错误','error');
