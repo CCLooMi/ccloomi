@@ -74,7 +74,7 @@ angular.module('ccloomi')
             dialog: function (title,templateUrl,scope,ok,cancel,width) {
                 $http.get(templateUrl,{cache:true}).success(function (data) {
                     var d=dialog({
-                        title:'添加菜单',
+                        title:title,
                         content:data,
                         okValue:'确定',
                         width:width||500,
