@@ -42,6 +42,7 @@
     "ng-file-upload": "~9.0.19",
     "paginationjs": "git://github.com/CCLooMi/paginationjs#2.0.6",
     "less": "less.js#~2.5.3",
-    "artDialog": "art-dialog#~6.0.4"
+    "artDialog": "art-dialog#~6.0.4",
+    "jstree": "~3.2.1"
   }
 }

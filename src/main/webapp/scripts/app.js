@@ -61,7 +61,9 @@ var app=angular
                         return $ocLazyLoad.load({
                             name:'ccloomi',
                             files:[
-                                'scripts/controllers/roleController.js'
+                                'bower_components/jstree/dist/jstree.min.js',
+                                'scripts/controllers/roleController.js',
+                                'bower_components/jstree/dist/themes/default/style.min.css'
                             ]
                         })
                     }
