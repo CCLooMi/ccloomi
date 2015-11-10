@@ -1,5 +1,6 @@
 package com.ccloomi.web.system.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.core.util.StringUtil;
+import com.ccloomi.web.system.entity.RoleEntity;
 import com.ccloomi.web.system.entity.ViewEntity;
 import com.ccloomi.web.system.service.ViewService;
 
@@ -66,5 +68,11 @@ public class ViewController extends BaseController{
 		}else{
 			return responseMessageError(StringUtil.format("删除[?]失败", view.getName()));
 		}
+	}
+	@RequestMapping("/jstree")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<Map<String, Object>>viewsTreeByRoleId(@RequestBody RoleEntity role){
+		return viewService.findViewsTreeByRoleId(role.getId());
 	}
 }

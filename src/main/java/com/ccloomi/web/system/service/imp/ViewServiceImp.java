@@ -50,14 +50,54 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		return rm;
 	}
 	@Override
-	public List<Map<String, Object>> findViewsByRoleId(Object idRole) {
+	public List<Map<String, Object>> findViewsTreeByRoleId(Object idRole) {
 		SQLMaker sm=new SQLMaker();
-		sm.SELECT("v.*")
+		sm.SELECT("v.id")
+		.SELECT_AS("v.name", "text")
+		.SELECT_AS("v.iconClass", "icon")
 		.SELECT_AS("IF(rv.idView IS NULL,0,1)", "has")
 		.FROM(new ViewEntity(), "v")
 		.LEFT_JOIN(new RoleViewEntity(), "rv", "rv.idView=v.id")
-		.JOIN_AND("rv.idRole=?", idRole);
-		return viewDao.findBySQLGod(sm);
+		.JOIN_AND("rv.idRole=?", idRole)
+		.WHERE("v.deepIndex=0");
+		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
+		for(Map<String, Object>m:ls){
+			long has=(long) m.get("has");
+			if(has==1){
+				Map<String, Object>state=new HashMap<>();
+				state.put("selected", true);
+				m.put("state", state);
+			}
+			List<Map<String, Object>>ls2=findViewsTreeByPid(idRole, m.get("id"));
+			if(ls2.size()>0){
+				m.put("children", ls2);
+			}
+		}
+		return ls;
 	}
-	
+	private List<Map<String, Object>> findViewsTreeByPid(Object idRole,Object pid){
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("v.id")
+		.SELECT_AS("v.name", "text")
+		.SELECT_AS("v.iconClass", "icon")
+		.SELECT_AS("IF(rv.idView IS NULL,0,1)", "has")
+		.FROM(new ViewEntity(), "v")
+		.LEFT_JOIN(new RoleViewEntity(), "rv", "rv.idView=v.id")
+		.JOIN_AND("rv.idRole=?", idRole)
+		.WHERE("v.pid=?", pid);
+		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
+		for(Map<String, Object>m:ls){
+			long has=(long) m.get("has");
+			if(has==1){
+				Map<String, Object>state=new HashMap<>();
+				state.put("selected", true);
+				m.put("state", state);
+			}
+			List<Map<String, Object>>ls2=findViewsTreeByPid(idRole, m.get("id"));
+			if(ls2.size()>0){
+				m.put("children", ls2);
+			}
+		}
+		return ls;
+	}
 }
