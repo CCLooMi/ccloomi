@@ -48,7 +48,9 @@ public abstract class AbstractService<T> {
 	public int[] batchDelete(Object... ids) {
 		return baseDao.batchDelete(ids);
 	}
-	
+	public int[] batchSave(Collection<T>entities){
+		return baseDao.batchSave(entities);
+	}
 	public int[] batchDelete(Collection<? extends Object> ids) {
 		return baseDao.batchDelete(ids);
 	}

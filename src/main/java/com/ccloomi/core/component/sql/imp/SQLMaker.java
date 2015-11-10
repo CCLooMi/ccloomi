@@ -34,6 +34,7 @@ public class SQLMaker implements SQLGod{
 	private List<String>columns;
 	private String where;
 	private List<String>andor;
+	private List<String>joinAndor;
 	private List<Object>values;
 	private List<String>order_by;
 	private List<String>group_by;
@@ -42,17 +43,18 @@ public class SQLMaker implements SQLGod{
 	private List<String>vSets;
 	private void init(){
 		this.sb				= new StringBuilder();
-		this.table_alias	= new HashMap<String, String>();
-		this.alias_entity	= new HashMap<String, BaseEntity>();
-		this.columns		= new ArrayList<String>();
-		this.values			= new ArrayList<Object>();
+		this.table_alias	= new HashMap<>();
+		this.alias_entity	= new HashMap<>();
+		this.columns		= new ArrayList<>();
+		this.values			= new ArrayList<>();
 		//select|update|delete
 		this.where			= "1=1";
-		this.andor			= new ArrayList<String>();
+		this.andor			= new ArrayList<>();
 		//select
 		this.join_table_alias_on= new HashSet<>();
-		this.order_by		= new ArrayList<String>();
-		this.group_by		= new ArrayList<String>();
+		this.joinAndor		= new ArrayList<>();
+		this.order_by		= new ArrayList<>();
+		this.group_by		= new ArrayList<>();
 		this.limit			= "";
 		//insert
 		this.vSets			= new ArrayList<String>();
@@ -142,6 +144,20 @@ public class SQLMaker implements SQLGod{
 		this.alias_entity.put(alias, entity);
 		return this;
 	}
+	public SQLMaker JOIN_AND(String str,Object...values){
+		this.joinAndor.add(" AND "+str);
+		for(Object value:values){
+			this.values.add(value);
+		}
+		return this;
+	}
+	public SQLMaker JOIN_OR(String str,Object...values){
+		this.joinAndor.add(" OR "+str);
+		for(Object value:values){
+			this.values.add(value);
+		}
+		return this;
+	}
 	public SQLMaker WHERE(String str){
 		this.where=str;
 		return this;
@@ -213,6 +229,9 @@ public class SQLMaker implements SQLGod{
 			sb.append(" FROM ").append(StringUtil.join(",", tableNames.toArray()));
 			for(String join:this.join_table_alias_on){
 				sb.append(join);
+			}
+			for(String joinAndor:this.joinAndor){
+				sb.append(joinAndor);
 			}
 			sb.append(" WHERE ").append(this.where);
 			sb.append(StringUtil.join(" ", this.andor.toArray()));

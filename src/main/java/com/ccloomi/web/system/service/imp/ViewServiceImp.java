@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.web.system.dao.ViewDao;
+import com.ccloomi.web.system.entity.RoleViewEntity;
 import com.ccloomi.web.system.entity.ViewEntity;
 import com.ccloomi.web.system.service.ViewService;
 
@@ -47,6 +48,16 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		List<Map<String, Object>>ls=findBySQLGod(sm);
 		rm.put("data", ls);
 		return rm;
+	}
+	@Override
+	public List<Map<String, Object>> findViewsByRoleId(Object idRole) {
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("v.*")
+		.SELECT_AS("IF(rv.idView IS NULL,0,1)", "has")
+		.FROM(new ViewEntity(), "v")
+		.LEFT_JOIN(new RoleViewEntity(), "rv", "rv.idView=v.id")
+		.JOIN_AND("rv.idRole=?", idRole);
+		return viewDao.findBySQLGod(sm);
 	}
 	
 }

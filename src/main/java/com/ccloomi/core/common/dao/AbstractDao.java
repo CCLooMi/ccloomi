@@ -48,7 +48,20 @@ public abstract class AbstractDao<T> {
 	protected Class<T> getEntityClass(){
 		return (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
-
+	/**
+	 * 描述：获取T的实例
+	 * 作者：Chenxj
+	 * 日期：2015年11月10日 - 下午10:35:25
+	 * @return
+	 */
+	private T TEntity(){
+		try {
+			return getEntityClass().newInstance();
+		} catch (Exception e) {
+			log.error("获取T实例异常", e);
+			return null;
+		}
+	}
 	public int add(T entity) {
 		return updateBySQLGod(new SQLMaker().INSERT_INTO((BaseEntity)entity, "#"));
 	}
@@ -99,7 +112,36 @@ public abstract class AbstractDao<T> {
 		}
 		return r;
 	}
-	
+	public int[] batchSave(Collection<T>entities){
+		int[]r=new int[entities==null?0:entities.size()];
+		if(entities!=null&&entities.size()>0){
+			List<Object[]>batchArgs=new ArrayList<Object[]>();
+			List<String>properties=null;
+			BaseEntity firstBt=null;
+			for(T t:entities){
+				BaseEntity bt=(BaseEntity) t;
+				bt.prepareProperties();
+				if(properties==null){
+					firstBt=bt;
+					properties=firstBt.properties();
+				}
+				List<Object>args=new ArrayList<Object>();
+				for(String p:properties){
+					args.add(bt.getPVMap().get(p));
+				}
+				batchArgs.add(args.toArray());
+			}
+			firstBt=(BaseEntity) TEntity();
+			if(firstBt==null){
+				return r;
+			}
+			SQLMaker sm=new SQLMaker();
+			sm.INSERT_INTO(firstBt, "#");
+			sm.setBatchArgs(batchArgs);
+			return batchUpdateBySQLGod(sm);
+		}
+		return r;
+	}
 	public int[] batchDelete(Collection<? extends Object> ids) {
 		int[]r=new int[ids==null?0:ids.size()];
 		if(ids!=null&&ids.size()>0){
