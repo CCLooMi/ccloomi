@@ -62,12 +62,13 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		.WHERE("v.deepIndex=0");
 		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
 		for(Map<String, Object>m:ls){
-			long has=(long) m.get("has");
-			if(has==1){
-				Map<String, Object>state=new HashMap<>();
-				state.put("selected", true);
-				m.put("state", state);
-			}
+			//根不能选中，不然下面所有的子选项都会选中
+//			long has=(long) m.get("has");
+//			if(has==1){
+//				Map<String, Object>state=new HashMap<>();
+//				state.put("selected", true);
+//				m.put("state", state);
+//			}
 			List<Map<String, Object>>ls2=findViewsTreeByPid(idRole, m.get("id"));
 			if(ls2.size()>0){
 				m.put("children", ls2);
@@ -87,15 +88,16 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		.WHERE("v.pid=?", pid);
 		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
 		for(Map<String, Object>m:ls){
-			long has=(long) m.get("has");
-			if(has==1){
-				Map<String, Object>state=new HashMap<>();
-				state.put("selected", true);
-				m.put("state", state);
-			}
 			List<Map<String, Object>>ls2=findViewsTreeByPid(idRole, m.get("id"));
 			if(ls2.size()>0){
 				m.put("children", ls2);
+			}else{//只有没有子选项才设置state
+				long has=(long) m.get("has");
+				if(has==1){
+					Map<String, Object>state=new HashMap<>();
+					state.put("selected", true);
+					m.put("state", state);
+				}
 			}
 		}
 		return ls;
