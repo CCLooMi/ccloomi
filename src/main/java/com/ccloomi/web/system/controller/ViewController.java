@@ -1,6 +1,6 @@
 package com.ccloomi.web.system.controller;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -72,7 +72,10 @@ public class ViewController extends BaseController{
 	@RequestMapping("/jstree")
 	@ResponseBody
 	@RequiresAuthentication
-	public List<Map<String, Object>>viewsTreeByRoleId(@RequestBody RoleEntity role){
-		return viewService.findViewsTreeByRoleId(role.getId());
+	public Map<String, Object>viewsTreeByRoleId(@RequestBody RoleEntity role){
+		Map<String, Object>map=new HashMap<>();
+		map.put("data", viewService.findViewsTreeByRoleId(role.getId()));
+		map.put("ids", viewService.findViewIdsByRoleId(role.getId()));
+		return map;
 	}
 }

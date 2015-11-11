@@ -2,7 +2,8 @@
  * Created by chenxianjun on 15/11/7.
  */
 function cloneFrom(a){
-    var b={};
+    var b;
+    if(a[0]){b=[];}else{b={};}
     for(var k in a){
         b[k]=a[k];
     }
@@ -39,3 +40,12 @@ function highlight(kstr,str,color){
     };
     return str.replace(/#\(/g,pl).replace(/#\)/g,pr);
 }
+Array.minus = function(a,b){
+    var r=[];
+    for(var i in a){
+        if(b.indexOf(a[i])==-1){
+            r.push(a[i]);
+        }
+    }
+    return r;
+};

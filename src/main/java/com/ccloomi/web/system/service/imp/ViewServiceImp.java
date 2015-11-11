@@ -1,5 +1,6 @@
 package com.ccloomi.web.system.service.imp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,15 +64,16 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
 		for(Map<String, Object>m:ls){
 			//根不能选中，不然下面所有的子选项都会选中
-//			long has=(long) m.get("has");
-//			if(has==1){
-//				Map<String, Object>state=new HashMap<>();
-//				state.put("selected", true);
-//				m.put("state", state);
-//			}
 			List<Map<String, Object>>ls2=findViewsTreeByPid(idRole, m.get("id"));
 			if(ls2.size()>0){
 				m.put("children", ls2);
+			}else{//只有没有子选项才设置state
+				long has=(long) m.get("has");
+				if(has==1){
+					Map<String, Object>state=new HashMap<>();
+					state.put("selected", true);
+					m.put("state", state);
+				}
 			}
 		}
 		return ls;
@@ -101,5 +103,18 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 			}
 		}
 		return ls;
+	}
+	@Override
+	public List<String> findViewIdsByRoleId(Object idRole){
+		List<String>ids=new ArrayList<>();
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("rv.idView")
+		.FROM(new RoleViewEntity(), "rv")
+		.WHERE("rv.idRole=?", idRole);
+		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
+		for(Map<String, Object>m:ls){
+			ids.add(String.valueOf(m.get("idView")));
+		}
+		return ids;
 	}
 }

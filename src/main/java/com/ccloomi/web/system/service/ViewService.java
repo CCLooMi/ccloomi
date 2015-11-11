@@ -23,4 +23,5 @@ public interface ViewService extends BaseService<ViewEntity>{
 	 * @return
 	 */
 	public List<Map<String, Object>>findViewsTreeByRoleId(Object idRole);
+	public List<String> findViewIdsByRoleId(Object idRole);
 }
