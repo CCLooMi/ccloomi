@@ -7,7 +7,8 @@ var app=angular
         'oc.lazyLoad',
         'ui.router',
         'ui.bootstrap',
-        'angular-loading-bar'
+        'angular-loading-bar',
+        'ngSanitize'
     ])
     .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider', function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
         $ocLazyLoadProvider.config({
@@ -90,7 +91,15 @@ var app=angular
             })
 
     }]);
-
+app.filter('highlight', ['$sce',function ($sce) {
+    return function (a,b) {
+        if(a&&b){
+            return $sce.trustAsHtml(highlight(b+'',a+''));
+        }else{
+            return a;
+        }
+    }
+}]);
 app.factory('securityInterceptor', ['$q','$location','$timeout',function($q,$location,$timeout) {
     return {
         // optional method

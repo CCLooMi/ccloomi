@@ -10,7 +10,6 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
 	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
@@ -24,7 +23,7 @@
 	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
 	<script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-	<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src="bower_components/Chart.js/Chart.min.js"></script>
 	<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
 
