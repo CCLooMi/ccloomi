@@ -163,7 +163,9 @@ angular.module('ccloomi')
                 //获取需要添加的ids
                 //ids-selectIdsBeforeChange
                 data.add=Array.minus(ids,scope.selectedIds);
-                return data;
+                if(data.add.length>0||data.remove.length>0){
+                    return data;
+                }
             },
             jstree: function (url,data,scope) {
                 $http.post(url,data).success(function (dt) {
