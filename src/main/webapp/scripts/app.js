@@ -63,6 +63,7 @@ var app=angular
                             name:'ccloomi',
                             files:[
                                 'bower_components/jstree/dist/jstree.min.js',
+                                'scripts/services/roleService.js',
                                 'scripts/controllers/roleController.js',
                                 'bower_components/jstree/dist/themes/default/style.min.css'
                             ]

@@ -2,18 +2,15 @@
  * Created by chenxianjun on 15/11/8.
  */
 angular.module('ccloomi')
-    .controller('roleCtrl',['$scope','$http','S_pagination','S_dialog','S_jstree', function ($scope,$http,S_pagination,S_dialog,S_jstree) {
+    .controller('roleCtrl',['$scope','S_pagination','S_dialog','S_jstree','S_role', function ($scope,S_pagination,S_dialog,S_jstree,S_role) {
         $scope.roles=[];
 
 
         $scope.menuAndPermission= function (role) {
             S_dialog.dialog('菜单和权限配置','views/role/menuAndPermission.html',$scope, function () {
-                alert(JSON.stringify(S_jstree.getChangeData('#jstree',$scope.selectedIds)));
+                S_role.saveJstree($scope);
             },null, function () {
-                $http.post('view/jstree.json',role).success(function (data) {
-                    $('#jstree').jstree({'plugins':["checkbox"], 'core' : {'data' :data.data}});
-                    $scope.selectedIds=data.ids;
-                });
+                S_jstree.jstree('view/jstree.json',role,$scope);
             })
         }
         S_pagination.pagination($('#pagination'),'role/byPage.json',20,{}, function (data,pagination) {

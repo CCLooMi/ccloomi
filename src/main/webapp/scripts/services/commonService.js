@@ -129,8 +129,8 @@ angular.module('ccloomi')
     }])
     .factory('S_jstree',['$http', function ($http) {
         var service={
-            getChangeData: function (containerId,selectIdsBeforeChange) {
-                var jstree=$.jstree.reference(containerId);
+            getChangeData: function (scope) {
+                var jstree=$.jstree.reference('#jstree');
                 var ids=jstree.get_selected();
                 function pushAllA2B(a,b){
                     for(var i in a){
@@ -159,11 +159,17 @@ angular.module('ccloomi')
                 var data={};
                 //获取需要删除的ids
                 //selectIdsBeforeChange-ids
-                data.remove=Array.minus(selectIdsBeforeChange,ids);
+                data.remove=Array.minus(scope.selectedIds,ids);
                 //获取需要添加的ids
                 //ids-selectIdsBeforeChange
-                data.add=Array.minus(ids,selectIdsBeforeChange);
+                data.add=Array.minus(ids,scope.selectedIds);
                 return data;
+            },
+            jstree: function (url,data,scope) {
+                $http.post(url,data).success(function (dt) {
+                    $('#jstree').jstree({'plugins':["checkbox"], 'core' : {'data' :dt.data}});
+                    scope.selectedIds=dt.ids;
+                });
             }
         };
         return service;
