@@ -14,7 +14,8 @@ angular.module('ccloomi')
                 for(var i in ids){
                     var id=ids[i];
                     var pid=jstree.get_parent(id);
-                    if(pids.indexOf(pid)==-1){
+                    //pid=='#'表示没有父菜单
+                    if(pids.indexOf(pid)==-1&&pid!='#'){
                         pids.push(pid);
                     }
                 }
