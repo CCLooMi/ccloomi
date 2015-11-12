@@ -128,4 +128,26 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		}
 		return ls;
 	}
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean saveViewJstreeData(Map<String, Object> map) {
+		List<String>remove=(List<String>) map.get("remove");
+		List<String>add=(List<String>) map.get("add");
+		Map<String, Object>role=(Map<String, Object>) map.get("role");
+		System.out.println("remove::"+remove);
+		System.out.println("add::"+add);
+		System.out.println("role::"+role);
+		return false;
+	}
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean savePermissionJstreeData(Map<String, Object> map) {
+		List<String>remove=(List<String>) map.get("remove");
+		List<String>add=(List<String>) map.get("add");
+		Map<String, Object>role=(Map<String, Object>) map.get("role");
+		System.out.println("remove::"+remove);
+		System.out.println("add::"+add);
+		System.out.println("role::"+role);
+		return false;
+	}
 }

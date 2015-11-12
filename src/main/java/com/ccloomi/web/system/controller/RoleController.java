@@ -32,11 +32,26 @@ public class RoleController extends BaseController{
 	public Map<String, Object> rolesByPage(@RequestBody Map<String, Object>map){
 		return roleService.findRolesByPage(map);
 	}
-	@RequestMapping("/saveJstree")
+	@RequestMapping("/saveViewJstree")
 	@ResponseBody
 	@RequiresAuthentication
-	public Message saveJstree(@RequestBody Map<String, Object>map){
-		System.out.println(map);
-		return responseMessageSuccess();
+	public Message saveViewJstree(@RequestBody Map<String, Object>map){
+		boolean isOK=roleService.saveViewJstreeData(map);
+		if(isOK){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("保存数据失败");
+		}
+	}
+	@RequestMapping("/savePermissionJstree")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message savePermissionJstree(@RequestBody Map<String, Object>map){
+		boolean isOK=roleService.savePermissionJstreeData(map);
+		if(isOK){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("保存数据失败");
+		}
 	}
 }

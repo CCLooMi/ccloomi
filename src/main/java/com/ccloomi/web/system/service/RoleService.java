@@ -19,4 +19,6 @@ public interface RoleService extends BaseService<RoleEntity>{
 	public List<ViewEntity> findViewsByIdUser(Object idUser);
 	public List<String> findPermissionsByIdUser(Object idUser);
 	public List<String> findRolesByIdUser(Object idUser);
+	public boolean saveViewJstreeData(Map<String, Object>map);
+	public boolean savePermissionJstreeData(Map<String, Object>map);
 }

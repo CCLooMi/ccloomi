@@ -6,9 +6,16 @@ angular.module('ccloomi')
         $scope.roles=[];
 
 
-        $scope.menuAndPermission= function (role) {
-            S_dialog.dialog('菜单和权限配置','views/role/menuAndPermission.html',$scope, function () {
-                S_role.saveJstree($scope,role);
+        $scope.menu= function (role) {
+            S_dialog.dialog('菜单配置','views/role/menu.html',$scope, function () {
+                S_role.saveViewJstree($scope,role);
+            },null, function () {
+                S_jstree.jstree('view/jstree.json',role,$scope);
+            })
+        }
+        $scope.permission= function (role) {
+            S_dialog.dialog('权限配置','views/role/permission.html',$scope, function () {
+                S_role.savePermissionJstree($scope,role);
             },null, function () {
                 S_jstree.jstree('view/jstree.json',role,$scope);
             })
