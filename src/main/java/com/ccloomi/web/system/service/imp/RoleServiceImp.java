@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.AbstractService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.system.dao.RoleDao;
 import com.ccloomi.web.system.dao.RolePermissionDao;
 import com.ccloomi.web.system.dao.RoleUserDao;
@@ -134,9 +135,94 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		List<String>remove=(List<String>) map.get("remove");
 		List<String>add=(List<String>) map.get("add");
 		Map<String, Object>role=(Map<String, Object>) map.get("role");
-		System.out.println("remove::"+remove);
-		System.out.println("add::"+add);
-		System.out.println("role::"+role);
+		int rSize=remove.size();
+		int aSize=add.size();
+		if(rSize>aSize){//先更新再删除
+			List<Object[]>batchArgs=new ArrayList<>();
+			int r=0;
+			if(aSize>0){
+				SQLMaker sm=new SQLMaker();
+				sm.UPDATE(new RoleViewEntity(), "rv")
+				.SET("rv.idView=?")
+				.WHERE("rv.idView=?")
+				.AND("rv.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				for(int i=0;i<aSize;i++){
+					Object[]arg=new Object[2];
+					arg[0]=add.get(i);
+					arg[1]=remove.remove(i);
+					batchArgs.add(arg);
+				}
+				sm.setBatchArgs(batchArgs);
+				r=batchUpdateBySQLGod(sm).length;
+				rSize=remove.size();
+			}
+			if(rSize>0){
+				batchArgs=new ArrayList<>();
+				for(int i=0;i<rSize;i++){
+					Object[]arg=new Object[1];
+					arg[0]=remove.get(i);
+					batchArgs.add(arg);
+				}
+				SQLMaker sm=new SQLMaker();
+				sm.DELETE(new RoleViewEntity(), "rv")
+				.WHERE("rv.idView=?")
+				.AND("rv.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				sm.setBatchArgs(batchArgs);
+				r+=batchUpdateBySQLGod(sm).length;
+			}
+			return r>0?true:false;
+		}else if(rSize<aSize){//先更新再添加
+			List<Object[]>batchArgs=new ArrayList<>();
+			int r=0;
+			if(rSize>0){
+				SQLMaker sm=new SQLMaker();
+				sm.UPDATE(new RoleViewEntity(), "rv")
+				.SET("rv.idView=?")
+				.WHERE("rv.idView=?")
+				.AND("rv.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				for(int i=0;i<rSize;i++){
+					Object[]arg=new Object[2];
+					arg[0]=add.remove(i);
+					arg[1]=remove.get(i);
+					batchArgs.add(arg);
+				}
+				sm.setBatchArgs(batchArgs);
+				r=batchUpdateBySQLGod(sm).length;
+				
+				aSize=add.size();
+			}
+			if(aSize>0){
+				List<RoleViewEntity>entities=new ArrayList<>();
+				for(int i=0;i<aSize;i++){
+					RoleViewEntity entity=new RoleViewEntity();
+					entity.setId(StringUtil.buildUUID());
+					entity.setIdRole(String.valueOf(role.get("id")));
+					entity.setIdView(add.get(i));
+					entities.add(entity);
+				}
+				r+=roleViewDao.batchSave(entities).length;
+			}
+			return r>0?true:false;
+		}else if(rSize==aSize){//只需要更新
+			int r=0;
+			if(rSize>0){
+				SQLMaker sm=new SQLMaker();
+				sm.UPDATE(new RoleViewEntity(), "rv")
+				.SET("rv.idView=?")
+				.WHERE("rv.idView=?")
+				.AND("rv.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				List<Object[]>batchArgs=new ArrayList<>();
+				for(int i=0;i<rSize;i++){
+					Object[]arg=new Object[2];
+					arg[0]=add.get(i);
+					arg[1]=remove.get(i);
+					batchArgs.add(arg);
+				}
+				sm.setBatchArgs(batchArgs);
+				r=batchUpdateBySQLGod(sm).length;
+			}
+			return r>0?true:false;
+		}
 		return false;
 	}
 	@Override
@@ -145,9 +231,94 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		List<String>remove=(List<String>) map.get("remove");
 		List<String>add=(List<String>) map.get("add");
 		Map<String, Object>role=(Map<String, Object>) map.get("role");
-		System.out.println("remove::"+remove);
-		System.out.println("add::"+add);
-		System.out.println("role::"+role);
+		int rSize=remove.size();
+		int aSize=add.size();
+		if(rSize>aSize){//先更新再删除
+			List<Object[]>batchArgs=new ArrayList<>();
+			int r=0;
+			if(aSize>0){
+				SQLMaker sm=new SQLMaker();
+				sm.UPDATE(new RolePermissionEntity(), "rp")
+				.SET("rp.idPermission=?")
+				.WHERE("rp.idPermission=?")
+				.AND("rp.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				for(int i=0;i<aSize;i++){
+					Object[]arg=new Object[2];
+					arg[0]=add.get(i);
+					arg[1]=remove.remove(i);
+					batchArgs.add(arg);
+				}
+				sm.setBatchArgs(batchArgs);
+				r=batchUpdateBySQLGod(sm).length;
+				rSize=remove.size();
+			}
+			if(rSize>0){
+				batchArgs=new ArrayList<>();
+				for(int i=0;i<rSize;i++){
+					Object[]arg=new Object[1];
+					arg[0]=remove.get(i);
+					batchArgs.add(arg);
+				}
+				SQLMaker sm=new SQLMaker();
+				sm.DELETE(new RolePermissionEntity(), "rp")
+				.WHERE("rp.idPermission=?")
+				.AND("rp.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				sm.setBatchArgs(batchArgs);
+				r+=batchUpdateBySQLGod(sm).length;
+			}
+			return r>0?true:false;
+		}else if(rSize<aSize){//先更新再添加
+			List<Object[]>batchArgs=new ArrayList<>();
+			int r=0;
+			if(rSize>0){
+				SQLMaker sm=new SQLMaker();
+				sm.UPDATE(new RolePermissionEntity(), "rp")
+				.SET("rp.idPermission=?")
+				.WHERE("rp.idPermission=?")
+				.AND("rp.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				for(int i=0;i<rSize;i++){
+					Object[]arg=new Object[2];
+					arg[0]=add.remove(i);
+					arg[1]=remove.get(i);
+					batchArgs.add(arg);
+				}
+				sm.setBatchArgs(batchArgs);
+				r=batchUpdateBySQLGod(sm).length;
+				
+				aSize=add.size();
+			}
+			if(aSize>0){
+				List<RolePermissionEntity>entities=new ArrayList<>();
+				for(int i=0;i<aSize;i++){
+					RolePermissionEntity entity=new RolePermissionEntity();
+					entity.setId(StringUtil.buildUUID());
+					entity.setIdRole(String.valueOf(role.get("id")));
+					entity.setIdPermission(add.get(i));
+					entities.add(entity);
+				}
+				r+=rolePermissionDao.batchSave(entities).length;
+			}
+			return r>0?true:false;
+		}else if(rSize==aSize){//只需要更新
+			int r=0;
+			if(rSize>0){
+				SQLMaker sm=new SQLMaker();
+				sm.UPDATE(new RolePermissionEntity(), "rp")
+				.SET("rp.idPermission=?")
+				.WHERE("rp.idPermission=?")
+				.AND("rp.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
+				List<Object[]>batchArgs=new ArrayList<>();
+				for(int i=0;i<rSize;i++){
+					Object[]arg=new Object[2];
+					arg[0]=add.get(i);
+					arg[1]=remove.get(i);
+					batchArgs.add(arg);
+				}
+				sm.setBatchArgs(batchArgs);
+				r=batchUpdateBySQLGod(sm).length;
+			}
+			return r>0?true:false;
+		}
 		return false;
 	}
 }

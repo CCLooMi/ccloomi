@@ -30,6 +30,7 @@ public class PermissionServiceImp extends GenericService<PermissionEntity> imple
 		.SELECT_AS("p.name", "text")
 		.SELECT("p.code")
 		.SELECT_AS("IF(rp.idPermission IS NULL,0,1)", "has")
+		.FROM(new PermissionEntity(), "p")
 		.LEFT_JOIN(new RolePermissionEntity(), "rp", "rp.idPermission=p.id")
 		.JOIN_AND("rp.idRole=?", idRole);
 		List<Map<String, Object>>ls=findBySQLGod(sm);
