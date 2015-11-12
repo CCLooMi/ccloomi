@@ -127,3 +127,33 @@ angular.module('ccloomi')
         };
         return service;
     }])
+    .factory('S_jstree',['$http', function ($http) {
+        var service={
+            getChangeData: function (containerId,selectIdsBeforeChange) {
+                var jstree=$.jstree.reference(containerId);
+                var ids=jstree.get_selected();
+                var pids=[];
+                for(var i in ids){
+                    var id=ids[i];
+                    var pid=jstree.get_parent(id);
+                    //pid=='#'表示没有父菜单
+                    if(pids.indexOf(pid)==-1&&pid!='#'){
+                        pids.push(pid);
+                    }
+                }
+                for(var i in pids){
+                    ids.push(pids[i]);
+                }
+
+                var data={};
+                //获取需要删除的ids
+                //selectIdsBeforeChange-ids
+                data.remove=Array.minus(selectIdsBeforeChange,ids);
+                //获取需要添加的ids
+                //ids-selectIdsBeforeChange
+                data.add=Array.minus(ids,selectIdsBeforeChange);
+                return data;
+            }
+        };
+        return service;
+    }])
