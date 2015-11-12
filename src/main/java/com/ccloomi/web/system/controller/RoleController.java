@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ccloomi.core.common.bean.Message;
+import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.web.system.service.RoleService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
@@ -20,7 +22,7 @@ import com.ccloomi.web.system.service.RoleService;
  */
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController{
 	@Autowired
 	private RoleService roleService;
 	
@@ -29,5 +31,12 @@ public class RoleController {
 	@RequiresAuthentication
 	public Map<String, Object> rolesByPage(@RequestBody Map<String, Object>map){
 		return roleService.findRolesByPage(map);
+	}
+	@RequestMapping("/saveJstree")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message saveJstree(@RequestBody Map<String, Object>map){
+		System.out.println(map);
+		return responseMessageSuccess();
 	}
 }

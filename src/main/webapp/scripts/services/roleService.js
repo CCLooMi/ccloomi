@@ -4,9 +4,10 @@
 angular.module('ccloomi')
     .factory('S_role',['$http','S_jstree','S_dialog', function ($http,S_jstree,S_dialog) {
         var service={
-            saveJstree: function (scope) {
-                var jstreeData=S_jstree.getChangeData(scope);
-                $http.post('role/saveJstree.do',jstreeData)
+            saveJstree: function (scope,role) {
+                var saveData=S_jstree.getChangeData(scope);
+                saveData.role=role;
+                $http.post('role/saveJstree.do',saveData)
                     .success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('保存成功','数据已保存成功','success');

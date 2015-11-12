@@ -8,7 +8,7 @@ angular.module('ccloomi')
 
         $scope.menuAndPermission= function (role) {
             S_dialog.dialog('菜单和权限配置','views/role/menuAndPermission.html',$scope, function () {
-                S_role.saveJstree($scope);
+                S_role.saveJstree($scope,role);
             },null, function () {
                 S_jstree.jstree('view/jstree.json',role,$scope);
             })
