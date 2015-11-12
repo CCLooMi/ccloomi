@@ -17,7 +17,7 @@ angular.module('ccloomi')
             S_dialog.dialog('权限配置','views/role/permission.html',$scope, function () {
                 S_role.savePermissionJstree($scope,role);
             },null, function () {
-                S_jstree.jstree('view/jstree.json',role,$scope);
+                S_jstree.jstree('permission/jstree.json',role,$scope);
             })
         }
         S_pagination.pagination($('#pagination'),'role/byPage.json',20,{}, function (data,pagination) {

@@ -1,5 +1,8 @@
 package com.ccloomi.web.system.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.ccloomi.core.common.service.BaseService;
 import com.ccloomi.web.system.entity.PermissionEntity;
 
@@ -11,5 +14,6 @@ import com.ccloomi.web.system.entity.PermissionEntity;
  * 日    期：2015年10月31日-下午11:04:22
  */
 public interface PermissionService extends BaseService<PermissionEntity>{
-	
+	public List<Map<String, Object>>findpermissionsTreeByRoleId(Object idRole);
+	public List<String>findpermissionIdsByRoleId(Object idRole);
 }
