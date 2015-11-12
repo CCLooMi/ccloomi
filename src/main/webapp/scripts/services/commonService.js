@@ -132,19 +132,30 @@ angular.module('ccloomi')
             getChangeData: function (containerId,selectIdsBeforeChange) {
                 var jstree=$.jstree.reference(containerId);
                 var ids=jstree.get_selected();
-                var pids=[];
-                for(var i in ids){
-                    var id=ids[i];
-                    var pid=jstree.get_parent(id);
-                    //pid=='#'表示没有父菜单
-                    if(pids.indexOf(pid)==-1&&pid!='#'){
-                        pids.push(pid);
+                function pushAllA2B(a,b){
+                    for(var i in a){
+                        b.push(a[i]);
                     }
                 }
-                for(var i in pids){
-                    ids.push(pids[i]);
+                function getPids(ids){
+                    var pidsToReturn=[];
+                    var pids=[];
+                    for(var i in ids){
+                        var id=ids[i];
+                        var pid=jstree.get_parent(id);
+                        //pid=='#'表示没有父菜单
+                        if(pids.indexOf(pid)==-1&&pid!='#'){
+                            pids.push(pid);
+                        }
+                    }
+                    if(pids.length>0){
+                        pushAllA2B(pids,pidsToReturn);
+                        pushAllA2B(getPids(pids),pidsToReturn);
+                    }
+                    return pidsToReturn;
                 }
-
+                var pids=getPids(ids);
+                pushAllA2B(pids,ids);
                 var data={};
                 //获取需要删除的ids
                 //selectIdsBeforeChange-ids
