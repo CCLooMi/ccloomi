@@ -4,6 +4,10 @@
 angular.module('ccloomi')
     .controller('roleCtrl',['$scope','S_pagination','S_dialog','S_jstree','S_role', function ($scope,S_pagination,S_dialog,S_jstree,S_role) {
         $scope.roles=[];
+        $scope.showRightPanel=true;
+        $scope.closeRightPanel= function () {
+            $scope.showRightPanel=false;
+        }
         $scope.add= function () {
             S_role.add($scope);
         };
