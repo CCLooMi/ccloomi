@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ccloomi.core.common.service.AbstractService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.core.util.StringUtil;
-import com.ccloomi.web.system.dao.RoleDao;
 import com.ccloomi.web.system.dao.RolePermissionDao;
-import com.ccloomi.web.system.dao.RoleUserDao;
 import com.ccloomi.web.system.dao.RoleViewDao;
 import com.ccloomi.web.system.entity.PermissionEntity;
 import com.ccloomi.web.system.entity.RoleEntity;
@@ -32,46 +30,15 @@ import com.ccloomi.web.system.service.RoleService;
  */
 @Service("roleService")
 public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleService{
-	@Autowired
-	private RoleDao roleDao;
+//	@Autowired
+//	private RoleDao roleDao;
 	@Autowired
 	private RoleViewDao roleViewDao;
-	@Autowired
-	private RoleUserDao roleUserDao;
+//	@Autowired
+//	private RoleUserDao roleUserDao;
 	@Autowired
 	private RolePermissionDao rolePermissionDao;
-	/**获取 roleDao*/
-	public RoleDao getRoleDao() {
-		return roleDao;
-	}
-	/**设置 roleDao*/
-	public void setRoleDao(RoleDao roleDao) {
-		this.roleDao = roleDao;
-	}
-	/**获取 roleViewDao*/
-	public RoleViewDao getRoleViewDao() {
-		return roleViewDao;
-	}
-	/**设置 roleViewDao*/
-	public void setRoleViewDao(RoleViewDao roleViewDao) {
-		this.roleViewDao = roleViewDao;
-	}
-	/**获取 roleUserDao*/
-	public RoleUserDao getRoleUserDao() {
-		return roleUserDao;
-	}
-	/**设置 roleUserDao*/
-	public void setRoleUserDao(RoleUserDao roleUserDao) {
-		this.roleUserDao = roleUserDao;
-	}
-	/**获取 rolePermissionDao*/
-	public RolePermissionDao getRolePermissionDao() {
-		return rolePermissionDao;
-	}
-	/**设置 rolePermissionDao*/
-	public void setRolePermissionDao(RolePermissionDao rolePermissionDao) {
-		this.rolePermissionDao = rolePermissionDao;
-	}
+	
 	@Override
 	public Map<String, Object> findRolesByPage(Map<String, Object> map) {
 		Map<String, Object>rm=new HashMap<>();

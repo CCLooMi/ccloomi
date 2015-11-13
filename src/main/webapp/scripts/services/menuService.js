@@ -13,7 +13,7 @@ angular.module('ccloomi')
                 S_dialog.dialog('添加菜单','views/menu/addMenu.html',scope, function () {
                     $http.post('view/add.do',scope.menu).success(function (data) {
                         if(data.code==0){
-                            S_dialog.alert('添加成功','添加菜单['+scope.menu.name+']成功','success');
+                            S_dialog.alert('添加成功','添加菜单['+scope.menu.username+']成功','success');
                             if(!scope.menu.id){
                                 scope.menu.id=data.info;
                                 scope.views.push(scope.menu);

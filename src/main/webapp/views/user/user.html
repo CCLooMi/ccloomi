@@ -1,0 +1,22 @@
+<div class="container-fluid" ng-controller="userCtrl">
+    <fieldset class="shadow-box">
+        <legend class="btn" ng-click="add()"><span class="fa fa-plus"></span>User.</legend>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>姓名</th><th>昵称</th><th>ID</th><th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{user.username}}</td><td>{{user.nickname}}</td><td>{{user.id}}</td>
+                <td>
+                    <button class="btn shadow-box" ng-click="update(user)">修改</button>
+                    <button class="btn shadow-box" ng-click="remove(user)">删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </fieldset>
+</div>

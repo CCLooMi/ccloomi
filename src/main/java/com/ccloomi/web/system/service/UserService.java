@@ -1,5 +1,7 @@
 package com.ccloomi.web.system.service;
 
+import java.util.Map;
+
 import com.ccloomi.core.common.service.BaseService;
 import com.ccloomi.web.system.entity.UserEntity;
 
@@ -20,4 +22,12 @@ public interface UserService extends BaseService<UserEntity> {
 	 * @return
 	 */
 	public UserEntity findByUsernameAndPassword(String username,String password);
+
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2015年11月13日 - 下午8:48:46
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> findUsersByPage(Map<String, Object> map);
 }

@@ -71,6 +71,20 @@ var app=angular
                     }
                 }
             })
+            .state('main.user',{
+                url:'/user',
+                templateUrl:'views/user/user.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/controllers/userController.js'
+                            ]
+                        })
+                    }
+                }
+            })
             .state('main.dd',{
                 url:'/dd',
                 templateUrl:'views/dd/dataDictionary.html'

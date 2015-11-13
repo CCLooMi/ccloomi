@@ -2,54 +2,91 @@
  * Created by chenxianjun on 15/10/24.
  */
 angular.module('ccloomi')
-    .factory('S_user', ['$http','$location','$timeout',function ($http,$location,$timeout) {
+    .factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http,$location,$timeout,S_dialog) {
         var service={
-                //user:{},
-                //views:[],
-                //roles:[],
-                //permissions:[],
-                setName: function (newName) {
-                    service.user['name']=newName;
-                },
-                save:function(){},
-                hasRole:function(role){
-                    return service.roles.indexOf(role)==-1?false:true;
-                },
-                hasPermission:function(permission){
-                    return service.permissions.indexOf(permission)==-1?false:true;
-                },
-                login: function (user,callback,from) {
-                	from=from||'/main';
-                    $http.post('sys/login.xhtml',user).success(function(data){
+            add: function (scope,user) {
+                scope.user=user;
+                S_dialog.dialog('添加用户','views/user/addUser.html',scope, function () {
+                    $http.post('user/add.do',scope.user).success(function (data) {
                         if(data.code==0){
-                            service.user=data.info.user;
-                            service.views=data.info.views;
-                            service.roles=data.info.roles;
-                            service.permissions=data.info.permissions;
-                            callback();
-                            $timeout(function () {
-                                $location.path(from);
-                            },1000);
+                            S_dialog.alert('添加成功','添加用户['+scope.user.name+']成功','success');
+                            scope.user.id=data.info;
+                            scope.users.push(scope.user);
+                            refreshScope(scope);
+                        }else if(data.code==1){
+                            S_dialog.alert('添加失败',data.info,'error');
                         }else{
-                            swal('登录失败',data.info,'error');
+                            S_dialog.alert('添加失败','接口[user/add]调用失败','error');
                         }
                     }).error(function () {
-                        swal('操作异常','网络错误','error');
+                        S_dialog.alert('操作异常','网络错误','error');
                     });
-                },
-                currentUser: function (scope) {
-                    $http.post('sys/currentUser.json').success(function (data) {
-                        service.user=data.user;
-                        service.views=data.views;
-                        service.roles=data.roles;
-                        service.permissions=data.permissions;
-                        scope.views=data.views;
-                    })
-                }
-
-            };
-            return service;
-        }])
+                })
+            },
+            update: function (scope,user) {
+                var cloneObj=cloneFrom(user);
+                scope.user=user;
+                S_dialog.dialog('修改用户','views/user/addUser.html',scope, function () {
+                    $http.post('user/update.do',scope.user).success(function (data) {
+                        if(data.code==0){
+                            S_dialog.alert('修改成功','修改用户['+scope.user.username+']成功','success');
+                        }else if(data.code==1){
+                            S_dialog.alert('修改失败',data.info,'error');
+                        }else{
+                            S_dialog.alert('修改失败','接口[user/update]调用失败','error');
+                        }
+                    }).error(function () {
+                        S_dialog.alert('操作异常','网络错误','error');
+                    });
+                }, function () {
+                    S_dialog.alert('取消修改','已取消修改','error');
+                    cloneA2B(cloneObj,scope.user);
+                    refreshScope(scope);
+                })
+            },
+            remove: function (scope,user) {
+                S_dialog.alertRemove('user/remove.do',user, function () {
+                    scope.users.splice(scope.users.indexOf(user),1);
+                    refreshScope(scope);
+                });
+            },
+            hasRole:function(role){
+                return service.roles.indexOf(role)==-1?false:true;
+            },
+            hasPermission:function(permission){
+                return service.permissions.indexOf(permission)==-1?false:true;
+            },
+            login: function (user,callback,from) {
+                from=from||'/main';
+                $http.post('sys/login.xhtml',user).success(function(data){
+                    if(data.code==0){
+                        service.user=data.info.user;
+                        service.views=data.info.views;
+                        service.roles=data.info.roles;
+                        service.permissions=data.info.permissions;
+                        callback();
+                        $timeout(function () {
+                            $location.path(from);
+                        },1000);
+                    }else{
+                        swal('登录失败',data.info,'error');
+                    }
+                }).error(function () {
+                    swal('操作异常','网络错误','error');
+                });
+            },
+            currentUser: function (scope) {
+                $http.post('sys/currentUser.json').success(function (data) {
+                    service.user=data.user;
+                    service.views=data.views;
+                    service.roles=data.roles;
+                    service.permissions=data.permissions;
+                    scope.views=data.views;
+                })
+            }
+        };
+        return service;
+    }])
     .factory('S_pagination',['$http', function ($http) {
         var service={
             pagination: function (paginationContainer,dataUrl,pageSize,data,callback,beforeSend) {
