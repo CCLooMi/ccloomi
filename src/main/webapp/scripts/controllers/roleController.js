@@ -4,8 +4,15 @@
 angular.module('ccloomi')
     .controller('roleCtrl',['$scope','S_pagination','S_dialog','S_jstree','S_role', function ($scope,S_pagination,S_dialog,S_jstree,S_role) {
         $scope.roles=[];
-
-
+        $scope.add= function () {
+            S_role.add($scope);
+        };
+        $scope.update= function (role) {
+            S_role.update($scope,role);
+        };
+        $scope.remove= function (role) {
+            S_role.remove($scope,role);
+        };
         $scope.menu= function (role) {
             S_dialog.dialog('菜单配置','views/role/menu.html',$scope, function () {
                 S_role.saveViewJstree($scope,role);

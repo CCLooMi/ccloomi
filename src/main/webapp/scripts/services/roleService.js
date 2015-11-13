@@ -4,7 +4,55 @@
 angular.module('ccloomi')
     .factory('S_role',['$http','S_jstree','S_dialog', function ($http,S_jstree,S_dialog) {
         var service={
-        	saveViewJstree: function (scope,role) {
+            add: function (scope,role) {
+                scope.role=role;
+                S_dialog.dialog('添加菜单','views/role/addRole.html',scope, function () {
+                    $http.post('role/add.do',scope.role).success(function (data) {
+                        if(data.code==0){
+                            S_dialog.alert('添加成功','添加菜单['+scope.role.username+']成功','success');
+                            if(!scope.role.id){
+                                scope.role.id=data.info;
+                                scope.roles.push(scope.role);
+                                refreshScope(scope);
+                            }
+                        }else if(data.code==1){
+                            S_dialog.alert('添加失败',data.info,'error');
+                        }else{
+                            S_dialog.alert('添加失败','接口[view/add]调用失败','error');
+                        }
+                    }).error(function () {
+                        S_dialog.alert('操作异常','网络错误','error');
+                    });
+                })
+            },
+            update: function (scope,role) {
+                var cloneObj=cloneFrom(role);
+                scope.role=role;
+                S_dialog.dialog('修改菜单','views/role/addRole.html',scope, function () {
+                    $http.post('role/update.do',scope.role).success(function (data) {
+                        if(data.code==0){
+                            S_dialog.alert('修改成功','修改菜单['+scope.role.name+']成功','success');
+                        }else if(data.code==1){
+                            S_dialog.alert('修改失败',data.info,'error');
+                        }else{
+                            S_dialog.alert('修改失败','接口[role/add]调用失败','error');
+                        }
+                    }).error(function () {
+                        S_dialog.alert('操作异常','网络错误','error');
+                    });
+                }, function () {
+                    S_dialog.alert('取消修改','已取消修改','error');
+                    cloneA2B(cloneObj,scope.role);
+                    refreshScope(scope);
+                })
+            },
+            remove: function (scope,role) {
+                S_dialog.alertRemove('role/remove.do',role, function () {
+                    scope.roles.splice(scope.roles.indexOf(role),1);
+                    refreshScope(scope);
+                });
+            },
+        	saveroleJstree: function (scope,role) {
                 var saveData=S_jstree.getChangeData(scope);
                 if(saveData){
                     saveData.role=role;

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
+import com.ccloomi.core.util.StringUtil;
+import com.ccloomi.web.system.entity.RoleEntity;
 import com.ccloomi.web.system.service.RoleService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
@@ -31,6 +33,39 @@ public class RoleController extends BaseController{
 	@RequiresAuthentication
 	public Map<String, Object> rolesByPage(@RequestBody Map<String, Object>map){
 		return roleService.findRolesByPage(map);
+	}
+	@RequestMapping("/add")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message add(@RequestBody RoleEntity role){
+		Object id=roleService.save(role);
+		if(id==null){
+			return responseMessageError("添加失败");
+		}else{
+			return responseMessageSuccess(role.getId());
+		}
+	}
+	@RequestMapping("/update")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message update(@RequestBody RoleEntity role){
+		int i=roleService.update(role);
+		if(i>0){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("修改失败");
+		}
+	}
+	@RequestMapping("/remove")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message remove(@RequestBody RoleEntity role){
+		int i=roleService.delete(role.getId());
+		if(i>0){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError(StringUtil.format("删除[?]失败", role.getName()));
+		}
 	}
 	@RequestMapping("/saveViewJstree")
 	@ResponseBody
