@@ -52,7 +52,7 @@ angular.module('ccloomi')
                     refreshScope(scope);
                 });
             },
-        	saveroleJstree: function (scope,role) {
+        	saveViewJstree: function (scope,role) {
                 var saveData=S_jstree.getChangeData(scope);
                 if(saveData){
                     saveData.role=role;
