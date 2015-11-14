@@ -119,6 +119,9 @@ input:focus {
     display: block;
     font-size: 20px;
 }
+.table tbody tr td span {
+    text-shadow: 4px 4px 2px darkgrey;
+}
 .searching .show-plate {
     width: 34%;
 }

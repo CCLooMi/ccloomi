@@ -1,0 +1,25 @@
+<div class="container-fluid" ng-controller="iconCtrl">
+    <fieldset class="shadow-box">
+        <legend class="btn" ng-click="add()"><span class="glyphicon-plus"></span>添加</legend>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>图标</th><th>组</th><th>类</th><th>ID</th><th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="icon in icons|orderBy:orderBy.name|filter:keyword">
+                    <td><span class="{{icon.groupName+' '+icon.className}}"></span></td>
+                    <td ng-bind-html="icon.groupName|highlight:keyword"></td>
+                    <td ng-bind-html="icon.className|highlight:keyword"></td>
+                    <td ng-bind-html="icon.id|highlight:keyword"></td>
+                    <td>
+                        <button class="btn shadow-box" ng-click="update(icon)">修改</button>
+                        <button class="btn shadow-box" ng-click="remove(icon)">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </fieldset>
+</div>
