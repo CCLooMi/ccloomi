@@ -1,6 +1,18 @@
 <div ng-controller="dataDictionaryCtrl" ng-click="click($event)">
     <fieldset class="shadow-box">
         <legend class="btn"><span class="glyphicon-plus"></span>dataDictionary.</legend>
+        <div class="row">
+            <div class="col-lg-12">
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="keyword">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="search($event)">搜索</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -8,7 +20,7 @@
                 </tr>
             </thead>
 
-            <tbody ng-repeat="d in dds|orderBy:orderBy.name|filter:keyword">
+            <tbody ng-repeat="d in dds|filter:keyword">
                 <tr>
                     <td rowspan="{{d.VSS+1}}" ng-bind-html="d.name|highlight:keyword"></td>
                     <td rowspan="{{d.VSS+1}}" ng-bind-html="d.code|highlight:keyword"></td>
@@ -19,7 +31,7 @@
                         <button class="btn shadow-box" ng-click="remove(d)">删除</button>
                         <button class="btn shadow-box" ng-click="update(d)">修改</button></td>
                 </tr>
-                <tr ng-repeat="dv in d.VS|orderBy:'createDate'">
+                <tr ng-repeat="dv in d.VS">
                     <td ng-bind-html="dv.name|highlight:keyword"></td>
                     <td ng-bind-html="dv.vl|highlight:keyword"></td>
                     <!-- 单独每个值的操作 -->

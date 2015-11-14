@@ -116,7 +116,7 @@ input:focus {
     vertical-align: middle !important;
 }
 .table tbody tr td:first-child span {
-    display: block;
+    display: inline;
     font-size: 20px;
 }
 .table tbody tr td span {

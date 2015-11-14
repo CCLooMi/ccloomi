@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="icon in icons|orderBy:orderBy.name|filter:keyword">
+                <tr ng-repeat="icon in icons|filter:keyword">
                     <td><span class="{{icon.groupName+' '+icon.className}}"></span></td>
                     <td ng-bind-html="icon.groupName|highlight:keyword"></td>
                     <td ng-bind-html="icon.className|highlight:keyword"></td>
