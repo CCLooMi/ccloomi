@@ -1,5 +1,7 @@
 package com.ccloomi.web.system.service;
 
+import java.util.Map;
+
 import com.ccloomi.core.common.service.BaseService;
 import com.ccloomi.web.system.entity.DataDictionaryEntity;
 
@@ -11,5 +13,21 @@ import com.ccloomi.web.system.entity.DataDictionaryEntity;
  * 日    期：2015年9月19日-下午11:05:42
  */
 public interface DataDictionaryService extends BaseService<DataDictionaryEntity>{
+
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2015年11月14日 - 下午9:06:40
+	 * @param id
+	 * @return
+	 */
+	public int removeById(Object id);
+
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2015年11月14日 - 下午9:06:47
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> findddsByPage(Map<String, Object> map);
 	
 }

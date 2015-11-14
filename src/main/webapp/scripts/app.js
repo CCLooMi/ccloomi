@@ -87,7 +87,18 @@ var app=angular
             })
             .state('main.dd',{
                 url:'/dd',
-                templateUrl:'views/dd/dataDictionary.html'
+                templateUrl:'views/dataDictionary/dataDictionary.html',
+                resolve:{
+                    loadMyFile: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'idccapp',
+                            files:[
+                                'scripts/services/dataDictionaryService.js',
+                                'scripts/controllers/dataDictionaryController.js'
+                            ]
+                        })
+                    }
+                }
             })
             .state('main.icon',{
                 url:'/icon',

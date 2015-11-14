@@ -1,0 +1,41 @@
+<div ng-controller="dataDictionaryCtrl" ng-click="click($event)">
+    <fieldset class="shadow-box">
+        <legend class="btn"><span class="glyphicon-plus"></span>dataDictionary.</legend>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>名称</th><th>编码</th><th>键名</th><th>键值</th><th colspan="2">操作</th>
+                </tr>
+            </thead>
+
+            <tbody ng-repeat="d in dds|orderBy:orderBy.name|filter:keyword">
+                <tr>
+                    <td rowspan="{{d.VSS+1}}" ng-bind-html="d.name|highlight:keyword"></td>
+                    <td rowspan="{{d.VSS+1}}" ng-bind-html="d.code|highlight:keyword"></td>
+                    <!-- 如果没有值则用空格子填充 -->
+                    <td ng-if="d.VSS==0" colspan="3"></td>
+                    <td ng-if="d.VSS==0">
+                        <button class="btn shadow-box" ng-click="add(d)">添加</button>
+                        <button class="btn shadow-box" ng-click="remove(d)">删除</button>
+                        <button class="btn shadow-box" ng-click="update(d)">修改</button></td>
+                </tr>
+                <tr ng-repeat="dv in d.VS|orderBy:'createDate'">
+                    <td ng-bind-html="dv.name|highlight:keyword"></td>
+                    <td ng-bind-html="dv.vl|highlight:keyword"></td>
+                    <!-- 单独每个值的操作 -->
+                    <td>
+                        <button class="btn shadow-box" ng-click="remove(dv,d)">删除</button>
+                        <button class="btn shadow-box" ng-click="update(dv)">修改</button>
+                    </td>
+                    <!-- 最后面的三个操作 -->
+                    <td rowspan="{{d.VSS}}" ng-if="$index==0">
+                        <button class="btn shadow-box" ng-click="add(d)">添加</button>
+                        <button class="btn shadow-box" ng-click="remove(d)">删除</button>
+                        <button class="btn shadow-box" ng-click="update(d)">修改</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </fieldset>
+</div>
