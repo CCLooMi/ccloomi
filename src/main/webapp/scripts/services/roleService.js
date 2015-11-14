@@ -93,6 +93,40 @@ angular.module('ccloomi')
                 }else{
                     S_dialog.alert('没有更改','数据没有变动,将不会提交','info');
                 }
+            },
+            addUserToRole: function (scope,user) {
+                $http.post('role/addUserToRole.do',{user:user,role:scope.role})
+                    .success(function (data) {
+                        if(data.code==0){
+                            scope.usersInRole.push(user);
+                            scope.usersNotInRole.splice(scope.usersNotInRole.indexOf(user),1);
+                            refreshScope(scope);
+                        }else if(data.code==1){
+                            S_dialog.alert('保存失败',data.info,'error');
+                        }else{
+                            S_dialog.alert('网络错误','网络出现异常','error');
+                        }
+                    })
+                    .error(function () {
+                        S_dialog.alert('操作失败','接口调用失败','error');
+                    });
+            },
+            removeUserFromRole: function (scope,user) {
+                $http.post('role/removeUserFromRole.do',{user:user,role:scope.role})
+                    .success(function (data) {
+                        if(data.code==0){
+                            scope.usersNotInRole.push(user);
+                            scope.usersInRole.splice(scope.usersInRole.indexOf(user),1);
+                            refreshScope(scope);
+                        }else if(data.code==1){
+                            S_dialog.alert('保存失败',data.info,'error');
+                        }else{
+                            S_dialog.alert('网络错误','网络出现异常','error');
+                        }
+                    })
+                    .error(function () {
+                        S_dialog.alert('操作失败','接口调用失败','error');
+                    });
             }
         };
         return service;

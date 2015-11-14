@@ -35,7 +35,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search for..." ng-focus="searchOnFocus($event)">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default">Go!</button>
+                                    <button class="btn btn-default">搜索</button>
                                 </span>
                             </div>
                         </form>
@@ -54,7 +54,9 @@
                                 <tr ng-repeat="unir in usersNotInRole">
                                     <td>{{unir.username}}</td><td>{{unir.nickname}}</td>
                                     <td>
-                                        <button class="btn shadow-box"><span class="fa fa-angle-double-right"></span></button>
+                                        <button class="btn shadow-box" ng-click="addUserToRole(unir)">
+                                            <span class="fa fa-angle-double-right"></span>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -72,7 +74,9 @@
                             <tr ng-repeat="uir in usersInRole">
                                 <td>{{uir.username}}</td><td>{{uir.nickname}}</td>
                                 <td>
-                                    <button class="btn shadow-box"><span class="fa fa-angle-double-left"></span></button>
+                                    <button class="btn shadow-box" ng-click="removeUserFromRole(uir)">
+                                        <span class="fa fa-angle-double-left"></span>
+                                    </button>
                                 </td>
                             </tr>
                             </tbody>

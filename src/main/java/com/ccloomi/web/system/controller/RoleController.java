@@ -101,4 +101,26 @@ public class RoleController extends BaseController{
 			return responseMessageError("保存数据失败");
 		}
 	}
+	@RequestMapping("/addUserToRole")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message addUserToRole(@RequestBody Map<String, Map<String, Object>>map){
+		boolean isOK=roleService.addUserToRole(map);
+		if(isOK){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("保存数据失败");
+		}
+	}
+	@RequestMapping("/removeUserFromRole")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message removeUserFromRole(@RequestBody Map<String, Map<String, Object>>map){
+		boolean isOK=roleService.removeUserFromRole(map);
+		if(isOK){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("保存数据失败");
+		}
+	}
 }

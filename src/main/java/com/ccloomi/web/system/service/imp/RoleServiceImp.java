@@ -12,6 +12,7 @@ import com.ccloomi.core.common.service.AbstractService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.system.dao.RolePermissionDao;
+import com.ccloomi.web.system.dao.RoleUserDao;
 import com.ccloomi.web.system.dao.RoleViewDao;
 import com.ccloomi.web.system.entity.PermissionEntity;
 import com.ccloomi.web.system.entity.RoleEntity;
@@ -35,8 +36,8 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 //	private RoleDao roleDao;
 	@Autowired
 	private RoleViewDao roleViewDao;
-//	@Autowired
-//	private RoleUserDao roleUserDao;
+	@Autowired
+	private RoleUserDao roleUserDao;
 	@Autowired
 	private RolePermissionDao rolePermissionDao;
 	
@@ -301,7 +302,6 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		SQLMaker sm=new SQLMaker();
 		sm.SELECT("u.*")
 		.FROM(new UserEntity(), "u")
-		.FROM(new RoleUserEntity(), "ru")
 		.WHERE("u.id IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
 		if(keywords!=null){
 			sm.WHERE("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
@@ -325,7 +325,6 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		SQLMaker sm=new SQLMaker();
 		sm.SELECT("u.*")
 		.FROM(new UserEntity(), "u")
-		.FROM(new RoleUserEntity(), "ru")
 		.WHERE("u.id NOT IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
 		if(keywords!=null){
 			sm.AND("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
@@ -337,5 +336,30 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		List<Map<String, Object>>ls=findBySQLGod(sm);
 		rm.put("data", ls);
 		return rm;
+	}
+	@Override
+	public boolean addUserToRole(Map<String, Map<String, Object>> map) {
+		Map<String, Object>user=map.get("user");
+		Map<String, Object>role=map.get("role");
+		Object idUser=user.get("id");
+		Object idRole=role.get("id");
+		RoleUserEntity ru=new RoleUserEntity();
+		ru.setIdUser(String.valueOf(idUser));
+		ru.setIdRole(String.valueOf(idRole));
+		Object id=roleUserDao.save(ru);
+		return id==null?false:true;
+	}
+	@Override
+	public boolean removeUserFromRole(Map<String, Map<String, Object>> map) {
+		Map<String, Object>user=map.get("user");
+		Map<String, Object>role=map.get("role");
+		Object idUser=user.get("id");
+		Object idRole=role.get("id");
+		SQLMaker sm=new SQLMaker();
+		sm.DELETE(new RoleUserEntity(), "ru")
+		.WHERE("ru.idUser=?", idUser)
+		.AND("ru.idRole=?", idRole);
+		int i=updateBySQLGod(sm);
+		return i>0?true:false;
 	}
 }

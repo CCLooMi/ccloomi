@@ -35,4 +35,18 @@ public interface RoleService extends BaseService<RoleEntity>{
 	 * @return
 	 */
 	public Map<String, Object> findUsersNotInRoleByPage(Map<String, Object> map);
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2015年11月14日 - 下午11:15:09
+	 * @param map
+	 * @return
+	 */
+	public boolean addUserToRole(Map<String, Map<String, Object>> map);
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2015年11月14日 - 下午11:15:18
+	 * @param map
+	 * @return
+	 */
+	public boolean removeUserFromRole(Map<String, Map<String, Object>> map);
 }
