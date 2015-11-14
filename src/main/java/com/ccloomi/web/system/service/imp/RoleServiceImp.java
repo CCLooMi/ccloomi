@@ -300,9 +300,9 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		
 		SQLMaker sm=new SQLMaker();
 		sm.SELECT("u.*")
+		.FROM(new UserEntity(), "u")
 		.FROM(new RoleUserEntity(), "ru")
-		.LEFT_JOIN(new UserEntity(), "u", "u.id=ru.idUser")
-		.JOIN_AND("ru.idRole=?", role.get("id"));
+		.WHERE("u.id IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
 		if(keywords!=null){
 			sm.WHERE("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
 		}

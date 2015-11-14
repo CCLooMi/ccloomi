@@ -160,11 +160,3 @@ input:focus {
     transition-property: width;
     transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }
-.search-plate .media,.show-plate .media {
-    border-bottom: 1px solid #eee;
-    padding: 5px 10px 10px;
-}
-.show-plate .media .media-left img {
-    width: 50px;
-    height: 50px;
-}

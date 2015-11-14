@@ -44,31 +44,39 @@
                 <div ng-class="{true:'row searching',false:'role'}[onSearching]">
                     <div class="search-plate">
                         <span class="btn fa fa-close" ng-click="closeSearchPlate()"></span>
-                        <div class="media" ng-repeat="unir in usersNotInRole">
-                            <div class="media-left">
-                                <a>
-                                    <img width="64px" height="64px" class="media-object" ng-src="{{unir.img}}">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">{{unir.username}}</h4>
-                                <p>{{unir.nickname}}</p>
-                            </div>
-                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>姓名</th><th>昵称</th><th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="unir in usersNotInRole">
+                                    <td>{{unir.username}}</td><td>{{unir.nickname}}</td>
+                                    <td>
+                                        <button class="btn shadow-box"><span class="fa fa-angle-double-right"></span></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div id="pagination-usersNotInRole" style="float: right;position: absolute;right: 0;bottom: 0"></div>
                     </div>
                     <div class="show-plate">
-                        <div class="media" ng-repeat="uir in usersInRole">
-                            <div class="media-left">
-                                <a>
-                                    <img width="64px" height="64px" class="media-object" ng-src="{{uir.img}}">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">{{uir.username}}</h4>
-                                <p>{{uir.nickname}}</p>
-                            </div>
-                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>姓名</th><th>昵称</th><th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="uir in usersInRole">
+                                <td>{{uir.username}}</td><td>{{uir.nickname}}</td>
+                                <td>
+                                    <button class="btn shadow-box"><span class="fa fa-angle-double-left"></span></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                         <div id="pagination-usersInRole" style="float: right;position: absolute;right: 0;bottom: 0"></div>
                     </div>
                 </div>
