@@ -4,7 +4,15 @@
 angular.module('ccloomi')
     .controller('roleCtrl',['$scope','S_pagination','S_dialog','S_jstree','S_role', function ($scope,S_pagination,S_dialog,S_jstree,S_role) {
         $scope.roles=[];
-        $scope.showRightPanel=true;
+        $scope.showRightPanel=false;
+        $scope.onSearching=false;
+        $scope.searchOnFocus= function (e) {
+            var target=$(e.target);
+            $scope.onSearching=true;
+        }
+        $scope.closeSearchPlate= function () {
+            $scope.onSearching=false;
+        }
         $scope.closeRightPanel= function () {
             $scope.showRightPanel=false;
         }
@@ -17,6 +25,9 @@ angular.module('ccloomi')
         $scope.remove= function (role) {
             S_role.remove($scope,role);
         };
+        $scope.user= function (role) {
+            $scope.showRightPanel=true;
+        }
         $scope.menu= function (role) {
             S_dialog.dialog('菜单配置','views/role/menu.html',$scope, function () {
                 S_role.saveViewJstree($scope,role);

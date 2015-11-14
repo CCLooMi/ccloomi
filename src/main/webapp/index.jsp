@@ -9,7 +9,6 @@
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">

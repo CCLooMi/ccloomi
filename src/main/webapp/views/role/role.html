@@ -1,5 +1,5 @@
 <div class="container-fluid" ng-controller="roleCtrl">
-    <div ng-class="{true:'col-lg-8'}[showRightPanel==true]">
+    <div ng-class="{true:'hidden'}[showRightPanel==true]">
         <fieldset class="shadow-box">
             <legend class="btn" ng-click="add()"><span class="fa fa-plus"></span>Role.</legend>
             <table class="table">
@@ -15,7 +15,7 @@
                         <button class="btn shadow-box" ng-click="update(role)">修改</button>
                         <button class="btn shadow-box" ng-click="remove(role)">删除</button>
 
-                        <button class="btn shadow-box" >用户管理</button>
+                        <button class="btn shadow-box" ng-click="user(role)">用户管理</button>
                         <button class="btn shadow-box" ng-click="menu(role)">菜单配置</button>
                         <button class="btn shadow-box" ng-click="permission(role)">权限配置</button>
                     </td>
@@ -25,10 +25,42 @@
             <div id="pagination"></div>
         </fieldset>
     </div>
-    <div ng-class="{true:'col-lg-4',false:'hidden'}[showRightPanel]">
+    <div ng-class="{false:'hidden'}[showRightPanel]">
         <fieldset class="shadow-box">
             <legend class="btn" ng-click="closeRightPanel()">X</legend>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="form-inline">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for..." ng-focus="searchOnFocus($event)">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default">Go!</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div ng-class="{true:'row searching',false:'role'}[onSearching]">
+                    <div class="search-plate">
+                        <span class="btn fa fa-close" ng-click="closeSearchPlate()"></span>
 
+                    </div>
+                    <div class="show-plate">
+                        <div class="media">
+                            <div class="media-left">
+                                <a>
+                                    <img width="64px" height="64px" class="media-object" src="https://gss1.bdstatic.com/5eN1dDebRNRTm2_p8IuM_a/res/r/image/2015-03-03/c5eec72a1b1beaf513599b6a6249df4c.gif">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Chenxj</h4>
+                                <p>Seemie</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </fieldset>
     </div>
 </div>

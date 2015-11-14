@@ -22,7 +22,7 @@ body {
 .shadow-box {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-button.btn {
+.table td button.btn {
     background-color: #e8faff;
     border-top: 2px solid #e8faaa;
 }
@@ -118,4 +118,51 @@ input:focus {
 .table tbody tr td:first-child span {
     display: block;
     font-size: 20px;
+}
+.searching .show-plate {
+    width: 34%;
+}
+.searching .search-plate{
+    border: 1px solid transparent;
+    border-right: 1px solid #eee;
+    width: 66%;
+}
+.searching .search-plate span.btn {
+    position: absolute;
+    opacity: 1;
+    right: 0;
+}
+.search-plate span.btn {
+    opacity: 0;
+    transition-duration: 0.5s;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.search-plate {
+    min-height: 400px;
+    display: inline-block;
+    border-color: #eee;
+    width: 0%;
+    position: relative;
+    transition-duration: 0.5s;
+    transition-property: width,border;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.show-plate {
+    min-height: 400px;
+    position: relative;
+    border: 1px solid transparent;
+    float: right;
+    width: 100%;
+    transition-duration: 0.5s;
+    transition-property: width;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.search-plate .media,.show-plate .media {
+    border-bottom: 1px solid #eee;
+    padding: 5px 10px 10px;
+}
+.show-plate .media .media-left img {
+    width: 50px;
+    height: 50px;
 }
