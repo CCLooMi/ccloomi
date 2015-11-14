@@ -4,6 +4,8 @@
 angular.module('ccloomi')
     .controller('roleCtrl',['$scope','S_pagination','S_dialog','S_jstree','S_role', function ($scope,S_pagination,S_dialog,S_jstree,S_role) {
         $scope.roles=[];
+        $scope.usersInRole=[];
+        $scope.usersNotInRole=[];
         $scope.showRightPanel=false;
         $scope.onSearching=false;
         $scope.searchOnFocus= function (e) {
@@ -26,6 +28,14 @@ angular.module('ccloomi')
             S_role.remove($scope,role);
         };
         $scope.user= function (role) {
+            S_pagination.pagination($('#pagination-usersInRole'),'role/usersInRoleByPage.json',10,{role:role}, function (data,pagination) {
+                $scope.usersInRole=data;
+                refreshScope($scope);
+            })
+            S_pagination.pagination($('#pagination-usersNotInRole'),'role/usersNotInRoleByPage.json',10,{role:role}, function (data,pagination) {
+                $scope.usersNotInRole=data;
+                refreshScope($scope);
+            })
             $scope.showRightPanel=true;
         }
         $scope.menu= function (role) {

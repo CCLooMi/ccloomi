@@ -127,16 +127,18 @@ input:focus {
     border-right: 1px solid #eee;
     width: 66%;
 }
-.searching .search-plate span.btn {
+.searching .search-plate * {
     opacity: 1;
 }
-.search-plate span.btn {
-    right: 0;
+.search-plate * {
     opacity: 0;
-    position: absolute;
     transition-duration: 0.5s;
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.search-plate span.btn {
+    right: 0;
+    position: absolute;
 }
 .search-plate {
     min-height: 400px;

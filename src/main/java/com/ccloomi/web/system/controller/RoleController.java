@@ -34,6 +34,18 @@ public class RoleController extends BaseController{
 	public Map<String, Object> rolesByPage(@RequestBody Map<String, Object>map){
 		return roleService.findRolesByPage(map);
 	}
+	@RequestMapping("/usersInRoleByPage")
+	@ResponseBody
+	@RequiresAuthentication
+	public Map<String, Object> usersInRoleByPage(@RequestBody Map<String, Object>map){
+		return roleService.findUsersInRoleByPage(map);
+	}
+	@RequestMapping("/usersNotInRoleByPage")
+	@ResponseBody
+	@RequiresAuthentication
+	public Map<String, Object> usersNotInRoleByPage(@RequestBody Map<String, Object>map){
+		return roleService.findUsersNotInRoleByPage(map);
+	}
 	@RequestMapping("/add")
 	@ResponseBody
 	@RequiresAuthentication

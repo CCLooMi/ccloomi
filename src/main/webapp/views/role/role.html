@@ -44,20 +44,32 @@
                 <div ng-class="{true:'row searching',false:'role'}[onSearching]">
                     <div class="search-plate">
                         <span class="btn fa fa-close" ng-click="closeSearchPlate()"></span>
-
-                    </div>
-                    <div class="show-plate">
-                        <div class="media">
+                        <div class="media" ng-repeat="unir in usersNotInRole">
                             <div class="media-left">
                                 <a>
-                                    <img width="64px" height="64px" class="media-object" src="https://gss1.bdstatic.com/5eN1dDebRNRTm2_p8IuM_a/res/r/image/2015-03-03/c5eec72a1b1beaf513599b6a6249df4c.gif">
+                                    <img width="64px" height="64px" class="media-object" ng-src="{{unir.img}}">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading">Chenxj</h4>
-                                <p>Seemie</p>
+                                <h4 class="media-heading">{{unir.username}}</h4>
+                                <p>{{unir.nickname}}</p>
                             </div>
                         </div>
+                        <div id="pagination-usersNotInRole" style="float: right;position: absolute;right: 0;bottom: 0"></div>
+                    </div>
+                    <div class="show-plate">
+                        <div class="media" ng-repeat="uir in usersInRole">
+                            <div class="media-left">
+                                <a>
+                                    <img width="64px" height="64px" class="media-object" ng-src="{{uir.img}}">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{uir.username}}</h4>
+                                <p>{{uir.nickname}}</p>
+                            </div>
+                        </div>
+                        <div id="pagination-usersInRole" style="float: right;position: absolute;right: 0;bottom: 0"></div>
                     </div>
                 </div>
             </div>

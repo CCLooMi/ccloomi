@@ -21,4 +21,18 @@ public interface RoleService extends BaseService<RoleEntity>{
 	public List<String> findRolesByIdUser(Object idUser);
 	public boolean saveViewJstreeData(Map<String, Object>map);
 	public boolean savePermissionJstreeData(Map<String, Object>map);
+	/**描述：分页查找角色下的所有用户
+	 * 作者：Chenxj
+	 * 日期：2015年11月14日 - 下午2:11:13
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> findUsersInRoleByPage(Map<String, Object> map);
+	/**描述：分页查找不在角色下的所有用户
+	 * 作者：Chenxj
+	 * 日期：2015年11月14日 - 下午2:46:03
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> findUsersNotInRoleByPage(Map<String, Object> map);
 }

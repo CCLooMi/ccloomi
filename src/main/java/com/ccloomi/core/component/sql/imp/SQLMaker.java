@@ -313,6 +313,9 @@ public class SQLMaker implements SQLGod{
 			for(String join:this.join_table_alias_on){
 				stringBuilder.append(join);
 			}
+			for(String joinAndor:this.joinAndor){
+				stringBuilder.append(joinAndor);
+			}
 			stringBuilder.append(" WHERE ").append(this.where);
 			stringBuilder.append(StringUtil.join(" ", this.andor.toArray()));
 		}

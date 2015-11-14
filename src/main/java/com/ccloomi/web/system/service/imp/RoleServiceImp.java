@@ -18,6 +18,7 @@ import com.ccloomi.web.system.entity.RoleEntity;
 import com.ccloomi.web.system.entity.RolePermissionEntity;
 import com.ccloomi.web.system.entity.RoleUserEntity;
 import com.ccloomi.web.system.entity.RoleViewEntity;
+import com.ccloomi.web.system.entity.UserEntity;
 import com.ccloomi.web.system.entity.ViewEntity;
 import com.ccloomi.web.system.service.RoleService;
 
@@ -287,5 +288,54 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 			return r>0?true:false;
 		}
 		return false;
+	}
+	@Override
+	public Map<String, Object> findUsersInRoleByPage(Map<String, Object> map) {
+		Map<String, Object>rm=new HashMap<>();
+		int page=-1+(int) map.get("pageNumber");
+		int pageSize=(int) map.get("pageSize");
+		String keywords=(String) map.get("keywords");
+		@SuppressWarnings("unchecked")
+		Map<String, Object>role=(Map<String, Object>) map.get("role");
+		
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("u.*")
+		.FROM(new RoleUserEntity(), "ru")
+		.LEFT_JOIN(new UserEntity(), "u", "u.id=ru.idUser")
+		.JOIN_AND("ru.idRole=?", role.get("id"));
+		if(keywords!=null){
+			sm.WHERE("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
+		}
+		sm.LIMIT(page*pageSize, pageSize);
+		if(page==0){
+			rm.put("totalNumber", countBySQLGod(sm));
+		}
+		List<Map<String, Object>>ls=findBySQLGod(sm);
+		rm.put("data", ls);
+		return rm;
+	}
+	@Override
+	public Map<String, Object> findUsersNotInRoleByPage(Map<String, Object> map) {
+		Map<String, Object>rm=new HashMap<>();
+		int page=-1+(int) map.get("pageNumber");
+		int pageSize=(int) map.get("pageSize");
+		String keywords=(String) map.get("keywords");
+		@SuppressWarnings("unchecked")
+		Map<String, Object>role=(Map<String, Object>) map.get("role");
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("u.*")
+		.FROM(new UserEntity(), "u")
+		.FROM(new RoleUserEntity(), "ru")
+		.WHERE("u.id NOT IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
+		if(keywords!=null){
+			sm.AND("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
+		}
+		sm.LIMIT(page*pageSize, pageSize);
+		if(page==0){
+			rm.put("totalNumber", countBySQLGod(sm));
+		}
+		List<Map<String, Object>>ls=findBySQLGod(sm);
+		rm.put("data", ls);
+		return rm;
 	}
 }
