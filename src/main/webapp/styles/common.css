@@ -106,7 +106,7 @@ input:focus {
 }
 .sidebar ul, .list-group-item {
     padding: 0;
-    border: none;
+    border-top: none;
 }
 .nav > li.active > a {
     background-color: #eee;
