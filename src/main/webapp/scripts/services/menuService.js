@@ -8,7 +8,7 @@ angular.module('ccloomi')
                 if(menu){
                     scope.menu={pid:menu.id,idRoot:menu.idRoot,deepIndex:menu.deepIndex+1};
                 }else{
-                    scope.menu={};
+                    scope.menu={deepIndex:0};
                 }
                 S_dialog.dialog('添加菜单','views/menu/addMenu.html',scope, function () {
                     $http.post('view/add.do',scope.menu).success(function (data) {
@@ -16,6 +16,7 @@ angular.module('ccloomi')
                             S_dialog.alert('添加成功','添加菜单['+scope.menu.name+']成功','success');
                             if(!scope.menu.id){
                                 scope.menu.id=data.info;
+                                scope.menu.idRoot=scope.menu.idRoot||data.info;
                                 scope.views.push(scope.menu);
                                 refreshScope(scope);
                             }

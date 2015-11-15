@@ -42,7 +42,8 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		if(keywords!=null){
 			sm.WHERE("v.id LIKE '%?%' OR v.name LIKE '%?%' OR v.url LIKE '%?%' OR v.pid LIKE '%?%' OR v.iconClass LIKE '%?%' OR v.type LIKE '%?%' OR v.idRoot LIKE '%?%'".replaceAll("\\?", keywords));
 		}
-		sm.LIMIT(page*pageSize, pageSize);
+		sm.ORDER_BY("v.idRoot,v.deepIndex")
+		.LIMIT(page*pageSize, pageSize);
 		if(page==0){
 			rm.put("totalNumber", countBySQLGod(sm));
 		}
