@@ -4,12 +4,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>姓名</th><th>昵称</th><th>ID</th><th>操作</th>
+                <th>姓名</th><th>昵称</th><th class="hidden-xs">ID</th><th>操作</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="user in users">
-                <td>{{user.username}}</td><td>{{user.nickname}}</td><td>{{user.id}}</td>
+                <td>{{user.username}}</td><td>{{user.nickname}}</td><td class="hidden-xs">{{user.id}}</td>
                 <td>
                     <button class="btn shadow-box" ng-click="update(user)">修改</button>
                     <button class="btn shadow-box" ng-click="remove(user)">删除</button>
