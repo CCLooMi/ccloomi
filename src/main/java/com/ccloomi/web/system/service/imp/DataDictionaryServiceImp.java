@@ -47,7 +47,7 @@ public class DataDictionaryServiceImp extends GenericService<DataDictionaryEntit
 		.WHERE("dd.deepIndex=0");
 		
 		if(keywords!=null){
-			sm.WHERE("dd.name LIKE '%?%' OR dd.code LIKE '%?%' OR dd.desc LIKE '%?%'".replaceAll("\\?", keywords));
+			sm.WHERE("dd.name LIKE '%?%' OR dd.code LIKE '%?%' OR dd.dsc LIKE '%?%'".replaceAll("\\?", keywords));
 		}
 		
 		sm.LIMIT(page*pageSize,pageSize);
