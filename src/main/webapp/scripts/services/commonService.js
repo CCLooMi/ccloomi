@@ -9,7 +9,7 @@ angular.module('ccloomi')
                 S_dialog.dialog('添加用户','views/user/addUser.html',scope, function () {
                     $http.post('user/add.do',scope.user).success(function (data) {
                         if(data.code==0){
-                            S_dialog.alert('添加成功','添加用户['+scope.user.name+']成功','success');
+                            S_dialog.alert('添加成功','添加用户['+scope.user.username+']成功','success');
                             scope.user.id=data.info;
                             scope.users.push(scope.user);
                             refreshScope(scope);
