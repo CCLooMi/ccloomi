@@ -15,7 +15,7 @@ angular.module('ccloomi')
                 S_user.remove($scope,user);
             }
         $scope
-        S_pagination.pagination($('#pagination'),'user/byPage.json',20,{}, function (data) {
+        S_pagination.pagination($('#pagination'),'user/byPage.json',10,{}, function (data) {
             $scope.users=data;
             refreshScope($scope);
         })

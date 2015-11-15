@@ -66,7 +66,7 @@ angular.module('ccloomi')
             S_role.removeUserFromRole($scope,user);
         }
         //分页
-        S_pagination.pagination($('#pagination'),'role/byPage.json',20,{}, function (data,pagination) {
+        S_pagination.pagination($('#pagination'),'role/byPage.json',10,{}, function (data,pagination) {
             $scope.roles=data;
             refreshScope($scope);
         })

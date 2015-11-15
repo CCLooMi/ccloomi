@@ -20,7 +20,7 @@ angular.module('ccloomi')
         $scope.remove= function (menu) {
             S_menu.remove($scope,menu);
         };
-    	S_pagination.pagination($('#pagination'),'view/byPage.json',20,{}, function (data,pagination) {
+    	S_pagination.pagination($('#pagination'),'view/byPage.json',10,{}, function (data,pagination) {
             $scope.views=data;
             refreshScope($scope);
         });
