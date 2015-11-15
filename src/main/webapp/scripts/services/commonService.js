@@ -181,7 +181,8 @@ angular.module('ccloomi')
                         var id=ids[i];
                         var pid=jstree.get_parent(id);
                         //pid=='#'表示没有父菜单
-                        if(pids.indexOf(pid)==-1&&pid!='#'){
+                        //ids可能会包含父ID
+                        if(pids.indexOf(pid)==-1&&pid!='#'&&ids.indexOf(pid)==-1){
                             pids.push(pid);
                         }
                     }
