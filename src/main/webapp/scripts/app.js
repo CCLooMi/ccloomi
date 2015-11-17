@@ -115,6 +115,20 @@ var app=angular
                     }
                 }
             })
+            .state('main.maven',{
+                url:'/maven',
+                templateUrl:'views/mavenSearch/mavenSearch.html',
+                resolve:{
+                    loadMyFile: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'idccapp',
+                            files:[
+                                'scripts/controllers/mavenSearchController.js'
+                            ]
+                        })
+                    }
+                }
+            })
             .state('login',{
                 url:'/login',
                 templateUrl:'views/pages/login.jsp',

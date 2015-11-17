@@ -102,6 +102,20 @@ angular.module('ccloomi')
                     },
                     callback: callback
                 })
+            },
+            paginationMavenSearch: function (paginationContainer,dataUrl,pageSize,data,callback) {
+                paginationContainer.pagination({
+                    dataSource:dataUrl,
+                    locator:'docs',
+                    alias:{pageSize:'rows',pageNumber:'start',totalNumber:'numFound'},
+                    pageSize: pageSize,
+                    ajax: {
+                        type:'POST',
+                        data:data,
+                        contentType:'application/json ;charset=UTF-8',
+                    },
+                    callback: callback
+                })
             }
         };
         return service;
