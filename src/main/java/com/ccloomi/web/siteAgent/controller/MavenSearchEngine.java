@@ -30,24 +30,31 @@ public class MavenSearchEngine extends BaseController{
 	private String url="http://search.maven.org/solrsearch/select";
 	private CloseableHttpClient client=HttpClients.createDefault();
 	private ObjectMapper objMapper;
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/maven")
 	@ResponseBody
 	public Object doAgent(@RequestBody Map<String, String>map) throws Exception{
+		Map<String, Object>responseMap;
 		URIBuilder uriBuilder=new URIBuilder(url);
 		for(String key:map.keySet()){
-			uriBuilder.setParameter(key, map.get(key));
+			if("start".equals(key)){
+				uriBuilder.setParameter(key, String.valueOf(Integer.valueOf(map.get(key))-1));
+			}else{
+				uriBuilder.setParameter(key, map.get(key));
+			}
 		}
-		uriBuilder.setParameter("q", "guice");
 		URI uri=uriBuilder.build();
+		log.debug("MavenSearch URL::[{}]",uri);
 		HttpGet httpGet=new HttpGet(uri);
 		CloseableHttpResponse resp = client.execute(httpGet);
 		HttpEntity entity=resp.getEntity();
 		InputStream input=entity.getContent();
 		objMapper = new ObjectMapper();
-		@SuppressWarnings("unchecked")
 		Map<String, Object>jsonMap=objMapper.readValue(input,Map.class);
 		input.close();
 		resp.close();
-		return jsonMap.get("response");
+		responseMap=(Map<String, Object>) jsonMap.get("response");
+		responseMap.put("responseHeader", jsonMap.get("responseHeader"));
+		return responseMap;
 	}
 }
