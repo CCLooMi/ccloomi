@@ -6,7 +6,7 @@ angular.module('ccloomi')
         $scope.results=[];
         //查找
         $scope.keyword='';
-        $scope.search= function (e,obj) {
+        $scope.search= function (e,obj,core) {
             e.preventDefault();
             e.stopPropagation();
             var searchData={};
@@ -15,6 +15,9 @@ angular.module('ccloomi')
                     searchData.q=obj;
                 }else{
                     searchData.q=$scope.keyword;
+                }
+                if(core){
+                    searchData.core=core;
                 }
                 S_pagination.paginationMavenSearch($('#pagination'),'maven.json',20,searchData, function (data) {
                     $scope.results=data;

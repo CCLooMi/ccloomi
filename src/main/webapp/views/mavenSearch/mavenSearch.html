@@ -28,10 +28,10 @@
                     <a ng-bind-html="result.a|highlight:keyword" ng-click="search($event,'a:'+result.a)"></a>
                 </td>
                 <td>
-                    <a ng-bind-html="result.latestVersion|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a+' AND version:'+result.latestVersion)"></a>
+                    <a ng-bind-html="result.latestVersion|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND v:'+result.latestVersion,'gv')"></a>
                 </td>
                 <td>
-                    <a ng-bind-html="result.versionCount|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a)"></a>
+                    <a ng-bind-html="result.versionCount|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a+' AND v:'+result.latestVersion,'gav')"></a>
                 </td>
                 <td ng-bind-html="result.timestamp|highlight:keyword"></td>
                 <td ng-bind-html="result.repositoryId|highlight:keyword"></td>
