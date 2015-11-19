@@ -90,6 +90,9 @@ angular.module('ccloomi')
     .factory('S_pagination',['$http', function ($http) {
         var service={
             pagination: function (paginationContainer,dataUrl,pageSize,data,callback,beforeSend) {
+                if(paginationContainer.data('pagination')){
+                    paginationContainer.pagination('destroy');
+                }
                 paginationContainer.pagination({
                     dataSource: dataUrl,
                     locator: 'data',
@@ -104,6 +107,9 @@ angular.module('ccloomi')
                 })
             },
             paginationMavenSearch: function (paginationContainer,dataUrl,pageSize,data,callback) {
+                if(paginationContainer.data('pagination')){
+                    paginationContainer.pagination('destroy');
+                }
                 paginationContainer.pagination({
                     dataSource:dataUrl,
                     locator:'docs',

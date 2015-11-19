@@ -21,10 +21,18 @@
             </thead>
             <tbody>
             <tr ng-repeat="result in results">
-                <td ng-bind-html="result.g|highlight:keyword"></td>
-                <td ng-bind-html="result.a|highlight:keyword"></td>
-                <td ng-bind-html="result.latestVersion|highlight:keyword"></td>
-                <td ng-bind-html="result.versionCount|highlight:keyword"></td>
+                <td>
+                    <a ng-bind-html="result.g|highlight:keyword" ng-click="search($event,'g:'+result.g)"></a>
+                </td>
+                <td>
+                    <a ng-bind-html="result.a|highlight:keyword" ng-click="search($event,'a:'+result.a)"></a>
+                </td>
+                <td>
+                    <a ng-bind-html="result.latestVersion|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a+' AND version:'+result.latestVersion)"></a>
+                </td>
+                <td>
+                    <a ng-bind-html="result.versionCount|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a)"></a>
+                </td>
                 <td ng-bind-html="result.timestamp|highlight:keyword"></td>
                 <td ng-bind-html="result.repositoryId|highlight:keyword"></td>
             </tr>

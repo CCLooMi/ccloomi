@@ -15,6 +15,9 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
 }
+a:hover {
+    cursor: pointer;
+}
 .navbar-toggle {
 	border-radius: 0;
     border: none;
