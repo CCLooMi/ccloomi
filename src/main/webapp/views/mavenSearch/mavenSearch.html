@@ -27,13 +27,16 @@
                 <td>
                     <a ng-bind-html="result.a|highlight:keyword" ng-click="search($event,'a:'+result.a)"></a>
                 </td>
-                <td>
+                <td ng-if="result.latestVersion">
                     <a ng-bind-html="result.latestVersion|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND v:'+result.latestVersion,'gav')"></a>
+                </td>
+                <td ng-if="result.v">
+                    <a ng-bind-html="result.v|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND v:'+result.v,'gav')"></a>
                 </td>
                 <td>
                     <a ng-bind-html="result.versionCount|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a,'gav')"></a>
                 </td>
-                <td ng-bind-html="result.timestamp|highlight:keyword"></td>
+                <td ng-bind-html="result.timestamp|date:'yyyy-MM-dd hh:mm:ss'|highlight:keyword"></td>
                 <td ng-bind-html="result.repositoryId|highlight:keyword"></td>
             </tr>
             </tbody>
