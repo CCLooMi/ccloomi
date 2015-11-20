@@ -37,7 +37,11 @@
                     <a ng-bind-html="result.versionCount|highlight:keyword" ng-click="search($event,'g:'+result.g+' AND a:'+result.a,'gav')"></a>
                 </td>
                 <td ng-bind-html="result.timestamp|date:'yyyy-MM-dd hh:mm:ss'|highlight:keyword"></td>
-                <td ng-bind-html="result.repositoryId|highlight:keyword"></td>
+                <td>
+                    <div ng-repeat="p in result.ec">
+                        <a ng-bind-html="p|highlight:keyword" ng-click="download(result,p)"></a>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>

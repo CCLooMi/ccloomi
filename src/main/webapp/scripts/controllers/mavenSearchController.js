@@ -25,4 +25,10 @@ angular.module('ccloomi')
                 });
             }
         };
+        $scope.download= function (result,p) {
+            var g=result.g;
+            var a=result.a;
+            var v=result.v||result.latestVersion;
+            window.location='maven/download.do?g='+g+'&a='+a+'&v='+v+'&p='+p;
+        }
     }])

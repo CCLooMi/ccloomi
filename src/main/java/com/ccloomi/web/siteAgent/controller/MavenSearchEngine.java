@@ -1,6 +1,7 @@
 package com.ccloomi.web.siteAgent.controller;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.controller.BaseController;
@@ -60,9 +62,34 @@ public class MavenSearchEngine extends BaseController{
 		responseMap.put("responseHeader", jsonMap.get("responseHeader"));
 		return responseMap;
 	}
-	@RequestMapping("/download")
-	public void doDownload(@RequestBody Map<String, Object>map,HttpServletResponse response) throws Exception{
-		URIBuilder uriBuilder=new URIBuilder(url2);
+	@RequestMapping("/maven/download")
+	public void doDownload(@RequestParam Map<String, String>map,HttpServletResponse response) throws Exception{
+		String g=map.get("g").replaceAll("\\.", "/");
+		String a=map.get("a");
+		String v=map.get("v");
+		String p=map.get("p");
 		
+		String path=g+"/"+a+"/"+v+"/";
+		String file=a+"-"+v+p;
+		URIBuilder uriBuilder=new URIBuilder(url2+path+file);
+		
+		URI uri=uriBuilder.build();
+		log.debug("MavenDownload URL::[{}]",uri);
+		HttpGet httpGet=new HttpGet(uri);
+		CloseableHttpResponse resp = client.execute(httpGet);
+		HttpEntity entity=resp.getEntity();
+		response.setContentType(entity.getContentType().getValue());
+		response.setContentLengthLong(entity.getContentLength());
+		response.setHeader("Content-Disposition", "attachment; filename="+file);
+		System.out.println(entity.getContentType().getValue());
+		InputStream input=entity.getContent();
+		OutputStream out=response.getOutputStream();
+		byte[]bytes=new byte[1024];
+		while(input.read(bytes)!=-1){
+			out.write(bytes);
+		}
+		out.flush();
+		input.close();
+		resp.close();
 	}
 }
