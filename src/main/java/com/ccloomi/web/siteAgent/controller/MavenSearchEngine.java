@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -28,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class MavenSearchEngine extends BaseController{
 	private String url="http://search.maven.org/solrsearch/select";
+	private String url2="http://repo1.maven.org/maven2/";
 	private CloseableHttpClient client=HttpClients.createDefault();
 	private ObjectMapper objMapper;
 	@SuppressWarnings("unchecked")
@@ -56,5 +59,10 @@ public class MavenSearchEngine extends BaseController{
 		responseMap=(Map<String, Object>) jsonMap.get("response");
 		responseMap.put("responseHeader", jsonMap.get("responseHeader"));
 		return responseMap;
+	}
+	@RequestMapping("/download")
+	public void doDownload(@RequestBody Map<String, Object>map,HttpServletResponse response) throws Exception{
+		URIBuilder uriBuilder=new URIBuilder(url2);
+		
 	}
 }
