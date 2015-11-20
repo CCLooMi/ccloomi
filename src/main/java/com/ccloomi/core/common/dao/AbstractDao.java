@@ -210,7 +210,7 @@ public abstract class AbstractDao<T> {
 				BaseEntity b=(BaseEntity) ebj;
 				b.prepareProperties();
 				for(String p:b.properties()){
-					Field field=elementType.getDeclaredField(p);
+					Field field=getClassField(elementType, p);
 					field.setAccessible(true);
 					field.set(b, map.get(b.getPropertyTableColumn(p)));
 				}
@@ -234,5 +234,16 @@ public abstract class AbstractDao<T> {
 			log.error("转换出现异常::", e);
 		}
 		return null;
+	}
+	private Field getClassField(Class<?>clazz,String fieldName){
+		Field field=null;
+		try {
+			field=clazz.getDeclaredField(fieldName);
+		} catch (NoSuchFieldException e) {
+			field=getClassField(clazz.getSuperclass(), fieldName);
+		} catch (SecurityException e) {
+			log.error("获取Field异常", e);
+		}
+		return field;
 	}
 }
