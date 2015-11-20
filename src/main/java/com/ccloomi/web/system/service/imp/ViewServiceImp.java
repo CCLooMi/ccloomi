@@ -59,8 +59,7 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		.SELECT_AS("v.iconClass", "icon")
 		.SELECT_AS("IF(rv.idView IS NULL,0,1)", "has")
 		.FROM(new ViewEntity(), "v")
-		.LEFT_JOIN(new RoleViewEntity(), "rv", "rv.idView=v.id")
-		.JOIN_AND("rv.idRole=?", idRole)
+		.LEFT_JOIN(new RoleViewEntity(), "rv", "(rv.idView=v.id AND rv.idRole=?)",idRole)
 		.WHERE("v.deepIndex=0");
 		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
 		for(Map<String, Object>m:ls){
@@ -86,8 +85,7 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		.SELECT_AS("v.iconClass", "icon")
 		.SELECT_AS("IF(rv.idView IS NULL,0,1)", "has")
 		.FROM(new ViewEntity(), "v")
-		.LEFT_JOIN(new RoleViewEntity(), "rv", "rv.idView=v.id")
-		.JOIN_AND("rv.idRole=?", idRole)
+		.LEFT_JOIN(new RoleViewEntity(), "rv", "(rv.idView=v.id AND rv.idRole=?)",idRole)
 		.WHERE("v.pid=?", pid);
 		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
 		for(Map<String, Object>m:ls){

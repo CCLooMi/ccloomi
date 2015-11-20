@@ -34,7 +34,6 @@ public class SQLMaker implements SQLGod{
 	private List<String>columns;
 	private String where;
 	private List<String>andor;
-	private List<String>joinAndor;
 	private List<Object>values;
 	private List<String>order_by;
 	private List<String>group_by;
@@ -52,7 +51,6 @@ public class SQLMaker implements SQLGod{
 		this.andor			= new ArrayList<>();
 		//select
 		this.join_table_alias_on= new HashSet<>();
-		this.joinAndor		= new ArrayList<>();
 		this.order_by		= new ArrayList<>();
 		this.group_by		= new ArrayList<>();
 		this.limit			= "";
@@ -134,25 +132,17 @@ public class SQLMaker implements SQLGod{
 		this.alias_entity.put(alias, entity);
 		return this;
 	}
-	public SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on){
+	public SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on,Object...values){
 		this.join_table_alias_on.add(" LEFT JOIN "+entity.tableName()+" "+alias+" ON "+on);
 		this.alias_entity.put(alias, entity);
-		return this;
-	}
-	public SQLMaker RIGHT_JOIN(BaseEntity entity,String alias,String on){
-		this.join_table_alias_on.add(" RIGHT JOIN "+entity.tableName()+" "+alias+" ON "+on);
-		this.alias_entity.put(alias, entity);
-		return this;
-	}
-	public SQLMaker JOIN_AND(String str,Object...values){
-		this.joinAndor.add(" AND "+str);
 		for(Object value:values){
 			this.values.add(value);
 		}
 		return this;
 	}
-	public SQLMaker JOIN_OR(String str,Object...values){
-		this.joinAndor.add(" OR "+str);
+	public SQLMaker RIGHT_JOIN(BaseEntity entity,String alias,String on,Object...values){
+		this.join_table_alias_on.add(" RIGHT JOIN "+entity.tableName()+" "+alias+" ON "+on);
+		this.alias_entity.put(alias, entity);
 		for(Object value:values){
 			this.values.add(value);
 		}
@@ -229,9 +219,6 @@ public class SQLMaker implements SQLGod{
 			sb.append(" FROM ").append(StringUtil.join(",", tableNames.toArray()));
 			for(String join:this.join_table_alias_on){
 				sb.append(join);
-			}
-			for(String joinAndor:this.joinAndor){
-				sb.append(joinAndor);
 			}
 			sb.append(" WHERE ").append(this.where);
 			sb.append(StringUtil.join(" ", this.andor.toArray()));
@@ -312,9 +299,6 @@ public class SQLMaker implements SQLGod{
 			stringBuilder.append(" FROM ").append(StringUtil.join(",", tableNames.toArray()));
 			for(String join:this.join_table_alias_on){
 				stringBuilder.append(join);
-			}
-			for(String joinAndor:this.joinAndor){
-				stringBuilder.append(joinAndor);
 			}
 			stringBuilder.append(" WHERE ").append(this.where);
 			stringBuilder.append(StringUtil.join(" ", this.andor.toArray()));
