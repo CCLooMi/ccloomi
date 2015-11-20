@@ -148,10 +148,6 @@ public class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker WHERE(String str){
-		this.where=str;
-		return this;
-	}
 	public SQLMaker WHERE(String str,Object...values){
 		this.where=str;
 		for(Object value:values){
@@ -159,19 +155,11 @@ public class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker AND(String str){
-		this.andor.add(" AND "+str);
-		return this;
-	}
 	public SQLMaker AND(String str,Object...values){
 		this.andor.add(" AND "+str);
 		for(Object value:values){
 			this.values.add(value);
 		}
-		return this;
-	}
-	public SQLMaker OR(String str){
-		this.andor.add(" OR "+str);
 		return this;
 	}
 	public SQLMaker OR(String str,Object...values){
