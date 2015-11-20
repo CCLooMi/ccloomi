@@ -43,7 +43,7 @@ app.factory('S_dataDictionary',['$http','S_dialog', function ($http,S_dialog) {
             }
         },
         update: function (scope,dd) {
-            var ddClone=clone(dd);
+            var ddClone=cloneFrom(dd);
             scope.dd_new=dd;
             if(dd.deepIndex==0){
                 S_dialog.dialog('修改数据','views/dataDictionary/addDictionaryKey.html',scope, function () {
