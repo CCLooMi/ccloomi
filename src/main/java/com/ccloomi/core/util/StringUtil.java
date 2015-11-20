@@ -153,4 +153,16 @@ public class StringUtil {
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 		return uuid;
 	}
+	/**
+	 * 方法描述：首字母大写
+	 * 作        者：Chenxj
+	 * 日        期：2015年11月20日-上午10:43:04
+	 * @param str
+	 * @return
+	 */
+	public static String upperCaseFirstLatter(String str){
+		char[] strChar=str.toCharArray();
+		strChar[0]-=32;
+		return String.valueOf(strChar);
+	}
 }

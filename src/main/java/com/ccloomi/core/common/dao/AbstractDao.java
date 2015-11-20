@@ -1,11 +1,14 @@
 package com.ccloomi.core.common.dao;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.Table;
 
 import org.slf4j.Logger;
@@ -16,7 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.component.sql.SQLGod;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ccloomi.core.util.StringUtil;
 
 /**深圳市设计同道技术有限公司
  * 类    名：AbstractDao
@@ -192,13 +195,44 @@ public abstract class AbstractDao<T> {
 		Map<String, List<? extends Object>>map=sg.sql();
 		for(String sql:map.keySet()){
 			List<Map<String, Object>>ls=jdbcTemplate.queryForList(sql,map.get(sql).toArray());
-			ObjectMapper objMapper=new ObjectMapper();
 			List<E>tList=new ArrayList<>();
 			for(Map<String, Object>m:ls){
-				tList.add(objMapper.convertValue(m, elementType));
+				tList.add(convertMap(m, elementType));
 			}
 			return tList;
 		}
 		return new ArrayList<E>();
+	}
+	private <E> E convertMap(Map<String,? extends Object>map,Class<E>elementType){
+		try {
+			E ebj=elementType.newInstance();
+			if(ebj instanceof BaseEntity){
+				BaseEntity b=(BaseEntity) ebj;
+				b.prepareProperties();
+				for(String p:b.properties()){
+					Field field=elementType.getDeclaredField(p);
+					field.setAccessible(true);
+					field.set(b, map.get(b.getPropertyTableColumn(p)));
+				}
+			}else{
+				for(Field field:elementType.getDeclaredFields()){
+					String columnName=field.getName();
+					String get="get"+StringUtil.upperCaseFirstLatter(columnName);
+					Method getMethod=elementType.getDeclaredMethod(get);
+					Column c=getMethod.getDeclaredAnnotation(Column.class);
+					if(c!=null){
+						columnName=c.name();
+					}
+					if(map.get(columnName)!=null){
+						field.setAccessible(true);
+						field.set(ebj, map.get(columnName));
+					}
+				}
+			}
+			return ebj;
+		}catch(Exception e){
+			log.error("转换出现异常::", e);
+		}
+		return null;
 	}
 }
