@@ -10,6 +10,10 @@ angular.module('ccloomi')
                 context.init({
                     targetClickEvent: options.targetClickEvent
                 })
+                if(scope.network){
+                    console.log('destroy network.');
+                    scope.network.destroy();
+                }
                 scope.nodes=new vis.DataSet(data.nodes);
                 scope.edges=new vis.DataSet(data.edges);
                 var option={
@@ -36,6 +40,9 @@ angular.module('ccloomi')
                         var edgeid=scope.network.getEdgeAt(params.pointer.DOM);
                         if(edgeid)scope.network.selectEdges([edgeid]);
                     }
+                    context.init({
+                        targetClickEvent: options.targetClickEvent
+                    })
                     context.show(params,options.menu||[{icon:'fa fa-exclamation',text:'您还没有设置右键菜单'},{icon:'fa fa-hand-o-right',text:'请您在menu中进行设置'}]);
                 });
                 scope.network.on('doubleClick',options.doubleClick);
