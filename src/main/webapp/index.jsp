@@ -12,9 +12,11 @@
 	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
+	<link rel="stylesheet" href="bower_components/vis/dist/vis.min.css">
+	<link rel="stylesheet" href="bower_components/Context.js/context.standalone.css">
 
 	<link rel="stylesheet" href="styles/common.css">
-
+	
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -25,12 +27,13 @@
 	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src="bower_components/Chart.js/Chart.min.js"></script>
 	<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="bower_components/vis/dist/vis.min.js"></script>
+	<script src="bower_components/Context.js/context.js"></script>
 
 	<script src="js/common.js"></script>
 	<script src="scripts/app.js"></script>
 	<script src="scripts/services/commonService.js"></script>
 </head>
-<body ng-app="ccloomi">
-	<div ui-view></div>
+<body ng-app="ccloomi" ui-view>
 </body>
 </html>

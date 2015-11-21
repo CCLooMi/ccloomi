@@ -129,6 +129,23 @@ var app=angular
                     }
                 }
             })
+            .state('db',{
+                url:'/db',
+                templateUrl:'views/db/db.html',
+                resolve:{
+                    loadMyFile: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'idccapp',
+                            files:[
+                                'scripts/services/visService.js',
+                                'scripts/controllers/dbController.js',
+                                'styles/db.css'
+                            ]
+                        })
+                    }
+                }
+
+            })
             .state('login',{
                 url:'/login',
                 templateUrl:'views/pages/login.jsp',

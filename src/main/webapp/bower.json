@@ -43,6 +43,8 @@
     "less": "less.js#~2.5.3",
     "artDialog": "art-dialog#~6.0.4",
     "jstree": "~3.2.1",
-    "paginationjs": "git://github.com/CCLooMi/paginationjs#~2.0.7"
+    "paginationjs": "git://github.com/CCLooMi/paginationjs#~2.0.7",
+    "vis": "~4.9.0",
+    "three.js": "threejs#*"
   }
 }

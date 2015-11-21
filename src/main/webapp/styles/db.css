@@ -1,0 +1,15 @@
+.db-wrapper {
+    width: 100%;
+    height: 100%;
+}
+.vis-network {
+    height: 100%;
+    width: 100%;
+    background-color: #F4F4EA;
+    position: static;
+}
+#INFO {
+    position: fixed;
+    right: 100px;
+    top: 20px;
+}

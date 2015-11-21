@@ -11,7 +11,9 @@
     font-weight: 300;
     src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(../fonts/toadOcfmlt9b38dHJxOBGCP2LEk6lMzYsRqr3dHFImA.woff2) format('woff2');
 }
-body {
+html,body {
+    margin: 0;
+    height: 100%;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
 }
