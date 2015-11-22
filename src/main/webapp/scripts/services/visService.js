@@ -51,6 +51,7 @@ angular.module('ccloomi')
                     if(options.dragEnd){
                         options.dragEnd(params);
                     };
+                    //判断Alt键是否hold，如果是则继续addEdgeMode
                     if(keyEvents.altKey){
                         scope.network.addEdgeMode();
                     };

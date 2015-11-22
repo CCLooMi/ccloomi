@@ -4,7 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.ccloomi.core.common.entity.IdEntity;
+import com.ccloomi.core.common.entity.BaseEntity;
 /**
  * © 2015-2015 CCLooMi.Inc Copyright
  * 类    名：GenericService
@@ -16,6 +16,6 @@ import com.ccloomi.core.common.entity.IdEntity;
  */
 @Service("baseService")
 @Transactional
-public class GenericService<T extends IdEntity> extends AbstractService<T> implements BaseService<T>{
+public class GenericService<T extends BaseEntity> extends AbstractService<T> implements BaseService<T>{
 	
 }
