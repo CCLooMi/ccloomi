@@ -74,7 +74,7 @@ public abstract class AbstractDao<T> {
 		String alias="et";
 		SQLMaker sm=new SQLMaker();
 		sm.UPDATE(_bt, alias);
-		for(String p:_bt.getPVMap().keySet()){
+		for(String p:_bt.PVMap().keySet()){
 			Object pv=_bt.getPropertyValue(p);
 			String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
 			sm.SET(ps,pv);
@@ -130,7 +130,7 @@ public abstract class AbstractDao<T> {
 				}
 				List<Object>args=new ArrayList<Object>();
 				for(String p:properties){
-					args.add(bt.getPVMap().get(p));
+					args.add(bt.PVMap().get(p));
 				}
 				batchArgs.add(args.toArray());
 			}

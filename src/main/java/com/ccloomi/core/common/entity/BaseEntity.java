@@ -94,7 +94,7 @@ public abstract class BaseEntity extends BaseBean{
 	 * 日期：2015年10月22日 - 下午9:33:25
 	 * @return
 	 */
-	public Map<String, Object>getPVMap(){
+	public Map<String, Object>PVMap(){
 		return PVMap;
 	}
 	/**
