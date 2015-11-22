@@ -8,7 +8,7 @@ angular.module('ccloomi')
         var service={
             network: function (container,options,data,scope) {
                 context.init({
-                    targetClickEvent: options.targetClickEvent
+                    targetClickEvent: options.targetClickEvent||function(e){e.preventDefault()}
                 })
                 if(scope.network){
                     console.log('destroy network.');
@@ -40,13 +40,21 @@ angular.module('ccloomi')
                         var edgeid=scope.network.getEdgeAt(params.pointer.DOM);
                         if(edgeid)scope.network.selectEdges([edgeid]);
                     }
-                    context.init({
-                        targetClickEvent: options.targetClickEvent
-                    })
                     context.show(params,options.menu||[{icon:'fa fa-exclamation',text:'您还没有设置右键菜单'},{icon:'fa fa-hand-o-right',text:'请您在menu中进行设置'}]);
                 });
-                scope.network.on('doubleClick',options.doubleClick);
-                scope.network.on('dragEnd',options.dragEnd);
+                scope.network.on('doubleClick',function(params){
+                    if(options.doubleClick){
+                        options.doubleClick(params);
+                    }
+                });
+                scope.network.on('dragEnd',function(params){
+                    if(options.dragEnd){
+                        options.dragEnd(params);
+                    };
+                    if(keyEvents.altKey){
+                        scope.network.addEdgeMode();
+                    };
+                });
                 //监听键盘事件
                 $(document).keydown(function (e) {
                     if(e.keyCode==46){//Delete
