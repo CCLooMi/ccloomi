@@ -5,15 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
-import com.ccloomi.web.dbManager.dao.SchemataDao;
-import com.ccloomi.web.dbManager.dao.TablesDao;
 import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.entity.InnodbSysForeignColsEntity;
 import com.ccloomi.web.dbManager.entity.InnodbSysForeignEntity;
@@ -29,10 +26,6 @@ import com.ccloomi.web.dbManager.service.SchemataService;
  */
 @Service("schemataService")
 public class SchemataServiceImp extends GenericService<SchemataEntity> implements SchemataService{
-	@Autowired
-	private SchemataDao schemataDao;
-	@Autowired
-	private TablesDao tablesDao;
 	@Override
 	public VisNetworkBean findAsVisNetworkBySchemaName(String schemaName) {
 		VisNetworkBean vn=new VisNetworkBean();
@@ -90,6 +83,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		vn.addEdges(fromColumnToTable);
 		//查询字段到字段边
 		sm.clean()
+		.SELECT("f.id")
 		.SELECT_AS("CONCAT(f.FOR_NAME,'/',fc.FOR_COL_NAME)", "from")
 		.SELECT_AS("CONCAT(f.REF_NAME,'/',fc.REF_COL_NAME)", "to")
 		.FROM(new InnodbSysForeignEntity(), "f")

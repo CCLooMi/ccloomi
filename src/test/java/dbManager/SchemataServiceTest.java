@@ -13,7 +13,7 @@ public class SchemataServiceTest extends BaseTest<SchemataService>{
 
 	@Override
 	protected void test(SchemataService testObj) {
-		System.out.println(testObj.findAsVisNetworkBySchemaName("mysql"));
+		System.out.println(testObj.findAsVisNetworkBySchemaName("ccloomi"));
 	}
 	
 	public static void main(String[] args) {
