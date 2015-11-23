@@ -27,6 +27,7 @@ angular.module('ccloomi')
                         arrows:'to'
                     }
                 };
+                $.extend(option,options);
                 scope.network=new vis.Network(container,{nodes:scope.nodes,edges:scope.edges},option);
                 scope.network.on('oncontext', function (params) {
                     params.event.preventDefault();
