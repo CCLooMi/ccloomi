@@ -42,8 +42,8 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		sm.clean()
 		.SELECT("t.table_name")
 		.SELECT_AS("CONCAT(t.table_schema,'/',t.table_name)", "id")
-		.SELECT_AS("t.table_name", "label")
-		.SELECT_AS("t.table_comment", "title")
+		.SELECT_AS("CONCAT(t.table_name,'\n',t.table_comment)", "label")
+		.SELECT_AS("CONCAT(t.table_schema,'\n',t.table_comment)", "title")
 		.SELECT_AS("t.table_name", "group")
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.table_schema=?", schemaName);
@@ -57,8 +57,8 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 			//查询字段Nodes
 			sm.clean()
 			.SELECT_AS("CONCAT(c.table_schema,'/',c.table_name,'/',c.column_name)", "id")
-			.SELECT_AS("c.column_name", "label")
-			.SELECT_AS("c.column_comment", "title")
+			.SELECT_AS("CONCAT(c.column_name,'\n',c.column_comment)", "label")
+			.SELECT_AS("CONCAT(c.table_name,'::',c.column_name)", "title")
 			.SELECT_AS("c.table_name", "group")
 			.FROM(c, "c")
 			.WHERE("c.table_schema=?", schemaName)
@@ -95,7 +95,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.SELECT_AS("'true'", "dashes")
 		.FROM(new InnodbSysForeignEntity(), "f")
 		.LEFT_JOIN(new InnodbSysForeignColsEntity(), "fc", "f.id=fc.id")
-		.WHERE(StringUtil.format("f.id LIKE '%?\\/%'", schemaName));
+		.WHERE(StringUtil.format("f.id LIKE '?\\/%'", schemaName));
 		return findBySQLGod(sm);
 	}
 	
