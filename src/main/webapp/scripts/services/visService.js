@@ -19,16 +19,37 @@ angular.module('ccloomi')
                 scope.nodes=new vis.DataSet(data.nodes);
                 scope.edges=new vis.DataSet(data.edges);
                 var option={
+                      physics: {
+                            stabilization: false,
+                            solver: 'forceAtlas2Based',
+                            barnesHut: {
+                              gravitationalConstant: -80000,
+                              springConstant: 0.001,
+                              springLength: 0
+                            }
+                    },
                     manipulation:{
                         enabled:false,
                         addEdge:options.addEdge||function(data, callback){callback(data)},
                         editEdge:options.editEdge||function(data, callback){callback(data)}
                     },
+                    interaction: {
+                        tooltipDelay: 200,
+                        hideEdgesOnDrag: true
+                    },
+                    groups: {
+                        database:{
+                          shape:'database'
+                        }
+                    },
+                	nodes:{
+                		shape:'dot'
+                	},
                     edges:{
                         arrows:'to'
                     }
                 };
-                $.extend(option,options);
+                $.extend(option,options.option);
                 scope.network=new vis.Network(container,{nodes:scope.nodes,edges:scope.edges},option);
                 // get a JSON object
                 allNodes = scope.nodes.get({returnType:"Object"});
