@@ -31,5 +31,8 @@ angular.module('ccloomi')
         };
         $http.post('db/asVisNetwork.json').success(function (data) {
             S_vis.network(document.getElementById('network'),options,data,$scope);
+            $http.post('db/c2c.json').success(function (data) {
+            	$scope.edges.add(data);
+            });
         });
     }])

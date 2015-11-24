@@ -1,5 +1,8 @@
 package com.ccloomi.web.dbManager.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,5 +31,11 @@ public class DbController extends BaseController{
 	@RequiresAuthentication
 	public VisNetworkBean findAsVisNetworkBySchemaName(){
 		return schemataService.findAsVisNetworkBySchemaName("ccloomi");
+	}
+	@RequestMapping("/c2c")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<Map<String, Object>>findColumn2ColumnAsVisNetworkEdgesBySchemaName(){
+		return schemataService.findColumn2ColumnAsVisNetworkEdgesBySchemaName("ccloomi");
 	}
 }

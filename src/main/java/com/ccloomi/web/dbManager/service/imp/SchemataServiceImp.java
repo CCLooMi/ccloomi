@@ -44,7 +44,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.SELECT_AS("CONCAT(t.table_schema,'/',t.table_name)", "id")
 		.SELECT_AS("t.table_name", "label")
 		.SELECT_AS("t.table_comment", "title")
-		.SELECT_AS("'table'", "group")
+		.SELECT_AS("t.table_name", "group")
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.table_schema=?", schemaName);
 		List<Map<String, Object>>tables=findBySQLGod(sm);
@@ -59,7 +59,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 			.SELECT_AS("CONCAT(c.table_schema,'/',c.table_name,'/',c.column_name)", "id")
 			.SELECT_AS("c.column_name", "label")
 			.SELECT_AS("c.column_comment", "title")
-			.SELECT_AS("'column'", "group")
+			.SELECT_AS("c.table_name", "group")
 			.FROM(c, "c")
 			.WHERE("c.table_schema=?", schemaName)
 			.AND("c.table_name=?",table.get("table_name"));
@@ -81,6 +81,12 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		}
 		vn.addEdges(fromTableToDatabase);
 		vn.addEdges(fromColumnToTable);
+		return vn;
+	}
+
+	@Override
+	public List<Map<String, Object>> findColumn2ColumnAsVisNetworkEdgesBySchemaName(String schemaName) {
+		SQLMaker sm=new SQLMaker();
 		//查询字段到字段边
 		sm.clean()
 		.SELECT("f.id")
@@ -89,8 +95,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.FROM(new InnodbSysForeignEntity(), "f")
 		.LEFT_JOIN(new InnodbSysForeignColsEntity(), "fc", "f.id=fc.id")
 		.WHERE(StringUtil.format("f.id LIKE '%?\\/%'", schemaName));
-		vn.addEdges(findBySQLGod(sm));
-		return vn;
+		return findBySQLGod(sm);
 	}
 	
 }
