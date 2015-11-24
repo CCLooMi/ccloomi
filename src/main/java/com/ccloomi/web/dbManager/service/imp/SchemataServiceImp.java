@@ -92,6 +92,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.SELECT("f.id")
 		.SELECT_AS("CONCAT(f.FOR_NAME,'/',fc.FOR_COL_NAME)", "from")
 		.SELECT_AS("CONCAT(f.REF_NAME,'/',fc.REF_COL_NAME)", "to")
+		.SELECT_AS("'true'", "dashes")
 		.FROM(new InnodbSysForeignEntity(), "f")
 		.LEFT_JOIN(new InnodbSysForeignColsEntity(), "fc", "f.id=fc.id")
 		.WHERE(StringUtil.format("f.id LIKE '%?\\/%'", schemaName));
