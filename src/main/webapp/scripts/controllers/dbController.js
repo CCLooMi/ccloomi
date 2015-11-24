@@ -17,6 +17,9 @@ angular.module('ccloomi')
             tooltipDelay: 200,
             hideEdgesOnDrag: true
           },
+        nodes:{
+        	shape:'dot'
+        },
         groups: {
             database:{
               shape:'database'

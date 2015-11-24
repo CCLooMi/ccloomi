@@ -5,6 +5,8 @@ angular.module('ccloomi')
     .factory('S_vis',['$http', function ($http) {
         var keyEvents={};
         var clipboard={};
+        var allNodes;
+        var highlightActive = false;
         var service={
             network: function (container,options,data,scope) {
                 context.init({
@@ -23,12 +25,13 @@ angular.module('ccloomi')
                         editEdge:options.editEdge||function(data, callback){callback(data)}
                     },
                     edges:{
-                        color:"green",
                         arrows:'to'
                     }
                 };
                 $.extend(option,options);
                 scope.network=new vis.Network(container,{nodes:scope.nodes,edges:scope.edges},option);
+                // get a JSON object
+                allNodes = scope.nodes.get({returnType:"Object"});
                 scope.network.on('oncontext', function (params) {
                     params.event.preventDefault();
                     //纪录鼠标右击坐标，以在粘贴中需要用到
@@ -56,6 +59,78 @@ angular.module('ccloomi')
                     if(keyEvents.altKey){
                         scope.network.addEdgeMode();
                     };
+                });
+                scope.network.on('click', function (params) {
+                    // if something is selected:
+                    if (params.nodes.length > 0) {
+                        highlightActive = true;
+                        var i,j;
+                        var selectedNode = params.nodes[0];
+                        var degrees = 2;
+
+                        // mark all nodes as hard to read.
+                        for (var nodeId in allNodes) {
+                            allNodes[nodeId].color = 'rgba(200,200,200,0.5)';
+                            if (allNodes[nodeId].hiddenLabel === undefined) {
+                                allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+                                allNodes[nodeId].label = undefined;
+                            }
+                        }
+                        var connectedNodes = scope.network.getConnectedNodes(selectedNode);
+                        var allConnectedNodes = [];
+
+                        // get the second degree nodes
+                        for (i = 1; i < degrees; i++) {
+                            for (j = 0; j < connectedNodes.length; j++) {
+                                allConnectedNodes = allConnectedNodes.concat(scope.network.getConnectedNodes(connectedNodes[j]));
+                            }
+                        }
+
+                        // all second degree nodes get a different color and their label back
+                        for (i = 0; i < allConnectedNodes.length; i++) {
+                            allNodes[allConnectedNodes[i]].color = 'rgba(150,150,150,0.75)';
+                            if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+                                allNodes[allConnectedNodes[i]].label = allNodes[allConnectedNodes[i]].hiddenLabel;
+                                allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+                            }
+                        }
+
+                        // all first degree nodes get their own color and their label back
+                        for (i = 0; i < connectedNodes.length; i++) {
+                            allNodes[connectedNodes[i]].color = undefined;
+                            if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+                                allNodes[connectedNodes[i]].label = allNodes[connectedNodes[i]].hiddenLabel;
+                                allNodes[connectedNodes[i]].hiddenLabel = undefined;
+                            }
+                        }
+
+                        // the main node gets its own color and its label back.
+                        allNodes[selectedNode].color = undefined;
+                        if (allNodes[selectedNode].hiddenLabel !== undefined) {
+                            allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+                            allNodes[selectedNode].hiddenLabel = undefined;
+                        }
+                    }
+                    else if (highlightActive === true) {
+                        // reset all nodes
+                        for (var nodeId in allNodes) {
+                            allNodes[nodeId].color = undefined;
+                            if (allNodes[nodeId].hiddenLabel !== undefined) {
+                                allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+                                allNodes[nodeId].hiddenLabel = undefined;
+                            }
+                        }
+                        highlightActive = false
+                    }
+
+                    // transform the object into an array
+                    var updateArray = [];
+                    for (nodeId in allNodes) {
+                        if (allNodes.hasOwnProperty(nodeId)) {
+                            updateArray.push(allNodes[nodeId]);
+                        }
+                    }
+                    scope.nodes.update(updateArray);
                 });
                 //监听键盘事件
                 $(document).keydown(function (e) {
