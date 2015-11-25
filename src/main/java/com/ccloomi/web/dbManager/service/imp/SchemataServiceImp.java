@@ -29,17 +29,16 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 	public VisNetworkBean findAsVisNetworkBySchemaName(String schemaName) {
 		VisNetworkBean vn=new VisNetworkBean();
 		SQLMaker sm=new SQLMaker();
-		//查询数据库Nodes
-		sm.SELECT_AS("s.schema_name", "id")
-		.SELECT_AS("s.schema_name", "label")
-		.SELECT_AS("'database'", "group")
-		.FROM(new SchemataEntity(), "s")
-		.WHERE("s.schema_name=?", schemaName);
-		List<Map<String, Object>>schemata=findBySQLGod(sm);
-		vn.addNodes(schemata);
+//		//查询数据库Nodes
+//		sm.SELECT_AS("s.schema_name", "id")
+//		.SELECT_AS("s.schema_name", "label")
+//		.SELECT_AS("'database'", "group")
+//		.FROM(new SchemataEntity(), "s")
+//		.WHERE("s.schema_name=?", schemaName);
+//		List<Map<String, Object>>schemata=findBySQLGod(sm);
+//		vn.addNodes(schemata);
 		//查询表Nodes
-		sm.clean()
-		.SELECT("t.table_name")
+		sm.SELECT("t.table_name")
 		.SELECT_AS("CONCAT(t.table_schema,'/',t.table_name)", "id")
 		.SELECT_AS("CONCAT(t.table_name,'\n',t.table_comment)", "label")
 		.SELECT_AS("CONCAT(t.table_schema,'\n',t.table_comment)", "title")
@@ -66,10 +65,10 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 			vn.addNodes(columns);
 
 			//查询表到数据库边
-			Map<String, Object>t2d=new HashMap<String, Object>();
-			t2d.put("from", table.get("id"));
-			t2d.put("to", schemaName);
-			fromTableToDatabase.add(t2d);
+//			Map<String, Object>t2d=new HashMap<String, Object>();
+//			t2d.put("from", table.get("id"));
+//			t2d.put("to", schemaName);
+//			fromTableToDatabase.add(t2d);
 			//查询字段到表边
 			for(Map<String, Object>column:columns){
 				Map<String, Object>c2t=new HashMap<String, Object>();
