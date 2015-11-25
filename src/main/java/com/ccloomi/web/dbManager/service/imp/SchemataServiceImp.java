@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
-import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.entity.InnodbSysForeignColsEntity;
@@ -95,7 +94,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.SELECT_AS("'true'", "dashes")
 		.FROM(new InnodbSysForeignEntity(), "f")
 		.LEFT_JOIN(new InnodbSysForeignColsEntity(), "fc", "f.id=fc.id")
-		.WHERE(StringUtil.format("f.id LIKE '?\\/%'", schemaName));
+		.WHERE("f.id LIKE ?",schemaName+"%");
 		return findBySQLGod(sm);
 	}
 	
