@@ -130,7 +130,7 @@ var app=angular
                 }
             })
             .state('db',{
-                url:'/db',
+                url:'/db/:name',
                 templateUrl:'views/db/db.html',
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
