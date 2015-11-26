@@ -14,8 +14,10 @@ angular.module('ccloomi')
                 $scope.views=S_user.views;
                 $scope.angleClick= function (e) {
                     var target=$(e.target);
-                    target.closest('li').find('ul').slideToggle(250);
-                    target.find('span').last().toggleClass('fa-rotate-180');
+                    if(target.is('.sidebar ul li > span')){
+                        target.closest('li').find('ul').slideToggle(250);
+                        target.find('span').last().toggleClass('fa-rotate-180');
+                    }
                 }
             }
         }
