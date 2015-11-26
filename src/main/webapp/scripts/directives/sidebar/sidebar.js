@@ -12,6 +12,11 @@ angular.module('ccloomi')
                     S_user.currentUser($scope);
                 }
                 $scope.views=S_user.views;
+                $scope.angleClick= function (e) {
+                    var target=$(e.target);
+                    target.closest('li').find('ul').slideToggle(250);
+                    target.find('span').last().toggleClass('fa-rotate-180');
+                }
             }
         }
     }])
