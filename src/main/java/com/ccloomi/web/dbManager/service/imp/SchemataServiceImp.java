@@ -1,5 +1,6 @@
 package com.ccloomi.web.dbManager.service.imp;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.entity.InnodbSysForeignColsEntity;
@@ -29,6 +31,25 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 	public VisNetworkBean findAsVisNetworkBySchemaName(String schemaName) {
 		VisNetworkBean vn=new VisNetworkBean();
 		SQLMaker sm=new SQLMaker();
+		sm.SELECT_AS("MAX(t.data_length)", "mx")
+		.SELECT_AS("MIN(t.data_length)", "mn")
+		.FROM(new TablesEntity(), "t")
+		.WHERE("t.table_schema=?", schemaName);
+		List<Map<String, Object>>ls=findBySQLGod(sm);
+		BigInteger mx=BigInteger.valueOf(0);
+		BigInteger mn=BigInteger.valueOf(0);
+		for(Map<String, Object>m:ls){
+			mx=(BigInteger) m.get("mx");
+			mn=(BigInteger) m.get("mn");
+			break;
+		}
+		BigInteger a=BigInteger.ONE.subtract(mn.divide(mx)).multiply(BigInteger.valueOf(100));
+		BigInteger b=a.compareTo(BigInteger.valueOf(50))>0
+				?BigInteger.valueOf(100)
+				:(a.compareTo(BigInteger.valueOf(25))>0
+						?BigInteger.valueOf(75)
+						:BigInteger.valueOf(50)
+				);
 //		//查询数据库Nodes
 //		sm.SELECT_AS("s.schema_name", "id")
 //		.SELECT_AS("s.schema_name", "label")
@@ -38,10 +59,12 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 //		List<Map<String, Object>>schemata=findBySQLGod(sm);
 //		vn.addNodes(schemata);
 		//查询表Nodes
-		sm.SELECT("t.table_name")
+		sm.clean()
+		.SELECT("t.table_name")
 		.SELECT_AS("CONCAT(t.table_schema,'/',t.table_name)", "id")
 		.SELECT_AS("CONCAT(t.table_name,'\n',t.table_comment)", "label")
 		.SELECT_AS("CONCAT(t.table_schema,'\n',t.table_comment)", "title")
+		.SELECT_AS(StringUtil.format("(t.data_length*?)/?", b,mx), "size")
 		.SELECT_AS("t.table_name", "group")
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.table_schema=?", schemaName);
