@@ -104,6 +104,11 @@ input:focus {
     border-right: 4px solid #e8faaa;
     text-decoration: none;
 }
+.active {
+    background-color: #e8faff;
+    border-right: 4px solid #e8faaa;
+    text-decoration: none;
+}
 .sidebar ul li>span>span,
 .sidebar ul li a>span {
     display: inline-block;

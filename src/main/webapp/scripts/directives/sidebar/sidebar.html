@@ -1,6 +1,6 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav collapse navbar-collapse">
-        <ul class="nav list-group" id="side-menu">
+        <ul class="nav list-group" id="side-menu" ng-click="click($event)">
             <sidebar-search></sidebar-search>
             <li class="list-group-item" ng-repeat="view in views|filter:{deepIndex:0}">
                 <span ng-click="angleClick($event)">
