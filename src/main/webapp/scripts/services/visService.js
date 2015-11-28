@@ -4,7 +4,6 @@
 angular.module('ccloomi')
     .factory('S_vis',['$http', function ($http) {
         var keyEvents={};
-        var clipboard={};
         var allNodes;
         var highlightActive = false;
         var service={
@@ -56,7 +55,7 @@ angular.module('ccloomi')
                 scope.network.on('oncontext', function (params) {
                     params.event.preventDefault();
                     //纪录鼠标右击坐标，以在粘贴中需要用到
-                    clipboard.pointer=params.pointer;
+                    scope.clipboard.pointer=params.pointer;
                     var dom=params.pointer.DOM;
                     var nodeid=scope.network.getNodeAt(params.pointer.DOM);
                     if(nodeid){
