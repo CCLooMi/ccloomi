@@ -65,7 +65,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.SELECT_AS("CONCAT(t.table_name,'\n',t.table_comment)", "label")
 		.SELECT_AS("CONCAT(t.table_schema,'\n',t.table_comment)", "title")
 		.SELECT_AS(StringUtil.format("(t.data_length*?)/?", b,mx), "size")
-		.SELECT_AS("t.table_name", "group")
+		.SELECT_AS("CONCAT('table#',t.table_name)", "group")
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.table_schema=?", schemaName);
 		List<Map<String, Object>>tables=findBySQLGod(sm);
@@ -80,7 +80,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 			.SELECT_AS("CONCAT(c.table_schema,'/',c.table_name,'/',c.column_name)", "id")
 			.SELECT_AS("CONCAT(c.column_name,'\n',c.column_comment)", "label")
 			.SELECT_AS("CONCAT(c.table_name,'::',c.column_name)", "title")
-			.SELECT_AS("c.table_name", "group")
+			.SELECT_AS("CONCAT('column#',c.table_name)", "group")
 			.FROM(c, "c")
 			.WHERE("c.table_schema=?", schemaName)
 			.AND("c.table_name=?",table.get("table_name"));
