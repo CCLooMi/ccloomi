@@ -2,7 +2,7 @@
  * Created by chenxianjun on 15/11/21.
  */
 angular.module('ccloomi')
-    .controller('dbCtrl',['$scope','$http','$stateParams','S_vis', function ($scope,$http,$stateParams,S_vis) {
+    .controller('dbCtrl',['$scope','$http','$stateParams','S_dialog','S_vis', function ($scope,$http,$stateParams,S_dialog,S_vis) {
         $scope.clipboard={};
         var options={
             addEdge: function (data, callback) {
@@ -69,7 +69,14 @@ angular.module('ccloomi')
             var m=[];
             m.push({divider: true});
             m.push({icon:'glyphicon glyphicon-plus',text:'新建',subMenu:[
-                {icon:'fa fa-database',text:'数据库'},
+                {icon:'fa fa-database',text:'数据库',action: function (e) {
+                    e.preventDefault();
+                    S_dialog.dialog('新建数据库','views/db/createTable.html',$scope, function () {
+
+                    }, function () {
+
+                    },null,768);
+                }},
                 {icon:'fa fa-table',text:'表'}
             ]});
             if(selectNodes.length){

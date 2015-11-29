@@ -139,6 +139,8 @@ var app=angular
                             files:[
                                 'scripts/services/visService.js',
                                 'scripts/controllers/dbController.js',
+                                'bower_components/artDialog/dist/dialog-plus-min.js',
+                                'css/ui-dialog.css',
                                 'styles/db.css'
                             ]
                         })
