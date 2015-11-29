@@ -9,7 +9,12 @@ angular.module('ccloomi')
         var service={
             network: function (container,options,data,scope) {
                 context.init({
-                    targetClickEvent: options.targetClickEvent||function(e){e.preventDefault()}
+                    targetClickEvent: function(e){
+                        e.preventDefault();
+                        if(options.targetContextClickEvent){
+                            options.targetContextClickEvent(e);
+                        }
+                    }
                 })
                 if(scope.network){
                     console.log('destroy network.');

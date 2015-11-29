@@ -14,6 +14,10 @@ angular.module('ccloomi')
             doubleClick: function (params) {
 
             },
+            targetContextClickEvent: function (e) {
+                var target=$(e.target);
+
+            },
             menu:[
                 {icon:'glyphicon glyphicon-save-file',text:"保存"},
                 {icon:'glyphicon glyphicon-refresh',text:"刷新"},
