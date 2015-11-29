@@ -14,14 +14,15 @@ angular.module('ccloomi')
             doubleClick: function (params) {
 
             },
-            targetContextClickEvent: function (e) {
-                var target=$(e.target);
-
-            },
             menu:[
-                {icon:'glyphicon glyphicon-save-file',text:"保存"},
-                {icon:'glyphicon glyphicon-refresh',text:"刷新"},
-                {icon:'glyphicon glyphicon-pushpin',text:'固定'},
+                {icon:'glyphicon glyphicon-save-file',text:"保存",action: function (e) {
+                    e.preventDefault();
+
+                }},
+                {icon:'glyphicon glyphicon-refresh',text:"刷新",action: function (e) {
+                    e.preventDefault();
+                    window.location.reload();
+                }},
                 {menu_item_src:"clipboardMenu"},
                 {menu_item_src:"operateMenu"}
             ]
@@ -42,14 +43,19 @@ angular.module('ccloomi')
         });
         //动态生成菜单
         function clipboardMenu(){
+            var selectNodes=$scope.network.getSelectedNodes();
+            var selectEdges=$scope.network.getSelectedEdges();
             var m=[];
-            m.push({divider: true});
-            if($scope.clipboard.cute||$scope.clipboard.copy){
-                m.push({icon:'glyphicon glyphicon-paste',text:'粘贴'});
-            }
-            if($scope.network.getSelection().nodes.length){
-                m.push({icon:'glyphicon glyphicon-scissors',text:'剪切'});
-                m.push({icon:'glyphicon glyphicon-duplicate',text:'复制'});
+            if(selectNodes.length){
+                var selectNode=$scope.nodes.get(selectNodes[0]);
+                if(selectNode.group.indexOf('column')!=-1){
+                    m.push({divider: true});
+                    if($scope.clipboard.cute||$scope.clipboard.copy){
+                        m.push({icon:'glyphicon glyphicon-paste',text:'粘贴'});
+                    };
+                    m.push({icon:'glyphicon glyphicon-scissors',text:'剪切'});
+                    m.push({icon:'glyphicon glyphicon-duplicate',text:'复制'});
+                }
             }
             //如果没有菜单则清空数组
             if(m.length==1){
@@ -63,7 +69,8 @@ angular.module('ccloomi')
             var m=[];
             m.push({divider: true});
             m.push({icon:'glyphicon glyphicon-plus',text:'新建',subMenu:[
-                {icon:'fa fa-database',text:'数据库'}
+                {icon:'fa fa-database',text:'数据库'},
+                {icon:'fa fa-table',text:'表'}
             ]});
             if(selectNodes.length){
                 var selectNode=$scope.nodes.get(selectNodes[0]);
@@ -72,7 +79,6 @@ angular.module('ccloomi')
                 m.push({icon:'glyphicon glyphicon-trash',text:"删除"});
                 if(selectNode.group.indexOf('table')!=-1){
                     m.push({icon: 'glyphicon glyphicon-plus',text:'添加',subMenu:[
-                        {icon:'fa fa-table',text:'表'},
                         {icon:'glyphicon glyphicon-list-alt',text:'字段'}
                     ]});
                 }
