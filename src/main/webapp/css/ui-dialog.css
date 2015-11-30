@@ -54,6 +54,8 @@
 .ui-dialog-header {
     border-bottom: 1px solid #e5e5e5;
     white-space: nowrap;
+    background-color: #e8faff;
+    border-top: 4px solid #e8faaa;
 }
 .ui-dialog-close {
     position: relative;
