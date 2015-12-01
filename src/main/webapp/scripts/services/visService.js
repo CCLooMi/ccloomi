@@ -4,13 +4,17 @@
 angular.module('ccloomi')
     .factory('S_vis',['$http', function ($http) {
         var keyEvents={};
-        var clipboard={};
         var allNodes;
         var highlightActive = false;
         var service={
             network: function (container,options,data,scope) {
                 context.init({
-                    targetClickEvent: options.targetClickEvent||function(e){e.preventDefault()}
+                    targetClickEvent: function(e){
+                        e.preventDefault();
+                        if(options.targetContextClickEvent){
+                            options.targetContextClickEvent(e);
+                        }
+                    }
                 })
                 if(scope.network){
                     console.log('destroy network.');
@@ -56,7 +60,7 @@ angular.module('ccloomi')
                 scope.network.on('oncontext', function (params) {
                     params.event.preventDefault();
                     //纪录鼠标右击坐标，以在粘贴中需要用到
-                    clipboard.pointer=params.pointer;
+                    scope.clipboard.pointer=params.pointer;
                     var dom=params.pointer.DOM;
                     var nodeid=scope.network.getNodeAt(params.pointer.DOM);
                     if(nodeid){

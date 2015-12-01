@@ -130,7 +130,7 @@ var app=angular
                 }
             })
             .state('db',{
-                url:'/db/:name',
+                url:'/db',
                 templateUrl:'views/db/db.html',
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
@@ -139,12 +139,18 @@ var app=angular
                             files:[
                                 'scripts/services/visService.js',
                                 'scripts/controllers/dbController.js',
+                                'bower_components/artDialog/dist/dialog-plus-min.js',
+                                'css/ui-dialog.css',
                                 'styles/db.css'
                             ]
                         })
                     }
                 }
 
+            })
+            .state('db.db',{
+                url:'/:name',
+                templateUrl:'views/db/db.html'
             })
             .state('login',{
                 url:'/login',
