@@ -1,6 +1,7 @@
 package com.ccloomi.core.component.sql.imp;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -153,6 +154,21 @@ public class SQLMaker implements SQLGod{
 		for(Object value:values){
 			this.values.add(value);
 		}
+		return this;
+	}
+	public SQLMaker WHERE_IN(String str,Collection<Object>valuse){
+		StringBuilder sbu=new StringBuilder();
+		List<String>vs=new ArrayList<String>();
+		for(Object obj:valuse){
+			this.values.add(obj);
+			vs.add("?");
+		}
+		this.where=sbu
+				.append(str)
+				.append("IN (")
+				.append(StringUtil.join(",",vSets.toArray()))
+				.append(" )")
+				.toString();
 		return this;
 	}
 	public SQLMaker AND(String str,Object...values){
