@@ -71,13 +71,20 @@ angular.module('ccloomi')
             m.push({icon:'glyphicon glyphicon-plus',text:'新建',subMenu:[
                 {icon:'fa fa-database',text:'数据库',action: function (e) {
                     e.preventDefault();
-                    S_dialog.dialog('新建数据库','views/db/createTable.html',$scope, function () {
+                    S_dialog.dialog('新建数据库','views/db/createDatabase.html',$scope, function () {
+
+                    }, function () {
+
+                    });
+                }},
+                {icon:'fa fa-table',text:'表',action: function (e) {
+                    e.preventDefault();
+                    S_dialog.dialog('新建表','views/db/createTable.html',$scope, function () {
 
                     }, function () {
 
                     },null,768);
-                }},
-                {icon:'fa fa-table',text:'表'}
+                }}
             ]});
             if(selectNodes.length){
                 var selectNode=$scope.nodes.get(selectNodes[0]);
