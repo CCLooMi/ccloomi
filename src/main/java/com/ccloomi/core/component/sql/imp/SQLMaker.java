@@ -163,12 +163,17 @@ public class SQLMaker implements SQLGod{
 			this.values.add(obj);
 			vs.add("?");
 		}
-		this.where=sbu
-				.append(str)
-				.append("IN (")
-				.append(StringUtil.join(",",vSets.toArray()))
-				.append(" )")
-				.toString();
+		if(valuse.size()>0){
+			this.where=sbu.append(str)
+					.append(" IN (")
+					.append(StringUtil.join(",",vSets.toArray()))
+					.append(" )")
+					.toString();
+		}else{
+			this.where=sbu.append(str)
+					.append(" IN ( '' )")
+					.toString();
+		}
 		return this;
 	}
 	public SQLMaker AND(String str,Object...values){
