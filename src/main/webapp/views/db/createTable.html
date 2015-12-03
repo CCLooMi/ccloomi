@@ -5,11 +5,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td><input></td><td><input></td><td><input value="0"></td><td><input type="checkbox"></td><td></td>
+    <tr ng-repeat="column in columns">
+        <td><input ng-model="column.name"></td>
+        <td><input ng-model="column.type"></td>
+        <td><input ng-model="column.length"></td>
+        <td><input ng-model="column.isNull" type="checkbox"></td>
+        <td><input ng-model="column.isPrimaryKey" type="checkbox"></td>
     </tr>
     <tr>
-        <td colspan="5"><span class="fa fa-plus"></span></td>
+        <td colspan="5" ng-click="addColumn()"><span class="fa fa-plus"></span></td>
     </tr>
     </tbody>
 </table>

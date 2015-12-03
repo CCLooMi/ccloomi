@@ -3,6 +3,10 @@
  */
 angular.module('ccloomi')
     .controller('dbCtrl',['$scope','$http','$stateParams','S_dialog','S_vis', function ($scope,$http,$stateParams,S_dialog,S_vis) {
+        $scope.columns=[{length:0}];
+        $scope.addColumn= function () {
+            $scope.columns.push({length:0});
+        }
         $scope.clipboard={};
         var options={
             addEdge: function (data, callback) {
