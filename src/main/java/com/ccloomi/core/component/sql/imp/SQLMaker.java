@@ -166,7 +166,7 @@ public class SQLMaker implements SQLGod{
 		if(valuse.size()>0){
 			this.where=sbu.append(str)
 					.append(" IN (")
-					.append(StringUtil.join(",",vSets.toArray()))
+					.append(StringUtil.join(",",vs.toArray()))
 					.append(" )")
 					.toString();
 		}else{
