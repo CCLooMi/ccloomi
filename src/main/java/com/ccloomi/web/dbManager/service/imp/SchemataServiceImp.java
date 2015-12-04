@@ -36,13 +36,15 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.table_schema=?", schemaName);
 		List<Map<String, Object>>ls=findBySQLGod(sm);
-		BigInteger mx=BigInteger.valueOf(0);
-		BigInteger mn=BigInteger.valueOf(0);
+		BigInteger mx=null;
+		BigInteger mn=null;
 		for(Map<String, Object>m:ls){
 			mx=(BigInteger) m.get("mx");
 			mn=(BigInteger) m.get("mn");
 			break;
 		}
+		if(mx==null)mx=BigInteger.valueOf(1);
+		if(mn==null)mn=BigInteger.valueOf(1);
 		BigInteger a=BigInteger.ONE.subtract(mn.divide(mx)).multiply(BigInteger.valueOf(100));
 		BigInteger b=a.compareTo(BigInteger.valueOf(50))>0
 				?BigInteger.valueOf(100)
