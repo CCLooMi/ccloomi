@@ -121,5 +121,26 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.WHERE("f.id LIKE ?",schemaName+"%");
 		return findBySQLGod(sm);
 	}
+
+	@Override
+	public Map<String, Object> findSchematasByPage(Map<String, Object> map) {
+		Map<String, Object>rm=new HashMap<>();
+		int page=-1+(int) map.get("pageNumber");
+		int pageSize=(int) map.get("pageSize");
+		String keywords=(String) map.get("keywords");
+		SQLMaker sm=new SQLMaker();
+		sm.SELECT("*")
+		.FROM(new SchemataEntity(), "s");
+		if(keywords!=null){
+			sm.WHERE("s.schema_name LIKE '%?%' OR s.default_character_set_name LIKE '%?%' OR s.default_collation_name LIKE '%?%'".replaceAll("\\?",	keywords));
+		}
+		sm.LIMIT(page*pageSize, pageSize);
+		if(page==0){
+			rm.put("totalNumber", countBySQLGod(sm));
+		}
+		List<SchemataEntity>ls=findBySQLGod(sm,SchemataEntity.class);
+		rm.put("data", ls);
+		return rm;
+	}
 	
 }

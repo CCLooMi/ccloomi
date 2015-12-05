@@ -3,6 +3,8 @@ package com.ccloomi.web.dbManager.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.ccloomi.core.common.service.BaseService;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.entity.SchemataEntity;
@@ -23,4 +25,12 @@ public interface SchemataService extends BaseService<SchemataEntity>{
 	 * @return
 	 */
 	public List<Map<String, Object>>findColumn2ColumnAsVisNetworkEdgesBySchemaName(String schemaName);
+	/**
+	 * 描述：分页查找数据库
+	 * 作者：Chenxj
+	 * 日期：2015年12月5日 - 下午11:43:39
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object>findSchematasByPage(@RequestBody Map<String, Object>map);
 }

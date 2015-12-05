@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,5 +38,11 @@ public class DbController extends BaseController{
 	@RequiresAuthentication
 	public List<Map<String, Object>>findColumn2ColumnAsVisNetworkEdgesBySchemaName(String name){
 		return schemataService.findColumn2ColumnAsVisNetworkEdgesBySchemaName(name);
+	}
+	@RequestMapping("/byPage")
+	@ResponseBody
+	@RequiresAuthentication
+	public Map<String, Object> schematasByPage(@RequestBody Map<String, Object>map){
+		return schemataService.findSchematasByPage(map);
 	}
 }
