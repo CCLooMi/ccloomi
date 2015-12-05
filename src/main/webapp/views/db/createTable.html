@@ -11,7 +11,11 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Name</th><th>Type</th><th>Length</th><th>Not null</th><th>Key</th>
+                    <th width="40%">名称</th>
+                    <th width="20%">类型</th>
+                    <th width="20%">长度</th>
+                    <th>非空</th>
+                    <th>主键</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,8 +23,8 @@
                     <td><input ng-model="column.name"></td>
                     <td><input ng-model="column.type"></td>
                     <td><input ng-model="column.length"></td>
-                    <td><input ng-model="column.isNull" type="checkbox"></td>
-                    <td><input ng-model="column.isPrimaryKey" type="checkbox"></td>
+                    <td><input ng-model="column.notNull" type="checkbox"></td>
+                    <td><input ng-model="column.primaryKey" type="checkbox"></td>
                 </tr>
                 <tr>
                     <td colspan="5" ng-click="addColumn()" class="plus-td">+</td>

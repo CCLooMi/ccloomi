@@ -29,10 +29,10 @@
     padding: 20px 10px 10px !important;
     opacity: 1 !important;
 }
-.db-design .ui-dialog-body .table.table-bordered tbody td {
+.ui-dialog-body .table.table-bordered tbody td {
     padding: 0 8px;
 }
-.db-design .ui-dialog-body .table.table-bordered input {
+.ui-dialog-body .table.table-bordered input {
     border: medium none;
     line-height: 35px;
     width: 100%;
