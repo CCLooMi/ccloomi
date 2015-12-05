@@ -129,7 +129,7 @@ var app=angular
                     }
                 }
             })
-            .state('db',{
+            .state('main.db',{
                 url:'/db',
                 templateUrl:'views/db/db.html',
                 resolve:{
@@ -137,10 +137,7 @@ var app=angular
                         return $ocLazyLoad.load({
                             name:'idccapp',
                             files:[
-                                'scripts/services/visService.js',
                                 'scripts/controllers/dbController.js',
-                                'bower_components/artDialog/dist/dialog-plus-min.js',
-                                'css/ui-dialog.css',
                                 'styles/db.css'
                             ]
                         })
@@ -148,9 +145,23 @@ var app=angular
                 }
 
             })
-            .state('db.db',{
-                url:'/:name',
-                templateUrl:'views/db/db.html'
+            .state('main.dbDesign',{
+                url:'/db/:name',
+                templateUrl:'views/db/design.html',
+                resolve:{
+                    loadMyFile: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'idccapp',
+                            files:[
+                                'scripts/services/visService.js',
+                                'scripts/controllers/dbDesignController.js',
+                                'bower_components/artDialog/dist/dialog-plus-min.js',
+                                'css/ui-dialog.css',
+                                'styles/dbDesign.css'
+                            ]
+                        })
+                    }
+                }
             })
             .state('login',{
                 url:'/login',

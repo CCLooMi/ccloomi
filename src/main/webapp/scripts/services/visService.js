@@ -9,6 +9,7 @@ angular.module('ccloomi')
         var service={
             network: function (container,options,data,scope) {
                 context.init({
+                    container:$(container),
                     targetClickEvent: function(e){
                         e.preventDefault();
                         if(options.targetContextClickEvent){
