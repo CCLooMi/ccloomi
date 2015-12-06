@@ -39,12 +39,15 @@ angular.module('ccloomi')
         $scope.infoOnblur= function () {
             $scope['info_onfocus']=false;
         };
-        $http.get('db/asVisNetwork.json?name='+dbName).success(function (data) {
-            S_vis.network(document.getElementById('network'),options,data,$scope);
-            $http.get('db/c2c.json?name='+dbName).success(function (data) {
-                $scope.edges.add(data);
+        function openDb(dbName){
+            $http.get('db/asVisNetwork.json?name='+dbName).success(function (data) {
+                S_vis.network($scope,data,document.getElementById('network'),options);
+                $http.get('db/c2c.json?name='+dbName).success(function (data) {
+                    $scope.edges.add(data);
+                });
             });
-        });
+        };
+        openDb(dbName);
         //动态生成菜单
         function clipboardMenu(){
             var selectNodes=$scope.network.getSelectedNodes();
@@ -80,6 +83,12 @@ angular.module('ccloomi')
                     }, function () {
 
                     },null,768);
+                }}
+            ]});
+            m.push({icon:'glyphicon glyphicon-transfer',text:'切换到',subMenu:[
+                {icon:'fa fa-database',text:'ccloomi',action: function (e) {
+                    e.preventDefault();
+                    openDb('ccloomi');
                 }}
             ]});
             if(selectNodes.length){
