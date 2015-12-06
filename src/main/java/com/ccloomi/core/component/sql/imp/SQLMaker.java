@@ -26,7 +26,7 @@ import com.ccloomi.core.util.StringUtil;
  */
 public class SQLMaker implements SQLGod{
 	private final Logger log=LoggerFactory.getLogger(getClass());
-	/**0查询1更新2删除3插入*/
+	/**0查询1更新2删除3插入4创建数据库*/
 	private int type;
 	private StringBuilder sb;
 	private Map<String, String>table_alias;
@@ -112,6 +112,22 @@ public class SQLMaker implements SQLGod{
 		entity.prepareProperties();
 		this.table_alias.put(entity.tableName(), alias);
 		this.alias_entity.put(alias, entity);
+		return this;
+	}
+	public SQLMaker CREATE_DATABASE(String schema_name){
+		this.type=4;
+		sb.append("CREATE DATABASE ?");
+		this.values.add(schema_name);
+		return this;
+	}
+	public SQLMaker DEFAULT_CHARACTER_SET(String default_character_set){
+		sb.append(" DEFAULT CHARACTER SET ?");
+		this.values.add(default_character_set);
+		return this;
+	}
+	public SQLMaker COLLATE(String collate){
+		sb.append(" COLLATE ?");
+		this.values.add(collate);
 		return this;
 	}
 	public SQLMaker INTO_COLUMNS(String...columns){
@@ -277,6 +293,8 @@ public class SQLMaker implements SQLGod{
 			sb.append("INSERT INTO ").append(StringUtil.join(",",tableNames.toArray()))
 			.append(" ( ").append(StringUtil.join(",", this.columns.toArray()))
 			.append(" ) VALUES ( ").append(StringUtil.join(",",vSets.toArray())).append(" )");
+		}else if(this.type==4){
+			return sb.toString();
 		}
 		for(String alias:this.alias_entity.keySet()){
 			StringBuffer sbf=new StringBuffer();

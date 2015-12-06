@@ -1,3 +1,20 @@
-<form>
-
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-1 control-label">数据库名</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" placeholder="请输入数据库名" ng-model="schemata.schema_name">
+        </div>
+    </div>
+    <div class="form-group">
+            <label class="col-sm-1 control-label">字符集</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" placeholder="请输入表注释" ng-model="schemata.default_character_set_name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">排序规则</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" placeholder="请输入表注释" ng-model="schemata.default_collation_name">
+        </div>
+    </div>
 </form>

@@ -2,8 +2,9 @@
  * Created by chenxianjun on 15/11/21.
  */
 angular.module('ccloomi')
-    .controller('dbCtrl',['$scope','$http','S_pagination', function ($scope,$http,S_pagination) {
+    .controller('dbCtrl',['$scope','$http','S_pagination','S_schemata', function ($scope,$http,S_pagination,S_schemata) {
         $scope.schematas=[];
+        $scope.schemata={};
         $scope.remove= function (schemata) {
 
         };
@@ -16,6 +17,9 @@ angular.module('ccloomi')
                 $.extend(searchData,{keywords:$scope.keyword})
             }
             dbPagination(searchData);
+        };
+        $scope.createDb= function () {
+            S_schemata.createDb($scope);
         };
         function dbPagination(searchData){
             S_pagination.pagination($('#pagination'),'db/byPage.json',20,searchData||{}, function (data,pagination) {
