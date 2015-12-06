@@ -24,7 +24,9 @@
             </thead>
             <tbody>
                 <tr ng-repeat="schemata in schematas|filter:keyword">
-                    <td ng-bind-html="schemata.schema_name|highlight:keyword"></td>
+                    <td>
+                        <a ng-bind-html="schemata.schema_name|highlight:keyword" href="#/main/db/{{schemata.schema_name}}"></a>
+                    </td>
                     <td ng-bind-html="schemata.default_character_set_name|highlight:keyword"></td>
                     <td ng-bind-html="schemata.default_collation_name|highlight:keyword"></td>
                     <td>

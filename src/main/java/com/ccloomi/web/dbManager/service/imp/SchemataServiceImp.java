@@ -43,8 +43,16 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 			mn=(BigInteger) m.get("mn");
 			break;
 		}
-		if(mx==null)mx=BigInteger.valueOf(1);
-		if(mn==null)mn=BigInteger.valueOf(1);
+		if(mx==null||mx.compareTo(BigInteger.ZERO)==0){
+			mx=BigInteger.valueOf(16);
+		}else{
+			mx=mx.add(BigInteger.valueOf(16));
+		}
+		if(mn==null||mn.compareTo(BigInteger.ZERO)==0){
+			mn=BigInteger.valueOf(16);
+		}else{
+			mn=mn.add(BigInteger.valueOf(16));
+		}
 		BigInteger a=BigInteger.ONE.subtract(mn.divide(mx)).multiply(BigInteger.valueOf(100));
 		BigInteger b=a.compareTo(BigInteger.valueOf(50))>0
 				?BigInteger.valueOf(100)
@@ -66,7 +74,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		.SELECT_AS("CONCAT(t.table_schema,'/',t.table_name)", "id")
 		.SELECT_AS("CONCAT(t.table_name,'\n',t.table_comment)", "label")
 		.SELECT_AS("CONCAT(t.table_schema,'\n',t.table_comment)", "title")
-		.SELECT_AS(StringUtil.format("(t.data_length*?)/?", b,mx), "size")
+		.SELECT_AS(StringUtil.format("((t.data_length+16)*?)/?", b,mx), "size")
 		.SELECT_AS("CONCAT('table#',t.table_name)", "group")
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.table_schema=?", schemaName);
