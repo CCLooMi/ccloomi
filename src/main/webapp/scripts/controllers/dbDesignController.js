@@ -85,12 +85,17 @@ angular.module('ccloomi')
                     },null,768);
                 }}
             ]});
-            m.push({icon:'glyphicon glyphicon-transfer',text:'切换到',subMenu:[
-                {icon:'fa fa-database',text:'ccloomi',action: function (e) {
-                    e.preventDefault();
-                    openDb('ccloomi');
-                }}
-            ]});
+            if(window.global&&window.global.schematas){
+                var subMenu=[];
+                for(var i in window.global.schematas){
+                    var schemata=window.global.schematas[i];
+                    subMenu.push({icon:'fa fa-database',text:schemata.schema_name,action: function (e) {
+                        e.preventDefault();
+                        openDb(schemata.schema_name);
+                    }});
+                }
+                m.push({icon:'glyphicon glyphicon-transfer',text:'切换到',subMenu:subMenu});
+            }
             if(selectNodes.length){
                 var selectNode=$scope.nodes.get(selectNodes[0]);
                 m.push({icon:'glyphicon glyphicon-edit',text:"编辑"});

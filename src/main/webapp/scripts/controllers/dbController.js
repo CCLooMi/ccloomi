@@ -15,13 +15,15 @@ angular.module('ccloomi')
             if($scope.keyword&&$scope.keyword!==''){
                 $.extend(searchData,{keywords:$scope.keyword})
             }
-            S_pagination.pagination($('#pagination'),'db/byPage.json',20,{}, function (data,pagination) {
+            dbPagination(searchData);
+        };
+        function dbPagination(searchData){
+            S_pagination.pagination($('#pagination'),'db/byPage.json',20,searchData||{}, function (data,pagination) {
                 $scope.schematas=data;
+                if(!window.global)window.global={};
+                window.global.schematas=data;
                 refreshScope($scope);
             });
         };
-        S_pagination.pagination($('#pagination'),'db/byPage.json',20,{}, function (data,pagination) {
-            $scope.schematas=data;
-            refreshScope($scope);
-        });
+        dbPagination();
     }]);
