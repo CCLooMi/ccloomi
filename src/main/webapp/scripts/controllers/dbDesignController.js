@@ -89,9 +89,10 @@ angular.module('ccloomi')
                 var subMenu=[];
                 for(var i in window.global.schematas){
                     var schemata=window.global.schematas[i];
-                    subMenu.push({icon:'fa fa-database',text:schemata.schema_name,action: function (e) {
+                    subMenu.push({icon:'fa fa-database',text:schemata.schema_name,href:schemata.schema_name,action: function (e) {
                         e.preventDefault();
-                        openDb(schemata.schema_name);
+                        var target=$(e.target);
+                        openDb(target.attr('href'));
                     }});
                 }
                 m.push({icon:'glyphicon glyphicon-transfer',text:'切换到',subMenu:subMenu});
