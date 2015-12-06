@@ -16,6 +16,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>数据库名</th>
                     <th>字符集</th>
                     <th>排序规则</th>
@@ -24,6 +25,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="schemata in schematas|filter:keyword">
+                    <td><span class="fa fa-database"></span></td>
                     <td>
                         <a ng-bind-html="schemata.schema_name|highlight:keyword" href="#/main/db/{{schemata.schema_name}}"></a>
                     </td>
