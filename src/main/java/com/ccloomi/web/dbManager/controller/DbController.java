@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
+import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.entity.SchemataEntity;
 import com.ccloomi.web.dbManager.service.SchemataService;
@@ -52,6 +53,18 @@ public class DbController extends BaseController{
 	@RequiresAuthentication
 	public Message createDb(@RequestBody SchemataEntity schemata){
 //		String sql="CREATE DATABASE `test2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
-		return responseMessageSuccess();
+		 SQLMaker sm=new SQLMaker();
+		 sm.CREATE_DATABASE(schemata.getSchema_name());
+		 if(schemata.getDefault_character_set_name()!=null){
+			 sm.DEFAULT_CHARACTER_SET(schemata.getDefault_character_set_name());
+		 }
+		 if(schemata.getDefault_collation_name()!=null){
+			 sm.COLLATE(schemata.getDefault_collation_name());
+		 }
+		 int i=schemataService.updateBySQLGod(sm);
+		 if(i>0){
+			 return responseMessageSuccess();
+		 }
+		return responseMessageError("创建数据库失败");
 	}
 }
