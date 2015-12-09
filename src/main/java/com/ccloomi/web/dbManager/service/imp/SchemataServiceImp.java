@@ -6,12 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
+import com.ccloomi.web.dbManager.dao.CharacterSetsDao;
+import com.ccloomi.web.dbManager.dao.CollationsDao;
+import com.ccloomi.web.dbManager.entity.CharacterSetsEntity;
+import com.ccloomi.web.dbManager.entity.CollationsEntity;
 import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.entity.InnodbSysForeignColsEntity;
 import com.ccloomi.web.dbManager.entity.InnodbSysForeignEntity;
@@ -27,6 +32,11 @@ import com.ccloomi.web.dbManager.service.SchemataService;
  */
 @Service("schemataService")
 public class SchemataServiceImp extends GenericService<SchemataEntity> implements SchemataService{
+	@Autowired
+	private CharacterSetsDao characterSetsDao;
+	@Autowired
+	private CollationsDao collationsDao;
+	
 	@Override
 	public VisNetworkBean findAsVisNetworkBySchemaName(String schemaName) {
 		VisNetworkBean vn=new VisNetworkBean();
@@ -150,5 +160,14 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		rm.put("data", ls);
 		return rm;
 	}
-	
+
+	@Override
+	public List<CharacterSetsEntity> findCharacterSets() {
+		return characterSetsDao.findAll();
+	}
+
+	@Override
+	public List<CollationsEntity> findCollationsByCharacter(String characterName) {
+		return collationsDao.findByCharacterName(characterName);
+	}
 }
