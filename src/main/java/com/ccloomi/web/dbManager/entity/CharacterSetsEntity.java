@@ -1,7 +1,5 @@
 package com.ccloomi.web.dbManager.entity;
 
-import java.math.BigInteger;
-
 import javax.persistence.Table;
 
 import com.ccloomi.core.common.entity.BaseEntity;
