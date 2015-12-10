@@ -5,8 +5,22 @@ angular.module('ccloomi')
     .controller('dbCtrl',['$scope','$http','S_pagination','S_schemata', function ($scope,$http,S_pagination,S_schemata) {
         $scope.schematas=[];
         $scope.schemata={};
+        $scope.characters=[];
+        $scope.collations=[];
         $scope.remove= function (schemata) {
 
+        };
+        $scope.getCharacterSets= function () {
+            S_schemata.getCharacterSets(function (data) {
+                $scope.characters=data;
+                refreshScope($scope);
+            });
+        };
+        $scope.getCollationsByCharacter= function (characterName) {
+            S_schemata.getCollationsByCharacter(characterName, function (data) {
+                $scope.collations=data;
+                refreshScope($scope);
+            });
         };
         //查找
         $scope.keyword='';
@@ -19,6 +33,7 @@ angular.module('ccloomi')
             dbPagination(searchData);
         };
         $scope.createDb= function () {
+            $scope.getCharacterSets();
             S_schemata.createDb($scope);
         };
         function dbPagination(searchData){

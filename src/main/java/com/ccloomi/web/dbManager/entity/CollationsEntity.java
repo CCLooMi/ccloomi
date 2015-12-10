@@ -18,10 +18,10 @@ public class CollationsEntity extends BaseEntity{
 	private static final long serialVersionUID = -5036965001569414077L;
 	private String collation_name;
 	private String character_set_name;
-	private BigInteger id;
+	private long id;
 	private String is_default;
 	private String is_compiled;
-	private BigInteger sortlen;
+	private long sortlen;
 	/**获取 collation_name*/
 	public String getCollation_name() {
 		return collation_name;
@@ -39,11 +39,11 @@ public class CollationsEntity extends BaseEntity{
 		this.character_set_name = character_set_name;
 	}
 	/**获取 id*/
-	public BigInteger getId() {
+	public long getId() {
 		return id;
 	}
 	/**设置 id*/
-	public void setId(BigInteger id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**获取 is_default*/
@@ -63,11 +63,11 @@ public class CollationsEntity extends BaseEntity{
 		this.is_compiled = is_compiled;
 	}
 	/**获取 sortlen*/
-	public BigInteger getSortlen() {
+	public long getSortlen() {
 		return sortlen;
 	}
 	/**设置 sortlen*/
-	public void setSortlen(BigInteger sortlen) {
+	public void setSortlen(long sortlen) {
 		this.sortlen = sortlen;
 	}
 }

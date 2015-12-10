@@ -14,6 +14,8 @@ import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.core.component.sql.imp.SQLMaker;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
+import com.ccloomi.web.dbManager.entity.CharacterSetsEntity;
+import com.ccloomi.web.dbManager.entity.CollationsEntity;
 import com.ccloomi.web.dbManager.entity.SchemataEntity;
 import com.ccloomi.web.dbManager.service.SchemataService;
 
@@ -66,5 +68,17 @@ public class DbController extends BaseController{
 			 return responseMessageSuccess();
 		 }
 		return responseMessageError("创建数据库失败");
+	}
+	@RequestMapping("/allCharacterSets")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<CharacterSetsEntity> AllCharacterSets(){
+		return schemataService.findCharacterSets();
+	}
+	@RequestMapping("/collationsByCharacter")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<CollationsEntity> collationsByCharacter(String characterName){
+		return schemataService.findCollationsByCharacter(characterName);
 	}
 }

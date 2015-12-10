@@ -19,7 +19,7 @@ public class CharacterSetsEntity extends BaseEntity{
 	private String character_set_name;
 	private String default_collate_name;
 	private String description;
-	private BigInteger maxlen;
+	private long maxlen;
 	/**获取 character_set_name*/
 	public String getCharacter_set_name() {
 		return character_set_name;
@@ -45,11 +45,11 @@ public class CharacterSetsEntity extends BaseEntity{
 		this.description = description;
 	}
 	/**获取 maxlen*/
-	public BigInteger getMaxlen() {
+	public long getMaxlen() {
 		return maxlen;
 	}
 	/**设置 maxlen*/
-	public void setMaxlen(BigInteger maxlen) {
+	public void setMaxlen(long maxlen) {
 		this.maxlen = maxlen;
 	}
 }
