@@ -6,7 +6,19 @@ angular.module('ccloomi')
         var service={
             createDb: function (scope) {
                 S_dialog.dialog('创建数据库','views/db/createDatabase.html',scope, function () {
-                    $http.post('')
+                    $http.post('db/createDb.do',scope.schemata)
+                        .success(function (data) {
+                            if(data.code==0){
+                                S_dialog.alert('创建成功','创建数据库成功','success');
+                            }else if(data.code==1){
+                                S_dialog.alert('创建数据库失败',data.info,'error');
+                            }else{
+                                S_dialog.alert('网络错误','网络出现异常','error');
+                            }
+                        })
+                        .error(function () {
+                            S_dialog.alert('操作失败','接口调用失败','error');
+                        });
                 });
             },
             getCharacterSets: function (callback) {

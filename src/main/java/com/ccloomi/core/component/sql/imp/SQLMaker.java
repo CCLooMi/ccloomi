@@ -116,18 +116,16 @@ public class SQLMaker implements SQLGod{
 	}
 	public SQLMaker CREATE_DATABASE(String schema_name){
 		this.type=4;
-		sb.append("CREATE DATABASE ?");
-		this.values.add(schema_name);
+		this.init();
+		sb.append("CREATE DATABASE ").append(schema_name);
 		return this;
 	}
 	public SQLMaker DEFAULT_CHARACTER_SET(String default_character_set){
-		sb.append(" DEFAULT CHARACTER SET ?");
-		this.values.add(default_character_set);
+		sb.append(" DEFAULT CHARACTER SET ").append(default_character_set);
 		return this;
 	}
 	public SQLMaker COLLATE(String collate){
-		sb.append(" COLLATE ?");
-		this.values.add(collate);
+		sb.append(" COLLATE ").append(collate);
 		return this;
 	}
 	public SQLMaker INTO_COLUMNS(String...columns){
