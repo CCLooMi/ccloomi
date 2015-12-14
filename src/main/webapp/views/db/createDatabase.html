@@ -8,7 +8,6 @@
     <div class="form-group">
             <label class="col-sm-2 control-label">字符集</label>
         <div class="col-sm-8">
-            <!--<input type="text" class="form-control" placeholder="请输入表注释" ng-model="schemata.default_character_set_name">-->
             <select class="form-control" ng-options="character.character_set_name as (character.character_set_name+'('+character.description+')') for character in characters"
                     ng-model="schemata.default_character_set_name"
                     ng-change="getCollationsByCharacter(schemata.default_character_set_name)"></select>
@@ -17,7 +16,6 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">排序规则</label>
         <div class="col-sm-8">
-            <!--<input type="text" class="form-control" placeholder="请输入表注释" ng-model="schemata.default_collation_name">-->
             <select class="form-control" ng-options="collation.collation_name as collation.collation_name for collation in collations" ng-model="schemata.default_collation_name"></select>
         </div>
     </div>

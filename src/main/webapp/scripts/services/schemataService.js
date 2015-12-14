@@ -10,6 +10,7 @@ angular.module('ccloomi')
                         .success(function (data) {
                             if(data.code==0){
                                 S_dialog.alert('创建成功','创建数据库成功','success');
+                                scope.schematas.push(scope.schemata);
                             }else if(data.code==1){
                                 S_dialog.alert('创建数据库失败',data.info,'error');
                             }else{
