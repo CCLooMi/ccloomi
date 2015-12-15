@@ -28,4 +28,7 @@ public interface BaseService<T> {
 	public int[]						batchSave			(Collection<T>entities);
 	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
 	public int[]						batchDelete			(Collection<? extends Object>ids);
+
+	public Map<String, Object>			byPage				(Map<String, Object>map,ByPageSelect byPageSelect);
+	public <E>Map<String, Object>		byPage				(Map<String, Object>map,Class<E>elementType,ByPageSelect byPageSelect);
 }

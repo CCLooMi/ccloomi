@@ -1,6 +1,7 @@
 package com.ccloomi.core.common.service;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ccloomi.core.common.dao.BaseDao;
 import com.ccloomi.core.component.sql.SQLGod;
+import com.ccloomi.core.component.sql.imp.SQLMaker;
 /**
  * © 2015-2015 CCLooMi.Inc Copyright
  * 类    名：AbstractService
@@ -73,5 +75,43 @@ public abstract class AbstractService<T> {
 
 	public <E>List<E> findBySQLGod(SQLGod sg, Class<E> elementType) {
 		return baseDao.findBySQLGod(sg, elementType);
+	}
+	/**
+	 * 方法描述：分页查询
+	 * 作        者：Chenxj
+	 * 日        期：2015年12月15日-上午9:28:55
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> byPage(Map<String, Object>map,ByPageSelect byPageSelect){
+		return byPage(map,null,byPageSelect);
+	}
+	/**
+	 * 方法描述：分页查询（可指定元素类型）
+	 * 作        者：Chenxj
+	 * 日        期：2015年12月15日-上午10:07:53
+	 * @param map
+	 * @param select
+	 * @param elementType
+	 * @return
+	 */
+	public <E> Map<String, Object> byPage(Map<String, Object> map,Class<E> elementType,ByPageSelect byPageSelect) {
+		Map<String, Object>rm=new HashMap<>();
+		int page=-1+(int) map.get("pageNumber");
+		int pageSize=(int) map.get("pageSize");
+		SQLMaker sm=new SQLMaker();
+		byPageSelect.doSelect(sm, map);
+		sm.LIMIT(page*pageSize, pageSize);
+		if(page==0){
+			rm.put("totalNumber", baseDao.countBySQLGod(sm));
+		}
+		if(elementType!=null){
+			List<E>ls=baseDao.findBySQLGod(sm,elementType);
+			rm.put("data", ls);
+		}else{
+			List<Map<String, Object>>ls=baseDao.findBySQLGod(sm);
+			rm.put("data", ls);
+		}
+		return rm;
 	}
 }
