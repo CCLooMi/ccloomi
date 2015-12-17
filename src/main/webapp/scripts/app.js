@@ -180,6 +180,24 @@ var app=angular
                     }
                 }
             })
+            .state('proj',{
+                url:'/proj/main',
+                templateUrl:'views/projManager/main.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'loginCtrl',
+                            files:[
+                                'scripts/directives/projManager/header/header.js',
+                                'bower_components/paginationjs/dist/pagination.js',
+                                'bower_components/artDialog/dist/dialog-plus-min.js',
+                                'css/ui-dialog.css',
+                                'css/pagination.css'
+                            ]
+                        })
+                    }
+                }
+            })
 
     }]);
 app.filter('highlight', ['$sce',function ($sce) {
