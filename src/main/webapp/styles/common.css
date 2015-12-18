@@ -104,7 +104,7 @@ input:focus {
     border-right: 4px solid #e8faaa;
     text-decoration: none;
 }
-.active {
+.main .active {
     background-color: #e8faff;
     border-right: 4px solid #e8faaa;
     text-decoration: none;
