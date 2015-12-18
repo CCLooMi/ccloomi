@@ -170,7 +170,7 @@ public class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker WHERE_IN(String str,Collection<Object>valuse){
+	public SQLMaker WHERE_IN(String str,Collection<? extends Object>valuse){
 		StringBuilder sbu=new StringBuilder();
 		List<String>vs=new ArrayList<String>();
 		for(Object obj:valuse){
