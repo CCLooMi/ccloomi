@@ -12,7 +12,7 @@ var app=angular
     ])
     .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider', function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
         $ocLazyLoadProvider.config({
-            debug:false,
+            debug:true,
             events:true
         });
 
@@ -191,6 +191,8 @@ var app=angular
                                 'scripts/directives/projManager/header/header.js',
                                 'bower_components/paginationjs/dist/pagination.js',
                                 'bower_components/artDialog/dist/dialog-plus-min.js',
+                                'bower_components/less/dist/less.min.js',
+                                'styles/pjm.less',
                                 'css/ui-dialog.css',
                                 'css/pagination.css'
                             ]
