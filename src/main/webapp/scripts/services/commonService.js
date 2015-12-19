@@ -234,3 +234,18 @@ angular.module('ccloomi')
         };
         return service;
     }])
+    .directive('affix', function () {
+        return {
+            restrict: 'A',
+            link: function (scope,element,attrs) {
+                element.affix({
+                    offset:{
+                        top: 20,
+                        bottom: function () {
+                            return (this.bottom = $('.footer').outerHeight(true))
+                        }
+                    }
+                });
+            }
+        }
+    })

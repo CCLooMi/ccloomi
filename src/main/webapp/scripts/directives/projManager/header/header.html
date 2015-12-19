@@ -1,53 +1,86 @@
-<nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">CC项目管理系统</a>
+<div class="pjm-wrapper">
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">CC项目管理系统</a>
+            </div>
+            <ul class="nav navbar-nav" ng-click="toggleNav($event)">
+                <li class="active"><a><span class="fa fa-desktop"></span>工作台</a></li>
+                <li><a href="#/proj/main/product">产品</a></li>
+                <li><a>项目</a></li>
+                <li><a>测试</a></li>
+                <li><a>文档</a></li>
+                <li><a>统计</a></li>
+                <li><a>博客</a></li>
+                <li><a>贴吧</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-user"></span>
+                        ccloomi
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a>个人档案</a></li>
+                        <li><a>修改密码</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-submenu">
+                            <a>主题</a>
+                            <ul class="dropdown-menu">
+                                <li><a>默认</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a>Language</a>
+                            <ul class="dropdown-menu">
+                                <li><a>简体</a></li>
+                                <li><a>繁体</a></li>
+                                <li><a>English</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a>退出</a></li>
+                <li><a>关于</a></li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a><span class="fa fa-desktop"></span>工作台</a></li>
-            <li><a>产品</a></li>
-            <li><a>项目</a></li>
-            <li><a>测试</a></li>
-            <li><a>文档</a></li>
-            <li><a>统计</a></li>
-            <li><a>博客</a></li>
-            <li><a>贴吧</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="fa fa-user"></span>
-                    ccloomi
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a>个人档案</a></li>
-                    <li><a>修改密码</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-submenu">
-                        <a>主题</a>
-                        <ul class="dropdown-menu">
-                            <li><a>默认</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown-submenu">
-                        <a>Language</a>
-                        <ul class="dropdown-menu">
-                            <li><a>简体</a></li>
-                            <li><a>繁体</a></li>
-                            <li><a>English</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li><a>退出</a></li>
-            <li><a>关于</a></li>
-        </ul>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9">
+                <div ui-view></div>
+            </div>
+            <div class="col-sm-3">
+                <nav class="proj-sidebar" affix>
+                    <ul class="nav proj-sidenav">
+                        <li>
+                            <a>需求</a>
+                            <ul class="nav">
+                                <li><a>Da</a></li>
+                                <li><a>Db</a></li>
+                                <li><a>Dc</a></li>
+                                <li><a>Dd</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a>动态</a>
+                            <ul class="nav">
+                                <li><a>Ea</a></li>
+                                <li><a>Eb</a></li>
+                                <li><a>Ec</a></li>
+                                <li><a>Ed</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
-</nav>
+</div>

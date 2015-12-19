@@ -189,6 +189,7 @@ var app=angular
                             name:'loginCtrl',
                             files:[
                                 'scripts/directives/projManager/header/header.js',
+                                'scripts/directives/projManager/footer/footer.js',
                                 'bower_components/paginationjs/dist/pagination.js',
                                 'bower_components/artDialog/dist/dialog-plus-min.js',
                                 'bower_components/less/dist/less.min.js',
@@ -199,6 +200,19 @@ var app=angular
                         })
                     }
                 }
+            })
+            .state('proj.product',{
+                url:'/product',
+                templateUrl:'views/projManager/product/product.html',
+                //resolve:{
+                //    loadMyFiles: function ($ocLazyLoad) {
+                //        return $ocLazyLoad.load({
+                //            name:'loginCtrl',
+                //            files:[
+                //            ]
+                //        })
+                //    }
+                //}
             })
 
     }]);
