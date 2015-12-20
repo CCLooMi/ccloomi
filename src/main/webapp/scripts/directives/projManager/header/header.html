@@ -11,14 +11,12 @@
                 <a class="navbar-brand">CC项目管理系统</a>
             </div>
             <ul class="nav navbar-nav" ng-click="toggleNav($event)">
-                <li class="active"><a><span class="fa fa-desktop"></span>工作台</a></li>
-                <li><a href="#/proj/main/product">产品</a></li>
-                <li><a>项目</a></li>
-                <li><a>测试</a></li>
-                <li><a>文档</a></li>
-                <li><a>统计</a></li>
-                <li><a>博客</a></li>
-                <li><a>贴吧</a></li>
+                <li ng-repeat="view in views|filter:{pid:'11d84c99800446828e6a20b2a63d7092'}|orderBy:'orderIndex'">
+                    <a href="{{view.url}}" ng-click="navMenuClick(view)">
+                        <span class="{{view.iconClass}}" ng-if="view.iconClass"></span>
+                        {{view.name}}
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -60,23 +58,11 @@
             <div class="col-sm-3">
                 <nav class="proj-sidebar" affix>
                     <ul class="nav proj-sidenav">
-                        <li>
-                            <a>需求</a>
-                            <ul class="nav">
-                                <li><a>Da</a></li>
-                                <li><a>Db</a></li>
-                                <li><a>Dc</a></li>
-                                <li><a>Dd</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>动态</a>
-                            <ul class="nav">
-                                <li><a>Ea</a></li>
-                                <li><a>Eb</a></li>
-                                <li><a>Ec</a></li>
-                                <li><a>Ed</a></li>
-                            </ul>
+                        <li ng-repeat="subView in subViews">
+                            <a href="{{subView.url}}">{{subView.name}}</a>
+                            <!--<ul class="nav">-->
+                                <!--<li><a>Da</a></li>-->
+                            <!--</ul>-->
                         </li>
                     </ul>
                 </nav>

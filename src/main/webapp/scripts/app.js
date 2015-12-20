@@ -54,6 +54,17 @@ var app=angular
                     }
                 }
             })
+            .state('main.menu.showType',{
+                url:'/:showType',
+                views:{
+                    'showType':{
+                        templateUrl: function (params) {
+                            return 'views/menu/'+params.showType+'.html';
+                        },
+                        controller:'menuCtrl'
+                    }
+                }
+            })
             .state('main.role',{
                 url:'/role',
                 templateUrl:'views/role/role.html',

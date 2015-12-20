@@ -21,6 +21,7 @@ public class ViewEntity extends IdEntity{
 	private String type;
 	private String idRoot;
 	private int deepIndex;
+	private int orderIndex;
 	/**获取 name*/
 	public String getName() {
 		return name;
@@ -77,5 +78,12 @@ public class ViewEntity extends IdEntity{
 	public void setDeepIndex(int deepIndex) {
 		this.deepIndex = deepIndex;
 	}
-	
+	/**获取 orderIndex*/
+	public int getOrderIndex() {
+		return orderIndex;
+	}
+	/**设置 orderIndex*/
+	public void setOrderIndex(int orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 }

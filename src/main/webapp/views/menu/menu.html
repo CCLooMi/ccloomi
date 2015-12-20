@@ -1,23 +1,26 @@
-<div class="container-fluid" ng-controller="menuCtrl" ng-click="click($event)">
+<div class="container-fluid" ng-controller="menuCtrl">
     <fieldset class="shadow-box">
-        <legend class="btn"><span class="fa fa-plus"></span>Menu.</legend>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>图标</th><th>名称</th><th>地址</th><th class="hidden-xs">父ID</th><th class="hidden-xs">根ID</th><th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="view in views">
-                    <td><span class="{{view.iconClass}}"></span></td><td>{{view.name}}</td><td>{{view.url}}</td><td class="hidden-xs">{{view.pid}}</td><td class="hidden-xs">{{view.idRoot}}</td>
-                    <td>
-                        <button class="btn shadow-box" ng-click="add(view)">添加</button>
-                        <button class="btn shadow-box" ng-click="update(view)">修改</button>
-                        <button class="btn shadow-box" ng-click="remove(view)">删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div id="pagination"></div>
+        <legend class="btn" ng-click="add()">
+            <span class="fa fa-plus"></span>Menu.
+        </legend>
+        <legend class="pull-right">
+            <dl>
+                <dt class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="showType" ng-model="showType" value="list">
+                        <span class="fa fa-th-list"></span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="showType" ng-model="showType" value="tree">
+                        <span class="fa fa-tree"></span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="showType" ng-model="showType" value="vis">
+                        <span class="fa fa-pagelines"></span>
+                    </label>
+                </dt>
+            </dl>
+        </legend>
+        <div ui-view="showType"></div>
     </fieldset>
 </div>

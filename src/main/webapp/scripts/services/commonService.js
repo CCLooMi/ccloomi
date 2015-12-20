@@ -4,6 +4,9 @@
 angular.module('ccloomi')
     .factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http,$location,$timeout,S_dialog) {
         var service={
+            setFrom: function (from) {
+                service.from=from;
+            },
             add: function (scope,user) {
                 scope.user=user;
                 S_dialog.dialog('添加用户','views/user/addUser.html',scope, function () {
@@ -56,9 +59,13 @@ angular.module('ccloomi')
             hasPermission:function(permission){
                 return service.permissions.indexOf(permission)==-1?false:true;
             },
+            doLogin: function (from) {
+                service.setFrom(from);
+                $location.path('/login');
+            },
             login: function (user,callback,from) {
-                from=from||'/main';
-                $http.post('sys/login.xhtml',user).success(function(data){
+                from=from||service.from||'/main';
+                $http.post('sys/login.do',user).success(function(data){
                     if(data.code==0){
                         service.user=data.info.user;
                         service.views=data.info.views;
@@ -75,13 +82,21 @@ angular.module('ccloomi')
                     swal('操作异常','网络错误','error');
                 });
             },
-            currentUser: function (scope) {
+            loginStatus: function (callback) {
+                $http.post('sys/loginStatus.json')
+                    .success(function (status) {
+                        service.isLogin=status;
+                        callback(service.isLogin);
+                    });
+            },
+            currentUser: function (scope,callback) {
                 $http.post('sys/currentUser.json').success(function (data) {
                     service.user=data.user;
                     service.views=data.views;
                     service.roles=data.roles;
                     service.permissions=data.permissions;
                     scope.views=data.views;
+                    callback&&callback();
                 })
             }
         };
@@ -225,9 +240,11 @@ angular.module('ccloomi')
                     return data;
                 }
             },
-            jstree: function (url,data,scope) {
+            jstree: function (url,data,scope,dnd) {
+                var plugins=["checkbox"];
+                dnd&&plugins.push("dnd");
                 $http.post(url,data).success(function (dt) {
-                    $('#jstree').jstree({'plugins':["checkbox"], 'core' : {'data' :dt.data}});
+                    $('#jstree').jstree({'plugins':plugins, 'core' : {'data' :dt.data}});
                     scope.selectedIds=dt.ids;
                 });
             }
