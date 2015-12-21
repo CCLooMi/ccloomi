@@ -61,7 +61,9 @@ angular.module('ccloomi')
             },
             doLogin: function (from) {
                 service.setFrom(from);
-                $location.path('/login');
+                $timeout(function () {
+                    $location.path('/login');
+                },0);
             },
             login: function (user,callback,from) {
                 from=from||service.from||'/main';
@@ -102,7 +104,7 @@ angular.module('ccloomi')
         };
         return service;
     }])
-    .factory('S_pagination',['$http', function ($http) {
+    .factory('S_pagination',['$http','$location','S_user', function ($http,$location,S_user) {
         var service={
             pagination: function (paginationContainer,dataUrl,pageSize,data,callback,beforeSend) {
                 if(paginationContainer.data('pagination')){
@@ -115,6 +117,11 @@ angular.module('ccloomi')
                     ajax: {
                         type:'POST',
                         data:data,
+                        statusCode:{
+                            401: function () {
+                                S_user.doLogin($location.path());
+                            }
+                        },
                         contentType:'application/json ;charset=UTF-8',
                         beforeSend: beforeSend|| function () {}
                     },

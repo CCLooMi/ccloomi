@@ -5,19 +5,16 @@
         </legend>
         <legend class="pull-right">
             <dl>
-                <dt class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="radio" name="showType" ng-model="showType" value="list">
+                <dt class="btn-group">
+                    <a class="btn btn-default" href="#/main/menu/list" ng-class="{true:'active'}[showType=='list']" ng-click="changeShowType('list')">
                         <span class="fa fa-th-list"></span>
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" name="showType" ng-model="showType" value="tree">
+                    </a>
+                    <a class="btn btn-default" href="#/main/menu/tree" ng-class="{true:'active'}[showType=='tree']" ng-click="changeShowType('tree')">
                         <span class="fa fa-tree"></span>
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" name="showType" ng-model="showType" value="vis">
+                    </a>
+                    <a class="btn btn-default" href="#/main/menu/vis" ng-class="{true:'active'}[showType=='vis']" ng-click="changeShowType('vis')">
                         <span class="fa fa-pagelines"></span>
-                    </label>
+                    </a>
                 </dt>
             </dl>
         </legend>

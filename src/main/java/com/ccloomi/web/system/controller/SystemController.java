@@ -52,4 +52,10 @@ public class SystemController extends BaseController{
 	public boolean isLogin(){
 		return SecurityUtils.getSubject().isAuthenticated();
 	}
+	@RequestMapping("/logout")
+	@ResponseBody
+	public Message logout(){
+		SecurityUtils.getSubject().logout();
+		return responseMessageSuccess();
+	}
 }
