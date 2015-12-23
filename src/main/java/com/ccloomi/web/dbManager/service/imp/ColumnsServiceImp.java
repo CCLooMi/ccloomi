@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.service.ColumnsService;
 
@@ -21,7 +22,7 @@ public class ColumnsServiceImp extends GenericService<ColumnsEntity> implements 
 
 	@Override
 	public List<ColumnsEntity> findColumnsByTableSchemaAndTableName(String tableSchema,String tableName) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(new ColumnsEntity(), "c")
 		.WHERE("c.TABLE_SCHEMA=?", tableSchema)

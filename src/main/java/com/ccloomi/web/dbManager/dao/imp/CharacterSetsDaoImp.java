@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.dao.GenericDao;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.dbManager.dao.CharacterSetsDao;
 import com.ccloomi.web.dbManager.entity.CharacterSetsEntity;
 
@@ -21,7 +22,7 @@ public class CharacterSetsDaoImp extends GenericDao<CharacterSetsEntity> impleme
 
 	@Override
 	public List<CharacterSetsEntity> findAll() {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(new CharacterSetsEntity(), "cs");
 		return findBySQLGod(sm, CharacterSetsEntity.class);

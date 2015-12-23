@@ -14,15 +14,17 @@ import com.ccloomi.core.component.sql.maker.OracleSQLMaker;
 import com.ccloomi.core.util.JdbcUtil;
 
 /**
+ * © 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SQLMakerFactory
- * 类描述：
+ * 类 描 述：
  * 作    者：Chenxj
+ * 邮    箱：chenios@foxmail.com
  * 日    期：2015年12月23日-下午12:01:17
  */
 public final class SQLMakerFactory {
 	private final static Logger log=LoggerFactory.getLogger(SQLMakerFactory.class);
 	private static SQLMakerFactory instance;
-	private static String jdbcUrl;
+	private static DBType dbType;
 	static {
 		try{
 			ClassLoader ctxClassLoader=Thread.currentThread().getContextClassLoader();
@@ -35,7 +37,8 @@ public final class SQLMakerFactory {
 					try{
 						is=url.openStream();
 						property.load(is);
-						jdbcUrl=property.getProperty("jdbc.jdbcUrl");
+						String jdbcUrl=property.getProperty("jdbc.jdbcUrl");
+						dbType=DBType.valueOf(JdbcUtil.getDbType(jdbcUrl, JdbcUtil.getDriverClassName(jdbcUrl)));
 						log.debug("load [WEB-INF/classes/properties/jdbc.properties] success");
 					}finally{
 						if(is!=null){
@@ -51,7 +54,8 @@ public final class SQLMakerFactory {
 					try{
 						is=url.openStream();
 						property.load(is);
-						jdbcUrl=property.getProperty("jdbc.jdbcUrl");
+						String jdbcUrl=property.getProperty("jdbc.jdbcUrl");
+						dbType=DBType.valueOf(JdbcUtil.getDbType(jdbcUrl, JdbcUtil.getDriverClassName(jdbcUrl)));
 						log.debug("load [properties/jdbc.properties] success");
 					}finally{
 						if(is!=null){
@@ -72,17 +76,12 @@ public final class SQLMakerFactory {
 		return instance;
 	}
 	public SQLMaker createMapker(){
-		try{
-			DBType dbType=DBType.valueOf(JdbcUtil.getDbType(jdbcUrl, JdbcUtil.getDriverClassName(jdbcUrl)));
-			if(dbType==DBType.mysql){
-				return new MySQLSQLMaker();
-			}else if(dbType==DBType.oracle){
-				return new OracleSQLMaker();
-			}else if(dbType==DBType.db2){
-				return new DB2SQLMaker();
-			}
-		}catch(Exception e){
-			//skip
+		if(dbType==DBType.mysql){
+			return new MySQLSQLMaker();
+		}else if(dbType==DBType.oracle){
+			return new OracleSQLMaker();
+		}else if(dbType==DBType.db2){
+			return new DB2SQLMaker();
 		}
 		return new MySQLSQLMaker();
 	}

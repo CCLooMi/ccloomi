@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.dao.GenericDao;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.dbManager.dao.CollationsDao;
 import com.ccloomi.web.dbManager.entity.CollationsEntity;
 
@@ -21,7 +22,7 @@ public class CollationsDaoImp extends GenericDao<CollationsEntity> implements Co
 
 	@Override
 	public List<CollationsEntity> findByCharacterName(String characterName) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(new CollationsEntity(), "c")
 		.WHERE("c.character_set_name=?", characterName);

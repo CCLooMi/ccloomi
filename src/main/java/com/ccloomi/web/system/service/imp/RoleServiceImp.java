@@ -1,7 +1,6 @@
 package com.ccloomi.web.system.service.imp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.AbstractService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.common.service.ByPageSelect;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.system.dao.RolePermissionDao;
 import com.ccloomi.web.system.dao.RoleUserDao;
@@ -43,27 +44,21 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 	
 	@Override
 	public Map<String, Object> findRolesByPage(Map<String, Object> map) {
-		Map<String, Object>rm=new HashMap<>();
-		int page=-1+(int) map.get("pageNumber");
-		int pageSize=(int) map.get("pageSize");
-		String keywords=(String) map.get("keywords");
-		SQLMaker sm=new SQLMaker();
-		sm.SELECT("*")
-		.FROM(new RoleEntity(), "r");
-		if(keywords!=null){
-			sm.WHERE("r.id LIKE '%?%' OR r.name LIKE '%?%' OR r.code LIKE '%?%'".replaceAll("\\?", keywords));
-		}
-		sm.LIMIT(page*pageSize, pageSize);
-		if(page==0){
-			rm.put("totalNumber", countBySQLGod(sm));
-		}
-		List<Map<String, Object>>ls=findBySQLGod(sm);
-		rm.put("data", ls);
-		return rm;
+		return byPage(map, new ByPageSelect() {
+			@Override
+			public void doSelect(SQLMaker sm, Map<String, Object> map) {
+				String keywords=(String) map.get("keywords");
+				sm.SELECT("*")
+				.FROM(new RoleEntity(), "r");
+				if(keywords!=null){
+					sm.WHERE("r.id LIKE '%?%' OR r.name LIKE '%?%' OR r.code LIKE '%?%'".replaceAll("\\?", keywords));
+				}
+			}
+		});
 	}
 	@Override
 	public List<ViewEntity> findViewsByIdUser(Object idUser) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("v.*")
 		.FROM(new RoleUserEntity(), "ru")
 		.LEFT_JOIN(new RoleViewEntity(), "rv", "ru.idRole=rv.idRole")
@@ -74,7 +69,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 	@Override
 	public List<String> findPermissionsByIdUser(Object idUser) {
 		List<String>ls=new ArrayList<>();
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("p.code")
 		.FROM(new RoleUserEntity(), "ru")
 		.LEFT_JOIN(new RolePermissionEntity(), "rp", "ru.idRole=rp.idRole")
@@ -88,7 +83,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 	@Override
 	public List<String> findRolesByIdUser(Object idUser) {
 		List<String>ls=new ArrayList<>();
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("r.code")
 		.FROM(new RoleUserEntity(), "ru")
 		.LEFT_JOIN(new RoleEntity(), "r", "ru.idRole=r.id")
@@ -110,7 +105,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 			List<Object[]>batchArgs=new ArrayList<>();
 			int r=0;
 			if(aSize>0){
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.UPDATE(new RoleViewEntity(), "rv")
 				.SET("rv.idView=?")
 				.WHERE("rv.idView=?")
@@ -132,7 +127,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 					arg[0]=remove.get(i);
 					batchArgs.add(arg);
 				}
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.DELETE(new RoleViewEntity(), "rv")
 				.WHERE("rv.idView=?")
 				.AND("rv.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
@@ -144,7 +139,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 			List<Object[]>batchArgs=new ArrayList<>();
 			int r=0;
 			if(rSize>0){
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.UPDATE(new RoleViewEntity(), "rv")
 				.SET("rv.idView=?")
 				.WHERE("rv.idView=?")
@@ -175,7 +170,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		}else if(rSize==aSize){//只需要更新
 			int r=0;
 			if(rSize>0){
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.UPDATE(new RoleViewEntity(), "rv")
 				.SET("rv.idView=?")
 				.WHERE("rv.idView=?")
@@ -206,7 +201,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 			List<Object[]>batchArgs=new ArrayList<>();
 			int r=0;
 			if(aSize>0){
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.UPDATE(new RolePermissionEntity(), "rp")
 				.SET("rp.idPermission=?")
 				.WHERE("rp.idPermission=?")
@@ -228,7 +223,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 					arg[0]=remove.get(i);
 					batchArgs.add(arg);
 				}
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.DELETE(new RolePermissionEntity(), "rp")
 				.WHERE("rp.idPermission=?")
 				.AND("rp.idRole='?'".replaceAll("\\?", String.valueOf(role.get("id"))));
@@ -240,7 +235,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 			List<Object[]>batchArgs=new ArrayList<>();
 			int r=0;
 			if(rSize>0){
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.UPDATE(new RolePermissionEntity(), "rp")
 				.SET("rp.idPermission=?")
 				.WHERE("rp.idPermission=?")
@@ -271,7 +266,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		}else if(rSize==aSize){//只需要更新
 			int r=0;
 			if(rSize>0){
-				SQLMaker sm=new SQLMaker();
+				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 				sm.UPDATE(new RolePermissionEntity(), "rp")
 				.SET("rp.idPermission=?")
 				.WHERE("rp.idPermission=?")
@@ -292,50 +287,37 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 	}
 	@Override
 	public Map<String, Object> findUsersInRoleByPage(Map<String, Object> map) {
-		Map<String, Object>rm=new HashMap<>();
-		int page=-1+(int) map.get("pageNumber");
-		int pageSize=(int) map.get("pageSize");
-		String keywords=(String) map.get("keywords");
-		@SuppressWarnings("unchecked")
-		Map<String, Object>role=(Map<String, Object>) map.get("role");
-		
-		SQLMaker sm=new SQLMaker();
-		sm.SELECT("u.*")
-		.FROM(new UserEntity(), "u")
-		.WHERE("u.id IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
-		if(keywords!=null){
-			sm.WHERE("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
-		}
-		sm.LIMIT(page*pageSize, pageSize);
-		if(page==0){
-			rm.put("totalNumber", countBySQLGod(sm));
-		}
-		List<Map<String, Object>>ls=findBySQLGod(sm);
-		rm.put("data", ls);
-		return rm;
+		return byPage(map, new ByPageSelect() {
+			@Override
+			public void doSelect(SQLMaker sm, Map<String, Object> map) {
+				String keywords=(String) map.get("keywords");
+				@SuppressWarnings("unchecked")
+				Map<String, Object>role=(Map<String, Object>) map.get("role");
+				sm.SELECT("u.*")
+				.FROM(new UserEntity(), "u")
+				.WHERE("u.id IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
+				if(keywords!=null){
+					sm.WHERE("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
+				}
+			}
+		});
 	}
 	@Override
 	public Map<String, Object> findUsersNotInRoleByPage(Map<String, Object> map) {
-		Map<String, Object>rm=new HashMap<>();
-		int page=-1+(int) map.get("pageNumber");
-		int pageSize=(int) map.get("pageSize");
-		String keywords=(String) map.get("keywords");
-		@SuppressWarnings("unchecked")
-		Map<String, Object>role=(Map<String, Object>) map.get("role");
-		SQLMaker sm=new SQLMaker();
-		sm.SELECT("u.*")
-		.FROM(new UserEntity(), "u")
-		.WHERE("u.id NOT IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
-		if(keywords!=null){
-			sm.AND("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
-		}
-		sm.LIMIT(page*pageSize, pageSize);
-		if(page==0){
-			rm.put("totalNumber", countBySQLGod(sm));
-		}
-		List<Map<String, Object>>ls=findBySQLGod(sm);
-		rm.put("data", ls);
-		return rm;
+		return byPage(map, new ByPageSelect() {
+			@Override
+			public void doSelect(SQLMaker sm, Map<String, Object> map) {
+				String keywords=(String) map.get("keywords");
+				@SuppressWarnings("unchecked")
+				Map<String, Object>role=(Map<String, Object>) map.get("role");
+				sm.SELECT("u.*")
+				.FROM(new UserEntity(), "u")
+				.WHERE("u.id NOT IN(SELECT ru.idUser FROM sys_role_user ru WHERE ru.idRole=?)",role.get("id"));
+				if(keywords!=null){
+					sm.AND("u.id LIKE '%?%' OR u.username LIKE '%?%' OR u.nickname LIKE '%?%'".replaceAll("\\?", keywords));
+				}
+			}
+		});
 	}
 	@Override
 	public boolean addUserToRole(Map<String, Map<String, Object>> map) {
@@ -355,7 +337,7 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		Map<String, Object>role=map.get("role");
 		Object idUser=user.get("id");
 		Object idRole=role.get("id");
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.DELETE(new RoleUserEntity(), "ru")
 		.WHERE("ru.idUser=?", idUser)
 		.AND("ru.idRole=?", idRole);

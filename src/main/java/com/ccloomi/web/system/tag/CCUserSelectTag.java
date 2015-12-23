@@ -8,7 +8,8 @@ import javax.servlet.jsp.JspException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.tag.CCBootstrapInputSuportTag;
 import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.system.entity.UserEntity;
@@ -30,7 +31,7 @@ public class CCUserSelectTag extends CCBootstrapInputSuportTag{
 		StringBuilder sb=new StringBuilder();
 		StringBuilder options=new StringBuilder();
 		sb.append("<div class=\"form-group\">");
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("u.id,u.username")
 		.FROM(new UserEntity(), "u");
 		List<Map<String, Object>>list=userService.findBySQLGod(sm);

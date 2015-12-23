@@ -16,11 +16,12 @@ import org.slf4j.LoggerFactory;
 import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.util.StringUtil;
 
-/**
+/**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：SQLMaker
- * 类描述：
+ * 类 描 述：
  * 作    者：Chenxj
- * 日    期：2015年12月23日-上午11:50:48
+ * 邮    箱：chenios@foxmail.com
+ * 日    期：2015年8月27日-下午10:27:03
  */
 public abstract class SQLMaker implements SQLGod{
 	protected final Logger log=LoggerFactory.getLogger(getClass());

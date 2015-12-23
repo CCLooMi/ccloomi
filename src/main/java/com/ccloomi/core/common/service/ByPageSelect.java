@@ -2,7 +2,7 @@ package com.ccloomi.core.common.service;
 
 import java.util.Map;
 
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
 
 /**
  * 类    名：ByPageSelect

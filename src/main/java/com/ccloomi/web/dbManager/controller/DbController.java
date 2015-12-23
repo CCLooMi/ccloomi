@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.entity.CharacterSetsEntity;
 import com.ccloomi.web.dbManager.entity.CollationsEntity;
@@ -55,7 +56,7 @@ public class DbController extends BaseController{
 	@RequiresAuthentication
 	public Message createDb(@RequestBody SchemataEntity schemata){
 //		String sql="CREATE DATABASE `test2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
-		 SQLMaker sm=new SQLMaker();
+		 SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		 sm.CREATE_DATABASE(schemata.getSchema_name());
 		 if(schemata.getDefault_character_set_name()!=null){
 			 sm.DEFAULT_CHARACTER_SET(schemata.getDefault_character_set_name());

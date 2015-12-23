@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ccloomi.core.common.dao.BaseDao;
 import com.ccloomi.core.component.sql.SQLGod;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 /**
  * © 2015-2015 CCLooMi.Inc Copyright
  * 类    名：AbstractService
@@ -99,7 +100,7 @@ public abstract class AbstractService<T> {
 		Map<String, Object>rm=new HashMap<>();
 		int page=-1+(int) map.get("pageNumber");
 		int pageSize=(int) map.get("pageSize");
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		byPageSelect.doSelect(sm, map);
 		sm.LIMIT(page, pageSize);
 		if(page==0){

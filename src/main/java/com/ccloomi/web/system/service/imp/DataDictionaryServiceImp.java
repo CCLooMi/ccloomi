@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.system.dao.DataDictionaryDao;
 import com.ccloomi.web.system.entity.DataDictionaryEntity;
 import com.ccloomi.web.system.service.DataDictionaryService;
@@ -41,7 +42,7 @@ public class DataDictionaryServiceImp extends GenericService<DataDictionaryEntit
 		String keywords=(String) map.get("keywords");
 		
 		List<Map<String, Object>>rs=new ArrayList<Map<String,Object>>();
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(dd, "dd")
 		.WHERE("dd.deepIndex=0");
@@ -50,7 +51,7 @@ public class DataDictionaryServiceImp extends GenericService<DataDictionaryEntit
 			sm.WHERE("dd.name LIKE '%?%' OR dd.code LIKE '%?%' OR dd.dsc LIKE '%?%'".replaceAll("\\?", keywords));
 		}
 		
-		sm.LIMIT(page*pageSize,pageSize);
+		sm.LIMIT(page,pageSize);
 		rs=findBySQLGod(sm);
 		//在clean之前查询总数据条数
 		if(page==0){
@@ -74,7 +75,7 @@ public class DataDictionaryServiceImp extends GenericService<DataDictionaryEntit
 	
 	@Override
 	public int removeById(Object id) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.DELETE(new DataDictionaryEntity(), "dd")
 		.WHERE("dd.id=?", id)
 		.OR("dd.pid=?", id);

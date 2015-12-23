@@ -8,7 +8,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.system.entity.PermissionEntity;
 import com.ccloomi.web.system.entity.RolePermissionEntity;
 import com.ccloomi.web.system.service.PermissionService;
@@ -25,7 +26,7 @@ public class PermissionServiceImp extends GenericService<PermissionEntity> imple
 
 	@Override
 	public List<Map<String, Object>> findpermissionsTreeByRoleId(Object idRole) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("p.id")
 		.SELECT_AS("p.name", "text")
 		.SELECT("p.code")
@@ -47,7 +48,7 @@ public class PermissionServiceImp extends GenericService<PermissionEntity> imple
 	@Override
 	public List<String> findpermissionIdsByRoleId(Object idRole) {
 		List<String>ids=new ArrayList<>();
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("rp.idPermission")
 		.FROM(new RolePermissionEntity(), "rp")
 		.WHERE("rp.idRole=?", idRole);

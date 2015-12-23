@@ -18,7 +18,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.component.sql.SQLGod;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.util.StringUtil;
 
 /**深圳市设计同道技术有限公司
@@ -66,13 +67,13 @@ public abstract class AbstractDao<T> {
 		}
 	}
 	public int add(T entity) {
-		return updateBySQLGod(new SQLMaker().INSERT_INTO((BaseEntity)entity, "#"));
+		return updateBySQLGod(SQLMakerFactory.getInstance().createMapker().INSERT_INTO((BaseEntity)entity, "#"));
 	}
 	
 	public int update(T entity) {
 		BaseEntity _bt=(BaseEntity) entity;
 		String alias="et";
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.UPDATE(_bt, alias);
 		for(String p:_bt.PVMap().keySet()){
 			Object pv=_bt.getPropertyValue(p);
@@ -138,7 +139,7 @@ public abstract class AbstractDao<T> {
 			if(firstBt==null){
 				return r;
 			}
-			SQLMaker sm=new SQLMaker();
+			SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 			sm.INSERT_INTO(firstBt, "#");
 			sm.setBatchArgs(batchArgs);
 			return batchUpdateBySQLGod(sm);

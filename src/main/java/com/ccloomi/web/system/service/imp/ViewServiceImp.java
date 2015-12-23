@@ -8,8 +8,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ccloomi.core.common.service.ByPageSelect;
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.system.dao.ViewDao;
 import com.ccloomi.web.system.entity.RoleViewEntity;
 import com.ccloomi.web.system.entity.ViewEntity;
@@ -32,28 +34,22 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 	}
 	@Override
 	public Map<String, Object> findViewsByPage(Map<String, Object> map) {
-		Map<String, Object>rm=new HashMap<>();
-		int page=-1+(int) map.get("pageNumber");
-		int pageSize=(int) map.get("pageSize");
-		String keywords=(String) map.get("keywords");
-		SQLMaker sm=new SQLMaker();
-		sm.SELECT("*")
-		.FROM(new ViewEntity(), "v");
-		if(keywords!=null){
-			sm.WHERE("v.id LIKE '%?%' OR v.name LIKE '%?%' OR v.url LIKE '%?%' OR v.pid LIKE '%?%' OR v.iconClass LIKE '%?%' OR v.type LIKE '%?%' OR v.idRoot LIKE '%?%'".replaceAll("\\?", keywords));
-		}
-		sm.ORDER_BY("v.idRoot,v.deepIndex")
-		.LIMIT(page*pageSize, pageSize);
-		if(page==0){
-			rm.put("totalNumber", countBySQLGod(sm));
-		}
-		List<Map<String, Object>>ls=findBySQLGod(sm);
-		rm.put("data", ls);
-		return rm;
+		return byPage(map, new ByPageSelect() {
+			@Override
+			public void doSelect(SQLMaker sm, Map<String, Object> map) {
+				String keywords=(String) map.get("keywords");
+				sm.SELECT("*")
+				.FROM(new ViewEntity(), "v");
+				if(keywords!=null){
+					sm.WHERE("v.id LIKE '%?%' OR v.name LIKE '%?%' OR v.url LIKE '%?%' OR v.pid LIKE '%?%' OR v.iconClass LIKE '%?%' OR v.type LIKE '%?%' OR v.idRoot LIKE '%?%'".replaceAll("\\?", keywords));
+				}
+				sm.ORDER_BY("v.idRoot,v.deepIndex");
+			}
+		});
 	}
 	@Override
 	public List<Map<String, Object>> findViewsTreeByRoleId(Object idRole) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("v.id")
 		.SELECT_AS("v.name", "text")
 		.SELECT_AS("v.iconClass", "icon")
@@ -79,7 +75,7 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		return ls;
 	}
 	private List<Map<String, Object>> findViewsTreeByPid(Object idRole,Object pid){
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("v.id")
 		.SELECT_AS("v.name", "text")
 		.SELECT_AS("v.iconClass", "icon")
@@ -106,7 +102,7 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 	@Override
 	public List<String> findViewIdsByRoleId(Object idRole){
 		List<String>ids=new ArrayList<>();
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("rv.idView")
 		.FROM(new RoleViewEntity(), "rv")
 		.WHERE("rv.idRole=?", idRole);

@@ -8,7 +8,8 @@ import javax.servlet.jsp.JspException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.tag.CCBootstrapInputSuportTag;
 import com.ccloomi.core.tag.InputEnum;
 import com.ccloomi.core.util.StringUtil;
@@ -41,7 +42,7 @@ public class CCInputTag extends CCBootstrapInputSuportTag{
 			
 		}else if(type==InputEnum.radio){
 			StringBuilder radios=new StringBuilder();
-			SQLMaker sm=new SQLMaker();
+			SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 			sm.SELECT("dd.id,dd.name,dd.V,dd.pid,dd.desc")
 			.FROM(new DataDictionaryEntity(), "dd")
 			.WHERE("dd.K=?", key);

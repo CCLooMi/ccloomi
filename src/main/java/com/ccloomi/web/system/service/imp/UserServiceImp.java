@@ -1,6 +1,5 @@
 package com.ccloomi.web.system.service.imp;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.AbstractService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.common.service.ByPageSelect;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.system.dao.UserDao;
 import com.ccloomi.web.system.entity.UserEntity;
 import com.ccloomi.web.system.service.UserService;
@@ -27,7 +28,7 @@ public class UserServiceImp extends AbstractService<UserEntity> implements UserS
 	
 	@Override
 	public UserEntity findByUsernameAndPassword(String username, String password) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(new UserEntity(), "u")
 		.WHERE("u.username=?", username)
@@ -41,22 +42,16 @@ public class UserServiceImp extends AbstractService<UserEntity> implements UserS
 
 	@Override
 	public Map<String, Object> findUsersByPage(Map<String, Object> map) {
-		Map<String, Object>rm=new HashMap<>();
-		int page=-1+(int) map.get("pageNumber");
-		int pageSize=(int) map.get("pageSize");
-		String keywords=(String) map.get("keywords");
-		SQLMaker sm=new SQLMaker();
-		sm.SELECT("*")
-		.FROM(new UserEntity(), "u");
-		if(keywords!=null){
-			sm.WHERE("u.username LIKE '%?%' OR u.nickname LIKE '%?%' OR u.id LIKE '%?%'".replaceAll("\\?", keywords));
-		}
-		sm.LIMIT(page*pageSize, pageSize);
-		if(page==0){
-			rm.put("totalNumber", countBySQLGod(sm));
-		}
-		List<Map<String, Object>>ls=findBySQLGod(sm);
-		rm.put("data", ls);
-		return rm;
+		return byPage(map, new ByPageSelect() {
+			@Override
+			public void doSelect(SQLMaker sm, Map<String, Object> map) {
+				String keywords=(String) map.get("keywords");
+				sm.SELECT("*")
+				.FROM(new UserEntity(), "u");
+				if(keywords!=null){
+					sm.WHERE("u.username LIKE '%?%' OR u.nickname LIKE '%?%' OR u.id LIKE '%?%'".replaceAll("\\?", keywords));
+				}
+			}
+		});
 	}
 }

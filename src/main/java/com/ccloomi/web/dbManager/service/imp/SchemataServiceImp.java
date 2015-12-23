@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.dao.CharacterSetsDao;
@@ -40,7 +41,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 	@Override
 	public VisNetworkBean findAsVisNetworkBySchemaName(String schemaName) {
 		VisNetworkBean vn=new VisNetworkBean();
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT_AS("MAX(t.data_length)", "mx")
 		.SELECT_AS("MIN(t.data_length)", "mn")
 		.FROM(new TablesEntity(), "t")
@@ -127,7 +128,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 
 	@Override
 	public List<Map<String, Object>> findColumn2ColumnAsVisNetworkEdgesBySchemaName(String schemaName) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		//查询字段到字段边
 		sm.clean()
 		.SELECT("f.id")
@@ -146,7 +147,7 @@ public class SchemataServiceImp extends GenericService<SchemataEntity> implement
 		int page=-1+(int) map.get("pageNumber");
 		int pageSize=(int) map.get("pageSize");
 		String keywords=(String) map.get("keywords");
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(new SchemataEntity(), "s");
 		if(keywords!=null){

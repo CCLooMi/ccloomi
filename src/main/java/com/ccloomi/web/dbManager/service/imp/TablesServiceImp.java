@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.imp.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMaker;
+import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.dbManager.entity.TablesEntity;
 import com.ccloomi.web.dbManager.service.TablesService;
 
@@ -21,7 +22,7 @@ public class TablesServiceImp extends GenericService<TablesEntity> implements Ta
 
 	@Override
 	public List<TablesEntity> findTablesByTableSchema(String tableSchema) {
-		SQLMaker sm=new SQLMaker();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")
 		.FROM(new TablesEntity(), "t")
 		.WHERE("t.TABLE_SCHEMA=?", tableSchema);
