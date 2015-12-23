@@ -18,7 +18,7 @@
 //
 //import ch.qos.logback.ext.spring.web.WebLogbackConfigurer;
 ///**
-// * 深圳市设计同道技术有限公司
+// * 
 // * 类    名：SystemInitialListener
 // * 类描述：系统应用启动关闭处理监听器
 // * 作    者：Chenxj

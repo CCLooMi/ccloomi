@@ -22,12 +22,14 @@ import com.ccloomi.core.component.sql.SQLMaker;
 import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.util.StringUtil;
 
-/**深圳市设计同道技术有限公司
+/**
+ * © 2015-2015 CCLooMi.Inc Copyright
  * 类    名：AbstractDao
- * 类描述：基础Dao抽象类
+ * 类 描 述：基础抽象类
  * 作    者：Chenxj
+ * 邮    箱：chenios@foxmail.com
  * 日    期：2015年10月19日-下午4:17:54
- * @param <E>
+ * @param <T>
  */
 public abstract class AbstractDao<T> {
 	protected final Logger log=LoggerFactory.getLogger(getClass());
