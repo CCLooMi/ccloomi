@@ -101,7 +101,7 @@ public abstract class AbstractService<T> {
 		int pageSize=(int) map.get("pageSize");
 		SQLMaker sm=new SQLMaker();
 		byPageSelect.doSelect(sm, map);
-		sm.LIMIT(page*pageSize, pageSize);
+		sm.LIMIT(page, pageSize);
 		if(page==0){
 			rm.put("totalNumber", baseDao.countBySQLGod(sm));
 		}
