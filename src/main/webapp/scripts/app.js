@@ -215,15 +215,16 @@ var app=angular
             .state('proj.product',{
                 url:'/product',
                 templateUrl:'views/projManager/product/product.html',
-                //resolve:{
-                //    loadMyFiles: function ($ocLazyLoad) {
-                //        return $ocLazyLoad.load({
-                //            name:'loginCtrl',
-                //            files:[
-                //            ]
-                //        })
-                //    }
-                //}
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'product',
+                            files:[
+                                'scripts/controllers/projManager/productController.js'
+                            ]
+                        })
+                    }
+                }
             })
 
     }]);
