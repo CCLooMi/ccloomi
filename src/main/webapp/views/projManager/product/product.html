@@ -1,38 +1,23 @@
 <div class="container-fluid" ng-controller="productCtrl">
-    <div class="row">
-        <div class="col-sm-8">
-            <fieldset class="shadow-box">
-                <legend class="btn">+product.</legend>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>产品名称</th>
-                            <th>产品负责人</th>
-                            <th>创建日期</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr></tr>
-                    </tbody>
-                </table>
-            </fieldset>
-        </div>
-        <div class="col-sm-4">
-            <fieldset class="shadow-box">
-                <legend class="btn">+demand.</legend>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>需求名称</th>
-                            <th>提出人</th>
-                            <th>创建日期</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr></tr>
-                    </tbody>
-                </table>
-            </fieldset>
-        </div>
-    </div>
+    <fieldset class="shadow-box">
+        <legend class="btn">+product.</legend>
+        <table class="table">
+            <thead>
+                <tr><th>产品名称</th><th>产品负责人</th><th>创建日期</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="product in products">
+                    <td>{{product.name}}</td>
+                    <td>{{product.productPIC}}</td>
+                    <td>{{product.createdDate}}</td>
+                    <td>
+                        <button class="btn shadow-box">需求</button>
+                        <button class="btn shadow-box">编辑</button>
+                        <button class="btn shadow-box">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </fieldset>
 </div>

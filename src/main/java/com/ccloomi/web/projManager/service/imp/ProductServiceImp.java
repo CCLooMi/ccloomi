@@ -4,9 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.ccloomi.core.common.service.ByPageSelect;
 import com.ccloomi.core.common.service.GenericService;
-import com.ccloomi.core.component.sql.SQLMaker;
 import com.ccloomi.web.projManager.entity.ProductEntity;
 import com.ccloomi.web.projManager.service.ProductService;
 
@@ -22,13 +20,8 @@ public class ProductServiceImp extends GenericService<ProductEntity> implements 
 
 	@Override
 	public Map<String, Object> findByPage(Map<String, Object> map) {
-		return byPage(map, ProductEntity.class, new ByPageSelect() {
-			@Override
-			public void doSelect(SQLMaker sm, Map<String, Object> map) {
-				sm.SELECT("*")
-				.FROM(new ProductEntity(), "p");
-			}
-		});
+//		ByPageSelect select=(sm,m)->sm.SELECT("*").FROM(new ProductEntity(), "p");
+		return byPage(map, ProductEntity.class,(sm,m)->sm.SELECT("*").FROM(new ProductEntity(), "p"));
 	}
 	
 }

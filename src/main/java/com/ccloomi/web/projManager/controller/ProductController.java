@@ -2,10 +2,12 @@ package com.ccloomi.web.projManager.controller;
 
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.web.projManager.service.ProductService;
@@ -22,6 +24,9 @@ import com.ccloomi.web.projManager.service.ProductService;
 public class ProductController extends BaseController{
 	@Autowired
 	private ProductService productService;
+	@RequestMapping("/byPage")
+	@ResponseBody
+	@RequiresAuthentication
 	public Map<String, Object>findByPage(@RequestBody Map<String, Object>map){
 		return productService.findByPage(map);
 	}
