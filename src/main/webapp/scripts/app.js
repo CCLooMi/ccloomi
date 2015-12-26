@@ -203,8 +203,7 @@ var app=angular
                                 'scripts/directives/projManager/footer/footer.js',
                                 'bower_components/paginationjs/dist/pagination.js',
                                 'bower_components/artDialog/dist/dialog-plus-min.js',
-                                'bower_components/less/dist/less.min.js',
-                                'styles/pjm.less',
+                                'styles/pjm.css',
                                 'css/ui-dialog.css',
                                 'css/pagination.css'
                             ]

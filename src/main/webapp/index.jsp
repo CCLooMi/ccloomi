@@ -21,8 +21,8 @@
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-	<%--<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>--%>
-	<script src="js/ocLazyLoad.js"></script>
+	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<%--<script src="js/ocLazyLoad.js"></script>--%>
 	<script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
