@@ -38,14 +38,14 @@ public class MavenSearchEngine extends BaseController{
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/maven")
 	@ResponseBody
-	public Object doAgent(@RequestBody Map<String, String>map) throws Exception{
+	public Object doAgent(@RequestBody Map<String, Object>map) throws Exception{
 		Map<String, Object>responseMap;
 		URIBuilder uriBuilder=new URIBuilder(url);
 		for(String key:map.keySet()){
 			if("start".equals(key)){
-				uriBuilder.setParameter(key, String.valueOf(Integer.valueOf(map.get(key))-1));
+				uriBuilder.setParameter(key, String.valueOf((Integer)(map.get(key))-1));
 			}else{
-				uriBuilder.setParameter(key, map.get(key));
+				uriBuilder.setParameter(key, String.valueOf(map.get(key)));
 			}
 		}
 		URI uri=uriBuilder.build();
