@@ -28,6 +28,7 @@
 	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src="bower_components/Chart.js/Chart.min.js"></script>
 	<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="bower_components/ckeditor/ckeditor.js"></script>
 	<script src="bower_components/vis/dist/vis.min.js"></script>
 	<script src="bower_components/Context.js/context.js"></script>
 

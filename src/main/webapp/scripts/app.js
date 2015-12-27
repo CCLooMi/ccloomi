@@ -212,8 +212,16 @@ var app=angular
                 }
             })
             .state('proj.product',{
-                url:'/product',
-                templateUrl:'views/projManager/product/product.html',
+                url:'/product/:operation',
+                //templateUrl:'views/projManager/product/product.html',
+                views:{
+                    'projManager':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/product/'+params.operation+'.html';
+                        },
+                        controller:'productCtrl'
+                    }
+                },
                 resolve:{
                     loadMyFiles: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({

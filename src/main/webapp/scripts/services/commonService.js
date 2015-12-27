@@ -273,3 +273,11 @@ angular.module('ccloomi')
             }
         }
     })
+    .directive('ckeditor',function () {
+        return {
+            restrict: 'A',
+            link: function (scope,element,attrs) {
+                CKEDITOR.replace(element[0]);
+            }
+        }
+    });

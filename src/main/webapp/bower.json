@@ -46,6 +46,7 @@
     "paginationjs": "git://github.com/CCLooMi/paginationjs#~2.0.7",
     "vis": "~4.9.0",
     "three.js": "threejs#*",
-    "Buttons": "~2.0.0"
+    "Buttons": "~2.0.0",
+    "ckeditor": "~4.5.6"
   }
 }
