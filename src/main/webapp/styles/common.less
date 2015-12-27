@@ -1,0 +1,230 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(../fonts/toadOcfmlt9b38dHJxOBGIAPdqzPmKFFIYQ-46z3JxY.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(../fonts/toadOcfmlt9b38dHJxOBGCP2LEk6lMzYsRqr3dHFImA.woff2) format('woff2');
+}
+@main-color:#53e3a6;
+@main-color-dark:#23c416;
+@second-color:#e8faaa;
+@three-color:#767676;
+@main-bg-color:#e8faff;
+@main-border-color:#e5e5e5;
+.transition () {
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.shadow-box {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.24);
+}
+.shadow-text {
+  text-shadow: 4px 4px 2px darkgrey;
+}
+html,body {
+  margin: 0;
+  height: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
+}
+a {
+  &:hover {
+    cursor: pointer;
+  }
+}
+.navbar-toggle {
+  border-radius: 0;
+  border: none;
+}
+.shadow-input {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(200, 230, 150, 0.6);
+}
+.table {
+  td {
+    button.btn,a.btn {
+      background-color: @main-bg-color;
+      border-top: 2px solid @second-color;
+    }
+  }
+}
+fieldset {
+  padding: 10px;
+  legend {
+    border: none;
+    width: auto;
+    margin: 0;
+    &.btn,a.btn {
+      color: @main-color-dark;
+    }
+  }
+}
+input {
+  &:focus {
+    color: @main-color;
+  }
+}
+.form-control {
+  &:focus {
+    border-color: @main-color;
+    .shadow-input;
+    outline: 0 none;
+  }
+}
+#pagination {
+  float: right;
+}
+#page-wrapper {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  @media (min-width: 768px) {
+    margin: 0;
+    padding: 0 30px 0 280px;
+    border-left: 1px solid @main-border-color;
+  }
+}
+.list-group-item {
+  padding: 0;
+  border-top: none;
+}
+.sidebar {
+  @media (min-width: 768px) {
+    height: 100%;
+    margin-top: 51px;
+    position: absolute;
+    width: 250px;
+    z-index: 1;
+  }
+  .sidebar-nav {
+    &.navbar-collapse {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    ul {
+      &:extend(.list-group-item);
+      li {
+        list-style: none;
+        line-height: 45px;
+        border-bottom: 1px solid @main-border-color;
+        >a,>span {
+          display: block;
+          >span {
+            display: inline-block;
+            margin-right: 5px;
+          }
+        }
+        >a {
+          padding-left: 30px;
+          outline: none;
+          &:hover,&:active,&:focus {
+            background-color: @main-bg-color;
+            border-right: 4px solid @second-color;
+            text-decoration: none;
+          }
+        }
+        >span {
+          padding-left: 20px;
+          border-bottom: 1px solid @main-border-color;
+          >span {
+            &:last-child {
+              float: right;
+              line-height: 45px;
+              .transition;
+            }
+          }
+        }
+        &.active {
+          background-color: #e8faff;
+          border-right: 4px solid #e8faaa;
+          text-decoration: none;
+          >a {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+.table {
+  >thead {
+    >tr {
+      >th {
+        vertical-align: middle;
+      }
+    }
+  }
+  td {
+    vertical-align: middle !important;
+  }
+  >tbody {
+    >tr {
+      >td {
+        &:first-child {
+          span {
+            display: inline;
+            font-size: 20px;
+          }
+        }
+        span {
+          .shadow-text;
+        }
+      }
+    }
+  }
+}
+.plus-td {
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: @main-bg-color;
+    border-color: @second-color;
+  }
+}
+.searching {
+  .show-plate {
+    width: 34%;
+  }
+  .search-plate {
+    border: 1px solid transparent;
+    border-right-color: @main-border-color;
+    width: 66%;
+    * {
+      opacity: 1;
+    }
+  }
+}
+.search-plate {
+  min-height: 400px;
+  display: inline-block;
+  border-color: @main-border-color;
+  width: 0%;
+  position: relative;
+  .transition;
+  transition-property: width,border;
+  * {
+    opacity: 0;
+    .transition;
+    transition-property:opacity;
+  }
+  span {
+    &.btn {
+      right: 0;
+      position: absolute;
+    }
+  }
+}
+.show-plate {
+  min-height: 400px;
+  position: relative;
+  border: 1px solid transparent;
+  float: right;
+  width: 100%;
+  .transition;
+  transition-property: width;
+}

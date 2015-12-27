@@ -1,0 +1,196 @@
+/*@import url(http://fonts.useso.com/css?family=Source+Sans+Pro:200,300);*/
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 200;
+    src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(../fonts/toadOcfmlt9b38dHJxOBGIAPdqzPmKFFIYQ-46z3JxY.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(../fonts/toadOcfmlt9b38dHJxOBGCP2LEk6lMzYsRqr3dHFImA.woff2) format('woff2');
+}
+html,body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+}
+a:hover {
+    cursor: pointer;
+}
+.navbar-toggle {
+	border-radius: 0;
+    border: none;
+}
+.shadow-box {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.table td button.btn,
+.table td a.btn{
+    background-color: #e8faff;
+    border-top: 2px solid #e8faaa;
+}
+fieldset {
+    padding: 10px;
+    /*border: 1px solid #e5e5e5;*/
+}
+fieldset legend {
+    border: none;
+    width: auto;
+    margin: 0;
+}
+legend.btn,
+legend a.btn{
+    color: #23c416;
+}
+input:focus {
+    color: #53e3a6;
+}
+.form-control:focus {
+    border-color: #53e3a6;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(200, 230, 150, 0.6);
+    outline: 0 none;
+}
+#pagination {
+	float: right;
+}
+#page-wrapper {
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    /*position: fixed;*/
+}
+@media(min-width:768px) {
+    #page-wrapper {
+        margin: 0;
+        padding: 0 30px 0 280px;
+        border-left: 1px solid #e7e7e7;
+    }
+}
+@media(min-width:768px) {
+    .sidebar {
+        height: 100%;
+        margin-top: 51px;
+        /*padding-bottom: 51px;*/
+        position: absolute;
+        width: 250px;
+        z-index: 1;
+    }
+}
+.sidebar .sidebar-nav.navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+}
+.sidebar ul li {
+    list-style: none;
+    line-height: 45px;
+    border-bottom: 1px solid #e7e7e7;
+}
+.sidebar ul li>a, .sidebar ul li>span {
+    display: block;
+}
+.sidebar ul li>span {
+    padding-left: 20px;
+    border-bottom: 1px solid #e7e7e7;
+}
+.sidebar ul li>a {
+	padding-left: 30px;
+    outline: none;
+}
+.sidebar ul li a:hover,
+.sidebar ul li a:active,
+.sidebar ul li a:focus {
+    background-color: #e8faff;
+    border-right: 4px solid #e8faaa;
+    text-decoration: none;
+}
+.main .active {
+    background-color: #e8faff;
+    border-right: 4px solid #e8faaa;
+    text-decoration: none;
+}
+.sidebar ul li>span>span,
+.sidebar ul li a>span {
+    display: inline-block;
+    margin-right: 5px;
+}
+.sidebar ul li > span span:last-child {
+    float: right;
+    line-height: 45px;
+    margin-right: 15px;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.sidebar ul, .list-group-item {
+    padding: 0;
+    border-top: none;
+}
+.nav > li.active > a {
+    background-color: #eee;
+    text-decoration: none;
+}
+.table > thead > tr > th {
+    vertical-align: middle;
+}
+.table td {
+    vertical-align: middle !important;
+}
+.table tbody tr td:first-child span {
+    display: inline;
+    font-size: 20px;
+}
+.table tbody tr td span {
+    text-shadow: 4px 4px 2px darkgrey;
+}
+.plus-td {
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+.plus-td:hover {
+    background-color: #e8faff;
+    border-color: #e8faaa;
+}
+.searching .show-plate {
+    width: 34%;
+}
+.searching .search-plate{
+    border: 1px solid transparent;
+    border-right: 1px solid #eee;
+    width: 66%;
+}
+.searching .search-plate * {
+    opacity: 1;
+}
+.search-plate * {
+    opacity: 0;
+    transition-duration: 0.5s;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.search-plate span.btn {
+    right: 0;
+    position: absolute;
+}
+.search-plate {
+    min-height: 400px;
+    display: inline-block;
+    border-color: #eee;
+    width: 0%;
+    position: relative;
+    transition-duration: 0.5s;
+    transition-property: width,border;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.show-plate {
+    min-height: 400px;
+    position: relative;
+    border: 1px solid transparent;
+    float: right;
+    width: 100%;
+    transition-duration: 0.5s;
+    transition-property: width;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
