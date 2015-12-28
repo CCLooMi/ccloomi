@@ -276,8 +276,12 @@ angular.module('ccloomi')
     .directive('ckeditor',function () {
         return {
             restrict: 'A',
-            link: function (scope,element,attrs) {
-                CKEDITOR.replace(element[0]);
+            require:'ngModel',
+            link: function (scope,element,attrs,ngModel) {
+                var editor=CKEDITOR.replace(element[0]);
+                editor.on('change', function (e) {
+                    ngModel.$setViewValue(this.getData());
+                });
             }
         }
     });

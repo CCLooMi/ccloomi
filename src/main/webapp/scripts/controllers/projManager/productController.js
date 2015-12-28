@@ -6,8 +6,7 @@ angular.module('ccloomi')
         $scope.products=[];
         $scope.product={};
         $scope.addProduct= function () {
-            alert($scope.product.desc);
-            alert(CKEDITOR.instances.editor1.getData());
+            alert(JSON.stringify($scope.product));
         };
         productPagination();
         function productPagination(){

@@ -3,31 +3,31 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">产品名称</label>
             <div class="col-sm-5">
-                <input class="form-control">
+                <input class="form-control" ng-model="product.name">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">产品代号</label>
             <div class="col-sm-5">
-                <input class="form-control">
+                <input class="form-control" ng-model="product.code">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">产品负责人</label>
             <div class="col-sm-5">
-                <input class="form-control">
+                <input class="form-control" ng-model="product.productPIC">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">测试负责人</label>
             <div class="col-sm-5">
-                <input class="form-control">
+                <input class="form-control" ng-model="product.testPIC">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">发布负责人</label>
             <div class="col-sm-5">
-                <input class="form-control">
+                <input class="form-control" ng-model="product.releasePIC">
             </div>
         </div>
         <div class="form-group">
@@ -42,17 +42,17 @@
             <div class="col-sm-5">
                 <div class="radio">
                     <label>
-                        <input type="radio" name="accessType">公开(所有人可访问)
+                        <input type="radio" name="accessType" value="public" ng-model="product.accessType">公开(所有人可访问)
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="accessType">私有(自己可以访问)
+                        <input type="radio" name="accessType" value="private" ng-model="product.accessType">私有(自己可以访问)
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="accessType">保护(指定人可访问)
+                        <input type="radio" name="accessType" value="protect" ng-model="product.accessType">保护(指定人可访问)
                     </label>
                 </div>
             </div>
