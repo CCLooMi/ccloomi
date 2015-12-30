@@ -44,7 +44,7 @@ public class SystemController extends BaseController{
 	@RequestMapping("/currentUser")
 	@ResponseBody
 	@RequiresAuthentication
-	public Object currentUser(){
+	public Object currentUserMap(){
 		return SecurityUtils.getSubject().getSession().getAttribute("user");
 	}
 	@RequestMapping("/loginStatus")

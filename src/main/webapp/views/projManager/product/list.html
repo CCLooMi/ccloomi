@@ -11,11 +11,11 @@
                 <tr ng-repeat="product in products">
                     <td>{{product.name}}</td>
                     <td>{{product.productPIC}}</td>
-                    <td>{{product.createdDate}}</td>
+                    <td>{{product.createdDate|date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td>
                         <button class="btn shadow-box">需求</button>
-                        <button class="btn shadow-box">编辑</button>
-                        <button class="btn shadow-box">删除</button>
+                        <button class="btn shadow-box" ng-click="update(product)">编辑</button>
+                        <button class="btn shadow-box" ng-click="remove(product)">删除</button>
                     </td>
                 </tr>
             </tbody>

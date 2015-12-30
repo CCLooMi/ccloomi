@@ -20,8 +20,6 @@ public class ProductServiceImp extends GenericService<ProductEntity> implements 
 
 	@Override
 	public Map<String, Object> findByPage(Map<String, Object> map) {
-//		ByPageSelect select=(sm,m)->sm.SELECT("*").FROM(new ProductEntity(), "p");
 		return byPage(map, ProductEntity.class,(sm,m)->sm.SELECT("*").FROM(new ProductEntity(), "p"));
 	}
-	
 }

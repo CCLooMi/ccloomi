@@ -1,9 +1,13 @@
 package com.ccloomi.core.common.controller;
 
+import java.util.Map;
+
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ccloomi.core.common.bean.Message;
+import com.ccloomi.web.system.entity.UserEntity;
 
 /**
  * 类名：BaseController
@@ -29,6 +33,18 @@ public abstract class BaseController {
 		m.setCode("1");
 		m.setInfo(error);
 		return m;
+	}
+	protected Object getAttributeFromSession(Object key){
+		return SecurityUtils.getSubject().getSession().getAttribute(key);
+	}
+	@SuppressWarnings("unchecked")
+	protected <T>T getAttributeFromSession(Object key,Class<T>clazz){
+		return (T)SecurityUtils.getSubject().getSession().getAttribute(key);
+	}
+	protected UserEntity currentUser(){
+		@SuppressWarnings("unchecked")
+		Map<String, Object>userMap=getAttributeFromSession("user", Map.class);
+		return (UserEntity) userMap.get("user");
 	}
 //	/**
 //	 * 描述：异常处理方法
