@@ -147,6 +147,25 @@ public abstract class SQLMaker implements SQLGod{
 		this.alias_entity.put(alias, entity);
 		return this;
 	}
+	public SQLMaker FROM_SELECT(SQLGod sm,String alias){
+		Map<String, List<? extends Object>>map=sm.sql();
+		for(String sql:map.keySet()){
+			this.table_alias.put("("+sql+")", alias);
+			List<? extends Object>values=map.get(sql);
+			this.values.addAll(values);
+			return this;
+		}
+		return this;
+	}
+	public SQLMaker SELECT_BEFORE_AS(String alias){
+		String beforeSQL=sqlString();
+		List<Object>beforeValues=new ArrayList<Object>();
+		beforeValues.addAll(values);
+		this.clean();
+		this.table_alias.put("("+beforeSQL+")", alias);
+		this.values.addAll(beforeValues);
+		return this;
+	}
 	public SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on,Object...values){
 		this.join_table_alias_on.add(" LEFT JOIN "+entity.tableName()+" "+alias+" ON "+on);
 		this.alias_entity.put(alias, entity);
