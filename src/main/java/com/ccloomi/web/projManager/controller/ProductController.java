@@ -47,4 +47,26 @@ public class ProductController extends BaseController{
 			return responseMessageError("添加产品失败");
 		}
 	}
+	@RequestMapping("/update")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message update(@RequestBody ProductEntity product){
+		int i=productService.update(product);
+		if(i>0){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("修改产品失败");
+		}
+	}
+	@RequestMapping("/remove")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message remove(@RequestBody ProductEntity product){
+		int i=productService.delete(product.getId());
+		if(i>0){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("删除产品["+product.getName()+"]失败");
+		}
+	}
 }

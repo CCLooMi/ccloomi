@@ -2,11 +2,11 @@
  * Created by chenxianjun on 15/12/24.
  */
 angular.module('ccloomi')
-    .controller('productCtrl',['$scope','S_pagination','S_product', function ($scope,S_pagination,S_product) {
+    .controller('productCtrl',['$scope','S_pagination','S_product','$location', function ($scope,S_pagination,S_product,$location) {
         $scope.products=[];
         $scope.product={};
-        $scope.addProduct= function () {
-            S_product.add($scope,$scope.product);
+        $scope.add= function () {
+            S_product.add($scope);
         };
         $scope.update= function (product) {
             S_product.update($scope,product);
