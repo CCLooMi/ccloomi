@@ -31,7 +31,8 @@ var app=angular
                             'scripts/directives/header/header-notification/header-notification.js',
                             'scripts/directives/sidebar/sidebar.js',
                             'bower_components/paginationjs/dist/pagination.js',
-                            'bower_components/artDialog/dist/dialog-plus-min.js',
+                                //'bower_components/artDialog/dist/dialog-plus-min.js',
+                            'js/CCDialog.js',
                             'css/ui-dialog.css',
                             'css/pagination.css'
                             ]
@@ -202,7 +203,8 @@ var app=angular
                                 'scripts/directives/projManager/header/header.js',
                                 'scripts/directives/projManager/footer/footer.js',
                                 'bower_components/paginationjs/dist/pagination.js',
-                                'bower_components/artDialog/dist/dialog-plus-min.js',
+                                //'bower_components/artDialog/dist/dialog-plus-min.js',
+                                'js/CCDialog.js',
                                 'styles/pjm.css',
                                 'css/ui-dialog.css',
                                 'css/pagination.css'

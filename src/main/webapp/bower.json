@@ -41,12 +41,12 @@
     "Context.js": "git://github.com/CCLooMi/Context.js",
     "ng-file-upload": "~9.0.19",
     "less": "less.js#~2.5.3",
-    "artDialog": "art-dialog#~6.0.4",
     "jstree": "~3.2.1",
     "paginationjs": "git://github.com/CCLooMi/paginationjs#~2.0.7",
     "vis": "~4.9.0",
     "three.js": "threejs#*",
     "Buttons": "~2.0.0",
-    "ckeditor": "~4.5.6"
+    "ckeditor": "~4.5.6",
+    "smalot-bootstrap-datetimepicker": "~2.3.5"
   }
 }

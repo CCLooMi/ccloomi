@@ -57,8 +57,7 @@ public class SystemRealm extends AuthorizingRealm{
 			Subject sub=SecurityUtils.getSubject();
 			Session session=sub.getSession();
 			session.setAttribute("user", userMap);
-			SimpleAuthenticationInfo info=new SimpleAuthenticationInfo(user.getId(),user.getPassword(),user.getUsername());
-			return info;
+			return new SimpleAuthenticationInfo(user.getId(),user.getPassword(),user.getUsername());
 		}else{
 			throw new UnknownAccountException();
 		}

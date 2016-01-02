@@ -152,11 +152,11 @@ angular.module('ccloomi')
         var service={
             dialog: function (title,templateUrl,scope,ok,cancel,afterShow,width) {
                 $http.get(templateUrl,{cache:true}).success(function (data) {
-                    var d=dialog({
+                    var d=CCDialog({
                         title:title,
                         content:data,
                         okValue:'确定',
-                        width:width||500,
+                        width:width||600,
                         ok: ok||function(){},
                         cancelValue:'取消',
                         cancel: cancel||function(){}
@@ -165,7 +165,7 @@ angular.module('ccloomi')
                     if(afterShow){
                         afterShow();
                     }
-                    $compile('.ui-dialog')(scope);
+                    $compile('#CCModal')(scope);
                 }).error(function () {
                     swal('操作异常','网络错误','error');
                 });
