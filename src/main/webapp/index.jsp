@@ -20,6 +20,7 @@
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-ckeditor-modal-fix.js"></script>
 	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
 	<%--<script src="js/ocLazyLoad.js"></script>--%>
