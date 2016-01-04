@@ -258,30 +258,3 @@ angular.module('ccloomi')
         };
         return service;
     }])
-    .directive('affix', function () {
-        return {
-            restrict: 'A',
-            link: function (scope,element,attrs) {
-                element.affix({
-                    offset:{
-                        top: 20,
-                        bottom: function () {
-                            return (this.bottom = $('.footer').outerHeight(true))
-                        }
-                    }
-                });
-            }
-        }
-    })
-    .directive('ckeditor',function () {
-        return {
-            restrict: 'A',
-            require:'ngModel',
-            link: function (scope,element,attrs,ngModel) {
-                var editor=CKEDITOR.replace(element[0]);
-                editor.on('change', function (e) {
-                    ngModel.$setViewValue(this.getData());
-                });
-            }
-        }
-    });

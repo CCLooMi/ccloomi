@@ -38,6 +38,10 @@ var app=angular
                     }
                 }
             })
+            .state('main.test',{
+                url:'/test',
+                templateUrl:'views/test/test.html'
+            })
             .state('main.menu',{
                 url:'/menu',
                 templateUrl:'views/menu/menu.html',

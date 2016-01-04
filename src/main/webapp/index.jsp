@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
 	<link rel="stylesheet" href="bower_components/vis/dist/vis.min.css">
 	<link rel="stylesheet" href="bower_components/Context.js/context.standalone.css">
-
+	<link rel="stylesheet" href="bower_components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="styles/common.css">
 	
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -32,10 +32,13 @@
 	<script src="bower_components/ckeditor/ckeditor.js"></script>
 	<script src="bower_components/vis/dist/vis.min.js"></script>
 	<script src="bower_components/Context.js/context.js"></script>
+	<script src="bower_components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+	<script src="bower_components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
 	<script src="js/common.js"></script>
 	<script src="scripts/app.js"></script>
 	<script src="scripts/services/commonService.js"></script>
+	<script src="scripts/directives/commonDirective.js"></script>
 </head>
 <body ng-app="ccloomi" ui-view>
 </body>
