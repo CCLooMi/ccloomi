@@ -3,10 +3,8 @@ package com.ccloomi.core.component.sql;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +28,7 @@ public abstract class SQLMaker implements SQLGod{
 	protected StringBuilder sb;
 	protected Map<String, String>table_alias;
 	protected Map<String, BaseEntity>alias_entity;
-	protected Set<String>join_table_alias_on;
+	protected List<String>join_table_alias_on;
 	protected List<String>columns;
 	protected String where;
 	protected List<String>andor;
@@ -42,21 +40,21 @@ public abstract class SQLMaker implements SQLGod{
 	protected List<String>vSets;
 	protected SQLMaker(){};
 	private void init(){
-		this.sb				= new StringBuilder();
-		this.table_alias	= new HashMap<>();
-		this.alias_entity	= new HashMap<>();
-		this.columns		= new ArrayList<>();
-		this.values			= new ArrayList<>();
+		this.sb						= new StringBuilder();
+		this.table_alias			= new HashMap<>();
+		this.alias_entity			= new HashMap<>();
+		this.columns				= new ArrayList<>();
+		this.values					= new ArrayList<>();
 		//select|update|delete
-		this.where			= "1=1";
-		this.andor			= new ArrayList<>();
+		this.where					= "1=1";
+		this.andor					= new ArrayList<>();
 		//select
-		this.join_table_alias_on= new HashSet<>();
-		this.order_by		= new ArrayList<>();
-		this.group_by		= new ArrayList<>();
-		this.limit			= "";
+		this.join_table_alias_on	= new ArrayList<>();
+		this.order_by				= new ArrayList<>();
+		this.group_by				= new ArrayList<>();
+		this.limit					= "";
 		//insert
-		this.vSets			= new ArrayList<String>();
+		this.vSets					= new ArrayList<String>();
 	}
 	public SQLMaker clean(){
 		this.init();
@@ -309,21 +307,7 @@ public abstract class SQLMaker implements SQLGod{
 		}else if(this.type==4){
 			return sb.toString();
 		}
-		for(String alias:this.alias_entity.keySet()){
-			StringBuffer sbf=new StringBuffer();
-			Pattern pattern=Pattern.compile(alias+"\\.\\w+");
-			BaseEntity entity=this.alias_entity.get(alias);
-			Matcher matcher=pattern.matcher(sb.toString());
-			
-			while(matcher.find()){
-				String pname=matcher.group().split("\\.")[1];
-				String replacement=(this.type==2||this.type==3)?(entity.getPropertyTableColumn(pname)):(alias+"."+entity.getPropertyTableColumn(pname));
-				matcher.appendReplacement(sbf, replacement);
-			}
-			matcher.appendTail(sbf);
-			sb=new StringBuilder(sbf);
-		}
-		String sql=sb.toString();
+		String sql=doSQLFilter(sb).toString();
 		sb=new StringBuilder();
 		return sql;
 	}
@@ -343,11 +327,15 @@ public abstract class SQLMaker implements SQLGod{
 			stringBuilder.append(" WHERE ").append(this.where);
 			stringBuilder.append(StringUtil.join(" ", this.andor.toArray()));
 		}
+		return doSQLFilter(stringBuilder).toString();
+	}
+	private StringBuilder doSQLFilter(StringBuilder stringBuilder){
 		for(String alias:this.alias_entity.keySet()){
 			StringBuffer sbf=new StringBuffer();
 			Pattern pattern=Pattern.compile(alias+"\\.\\w+");
 			BaseEntity entity=this.alias_entity.get(alias);
 			Matcher matcher=pattern.matcher(stringBuilder.toString());
+			
 			while(matcher.find()){
 				String pname=matcher.group().split("\\.")[1];
 				matcher.appendReplacement(sbf, alias+"."+entity.getPropertyTableColumn(pname));
@@ -355,7 +343,7 @@ public abstract class SQLMaker implements SQLGod{
 			matcher.appendTail(sbf);
 			stringBuilder=new StringBuilder(sbf);
 		}
-		return stringBuilder.toString();
+		return stringBuilder;
 	}
 	@Override
 	public Map<String, List<? extends Object>> sql(){

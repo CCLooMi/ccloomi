@@ -39,6 +39,9 @@ public class MemcachedClientFactory extends CatcheClientFactory{
 		pool.setNagle(map.get("nagle")==null?false:Boolean.valueOf(map.get("nagle")));
 		pool.setSocketTO(map.get("socketTO")==null?3000:Integer.valueOf(map.get("socketTO")));
 		pool.setSocketConnectTO(map.get("socketConnectTO")==null?0:Integer.valueOf(map.get("socketConnectTO")));
+		if(!pool.isInitialized()){
+			pool.initialize();
+		}
 		MemCachedClient client=new MemCachedClient("whalinMemcachedPool");
 		return new MemcachedClient(client);
 	}

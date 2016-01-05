@@ -11,7 +11,7 @@
             '<div class="modal-dialog" role="document" style="width: '+option.width+'px">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
-            '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fa fa-remove"></span></button>' +
+            '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>' +
             '<h4 class="modal-title">'+option.title+'</h4>' +
             '</div>' +
             '<div class="modal-body">'+option.content+'</div>' +
