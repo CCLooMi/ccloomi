@@ -228,3 +228,26 @@ input {
   .transition;
   transition-property: width;
 }
+.dropdown-menu {
+  &.form-select {
+    .panel {
+      border: none;
+      box-shadow: none;
+      margin: 0;
+      .panel-heading {
+        background-color: transparent;
+        padding: 5px 10px;
+      }
+      .panel-body {
+        padding: 5px;
+        >span {
+          padding: 4px;
+          &:hover {
+            color: orangered;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

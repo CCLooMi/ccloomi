@@ -49,7 +49,9 @@ angular.module('ccloomi')
         return {
             restrict: 'A',
             link: function (scope,element,attrs) {
-                var selectTemplate='<div style="display: block; position: absolute; top: 86px; left: 508px; padding: 5px; max-height: 250px;width: 360px;min-height: 50px;" class="dropdown-menu form-select"></div>';
+                var selectTemplate='<div style="display: block; position: absolute; top: 86px; left: 508px; padding: 5px; max-height: 250px;width: 360px;min-height: 50px;" class="dropdown-menu form-select">' +
+                    '<div class="panel panel-default"><div class="panel-heading">User</div><div class="panel-body"><span>CCLooMi</span><span>cjx</span><span>ttm</span><span>Angular</span><span>boos</span><span>AnyAng</span><span>wowo</span></div></div>' +
+                    '</div>';
                 var selectPicker=$(selectTemplate)
                     .appendTo($('body'));
             }
