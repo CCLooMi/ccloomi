@@ -55,6 +55,39 @@ angular.module('ccloomi')
                 var selectPicker=$(selectTemplate)
                     .appendTo($('body'));
                 var EL=attrs['form-select'];
+
+                var EL='a@A a.name&a.id/a.age';
+                var $scope={};
+                $scope.A=[
+                    {id:1,name:'AA',age:18},
+                    {id:2,name:'AA',age:18},
+                    {id:3,name:'AA',age:18},
+                    {id:4,name:'AA',age:18},
+                    {id:5,name:'AA',age:18},
+                    {id:6,name:'BA',age:12},
+                    {id:7,name:'BB',age:12},
+                    {id:8,name:'BC',age:12}
+                ];
+
+                (function (EL) {
+                    try{
+                        var el1=EL.match(/\w+@\w+/g)[0].match(/\w+/g);
+                        var el2=EL.match(/\w+\.\w+&\w+\.\w+/g)[0].match(/\w+\.\w+/g);
+                    }catch(e){
+                        console.error(e);
+                    };
+                    try{
+                        var el3=EL.match(/\/\w+\.\w+/g)[0].match(/\w+\.\w+/g);
+                    }catch(e){};
+
+                    for(var i=0;i<$scope[el1[1]].length;i++){
+                        this[el1[0]]=$scope[el1[1]][i];
+                        var label=eval(el2[0]);
+                        var d='';
+                        d+='<span data-index="'+i+'">'+label+'</span>';
+                        console.log(d);
+                    }
+                })(EL);
                 alert(eval('(function(){return 123456})()'));
             }
         }
