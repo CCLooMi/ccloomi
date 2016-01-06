@@ -54,6 +54,8 @@ angular.module('ccloomi')
                     '</div>';
                 var selectPicker=$(selectTemplate)
                     .appendTo($('body'));
+                var EL=attrs['form-select'];
+                alert(eval('(function(){return 123456})()'));
             }
         }
     })
