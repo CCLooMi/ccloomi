@@ -338,7 +338,11 @@ public abstract class SQLMaker implements SQLGod{
 			
 			while(matcher.find()){
 				String pname=matcher.group().split("\\.")[1];
-				matcher.appendReplacement(sbf, alias+"."+entity.getPropertyTableColumn(pname));
+				if(this.type==2||this.type==3){
+					matcher.appendReplacement(sbf, entity.getPropertyTableColumn(pname));
+				}else{
+					matcher.appendReplacement(sbf, alias+"."+entity.getPropertyTableColumn(pname));
+				}
 			}
 			matcher.appendTail(sbf);
 			stringBuilder=new StringBuilder(sbf);
