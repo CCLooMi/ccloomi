@@ -45,31 +45,17 @@ angular.module('ccloomi')
             }
         }
     })
-    .directive('formSelect',function(){
+    .directive('formSelect',['$filter',function($filter){
         return {
             restrict: 'A',
-            link: function (scope,element,attrs) {
-                var EL=attrs['form-select'];
-
-                var EL='a@A a.name&a.id/a.age';
-                var $scope={};
-                $scope.A=[
-                    {id:1,name:'AA',age:18},
-                    {id:2,name:'AA',age:18},
-                    {id:3,name:'AA',age:18},
-                    {id:4,name:'AA',age:18},
-                    {id:5,name:'AA',age:18},
-                    {id:6,name:'BA',age:12},
-                    {id:7,name:'BB',age:12},
-                    {id:8,name:'BC',age:12}
-                ];
+            require:'ngModel',
+            link: function (scope,element,attrs,ngModel) {
+                var EL=attrs['formSelect'];
                 (function (EL) {
                     var selectTemplate='<div style="display: block; position: absolute; top: 86px; left: 508px; padding: 5px;min-height: 100px; max-height: 250px;max-width: 360px;" class="dropdown-menu form-select"></div>';
                     var selectPicker=$(selectTemplate)
                         .appendTo($('body'))
-                        .on({
-                            click: click
-                        });
+                        .on({click: click});
                     try{
                         var el1=EL.match(/\w+@\w+/g)[0].match(/\w+/g);
                         var el2=EL.match(/\w+\.\w+&\w+\.\w+/g)[0].match(/\w+\.\w+/g);
@@ -80,46 +66,50 @@ angular.module('ccloomi')
                     try{
                         var el3=EL.match(/\/\w+\.\w+/g)[0].match(/\w+\.\w+/g);
                     }catch(e){};
-
-                    if(!el3||!el3.length){
-                        var d='<div class="panel panel-default"><div class="panel-body">';
-                        for(var i=0;i<$scope[el1[1]].length;i++){
-                            $scope[el1[0]]=$scope[el1[1]][i];
-                            var label=$scope[el1[0]][el2[0].split('\.')[1]];
-                            d+='<span data-index="'+i+'">'+label+'</span>';
-                        }
-                        selectPicker.html(d+'</div></div>');
-                    }else{
-                        var d='';
-                        var group;
-                        for(var i=0;i<$scope[el1[1]].length;i++){
-                            this[el1[0]]=$scope[el1[1]][i];
-                            var label=eval(el2[0]);
-                            if(group==undefined){
-                                group=eval(el3[0]);
-                                d+='<div class="panel panel-default"><div class="panel-heading">'+el3[0].split('\.')[1]+'::'+group+'</div><div class="panel-body">';
-                            }
-                            var currentGroup=eval(el3[0]);
-                            if(currentGroup==group){
+                    if(el1&&el1[1]&&scope[el1[1]]){
+                        if(!el3||!el3.length){
+                            var d='<div class="panel panel-default"><div class="panel-body">';
+                            for(var i=0;i<scope[el1[1]].length;i++){
+                                scope[el1[0]]=scope[el1[1]][i];
+                                var label=scope[el1[0]][el2[0].split('\.')[1]];
                                 d+='<span data-index="'+i+'">'+label+'</span>';
-                            }else{
-                                group=currentGroup;
-                                d+='</div></div><div class="panel panel-default"><div class="panel-heading">'+el3[0].split('\.')[1]+'::'+group+'</div><div class="panel-body">'+'<span data-index="'+i+'">'+label+'</span>';
                             }
+                            selectPicker.html(d+'</div></div>');
+                        }else{
+                            var d='';
+                            var group;
+                            var groupBy=el3[0].split('\.')[1];
+                            //先排序
+                            scope[el1[1]]=$filter('orderBy')(scope[el1[1]],groupBy);
+                            for(var i=0;i<scope[el1[1]].length;i++){
+                                scope[el1[0]]=scope[el1[1]][i];
+                                var label=scope[el1[0]][el2[0].split('\.')[1]];
+                                if(group==undefined){
+                                    group=scope[el1[0]][groupBy];
+                                    d+='<div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">';
+                                }
+                                var currentGroup=scope[el1[0]][groupBy];
+                                if(currentGroup==group){
+                                    d+='<span data-index="'+i+'">'+label+'</span>';
+                                }else{
+                                    group=currentGroup;
+                                    d+='</div></div><div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">'+'<span data-index="'+i+'">'+label+'</span>';
+                                }
 
+                            }
+                            d+='</div></div>';
+                            selectPicker.html(d);
                         }
-                        d+='</div></div>';
-                        selectPicker.html(d);
                     }
                     function click (e) {
                         var target=$(e.target);
                         if(model){
-                            alert($scope[el1[1]][target.data('index')][model.split('\.')[1]]);
+                            ngModel.$setViewValue(scope[el1[1]][target.data('index')][model.split('\.')[1]]);
                         }else{
-                            alert(JSON.stringify($scope[el1[1]][target.data('index')]));
+                            ngModel.$setViewValue(scope[el1[1]][target.data('index')]);
                         }
                     };
                 })(EL);
             }
         }
-    })
+    }])
