@@ -50,28 +50,32 @@ angular.module('ccloomi')
             restrict: 'A',
             require:'ngModel',
             link: function (scope,element,attrs,ngModel) {
-                var EL=attrs['formSelect'];
                 (function (EL) {
-                    var selectTemplate='<div style="display: block; position: absolute; top: 86px; left: 508px; padding: 5px;min-height: 100px; max-height: 250px;max-width: 360px;" class="dropdown-menu form-select"></div>';
+                    var selectTemplate='<div class="dropdown-menu form-select"></div>';
                     var selectPicker=$(selectTemplate)
                         .appendTo($('body'))
                         .on({click: click});
                     try{
                         var el1=EL.match(/\w+@\w+/g)[0].match(/\w+/g);
-                        var el2=EL.match(/\w+\.\w+&\w+\.\w+/g)[0].match(/\w+\.\w+/g);
-                        var model=el2.length>1?el2[1]:undefined;
                     }catch(e){
                         console.error(e);
                     };
                     try{
+                        var el2=EL.match(/\w+\.\w+&\w+\.\w+/g)[0].match(/\w+\.\w+/g);
+                    }catch(e){
+                        var el2=EL.match(/^\w+\.\w+| \w+\.\w+/g);
+                    }
+                    var model=el2.length>1?el2[1]:undefined;
+                    try{
                         var el3=EL.match(/\/\w+\.\w+/g)[0].match(/\w+\.\w+/g);
                     }catch(e){};
+                    var tempObj={};
                     if(el1&&el1[1]&&scope[el1[1]]){
                         if(!el3||!el3.length){
                             var d='<div class="panel panel-default"><div class="panel-body">';
                             for(var i=0;i<scope[el1[1]].length;i++){
-                                scope[el1[0]]=scope[el1[1]][i];
-                                var label=scope[el1[0]][el2[0].split('\.')[1]];
+                                tempObj[el1[0]]=scope[el1[1]][i];
+                                var label=tempObj[el1[0]][el2[0].split('\.')[1]];
                                 d+='<span data-index="'+i+'">'+label+'</span>';
                             }
                             selectPicker.html(d+'</div></div>');
@@ -82,13 +86,13 @@ angular.module('ccloomi')
                             //先排序
                             scope[el1[1]]=$filter('orderBy')(scope[el1[1]],groupBy);
                             for(var i=0;i<scope[el1[1]].length;i++){
-                                scope[el1[0]]=scope[el1[1]][i];
-                                var label=scope[el1[0]][el2[0].split('\.')[1]];
+                                tempObj[el1[0]]=scope[el1[1]][i];
+                                var label=tempObj[el1[0]][el2[0].split('\.')[1]];
                                 if(group==undefined){
-                                    group=scope[el1[0]][groupBy];
+                                    group=tempObj[el1[0]][groupBy];
                                     d+='<div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">';
                                 }
-                                var currentGroup=scope[el1[0]][groupBy];
+                                var currentGroup=tempObj[el1[0]][groupBy];
                                 if(currentGroup==group){
                                     d+='<span data-index="'+i+'">'+label+'</span>';
                                 }else{
@@ -103,13 +107,26 @@ angular.module('ccloomi')
                     }
                     function click (e) {
                         var target=$(e.target);
-                        if(model){
-                            ngModel.$setViewValue(scope[el1[1]][target.data('index')][model.split('\.')[1]]);
-                        }else{
-                            ngModel.$setViewValue(scope[el1[1]][target.data('index')]);
+                        if(target.is('span')){
+                            if(model){
+                                ngModel.$setViewValue(scope[el1[1]][target.data('index')][model.split('\.')[1]]);
+                            }else{
+                                ngModel.$setViewValue(scope[el1[1]][target.data('index')]);
+                            }
+                            element.val(scope[el1[1]][target.data('index')][el2[0].split('\.')[1]]);
                         }
                     };
-                })(EL);
+                    element.click(function () {
+                        placeAunderB(selectPicker,element);
+                        selectPicker.show(250);
+                    });
+                    $(document).click(function (e) {
+                        var target=$(e.target);
+                        if(!target.is('.dropdown-menu.form-select')&&!target.is(element)){
+                            selectPicker.hide(250);
+                        }
+                    });
+                })(attrs['formSelect']);
             }
         }
     }])

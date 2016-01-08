@@ -40,7 +40,17 @@ var app=angular
             })
             .state('main.test',{
                 url:'/test',
-                templateUrl:'views/test/test.html'
+                templateUrl:'views/test/test.html',
+                resolve:{
+                    loadMyDirectives: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/test/testController.js'
+                            ]
+                        })
+                    }
+                }
             })
             .state('main.menu',{
                 url:'/menu',

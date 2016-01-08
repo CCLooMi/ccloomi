@@ -40,6 +40,29 @@ function highlight(kstr,str,color){
     };
     return str.replace(/#\(/g,pl).replace(/#\)/g,pr);
 }
+
+function placeAunderB(a,b){
+    var body=$('body');
+    var offset,top,left,containerOffset;
+    containerOffset=body.offset();
+    offset=b.offset();
+    left=offset.left;
+    var bodyWidth=document.body.clientWidth||window.innerWidth;
+    if(350>=window.innerWidth){
+        left=0;
+    }else{
+        if(left+350>bodyWidth){
+            left=bodyWidth-350;
+        }
+    }
+    top=offset.top+b.outerHeight();
+    top=top-containerOffset.top;
+    left=left-containerOffset.left;
+    a.css({
+        top:top,
+        left:left
+    });
+}
 Array.minus = function(a,b){
     var r=[];
     for(var i in a){
