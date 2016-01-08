@@ -61,6 +61,21 @@ public abstract class SQLMaker implements SQLGod{
 		this.batchArgs=null;
 		return this;
 	}
+	/**清除排序字段*/
+	public SQLMaker cleanOrderBy(){
+		this.order_by=new ArrayList<String>();
+		return this;
+	}
+	/**清除分组字段*/
+	public SQLMaker cleanGroupBy(){
+		this.group_by=new ArrayList<String>();
+		return this;
+	}
+	/**清除查询字段*/
+	public SQLMaker cleanSelect(){
+		this.columns=new ArrayList<String>();
+		return this;
+	}
 	/**获取 batchArgs*/
 	public List<Object[]> getBatchArgs() {
 		return batchArgs;
