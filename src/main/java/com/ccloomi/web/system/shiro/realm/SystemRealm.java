@@ -13,9 +13,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ccloomi.web.system.entity.UserEntity;
@@ -48,15 +46,13 @@ public class SystemRealm extends AuthorizingRealm{
 		UsernamePasswordToken utoken=(UsernamePasswordToken) token;
 		UserEntity user=userService.findByUsernameAndPassword(utoken.getUsername(), String.valueOf(utoken.getPassword()));
 		if(user!=null){
+			//保存用户基本信息
 			Map<String, Object>userMap=new HashMap<>();
 			userMap.put("user", user);
 			userMap.put("views", roleService.findViewsByIdUser(user.getId()));
 			userMap.put("roles", roleService.findRolesByIdUser(user.getId()));
 			userMap.put("permissions", roleService.findPermissionsByIdUser(user.getId()));
-			
-			Subject sub=SecurityUtils.getSubject();
-			Session session=sub.getSession();
-			session.setAttribute("user", userMap);
+			SecurityUtils.getSubject().getSession().setAttribute("user", userMap);
 			return new SimpleAuthenticationInfo(user.getId(),user.getPassword(),user.getUsername());
 		}else{
 			throw new UnknownAccountException();

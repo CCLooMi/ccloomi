@@ -41,6 +41,9 @@ public abstract class BaseController {
 	protected <T>T getAttributeFromSession(Object key,Class<T>clazz){
 		return (T)SecurityUtils.getSubject().getSession().getAttribute(key);
 	}
+	protected void saveToSession(Object key,Object value){
+		SecurityUtils.getSubject().getSession().setAttribute(key, value);
+	}
 	protected UserEntity currentUser(){
 		@SuppressWarnings("unchecked")
 		Map<String, Object>userMap=getAttributeFromSession("user", Map.class);
