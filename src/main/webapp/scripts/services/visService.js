@@ -131,7 +131,7 @@ angular.module('ccloomi')
                                 var target=$(e.target);
                                 if(target.is('.input-group input')){
                                     searchPanel.addClass('onfocus');
-                                }else if(target.is('.input-group-btn button')){
+                                }else if(target.is('.input-group-btn *')){
                                     var keyword=target.closest('.input-group').find('input').val();
                                     if(keyword&&keyword!=''){
                                         findNodes=[];
