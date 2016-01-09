@@ -8,7 +8,7 @@ angular.module('ccloomi')
         var findNodes=[];
         var highlightActive = false;
         var searchTemplate='<div class="panel panel-default network-search"><div class="panel-heading">' +
-            '<span class="btn close">×</span><form class="form-inline"><div class="input-group"><input type="text" placeholder="Search for..." class="form-control"><span class="input-group-btn"><button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button></span></div></form>' +
+            '<span class="btn close">×</span><form class="form-inline"><div class="input-group"><input type="text" placeholder="Search for..." class="form-control"><span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button></span></div></form>' +
             '</div><div class="panel-body"><div class="list-group"></div></div></div>';
         var service={
             network: function (scope,data,container,options) {
