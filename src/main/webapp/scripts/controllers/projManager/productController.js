@@ -8,6 +8,9 @@ angular.module('ccloomi')
         $scope.add= function () {
             S_product.add($scope);
         };
+        $scope.demand= function (product) {
+            $location.path('#/proj/main/product/demand',product);
+        };
         $scope.update= function (product) {
             S_product.update($scope,product);
         };

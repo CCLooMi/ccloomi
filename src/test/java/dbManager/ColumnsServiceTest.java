@@ -1,6 +1,10 @@
 package dbManager;
 
+import java.util.List;
+
 import com.ccloomi.core.test.BaseTest;
+import com.ccloomi.core.util.DbUtil;
+import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.service.ColumnsService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
@@ -14,7 +18,12 @@ public class ColumnsServiceTest extends BaseTest<ColumnsService>{
 	
 	@Override
 	protected void test(ColumnsService testObj) {
-		System.out.println(testObj.findColumnsByTableSchemaAndTableName("ccloomi", "sys_user"));
+		List<ColumnsEntity>ls=testObj.findColumnsByTableSchemaAndTableName("ccloomi", "t_cc_demand");
+		for(ColumnsEntity column:ls){
+			System.out.println("/**"+column.getColumn_comment()+"*/");
+			System.out.println("private "+DbUtil.getJavaType(column)+" "+column.getColumn_name()+";");
+		}
+		System.out.println(ls);
 	}
 	public static void main(String[] args) {
 		new ColumnsServiceTest().runTest();

@@ -170,6 +170,22 @@ angular.module('ccloomi')
                     swal('操作异常','网络错误','error');
                 });
             },
+            dialogHtml: function (title,templateHtml,scope,ok,cancel,afterShow,width) {
+                var d=CCDialog({
+                    title:title,
+                    content:templateHtml,
+                    okValue:'确定',
+                    width:width||600,
+                    ok: ok||function(){},
+                    cancelValue:'取消',
+                    cancel: cancel||function(){}
+                });
+                d.showModal();
+                if(afterShow){
+                    afterShow();
+                }
+                $compile('#CCModal')(scope);
+            },
             alert: function (title,text,type) {
                 swal(title,text,type||'info');
             },

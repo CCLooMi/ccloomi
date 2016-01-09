@@ -29,6 +29,15 @@ angular.module('ccloomi')
             getCollationsByCharacter: function (characterName,callback) {
                 $http.get('db/collationsByCharacter.json?characterName='+characterName)
                     .success(callback);
+            },
+            getTableColumnsAsProperties: function (dbName,tableName,scope) {
+                $http.get('db/convertTableColumns2Properties.json?dbName='+dbName+'&tableName='+tableName).success(function (data) {
+                    var plistStr='';
+                    for(var i in data){
+                        plistStr+=data[i]+'<br>';
+                    }
+                    S_dialog.dialogHtml(dbName+'::'+tableName,plistStr,scope, null,null,null,768);
+                });
             }
         };
         return service;

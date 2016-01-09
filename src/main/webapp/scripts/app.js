@@ -181,8 +181,6 @@ var app=angular
                                 'scripts/services/visService.js',
                                 'scripts/services/schemataService.js',
                                 'scripts/controllers/dbDesignController.js',
-                                'bower_components/artDialog/dist/dialog-plus-min.js',
-                                'css/ui-dialog.css',
                                 'styles/dbDesign.css'
                             ]
                         })

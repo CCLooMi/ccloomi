@@ -1,39 +1,3 @@
 .db-design fieldset {
     height: 700px;
 }
-.db-design .vis-network {
-    height: 100%;
-    width: 100%;
-    background-color: #F4F4EA;
-    position: static;
-}
-.db-design #INFO {
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: 4px 4px 2px 0;
-    height: 34px;
-    opacity: 0.5;
-    position: absolute;
-    right: 80px;
-    text-align: center;
-    top: 80px;
-    transition-duration: 0.5s;
-    transition-property: width, height, padding, opacity, border;
-    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
-    width: 214px;
-}
-.db-design .info-onfocus {
-    border: 1px solid lightgray !important;
-    height: 250px !important;
-    width: 350px !important;
-    padding: 20px 10px 10px !important;
-    opacity: 1 !important;
-}
-.ui-dialog-body .table.table-bordered tbody td {
-    padding: 0 8px;
-}
-.ui-dialog-body .table.table-bordered input {
-    border: medium none;
-    line-height: 35px;
-    width: 100%;
-}

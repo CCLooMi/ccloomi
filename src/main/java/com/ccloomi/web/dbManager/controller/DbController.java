@@ -14,10 +14,13 @@ import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.core.component.sql.SQLMaker;
 import com.ccloomi.core.component.sql.SQLMakerFactory;
+import com.ccloomi.core.util.DbUtil;
 import com.ccloomi.web.dbManager.bean.VisNetworkBean;
 import com.ccloomi.web.dbManager.entity.CharacterSetsEntity;
 import com.ccloomi.web.dbManager.entity.CollationsEntity;
+import com.ccloomi.web.dbManager.entity.ColumnsEntity;
 import com.ccloomi.web.dbManager.entity.SchemataEntity;
+import com.ccloomi.web.dbManager.service.ColumnsService;
 import com.ccloomi.web.dbManager.service.SchemataService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
@@ -32,6 +35,8 @@ import com.ccloomi.web.dbManager.service.SchemataService;
 public class DbController extends BaseController{
 	@Autowired
 	private SchemataService schemataService;
+	@Autowired
+	private ColumnsService columnsService;
 	
 	@RequestMapping("/asVisNetwork")
 	@ResponseBody
@@ -81,5 +86,14 @@ public class DbController extends BaseController{
 	@RequiresAuthentication
 	public List<CollationsEntity> collationsByCharacter(String characterName){
 		return schemataService.findCollationsByCharacter(characterName);
+	}
+	@RequestMapping("/convertTableColumns2Properties")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<String> convertTableColumns2Properties(String dbName,String tableName){
+		List<ColumnsEntity>columns=columnsService.findColumnsByTableSchemaAndTableName(dbName, tableName);
+		return DbUtil.convertColumns2Properties(columns,(ColumnsEntity column)->{
+			//此处作过滤操作
+		});
 	}
 }

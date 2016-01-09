@@ -1,15 +1,5 @@
 <div class="container-fluid db-design" ng-controller="dbDesignCtrl">
     <fieldset class="shadow-box">
         <div id="network" class="vis-network"></div>
-        <div id="INFO" ng-class="{true:'info-onfocus'}[info_onfocus]">
-            <form class="form-inline">
-                <div class="input-group">
-                    <input type="text" ng-model="keyword" placeholder="Search for..." class="form-control" ng-focus="infoOnfocus()" ng-blur="infoOnblur()">
-				<span class="input-group-btn">
-					<button ng-click="search($event)" class="btn btn-default">搜索</button>
-				</span>
-                </div>
-            </form>
-        </div>
     </fieldset>
 </div>

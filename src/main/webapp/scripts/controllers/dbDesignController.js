@@ -2,7 +2,7 @@
  * Created by chenxianjun on 15/11/21.
  */
 angular.module('ccloomi')
-    .controller('dbDesignCtrl',['$scope','$http','$stateParams','S_dialog','S_vis', function ($scope,$http,$stateParams,S_dialog,S_vis) {
+    .controller('dbDesignCtrl',['$scope','$http','$stateParams','S_dialog','S_vis','S_schemata', function ($scope,$http,$stateParams,S_dialog,S_vis,S_schemata) {
         $scope.table={columns:[{length:0}]};
         $scope.addColumn= function () {
             $scope.table.columns.push({length:0});
@@ -29,16 +29,10 @@ angular.module('ccloomi')
                 }},
                 {menu_item_src:"clipboardMenu"},
                 {menu_item_src:"operateMenu"}
-            ]
+            ],
+            searchable:true
         };
         var dbName=$stateParams.name;
-        $scope['info_onfocus']=false;
-        $scope.infoOnfocus= function () {
-            $scope['info_onfocus']=true;
-        };
-        $scope.infoOnblur= function () {
-            $scope['info_onfocus']=false;
-        };
         function openDb(dbName){
             $http.get('db/asVisNetwork.json?name='+dbName).success(function (data) {
                 S_vis.network($scope,data,document.getElementById('network'),options);
@@ -106,6 +100,9 @@ angular.module('ccloomi')
                     m.push({icon: 'glyphicon glyphicon-plus',text:'添加',subMenu:[
                         {icon:'glyphicon glyphicon-list-alt',text:'字段'}
                     ]});
+                    m.push({icon:'fa fa-slack',text:'复制所有字段为实体属性',action:function(e){
+                        S_schemata.getTableColumnsAsProperties(dbName,selectNode.table_name,$scope);
+                    }});
                 }
 
             }else if(selectEdges.length){
