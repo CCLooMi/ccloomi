@@ -17,7 +17,7 @@ angular.module('ccloomi')
             }
         }
     })
-    .directive('ckeditor',function () {
+    .directive('ccEditor',function () {
         return {
             restrict: 'A',
             require:'ngModel',

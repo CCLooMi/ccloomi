@@ -33,7 +33,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">产品描述</label>
             <div class="col-sm-10">
-                <textarea class="form-control" rows="3" ckeditor ng-model="product.introduction"></textarea>
+                <textarea class="form-control" rows="3" cc-editor ng-model="product.introduction"></textarea>
             </div>
         </div>
 
@@ -42,17 +42,17 @@
             <div class="col-sm-5">
                 <div class="radio">
                     <label>
-                        <input type="radio" name="accessType" value="public" ng-model="product.accessType" ng-value="product.accessType">公开(所有人可访问)
+                        <input type="radio" name="accessType" value="public" ng-model="product.accessType" ng-checked="product.accessType=='public'">公开(所有人可访问)
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="accessType" value="private" ng-model="product.accessType">私有(自己可以访问)
+                        <input type="radio" name="accessType" value="private" ng-model="product.accessType" ng-checked="product.accessType=='private'">私有(自己可以访问)
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="accessType" value="protect" ng-model="product.accessType">保护(指定人可访问)
+                        <input type="radio" name="accessType" value="protect" ng-model="product.accessType" ng-checked="product.accessType=='protect'">保护(指定人可访问)
                     </label>
                 </div>
             </div>
