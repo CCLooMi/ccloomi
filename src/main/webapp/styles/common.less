@@ -273,6 +273,19 @@ input {
   width: 100%;
   background-color: #F4F4EA;
   position: static;
+  .btn {
+    &.network-fullscreen {
+      background: none;
+      border: none;
+      bottom: 32px;
+      float: right;
+      position: relative;
+      &:hover {
+        color: orange;
+        cursor: pointer;
+      }
+    }
+  }
 }
 .network-search {
   background-color: white;
@@ -285,6 +298,7 @@ input {
   transition-property: width, height, padding, opacity, border;
   .transition;
   width: 193px;
+  margin-bottom: 0;
   .btn {
     &.close {
       display: none;

@@ -30,7 +30,8 @@ angular.module('ccloomi')
                 {menu_item_src:"clipboardMenu"},
                 {menu_item_src:"operateMenu"}
             ],
-            searchable:true
+            searchable:true,
+            fullscreen:true
         };
         var dbName=$stateParams.name;
         function openDb(dbName){
