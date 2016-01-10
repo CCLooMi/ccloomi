@@ -295,7 +295,7 @@ input {
   position: absolute;
   right: 80px;
   top: 80px;
-  transition-property: width, height, padding, opacity, border;
+  transition-property: width, height, padding, opacity, border,margin;
   .transition;
   width: 193px;
   margin-bottom: 0;
@@ -311,8 +311,9 @@ input {
     padding: 0;
     background: none;
     border: none;
-    form {
-      text-align: center;
+    .input-group {
+      width: 193px;
+      .transition;
     }
   }
   .panel-body {
@@ -345,6 +346,11 @@ input {
     width: 350px !important;
     padding: 20px 10px 10px !important;
     opacity: 1 !important;
+    .panel-heading {
+      .input-group {
+        margin: 5px;
+      }
+    }
     .panel-body {
       display: block;
     }
