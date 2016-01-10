@@ -77,7 +77,7 @@ angular.module('ccloomi')
 
                     }, function () {
 
-                    },null,768);
+                    },null,768,{container:$('#network')});
                 }}
             ]});
             if(window.global&&window.global.schematas){
@@ -102,7 +102,7 @@ angular.module('ccloomi')
                         {icon:'glyphicon glyphicon-list-alt',text:'字段'}
                     ]});
                     m.push({icon:'fa fa-slack',text:'复制所有字段为实体属性',action:function(e){
-                        S_schemata.getTableColumnsAsProperties(dbName,selectNode.table_name,$scope);
+                        S_schemata.getTableColumnsAsProperties(dbName,selectNode.table_name,$scope,$('#network'));
                     }});
                 }
 

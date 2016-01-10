@@ -5,6 +5,7 @@
     function CCDialog(option){
         var that=this;
         option.width=option.width||600;
+        this.container=option.container||$('body');
         this.ok=option.ok||function(){};
         this.cancel=option.cancel||function(){};
         this.modalTemplate='<div class="modal fade" id="CCModal" tabindex="-1" role="dialog">' +
@@ -35,7 +36,7 @@
         showModal: function () {
             this.destroy();
             var dialog=$(this.modalTemplate)
-                .appendTo($('body'))
+                .appendTo(this.container)
                 .on({
                     click: $.proxy(this.click,this)
                 });

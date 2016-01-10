@@ -31,7 +31,7 @@
 	<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="bower_components/ckeditor/ckeditor.js"></script>
 	<script src="bower_components/vis/dist/vis.min.js"></script>
-	<script src="bower_components/Context.js/context.js"></script>
+	<script src="js/context.js"></script>
 	<script src="bower_components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
 	<script src="bower_components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 

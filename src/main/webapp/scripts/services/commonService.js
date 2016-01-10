@@ -150,9 +150,9 @@ angular.module('ccloomi')
     }])
     .factory('S_dialog',['$http','$compile', function ($http,$compile) {
         var service={
-            dialog: function (title,templateUrl,scope,ok,cancel,afterShow,width) {
+            dialog: function (title,templateUrl,scope,ok,cancel,afterShow,width,options) {
                 $http.get(templateUrl,{cache:true}).success(function (data) {
-                    var d=CCDialog({
+                    var d=CCDialog($.extend({
                         title:title,
                         content:data,
                         okValue:'确定',
@@ -160,7 +160,7 @@ angular.module('ccloomi')
                         ok: ok||function(){},
                         cancelValue:'取消',
                         cancel: cancel||function(){}
-                    });
+                    },options));
                     d.showModal();
                     if(afterShow){
                         afterShow();
@@ -170,8 +170,8 @@ angular.module('ccloomi')
                     swal('操作异常','网络错误','error');
                 });
             },
-            dialogHtml: function (title,templateHtml,scope,ok,cancel,afterShow,width) {
-                var d=CCDialog({
+            dialogHtml: function (title,templateHtml,scope,ok,cancel,afterShow,width,options) {
+                var d=CCDialog($.extend({
                     title:title,
                     content:templateHtml,
                     okValue:'确定',
@@ -179,7 +179,7 @@ angular.module('ccloomi')
                     ok: ok||function(){},
                     cancelValue:'取消',
                     cancel: cancel||function(){}
-                });
+                },options));
                 d.showModal();
                 if(afterShow){
                     afterShow();
