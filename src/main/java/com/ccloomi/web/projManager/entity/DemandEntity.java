@@ -2,6 +2,8 @@ package com.ccloomi.web.projManager.entity;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+
 import com.ccloomi.core.common.entity.IdEntity;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
@@ -11,6 +13,7 @@ import com.ccloomi.core.common.entity.IdEntity;
  * 邮    箱：chenios@foxmail.com
  * 日    期：2016年1月9日-上午10:30:22
  */
+@Table(name="t_cc_demand")
 public class DemandEntity extends IdEntity{
 	private static final long serialVersionUID = -5748869312146365007L;
 	/**需求标题*/

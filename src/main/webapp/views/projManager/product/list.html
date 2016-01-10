@@ -11,7 +11,7 @@
                     <td>{{product.productPIC}}</td>
                     <td>{{product.createdDate|date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td>
-                        <button class="btn shadow-box" ng-click="demand(product)">需求</button>
+                        <a class="btn shadow-box" href="#/proj/main/product/demand/{{product.id}}">需求</a>
                         <button class="btn shadow-box" ng-click="update(product)">编辑</button>
                         <button class="btn shadow-box" ng-click="remove(product)">删除</button>
                     </td>
