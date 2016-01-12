@@ -12,7 +12,7 @@
         this.wsuri=option.wsuri;
         this.multiple=option.multiple||true;
         this.draggable=option.draggable||true;
-        this.debugMode=option.debugMode||false;
+        UPGlobal.debugMode=option.debugMode||false;
         if($('[type="file"]')){
             this.fileInput=$('[type="file"]').on({change: $.proxy(this.fileSelect,this)});
         }else{
@@ -250,18 +250,20 @@
                 UPGlobal.filesToUpload.push(f);
                 f.formatFileSize=this.formatFileSize(f.size);
                 this.onAdd(f);
+                UPGlobal.allFilesCount++;
             }
         },
         startUpload:function(){
-            if(UPGlobal.filesToUpload.length!=0){
+            if(UPGlobal.filesToUpload.length!=0&&!UPGlobal.interval){
+                UPGlobal.onUploading=true;
                 this.startHashFile();
                 //因为有并发问题，故使用定时器监听是否上传完成
                 UPGlobal.interval=setInterval(this.checkComplet(this),250);
-            }
+            };
         },
         checkComplet: function (that) {
             return function(){
-                if(countProperties(UPGlobal.allFiles)==UPGlobal.filesUploaded.length&&UPGlobal.WSpool.length==that.concurrentUpload){
+                if(UPGlobal.onUploading&&UPGlobal.WSpool.length==that.concurrentUpload&&UPGlobal.allFilesCount==UPGlobal.filesUploaded.length){
                     clearInterval(UPGlobal.interval);
                     this.onComplete(UPGlobal.filesUploaded);
                 }
@@ -269,6 +271,9 @@
         }
     };
     var UPGlobal={
+        debugMode:false,
+        onUploading:false,
+        allFilesCount:0,
         allFiles:{},
         //用于删除中不同状态进行不同的处理
         fileUploadStepMap:{},//0,nothing;1,onHashing;2,onWaiting;3,onUploading;4,onSuccess
@@ -300,12 +305,12 @@
         return new Worker("../../js/CCHashFile.worker.js");
     };
     var log=function(message){
-        if(CCFileUpload.debugMode){
+        if(UPGlobal.debugMode){
             window.console.log(message);
         }
     };
     var error=function(message){
-        if(CCFileUpload.debugMode){
+        if(UPGlobal.debugMode){
             window.console.error(message);
         }
     };
