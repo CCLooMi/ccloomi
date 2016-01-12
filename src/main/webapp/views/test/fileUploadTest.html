@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../js/CCFileUpload.js"></script>
+</head>
+<body>
+<div class="container">
+    <input id="files" type="file" multiple style="display: none">
+    <button id="addfile">add</button>
+    <button id="startupload">Start</button>
+    <div id="progress"></div>
+    <div id="filelist"></div>
+</div>
+</body>
+<script>
+    var onProcess=function(f){
+//        $("#progress").html(o.progress);
+        var d;
+        d=$("[name='"+ f.name+"']");
+        d.html("="+d.html());
+    }
+    var onComplete=function(filesUploaded){
+        alert("成功上传"+filesUploaded.length+"个文件.")
+    }
+    var onAdd= function (f) {
+        var flist="<div name='"+ f.name+"'>"+ f.name+"::"+ f.formatFileSize+"</div>";
+        $("#filelist").append(flist);
+    }
+    var onHashCoplete= function (f) {
+        $("[name='"+ f.name+"']").attr("name",f.hash);
+    }
+    var fu=new CCFileUpload({
+//        concurrentHash:1,
+        concurrentUpload:2,
+        debugMode:true,
+        addfilesbutton:$("#addfile"),
+        startbutton:$("#startupload"),
+        onProcess:onProcess,
+        onComplete:onComplete,
+        onAdd:onAdd,
+        onHashCoplete:onHashCoplete,
+        wsuri:'ws://localhost:8082/FileUploadServer_3/websocket/fileup'
+    },$('#filelist'));
+</script>
+</html>
