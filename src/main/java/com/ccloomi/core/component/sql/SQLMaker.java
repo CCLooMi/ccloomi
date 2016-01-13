@@ -56,6 +56,10 @@ public abstract class SQLMaker implements SQLGod{
 		//insert
 		this.vSets					= new ArrayList<String>();
 	}
+	/** 获取：columns */
+	public List<String> getColumns() {
+		return getColumns(columns);
+	}
 	public SQLMaker clean(){
 		this.init();
 		this.batchArgs=null;
@@ -364,6 +368,54 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return stringBuilder;
 	}
+	/**
+	 * 方法描述：此方法可满足大部分的情况，对某些特殊情况会出错，例如在select中用逗号分隔多个带子查询的语句
+	 * 作        者：Chenxj
+	 * 日        期：2016年1月13日-下午12:49:03
+	 * @param columns
+	 * @return
+	 */
+	private List<String> getColumns(List<String>columns){
+		List<String>rs=new ArrayList<String>();
+		for(String column:columns){
+			if(column.contains("AS")){
+				String c=getColumn(column.substring(column.lastIndexOf("AS")));
+				if(c!=null){
+					rs.add(c);
+				}
+			}else if(column.contains(",")){
+				for(String s:column.split(",")){
+					String c=getColumn(s);
+					if(c!=null){
+						rs.add(c);
+					}
+				}
+			}else if(column.contains("\\*")){
+				String tableAlias=column.split("\\.")[0];
+				BaseEntity entity=alias_entity.get(tableAlias);
+				for(String p:entity.properties()){
+					rs.add(entity.getPropertyTableColumn(p));
+				}
+			}else{
+				String c=getColumn(column);
+				if(c!=null){
+					rs.add(c);
+				}
+			}
+		}
+		return rs;
+	};
+	private String getColumn(String column){
+		try{
+			if(column.contains("AS")){
+				return column.split("'")[1];
+			}else{
+				return column.split("\\.")[1];
+			}
+		}catch(Exception e){
+			return null;
+		}
+	};
 	@Override
 	public Map<String, List<? extends Object>> sql(){
 		Map<String, List<? extends Object>>result=new HashMap<String, List<? extends Object>>();

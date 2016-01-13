@@ -31,4 +31,7 @@ public interface BaseService<T> {
 
 	public Map<String, Object>			byPage				(Map<String, Object>map,ByPageSelect byPageSelect);
 	public <E>Map<String, Object>		byPage				(Map<String, Object>map,Class<E>elementType,ByPageSelect byPageSelect);
+	//分页(适用于移动端)
+	public List<Map<String, Object>>	byPageWithoutTotalNumber	(Map<String, Object>map,ByPageSelect byPageSelect);
+	public <E>List<E>					byPageWithoutTotalNumber	(Map<String, Object>map,Class<E>elementType,ByPageSelect byPageSelect);
 }
