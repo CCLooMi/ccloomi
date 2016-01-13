@@ -265,6 +265,7 @@
             return function(){
                 if(UPGlobal.onUploading&&UPGlobal.WSpool.length==that.concurrentUpload&&UPGlobal.allFilesCount==UPGlobal.filesUploaded.length){
                     clearInterval(UPGlobal.interval);
+                    UPGlobal.interval=undefined;
                     this.onComplete(UPGlobal.filesUploaded);
                     UPGlobal.onUploading=false;
                 }
