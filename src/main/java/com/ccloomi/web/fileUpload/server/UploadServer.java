@@ -18,12 +18,13 @@ import org.springframework.web.socket.server.standard.SpringConfigurator;
  * 日    期：2016年1月14日-下午8:47:34
  */
 @ServerEndpoint(value="/springSocket/fileup",configurator=SpringConfigurator.class)
-public class UploadServer {
+public class UploadServer extends BaseFileUploadServer{
 	private Session session;
 	@OnOpen
 	public void onOpen(Session session){
 		this.session=session;
 		System.out.println("SpringSocket opend.");
+		System.out.println(cacheClient);
 	}
 	@OnMessage
 	public void onTextMessage(String message){
