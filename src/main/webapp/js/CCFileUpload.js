@@ -36,23 +36,25 @@
             if('WebSocket' in window){
                 for(var i=0;i<this.concurrentUpload;i++){
                     var ws=new WebSocket(this.wsuri);
-                    ws.onopen=this.onOpen();
+                    ws.onopen=this.onOpen;
                     ws.onmessage=this.onMessage(this);
+                    ws.onclose=this.onClose;
                     UPGlobal.WSpool.push(ws);
                 }
             }else if('MozWebSocket' in window){
                 for(var i=0;i<this.concurrentUpload;i++){
                     var ws=new MozWebSocket(this.wsuri);
-                    ws.onopen=this.onopen();
+                    ws.onopen=this.onOpen;
                     ws.onmessage=this.onMessage(this);
+                    ws.onclose=this.onClose;
                     UPGlobal.WSpool.push(ws);
                 }
             }else{
-                alert("Websocket create error.");
+                alert("WebSocket create error.");
             }
         },
         onOpen:function(){
-            log("Websocket is opened.");
+            log("WebSocket is opened.");
         },
         onMessage:function(that){
             return function(e){
@@ -73,6 +75,9 @@
                     }
                 }//if end
             }
+        },
+        onClose: function () {
+            log('WebSocket is closed.');
         },
         attachDragEvents:function(element){
             element[0].addEventListener('dragover', $.proxy(this.dragOver,this));
