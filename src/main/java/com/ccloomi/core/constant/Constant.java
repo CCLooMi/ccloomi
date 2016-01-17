@@ -9,4 +9,6 @@ public class Constant {
 	public static final String FTP_FILE_SEPARATOR = "/";
 	public static final String UTF8="UTF-8";
 	public static final int DEFAULT_BUFFER=1024;
+	
+	public static final int blobSize=1048576;
 }

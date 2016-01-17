@@ -8,7 +8,7 @@ package com.ccloomi.web.fileUpload.bean;
  * 日    期：2016年1月14日-下午10:32:07
  */
 public class UploadCommand {
-	private final String typeId="uploadCommand";
+	private final String type="uploadCommand";
 	private String fileId;
 	private int index;
 	private long indexStart;
@@ -74,7 +74,7 @@ public class UploadCommand {
 		this.completePercent = completePercent;
 	}
 	/**获取 typeId*/
-	public String getTypeId() {
-		return typeId;
+	public String getType() {
+		return type;
 	}
 }

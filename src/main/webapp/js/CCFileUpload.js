@@ -61,7 +61,7 @@
                 var ws=this;
                 var command=JSON.parse(e.data);
                 var f=UPGlobal.allFiles[command.fileId];
-                if(command.typeId=='uploadCommand'){
+                if(command.type=='uploadCommand'){
                     f.progress=parseInt(command.completePercent*65+35,10)+'%';
                     that.onProcess(f);
                     log('文件完成：'+ f.progress);

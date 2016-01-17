@@ -1,10 +1,5 @@
 package com.ccloomi.web.fileUpload.server;
 
-import java.io.IOException;
-
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.web.socket.server.standard.SpringConfigurator;
@@ -18,20 +13,6 @@ import org.springframework.web.socket.server.standard.SpringConfigurator;
  * 日    期：2016年1月14日-下午8:47:34
  */
 @ServerEndpoint(value="/springSocket/fileup",configurator=SpringConfigurator.class)
-public class UploadServer extends BaseFileUploadServer{
-	private Session session;
-	@OnOpen
-	public void onOpen(Session session){
-		this.session=session;
-		System.out.println("SpringSocket opend.");
-		System.out.println(cacheClient);
-	}
-	@OnMessage
-	public void onTextMessage(String message){
-		try {
-			session.getBasicRemote().sendText("SpringSocket got message::"+message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+public class UploadServer extends BaseFileUploadServer<SimpleFileTarget>{
+	
 }
