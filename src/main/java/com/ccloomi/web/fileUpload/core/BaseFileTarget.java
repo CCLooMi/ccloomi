@@ -135,14 +135,19 @@ public abstract class BaseFileTarget {
 		this.blobCompleteDetail[command.getIndex()]=0;
 	}
 	public void saveProgress(){
+		log.info("保存文件[{}]进度...",this.fileInfo.getFileName());
 		try{
 			FileOutputStream out=new FileOutputStream(siFile);
 			out.write(blobCompleteDetail);
 			out.flush();
 			out.close();
+			log.info("保存文件[{}]进度完成",this.fileInfo.getFileName());
 		}catch(Exception e){
 			log.error("保存进度异常", e);
 		}
+	}
+	public void release(){
+		this.closeFileWriteAccessChannel();
 	}
 	/**
 	 * 描述：检查文件路径是否存在，如果不存在则创建
@@ -157,13 +162,17 @@ public abstract class BaseFileTarget {
 		}
 		return path;
 	}
-	private void openFileWriteAccessChannel(){
-		try{
-			this.raFile=new RandomAccessFile(this.tempFile, "rw");
-			this.raFile.setLength(fileInfo.getFileSize());
-			this.fileChannel=this.raFile.getChannel();
-		}catch(Exception e){
-			log.error("Open File Write Access Channel异常",e);
+	public void openFileWriteAccessChannel(){
+		log.info("开启文件[{}]写入流...",this.fileInfo.getFileName());
+		if(this.raFile==null&&this.fileChannel==null){
+			try{
+				this.raFile=new RandomAccessFile(this.tempFile, "rw");
+				this.raFile.setLength(fileInfo.getFileSize());
+				this.fileChannel=this.raFile.getChannel();
+				log.info("开启文件[{}]写入流完成",this.fileInfo.getFileName());
+			}catch(Exception e){
+				log.error("Open File Write Access Channel异常",e);
+			}
 		}
 	}
 	private void closeFileWriteAccessChannel(){
@@ -173,12 +182,18 @@ public abstract class BaseFileTarget {
 				this.raFile.close();
 			}catch(Exception e){
 				log.error("Close File Write Access Channel异常", e);
+			}finally {
+				this.raFile=null;
+				this.fileChannel=null;
 			}
 		}
 	}
 	private void fileUploadComplete(){
 		this.closeFileWriteAccessChannel();
+		log.info("关闭文件[{}]写入流",this.fileInfo.getFileName());
 		this.tempFile.renameTo(this.file);
+		log.info("重命名文件[{}]",this.fileInfo.getFileName());
 		this.siFile.delete();
+		log.info("删除文件[{}]进度纪录文件",this.fileInfo.getFileName());
 	}
 }

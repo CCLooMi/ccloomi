@@ -97,6 +97,7 @@ public abstract class BaseFileUploadServer<T extends BaseFileTarget>{
 			if(this.command.getCompletePercent()<1){
 				this.fileTarget.cancelCommand(this.command);
 				this.fileTarget.saveProgress();
+				this.fileTarget.release();
 			}else{
 				this.command=null;
 			}
@@ -134,6 +135,9 @@ public abstract class BaseFileUploadServer<T extends BaseFileTarget>{
 			fileTarget.initTarget(fileInfo, basePath);
 			fileTarget.saveProgress();
 			saveFileTargetTOCatch(fileInfo.getFileId(), fileTarget);
+		}
+		if(fileTarget!=null){
+			fileTarget.openFileWriteAccessChannel();
 		}
 		return fileTarget;
 	}
