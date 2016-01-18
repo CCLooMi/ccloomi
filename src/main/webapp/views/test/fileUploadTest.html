@@ -18,18 +18,19 @@
 </div>
 </body>
 <script>
+var files=[];
+var progressArray=[];
+
     var onProcess=function(f){
-//        $("#progress").html(o.progress);
-        var d;
-        d=$("[name='"+ f.name+"']");
-        d.html("="+d.html());
+        progressArray[files.indexOf(f)].html(f.progress);
     }
     var onComplete=function(filesUploaded){
         alert("成功上传"+filesUploaded.length+"个文件.")
     }
     var onAdd= function (f) {
-        var flist="<div name='"+ f.name+"'>"+ f.name+"::"+ f.formatFileSize+"</div>";
-        $("#filelist").append(flist);
+        var fileProgress=$("<div>"+ f.name+"::"+ f.formatFileSize+"</div>").appendTo($("#filelist"));
+        files.push(f);
+        progressArray.push(fileProgress);
     }
     var onHashCoplete= function (f) {
         $("[name='"+ f.name+"']").attr("name",f.hash);
