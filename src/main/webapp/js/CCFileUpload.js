@@ -9,7 +9,11 @@
         this.concurrentHash=option.concurrentHash||option.concurrentUpload||3;
         this.concurrentUpload=option.concurrentUpload||3;
         this.concurrentHashCurrent=0;
-        this.wsuri=option.wsuri;
+        if(option.wsuri&&option.wsuri.match(/http:\/\//)){
+            this.wsuri=option.wsuri;
+        }else{
+            this.wsuri='ws'+window.location.href.match(/:\/\/\w+\.\w+\.\w+\.\w+:?\w*\/\w+\/|:\/\/\w+:?\w*\/\w+\//)[0]+option.wsuri;
+        }
         this.multiple=option.multiple||true;
         this.draggable=option.draggable||true;
         UPGlobal.debugMode=option.debugMode||false;
