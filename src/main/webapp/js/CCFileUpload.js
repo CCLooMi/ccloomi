@@ -28,7 +28,9 @@
         this.startbutton=option.startbutton;
         if(this.startbutton){this.startbutton.on({click: $.proxy(function(){this.startUpload()},this)});};
         if(this.draggable){this.attachDragEvents(this.element);}
-        this.onProcess=option.onProcess||function(f){};
+        this.onProcess=function(f){
+            f.progressBar.find('.progress-bar').css({width: f.progress});
+        };
         this.onComplete=option.onComplete||function(filesUploaded){};
         this.onAdd=option.onAdd||function(f){};
         this.onError=option.onError||function(o){};
@@ -258,6 +260,7 @@
             for(var i= 0,f;f=files[i];i++){
                 UPGlobal.filesToUpload.push(f);
                 f.formatFileSize=this.formatFileSize(f.size);
+                f.progressBar=$('<div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>');
                 this.onAdd(f);
                 UPGlobal.allFilesCount++;
             }

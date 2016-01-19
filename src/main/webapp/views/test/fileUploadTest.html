@@ -18,19 +18,11 @@
 </div>
 </body>
 <script>
-var files=[];
-var progressArray=[];
-
-    var onProcess=function(f){
-        progressArray[files.indexOf(f)].html(f.progress);
-    }
     var onComplete=function(filesUploaded){
         alert("成功上传"+filesUploaded.length+"个文件.")
     }
     var onAdd= function (f) {
-        var fileProgress=$("<div>"+ f.name+"::"+ f.formatFileSize+"</div>").appendTo($("#filelist"));
-        files.push(f);
-        progressArray.push(fileProgress);
+        f.progressBar.appendTo($('#filelist'));
     }
     var onHashCoplete= function (f) {
         $("[name='"+ f.name+"']").attr("name",f.hash);
@@ -41,7 +33,6 @@ var progressArray=[];
         debugMode:true,
         addfilesbutton:$("#addfile"),
         startbutton:$("#startupload"),
-        onProcess:onProcess,
         onComplete:onComplete,
         onAdd:onAdd,
         onHashCoplete:onHashCoplete,
