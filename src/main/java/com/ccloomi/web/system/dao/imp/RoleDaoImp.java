@@ -19,11 +19,6 @@ import com.ccloomi.web.system.entity.RoleEntity;
 @Service("roleDao")
 public class RoleDaoImp extends GenericDao<RoleEntity> implements RoleDao{
 	@Override
-	protected Class<RoleEntity> getEntityClass() {
-		return RoleEntity.class;
-	}
-
-	@Override
 	public List<Map<String, Object>> getAllRoleVisNodes() {
 		String sql="SELECT id,code,name AS 'label','role' AS 'group' FROM sys_role";
 		return jdbcTemplate.queryForList(sql);

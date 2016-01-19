@@ -19,11 +19,6 @@ import com.ccloomi.web.system.entity.UserEntity;
 @Service("userDao")
 public class UserDaoImp extends GenericDao<UserEntity> implements UserDao{
 	@Override
-	protected Class<UserEntity> getEntityClass() {
-		return UserEntity.class;
-	}
-
-	@Override
 	public List<Map<String, Object>> getAllUserVisNodes() {
 		String sql="SELECT id,nickname AS 'label','user' AS 'group',username FROM sys_user";
 		return jdbcTemplate.queryForList(sql);
