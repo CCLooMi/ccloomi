@@ -7,6 +7,11 @@
     		<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread]%-5level %logger{5} - %msg%n</pattern>
         </encoder>
     </appender>
+    <appender name="WEBSOCKET" class="com.ccloomi.core.component.log.WebSocketAppender">
+    	<encoder>
+    		<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread]%-5level %logger{5} - %msg%n</pattern>
+    	</encoder>
+    </appender>
 <!--
     <appender name="FILEOUT" class="ch.qos.logback.core.FileAppender">
     	<file>C:/Users/Chenxj/Desktop/log.txt</file>
@@ -94,8 +99,13 @@
     <!--<logger name="test" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>-->
+    <!--
+    <logger name="socket" level="DEBUG">
+    	<appender-ref ref="WEBSOCKET"/>
+    </logger>
+    -->
     <!-- root的默认level是DEBUG -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
+    <root level="DEBUG">
+        <appender-ref ref="WEBSOCKET" />
     </root>
 </configuration>
