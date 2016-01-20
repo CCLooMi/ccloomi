@@ -95,7 +95,7 @@
         <appender-ref ref="STDOUT" />
     </logger>-->
     <!-- root的默认level是DEBUG -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
