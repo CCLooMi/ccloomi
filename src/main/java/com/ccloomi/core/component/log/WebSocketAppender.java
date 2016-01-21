@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
@@ -46,6 +48,14 @@ public abstract class WebSocketAppender extends AppenderBase<ILoggingEvent>{
 	public void onOpen(Session session){
 		this.session=session;
 		WebSocketAppender.appenders.add(this);
+	}
+	@OnClose
+	public void onClose(){
+		WebSocketAppender.appenders.remove(this);
+	}
+	@OnError
+	public void onError(Throwable t){
+		WebSocketAppender.appenders.remove(this);
 	}
 	@Override
 	protected void append(ILoggingEvent eventObject) {
