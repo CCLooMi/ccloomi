@@ -1,4 +1,4 @@
-package com.ccloomi.web.fileUpload.bean;
+package com.ccloomi.core.component.fileUpload.bean;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：UploadCommand

@@ -1,4 +1,4 @@
-package com.ccloomi.web.fileUpload.core;
+package com.ccloomi.core.component.fileUpload.core;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,10 +12,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ccloomi.core.component.fileUpload.bean.FileInfo;
+import com.ccloomi.core.component.fileUpload.bean.UploadCommand;
+import com.ccloomi.core.component.fileUpload.server.BaseFileUploadServer;
 import com.ccloomi.core.constant.Constant;
-import com.ccloomi.web.fileUpload.bean.FileInfo;
-import com.ccloomi.web.fileUpload.bean.UploadCommand;
-import com.ccloomi.web.fileUpload.server.BaseFileUploadServer;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：BaseFileTarget

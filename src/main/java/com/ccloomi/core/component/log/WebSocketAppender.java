@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
-
-import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -21,11 +18,10 @@ import ch.qos.logback.core.AppenderBase;
  * 邮    箱：chenios@foxmail.com
  * 日    期：2016年1月20日-下午10:52:50
  */
-@ServerEndpoint(value="/socket/log",configurator=SpringConfigurator.class)
-public class WebSocketAppender extends AppenderBase<ILoggingEvent>{
+public abstract class WebSocketAppender extends AppenderBase<ILoggingEvent>{
 	protected static List<WebSocketAppender>appenders=new ArrayList<>();
-	private PatternLayoutEncoder encoder;
-	private Session session;
+	protected PatternLayoutEncoder encoder;
+	protected Session session;
 	/**获取 appenders*/
 	public static List<WebSocketAppender> getAppenders() {
 		return appenders;
@@ -42,14 +38,6 @@ public class WebSocketAppender extends AppenderBase<ILoggingEvent>{
 	public void setEncoder(PatternLayoutEncoder encoder) {
 		this.encoder = encoder;
 	}
-	/**获取 session*/
-	public Session getSession() {
-		return session;
-	}
-	/**设置 session*/
-	public void setSession(Session session) {
-		this.session = session;
-	}
 	public void sendMessage(String message){
 		try {this.session.getBasicRemote().sendText(message);}
 		catch (IOException e) {}
@@ -64,6 +52,8 @@ public class WebSocketAppender extends AppenderBase<ILoggingEvent>{
 		for(WebSocketAppender appender:WebSocketAppender.appenders){
 			appender.sendMessage(this.encoder.getLayout().doLayout(eventObject));
 		}
+		try {this.encoder.doEncode(eventObject);}
+		catch (IOException e) {}
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.ccloomi.web.fileUpload.server;
+package com.ccloomi.core.component.fileUpload.server;
 
 import java.lang.reflect.ParameterizedType;
 import java.nio.ByteBuffer;
@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.ccloomi.core.component.catche.CacheClient;
+import com.ccloomi.core.component.fileUpload.bean.FileInfo;
+import com.ccloomi.core.component.fileUpload.bean.UploadCommand;
+import com.ccloomi.core.component.fileUpload.core.BaseFileTarget;
 import com.ccloomi.core.constant.Constant;
-import com.ccloomi.web.fileUpload.bean.FileInfo;
-import com.ccloomi.web.fileUpload.bean.UploadCommand;
-import com.ccloomi.web.fileUpload.core.BaseFileTarget;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

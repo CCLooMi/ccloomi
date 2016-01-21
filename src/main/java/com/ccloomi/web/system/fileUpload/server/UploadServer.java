@@ -1,8 +1,10 @@
-package com.ccloomi.web.fileUpload.server;
+package com.ccloomi.web.system.fileUpload.server;
 
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.web.socket.server.standard.SpringConfigurator;
+
+import com.ccloomi.core.component.fileUpload.server.BaseFileUploadServer;
 
 /**
  * © 2015-2016 CCLooMi.Inc Copyright

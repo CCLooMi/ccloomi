@@ -1,6 +1,6 @@
-package com.ccloomi.web.fileUpload.server;
+package com.ccloomi.web.system.fileUpload.server;
 
-import com.ccloomi.web.fileUpload.core.BaseFileTarget;
+import com.ccloomi.core.component.fileUpload.core.BaseFileTarget;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：SimpleFileTarget
