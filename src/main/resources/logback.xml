@@ -99,8 +99,11 @@
     <!--<logger name="test" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>-->
+    <logger name="com.ccloomi" level="DEBUG" addtivity="false">
+    	<appender-ref ref="WEBSOCKET"/>
+    </logger>
     <!-- root的默认level是DEBUG -->
     <root level="DEBUG">
-        <appender-ref ref="WEBSOCKET" />
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

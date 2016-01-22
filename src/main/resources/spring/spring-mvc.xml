@@ -12,8 +12,14 @@
 		 http://www.springframework.org/schema/jee		http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
 		 http://www.springframework.org/schema/aop		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd"
 	default-lazy-init="true">
+	
+	<!-- 启用Spring MVC的注解功能  一定要在后面，不然前面的更改无效！-->
+	<!--
+	<mvc:annotation-driven></mvc:annotation-driven>
+	-->
 	<!-- Spring 4x 使用此配置-->
-<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	<!--
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
@@ -23,9 +29,9 @@
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
             </list>
         </property>
-    </bean> -->
-	<!-- 启用Spring MVC的注解功能  一定要在后面，不然前面的更改无效！-->
-	<!-- <mvc:annotation-driven/> -->
+    </bean>
+    -->
+    <context:annotation-config />
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
             <list>

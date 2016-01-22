@@ -62,8 +62,5 @@ public abstract class WebSocketAppender extends AppenderBase<ILoggingEvent>{
 		for(WebSocketAppender appender:WebSocketAppender.appenders){
 			appender.sendMessage(this.encoder.getLayout().doLayout(eventObject));
 		}
-		try {this.encoder.doEncode(eventObject);}
-		catch (IOException e) {}
 	}
-
 }

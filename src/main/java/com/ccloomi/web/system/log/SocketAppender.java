@@ -1,7 +1,5 @@
 package com.ccloomi.web.system.log;
 
-import java.io.IOException;
-
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.web.socket.server.standard.SpringConfigurator;
@@ -16,9 +14,10 @@ public class SocketAppender extends WebSocketAppender{
 		if(this.encoder==null){
 			addError("No encoder set for the appender named ["+ name +"].");
 			return;
+		}else{
+			this.encoder.setPattern("<span class=\"datetime\">%d{yyyy-MM-dd HH:mm:ss.SSS}</span><span class=\"thread\">[%thread]</span><span class=\"level\">%-5level</span><span class=\"logger\">%logger{5}</span> :: <span class=\"msg\">%msg</span>%n");
+			this.encoder.start();
 		}
-		try{encoder.init(System.out);}
-		catch(IOException e){}
 		super.start();
 	}
 }
