@@ -115,7 +115,7 @@ var app=angular
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
-                            name:'idccapp',
+                            name:'ccloomi',
                             files:[
                                 'scripts/services/dataDictionaryService.js',
                                 'scripts/controllers/dataDictionaryController.js'
@@ -130,7 +130,7 @@ var app=angular
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
-                            name:'idccapp',
+                            name:'ccloomi',
                             files:[
                                 'scripts/services/iconService.js',
                                 'scripts/controllers/iconController.js'
@@ -145,7 +145,7 @@ var app=angular
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
-                            name:'idccapp',
+                            name:'ccloomi',
                             files:[
                                 'scripts/controllers/mavenSearchController.js'
                             ]
@@ -159,7 +159,7 @@ var app=angular
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
-                            name:'idccapp',
+                            name:'ccloomi',
                             files:[
                                 'scripts/services/schemataService.js',
                                 'scripts/controllers/dbController.js',
@@ -176,12 +176,27 @@ var app=angular
                 resolve:{
                     loadMyFile: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
-                            name:'idccapp',
+                            name:'ccloomi',
                             files:[
                                 'scripts/services/visService.js',
                                 'scripts/services/schemataService.js',
                                 'scripts/controllers/dbDesignController.js',
                                 'styles/dbDesign.css'
+                            ]
+                        })
+                    }
+                }
+            })
+            .state('main.log',{
+                url:'/log',
+                templateUrl:'views/log/log.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/services/projManager/demandService.js',
+                                'scripts/controllers/logController.js'
                             ]
                         })
                     }
@@ -251,6 +266,7 @@ var app=angular
                         return $ocLazyLoad.load({
                             name:'demand',
                             files:[
+                                'scripts/services/projManager/demandService.js',
                                 'scripts/controllers/projManager/demandController.js'
                             ]
                         })

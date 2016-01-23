@@ -362,3 +362,39 @@ input {
     }
   }
 }
+.log {
+  fieldset {
+    background-color: black;
+    .log {
+      color: red;
+      font-size: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+      p {
+        span {
+          &.datetime {
+            color: greenyellow;
+          }
+          &.thread {
+            color: deepskyblue;
+          }
+          &.level {
+            color: blue;
+          }
+          &.logger {
+            color: forestgreen;
+          }
+          &.msg {
+            color: gold;
+          }
+          &.class,&.method {
+            color: seagreen;
+          }
+          &.parameter {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
