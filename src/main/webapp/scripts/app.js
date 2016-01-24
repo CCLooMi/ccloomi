@@ -273,6 +273,76 @@ var app=angular
                     }
                 }
             })
+            .state('proj.project',{
+                url:'/project/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/project/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
+            .state('proj.test',{
+                url:'/test/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/test/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
+            .state('proj.count',{
+                url:'/count/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/count/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
+            .state('proj.document',{
+                url:'/document/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/document/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
+            .state('proj.blog',{
+                url:'/blog/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/blog/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
+            .state('proj.tieba',{
+                url:'/tieba/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/tieba/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
+            .state('proj.workspace',{
+                url:'/workspace/:operation',
+                views:{
+                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                        templateUrl: function (params) {
+                            return 'views/projManager/workspace/'+params.operation+'.html';
+                        }
+                    }
+                }
+            })
 
     }]);
 app.filter('highlight', ['$sce',function ($sce) {
