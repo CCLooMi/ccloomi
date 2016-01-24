@@ -34,8 +34,17 @@ public abstract class BaseEntity extends BaseBean{
 		if(!hasPrepareProperties){
 			findAllProperties(getClass());
 			Collections.reverse(propertiesA);
+			this.hasPrepareProperties=true;
 		}
 	};
+	public void cleanProperties(){
+		this.hasPrepareProperties=false;
+		this.propertiesA=new ArrayList<String>();
+		this.propertiesV=new ArrayList<String>();
+		this.propertiesMap=new HashMap<String, String>();
+		this.propertiesTableColumnsMap=new HashMap<String, String>();
+		this.PVMap=new HashMap<String, Object>();
+	}
 	/**
 	 * 描述：
 	 * 作者：Chenxj
@@ -155,6 +164,7 @@ public abstract class BaseEntity extends BaseBean{
 			findAllProperties(c.getSuperclass());
 		}
 	}
+	
 	private boolean superClassHasMappedSuperclassAnnotation(Class<?>c){
 		return c.getSuperclass().getDeclaredAnnotation(MappedSuperclass.class)==null?false:true;
 	}

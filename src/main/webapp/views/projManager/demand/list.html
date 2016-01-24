@@ -1,0 +1,27 @@
+<div class="container-fluid" ng-controller="demandCtrl">
+    <fieldset class="shadow-box">
+        <legend class="btn" ng-click="add()">+demand.</legend>
+        <table class="table">
+            <thead>
+            <tr><th>需求名称</th><th>需求来源</th><th>创建日期</th><th>创建人</th><th>派给</th><th>预计工时</th><th>需求状态</th><th>需求阶段</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="demand in demands">
+                <td>{{demand.title}}</td>
+                <td>{{demand.comeFrom}}</td>
+                <td>{{demand.createdDate|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{demand.createdBy}}</td>
+                <td>{{demand.assignedTo}}</td>
+                <td>{{demand.estimateHours}}</td>
+                <td>{{demand.status}}</td>
+                <td>{{demand.stage}}</td>
+                <td>
+                    <button class="btn shadow-box" ng-click="update(demand)">编辑</button>
+                    <button class="btn shadow-box" ng-click="remove(demand)">删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </fieldset>
+</div>

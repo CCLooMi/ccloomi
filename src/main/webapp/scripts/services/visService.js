@@ -182,6 +182,7 @@ angular.module('ccloomi')
                 };
                 function strongNode(selectedNode){
                     if (selectedNode) {
+                        scope.network.selectNodes([selectedNode]);
                         highlightActive = true;
                         var i,j;
                         var degrees = 2;

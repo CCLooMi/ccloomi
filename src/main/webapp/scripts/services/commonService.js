@@ -198,7 +198,6 @@ angular.module('ccloomi')
                     cancelButtonText:'取消',
                     confirmButtonText:'确定',
                     closeOnConfirm:false,
-                    closeOnCancel:false,
                     showLoaderOnConfirm:true
                 }, function (isConfirm) {
                     if(isConfirm){
@@ -214,8 +213,6 @@ angular.module('ccloomi')
                         }).error(function () {
                             swal('操作异常','网络错误','error');
                         });
-                    }else{
-                        swal('已取消','数据将不会删除','error');
                     }
                 });
             }

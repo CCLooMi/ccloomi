@@ -16,6 +16,13 @@ import com.ccloomi.core.component.sql.SQLGod;
  */
 public interface BaseDao<T> {
 	public int 							add					(T entity);
+	/**
+	 * 描述：自动设置ID
+	 * 作者：Chenxj
+	 * 日期：2016年1月24日 - 下午3:10:34
+	 * @param entity
+	 * @return
+	 */
 	public Object 						save				(T entity);
 	public int 							update				(T entity);
 	public int 							delete				(Object id);

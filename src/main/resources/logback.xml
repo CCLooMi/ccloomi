@@ -103,7 +103,7 @@
     	<appender-ref ref="WEBSOCKET"/>
     </logger>
     <!-- root的默认level是DEBUG -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
