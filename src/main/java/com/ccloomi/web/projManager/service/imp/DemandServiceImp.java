@@ -36,8 +36,10 @@ public class DemandServiceImp extends GenericService<DemandEntity> implements De
 			@Override
 			public void doSelect(SQLMaker sm, Map<String, Object> map) {
 				sm.SELECT("*")
-				.FROM(new DemandEntity(), "d")
-				.WHERE("d.idProduct=?", map.get("idProduct"));
+				.FROM(new DemandEntity(), "d");
+				if(map.get("idProduct")!=null){
+					sm.WHERE("d.idProduct=?", map.get("idProduct"));
+				};
 			}
 		});
 	}
