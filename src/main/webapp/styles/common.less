@@ -67,6 +67,31 @@ input {
   &:focus {
     color: @main-color;
   }
+  &.form-select {
+    + div.form-control {
+      display: none;
+    }
+    &:focus {
+      display: none;
+      + div.form-control {
+        display: block;
+      }
+      ~.form-control-feedback {
+        color: @main-color;
+      }
+      ~.dropdown-menu {
+        display: block !important;
+      }
+    }
+    ~.dropdown-menu {
+      max-height: 350px;
+      overflow-y: auto;
+      width: 100%;
+      &:hover {
+        display: block !important;
+      }
+    }
+  }
 }
 .form-control {
   &:focus {
