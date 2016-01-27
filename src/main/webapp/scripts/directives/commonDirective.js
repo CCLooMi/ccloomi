@@ -111,6 +111,9 @@ angular.module('ccloomi')
                         }
 
                     }
+                    element.click(function () {
+                        dropdown.removeAttr('style');
+                    });
                     function click(e){
                         var target=$(e.target);
                         if(target.is('a')){
@@ -122,7 +125,7 @@ angular.module('ccloomi')
                             }
                             element.val(scope[el1[1]][target.data('index')][el2[0].split('\.')[1]]);
                             divFromControl.html(element.val());
-                            dropdown.slideUp(250);
+                            dropdown.slideUp(150);
                         }
                     }
                 })(attrs['formSelect']);
