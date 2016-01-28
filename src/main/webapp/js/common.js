@@ -72,3 +72,36 @@ Array.minus = function(a,b){
     }
     return r;
 };
+function analyzeEL(EL){
+    var a, b, c, d, e;
+    try{
+        var el1=EL.match(/\w+@\w+/g)[0].match(/\w+/g);
+    }catch(e){
+        console.error(e);
+    };
+    try{
+        var el2=EL.match(/\w+\.\w+&\w+\.\w+/g)[0].match(/\w+\.\w+/g);
+    }catch(e){
+        var el2=EL.match(/^\w+\.\w+| \w+\.\w+/g);
+    };
+    try{
+        var el3=EL.match(/\/\w+\.\w+/g)[0].match(/\w+\.\w+/g);
+    }catch(e){};
+
+    if(el1&&el1[1]){
+        a=el1[0];
+        b=el1[1];
+    }
+    if(el2){
+        if(el2[1]){
+            c=el2[0].split('\.')[1];
+            d=el2[1].split('\.')[1];
+        }else{
+            c=el2[0].split('\.')[1];
+        }
+    }
+    if(el3){
+        e=el3[0].split('\.')[1];
+    }
+    return {a:a,b:b,c:c,d:d,e:e};
+}
