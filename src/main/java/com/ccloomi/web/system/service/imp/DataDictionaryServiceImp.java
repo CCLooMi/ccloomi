@@ -81,4 +81,16 @@ public class DataDictionaryServiceImp extends GenericService<DataDictionaryEntit
 		.OR("dd.pid=?", id);
 		return updateBySQLGod(sm);
 	}
+
+	@Override
+	public List<Map<String, Object>> findByCode(Object code) {
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("d.id")
+		.SELECT("d.name")
+		.SELECT("d.vl")
+		.FROM(new DataDictionaryEntity(), "d")
+		.LEFT_JOIN(new DataDictionaryEntity(), "dd", "d.pid=dd.id")
+		.WHERE("dd.code=?", code);
+		return dataDictionaryDao.findBySQLGod(sm);
+	}
 }

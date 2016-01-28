@@ -62,5 +62,4 @@ public class DemandServiceImp extends GenericService<DemandEntity> implements De
 		i+=demandDetailDao.delete(map.get("id"));
 		return i>0?true:false;
 	}
-	
 }

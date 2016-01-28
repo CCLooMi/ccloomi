@@ -1,5 +1,6 @@
 package com.ccloomi.web.system.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -65,5 +66,11 @@ public class DataDictionaryController extends BaseController{
 		}else{
 			return responseMessageError("删除失败");
 		}
+	}
+	@RequestMapping("/findByCode")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<Map<String, Object>>findByCode(@RequestBody Map<String, Object>map){
+		return dataDictionaryService.findByCode(map.get("code"));
 	}
 }

@@ -1,5 +1,6 @@
 package com.ccloomi.web.system.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ccloomi.core.common.service.BaseService;
@@ -29,5 +30,13 @@ public interface DataDictionaryService extends BaseService<DataDictionaryEntity>
 	 * @return
 	 */
 	public Map<String, Object> findddsByPage(Map<String, Object> map);
-	
+
+	/**
+	 * 描述：根据Code查找值列表
+	 * 作者：Chenxj
+	 * 日期：2016年1月28日 - 下午9:48:03
+	 * @param code
+	 * @return
+	 */
+	public List<Map<String, Object>>findByCode(Object code);
 }

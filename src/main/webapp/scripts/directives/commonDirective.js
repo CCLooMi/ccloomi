@@ -57,7 +57,7 @@ angular.module('ccloomi')
                     var dropdown=$('<div class="dropdown-menu"></div>')
                         .insertAfter(element)
                         .on({click:click});
-                    var feedback=$('<span class="glyphicon glyphicon-menu-down form-control-feedback"></span>')
+                    var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                         .insertAfter(element);
 
                     try{
