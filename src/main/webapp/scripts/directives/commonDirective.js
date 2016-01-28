@@ -52,13 +52,12 @@ angular.module('ccloomi')
             link: function (scope,element,attrs,ngModel) {
                 (function (EL) {
                     element.addClass('form-select');
+                    element.attr('readonly',true);
                     element.closest('.form-group').addClass('has-feedback');
                     var dropdown=$('<div class="dropdown-menu"></div>')
                         .insertAfter(element)
                         .on({click:click});
                     var feedback=$('<span class="glyphicon glyphicon-menu-down form-control-feedback"></span>')
-                        .insertAfter(element);
-                    var divFromControl=$('<div class="form-control"></div>')
                         .insertAfter(element);
 
                     try{
@@ -124,7 +123,6 @@ angular.module('ccloomi')
                                 ngModel.$setViewValue(scope[el1[1]][target.data('index')]);
                             }
                             element.val(scope[el1[1]][target.data('index')][el2[0].split('\.')[1]]);
-                            divFromControl.html(element.val());
                             dropdown.slideUp(150);
                         }
                     }

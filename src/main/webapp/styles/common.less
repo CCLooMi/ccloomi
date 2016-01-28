@@ -68,14 +68,10 @@ input {
     color: @main-color;
   }
   &.form-select {
-    + div.form-control {
-      display: none;
+    &[readonly] {
+      background: none;
     }
     &:focus {
-      display: none;
-      + div.form-control {
-        display: block;
-      }
       ~.form-control-feedback {
         color: @main-color;
       }
@@ -93,7 +89,7 @@ input {
         background-color: @main-bg-color;
       }
       &:hover {
-        display: block !important;
+        display: block;
       }
     }
   }
