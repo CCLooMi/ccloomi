@@ -1,5 +1,6 @@
 package com.ccloomi.web.projManager.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,8 @@ public class ProductServiceImp extends GenericService<ProductEntity> implements 
 
 	@Override
 	public List<Map<String, Object>> findUserAllProduct(Map<String, Object> map) {
-		return null;
+		List<Map<String, Object>>ls=new ArrayList<>();
+		
+		return ls;
 	}
 }

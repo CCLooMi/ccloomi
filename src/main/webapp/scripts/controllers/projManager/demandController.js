@@ -6,7 +6,7 @@ angular.module('ccloomi')
         var option=$stateParams.option;
         if(option){
             if(option=='product'){
-                
+
             }else if(option=='project'){
 
             }else {

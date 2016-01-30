@@ -74,6 +74,8 @@ public class ProductController extends BaseController{
 	@ResponseBody
 	@RequiresAuthentication
 	public List<Map<String, Object>> findUserAllProduct(@RequestBody Map<String, Object>map){
+		map.put("userid", currentUser().getId());
+		map.put("roles", currentAllRoles());
 		return productService.findUserAllProduct(map);
 	}
 }
