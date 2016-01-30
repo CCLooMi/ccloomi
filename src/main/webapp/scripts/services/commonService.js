@@ -271,3 +271,9 @@ angular.module('ccloomi')
         };
         return service;
     }])
+    .factory('S_constant',['$http', function ($http) {
+        var service={
+            dd:['dd/findByCode.json']
+        };
+        return service;
+    }])

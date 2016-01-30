@@ -86,8 +86,8 @@ function analyzeEL(EL){
     };
     try{
         var el3=EL.match(/\/\w+\.\w+/g)[0].match(/\w+\.\w+/g);
-    }catch(e){};
-
+    } catch (e) {
+    }
     if(el1&&el1[1]){
         a=el1[0];
         b=el1[1];
@@ -104,4 +104,22 @@ function analyzeEL(EL){
         e=el3[0].split('\.')[1];
     }
     return {a:a,b:b,c:c,d:d,e:e};
+}
+/*
+* 用法demo
+* var user={u:{name:'user',sex:{a:'M',b:'F'}}};
+ console.log(getObjectPropertyValue(user,'u.sex.b'));
+ */
+function getObjectPropertyValue(obj,p){
+    var t,ps= p.split('\.');
+    if(ps.length){
+        t=obj;
+        for(var i=0;i<ps.length;i++){
+            t=t[ps[i]];
+            if(!t){
+                return t;
+            }
+        }
+    }
+    return t;
 }

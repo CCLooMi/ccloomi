@@ -63,36 +63,79 @@ fieldset {
     }
   }
 }
+
+.f-from-select(){
+  &[readonly] {
+    background: none;
+  }
+  &:focus {
+    ~.form-control-feedback {
+      color: @main-color;
+      animation: 2s linear 0s normal none infinite running fa-spin;
+    }
+    ~.dropdown-menu {
+      display: block !important;
+    }
+  }
+}
+.from-select-dropdown-menu(){
+  margin-left: 15px;
+  max-height: 350px;
+  overflow-y: auto;
+  right: 15px;
+  &:hover {
+    display: block;
+  }
+}
 input {
   &:focus {
     color: @main-color;
   }
   &.form-select {
-    &[readonly] {
-      background: none;
-    }
-    &:focus {
-      ~.form-control-feedback {
-        color: @main-color;
-        animation: 2s linear 0s normal none infinite running fa-spin;
-      }
-      ~.dropdown-menu {
-        display: block !important;
-      }
-    }
+    .f-from-select;
     ~.dropdown-menu {
-      margin-left: 15px;
-      max-height: 350px;
-      overflow-y: auto;
-      right: 15px;
+      .from-select-dropdown-menu;
       .dropdown-header {
         color: @main-color;
         background-color: @main-bg-color;
       }
-      &:hover {
-        display: block;
+    }
+  }
+  &.form-select-panel {
+    .f-from-select;
+    ~.dropdown-menu {
+      .from-select-dropdown-menu;
+      .panel {
+        border: none;
+        box-shadow: none;
+        margin: 0;
+        .panel-heading {
+          border-radius: 20px;
+          color: @main-color;
+          background-color: @main-bg-color;
+          border: none;
+          padding: 0 10px;
+        }
+        .panel-body {
+          padding: 5px;
+          >span {
+            padding: 4px;
+            display: inline-block;
+            min-width: 50px;
+            text-align: center;
+            border-radius: 5px;
+            &:hover {
+              color: @main-color;
+              cursor: pointer;
+              background-color: @main-bg-color;
+            }
+          }
+        }
       }
     }
+  }
+  &.dd-select {
+    .form-select;
   }
 }
 .form-control {
@@ -254,36 +297,6 @@ input {
   width: 100%;
   .transition;
   transition-property: width;
-}
-.dropdown-menu {
-  &.form-select {
-    .panel {
-      border: none;
-      box-shadow: none;
-      margin: 0;
-      .panel-heading {
-        border-radius: 20px;
-        color: forestgreen;
-        border: none;
-        padding: 0 10px;
-      }
-      .panel-body {
-        padding: 5px;
-        >span {
-          padding: 4px;
-          display: inline-block;
-          min-width: 50px;
-          text-align: center;
-          border-radius: 5px;
-          &:hover {
-            color: orangered;
-            cursor: pointer;
-            background-color: seashell;
-          }
-        }
-      }
-    }
-  }
 }
 
 .modal-dialog {
