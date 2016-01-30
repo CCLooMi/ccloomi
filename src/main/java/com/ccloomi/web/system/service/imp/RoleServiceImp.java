@@ -67,29 +67,29 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		return findBySQLGod(sm, ViewEntity.class);
 	}
 	@Override
-	public List<String> findPermissionsByIdUser(Object idUser) {
-		List<String>ls=new ArrayList<>();
+	public List<PermissionEntity> findPermissionsByIdUser(Object idUser) {
+		List<PermissionEntity>ls=new ArrayList<>();
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-		sm.SELECT("p.code")
+		sm.SELECT("p.*")
 		.FROM(new RoleUserEntity(), "ru")
 		.LEFT_JOIN(new RolePermissionEntity(), "rp", "ru.idRole=rp.idRole")
 		.LEFT_JOIN(new PermissionEntity(), "p", "rp.idPermission=p.id")
 		.WHERE("ru.idUser=?", idUser);
-		for(Map<String, Object>m:findBySQLGod(sm)){
-			ls.add((String)m.get("code"));
+		for(PermissionEntity p:findBySQLGod(sm,PermissionEntity.class)){
+			ls.add(p);
 		}
 		return ls;
 	}
 	@Override
-	public List<String> findRolesByIdUser(Object idUser) {
-		List<String>ls=new ArrayList<>();
+	public List<RoleEntity> findRolesByIdUser(Object idUser) {
+		List<RoleEntity>ls=new ArrayList<>();
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-		sm.SELECT("r.code")
+		sm.SELECT("r.*")
 		.FROM(new RoleUserEntity(), "ru")
 		.LEFT_JOIN(new RoleEntity(), "r", "ru.idRole=r.id")
 		.WHERE("ru.idUser=?", idUser);
-		for(Map<String, Object>m:findBySQLGod(sm)){
-			ls.add((String)m.get("code"));
+		for(RoleEntity r:findBySQLGod(sm,RoleEntity.class)){
+			ls.add(r);
 		}
 		return ls;
 	}

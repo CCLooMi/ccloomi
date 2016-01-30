@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccloomi.core.common.service.BaseService;
+import com.ccloomi.web.system.entity.PermissionEntity;
 import com.ccloomi.web.system.entity.RoleEntity;
 import com.ccloomi.web.system.entity.ViewEntity;
 
@@ -17,8 +18,8 @@ import com.ccloomi.web.system.entity.ViewEntity;
 public interface RoleService extends BaseService<RoleEntity>{
 	public Map<String, Object>findRolesByPage(Map<String, Object>map);
 	public List<ViewEntity> findViewsByIdUser(Object idUser);
-	public List<String> findPermissionsByIdUser(Object idUser);
-	public List<String> findRolesByIdUser(Object idUser);
+	public List<PermissionEntity> findPermissionsByIdUser(Object idUser);
+	public List<RoleEntity> findRolesByIdUser(Object idUser);
 	public boolean saveViewJstreeData(Map<String, Object>map);
 	public boolean savePermissionJstreeData(Map<String, Object>map);
 	/**描述：分页查找角色下的所有用户

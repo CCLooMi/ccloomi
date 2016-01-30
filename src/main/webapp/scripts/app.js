@@ -259,7 +259,7 @@ var app=angular
                 }
             })
             .state('proj.demand',{
-                url:'/demand/:productId',
+                url:'/demand/:option',
                 templateUrl:'views/projManager/demand/list.html',
                 resolve:{
                     loadMyFiles: function ($ocLazyLoad) {

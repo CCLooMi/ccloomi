@@ -1,5 +1,6 @@
 package com.ccloomi.core.common.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
@@ -7,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ccloomi.core.common.bean.Message;
+import com.ccloomi.web.system.entity.PermissionEntity;
+import com.ccloomi.web.system.entity.RoleEntity;
 import com.ccloomi.web.system.entity.UserEntity;
 
 /**
@@ -48,6 +51,14 @@ public abstract class BaseController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object>userMap=getAttributeFromSession("user", Map.class);
 		return (UserEntity) userMap.get("user");
+	}
+	@SuppressWarnings("unchecked")
+	protected List<RoleEntity> currentAllRoles(){
+		return getAttributeFromSession("roles", List.class);
+	}
+	@SuppressWarnings("unchecked")
+	protected List<PermissionEntity> currentAllPermissions(){
+		return getAttributeFromSession("permissions", List.class);
 	}
 //	/**
 //	 * 描述：异常处理方法

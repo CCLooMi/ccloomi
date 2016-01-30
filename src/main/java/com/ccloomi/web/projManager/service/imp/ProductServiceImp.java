@@ -1,5 +1,6 @@
 package com.ccloomi.web.projManager.service.imp;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -21,5 +22,10 @@ public class ProductServiceImp extends GenericService<ProductEntity> implements 
 	@Override
 	public Map<String, Object> findByPage(Map<String, Object> map) {
 		return byPage(map, ProductEntity.class,(sm,m)->sm.SELECT("*").FROM(new ProductEntity(), "p"));
+	}
+
+	@Override
+	public List<Map<String, Object>> findUserAllProduct(Map<String, Object> map) {
+		return null;
 	}
 }

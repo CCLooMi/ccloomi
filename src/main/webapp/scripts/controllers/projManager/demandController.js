@@ -3,11 +3,20 @@
  */
 angular.module('ccloomi')
     .controller('demandCtrl',['$scope','$stateParams','S_pagination','S_demand', function ($scope,$stateParams,S_pagination,S_demand) {
-        var productId=$stateParams.productId;
+        var option=$stateParams.option;
+        if(option){
+            if(option=='product'){
+                
+            }else if(option=='project'){
+
+            }else {
+                $scope.productId=option;
+            }
+        }
         $scope.demands=[];
         $scope.add= function () {
-            if(productId){
-                $scope.demand={idProduct:productId};
+            if($scope.productId){
+                $scope.demand={idProduct:$scope.productId};
             }
             S_demand.add($scope);
         };
@@ -19,8 +28,8 @@ angular.module('ccloomi')
         };
         function pagination(){
             var searchData={};
-            if(productId){
-               searchData.idProduct=productId;
+            if($scope.productId){
+               searchData.idProduct=$scope.productId;
             }
             if($('#pagination').length){
                 S_pagination.pagination($('#pagination'),'demand/byPage.json',20,searchData, function (data) {
