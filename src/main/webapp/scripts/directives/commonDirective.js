@@ -1,6 +1,8 @@
 /**
  * Created by chenxianjun on 16/1/4.
  */
+var searchBarTemplate='<li class="search-bar"> <div class="input-group"><input type="text" class="form-control"><span class="input-group-btn"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button></span></div></li>';
+
 angular.module('ccloomi')
     .directive('affix', function () {
         return {
@@ -57,6 +59,7 @@ angular.module('ccloomi')
                     var dropdown=$('<div class="dropdown-menu"></div>')
                         .insertAfter(element)
                         .on({click:click});
+                    var searchBar=$(searchBarTemplate);
                     var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                         .insertAfter(element);
                     var r=analyzeEL(EL);
@@ -103,7 +106,7 @@ angular.module('ccloomi')
                             }
                             dropdown.html(d);
                         }
-
+                        searchBar.prependTo(dropdown);
                     }
                     element.click(function () {
                         dropdown.removeAttr('style');
@@ -139,6 +142,7 @@ angular.module('ccloomi')
                     var selectPicker=$(selectTemplate)
                         .insertAfter(element)
                         .on({click: click});
+                    var searchBar=$(searchBarTemplate);
                     var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                         .insertAfter(element);
                     var tempObj={};
@@ -185,6 +189,7 @@ angular.module('ccloomi')
                             d+='</div></div>';
                             selectPicker.html(d);
                         }
+                        searchBar.prependTo(selectPicker);
                     }
                     function click (e) {
                         var target=$(e.target);
@@ -216,6 +221,7 @@ angular.module('ccloomi')
                     var dropdown=$('<div class="dropdown-menu"></div>')
                         .insertAfter(element)
                         .on({click:click});
+                    var searchBar=$(searchBarTemplate);
                     var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                         .insertAfter(element);
                     var r=analyzeEL(EL);
@@ -267,6 +273,7 @@ angular.module('ccloomi')
                                     }
                                     dropdown.html(d);
                                 }
+                                searchBar.prependTo(dropdown);
                             })
                             .error(function () {
                                 console.error('接口调用失败::['+S_constant.dd[0]+']');
