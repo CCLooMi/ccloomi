@@ -75,7 +75,7 @@ Array.minus = function(a,b){
 function analyzeEL(EL){
     var a, b, c, d, e;
     try{
-        var el1=EL.match(/\w+@\w+/g)[0].match(/\w+/g);
+        var el1=EL.match(/\w+@[^ ]+/g)[0].split('@');
     }catch(e){
         console.error(e);
     };
