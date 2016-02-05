@@ -38,6 +38,8 @@
 	<script src="js/screenfull.min.js"></script>
 	<script src="js/common.js"></script>
 	<script src="scripts/app.js"></script>
+	<script src="scripts/filter/filter.js"></script>
+	<script src="scripts/interceptor/interceptor.js"></script>
 	<script src="scripts/services/commonService.js"></script>
 	<script src="scripts/directives/commonDirective.js"></script>
 </head>
