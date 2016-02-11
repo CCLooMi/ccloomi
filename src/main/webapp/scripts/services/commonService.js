@@ -266,6 +266,11 @@ app.factory('S_jstree',['$http', function ($http) {
                 $('#jstree').jstree({'plugins':plugins, 'core' : {'data' :dt.data}});
                 scope.selectedIds=dt.ids;
             });
+        },
+        tree: function (url,data,scope) {
+            $http.post(url,data).success(function (dt) {
+                $('#tree').jstree({'plugins':["contextmenu","sort","types","dnd"], 'core' : {'data' :dt}});
+            });
         }
     };
     return service;

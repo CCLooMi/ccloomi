@@ -1,11 +1,11 @@
-<div class="container-fluid" ng-controller="menuCtrl">
-    <fieldset class="shadow-box">
-        <legend class="btn" ng-click="add()">
-            <span class="fa fa-plus"></span>Menu.
-        </legend>
-        <legend class="pull-right">
+<div class="container-fluid menu" ng-controller="menuCtrl">
+    <fieldset class="shadow-box" style="height: 700px">
+        <legend>
             <dl>
                 <dt class="btn-group">
+                    <button class="btn btn-default" ng-click="add()">
+                        <span class="fa fa-plus"></span>Menu.
+                    </button>
                     <a class="btn btn-default" href="#/main/menu/list" ng-class="{true:'active'}[showType=='list']" ng-click="changeShowType('list')">
                         <span class="fa fa-th-list"></span>
                     </a>
@@ -18,6 +18,6 @@
                 </dt>
             </dl>
         </legend>
-        <div ui-view="showType"></div>
+        <div ui-view="showType" style="height: 100%"></div>
     </fieldset>
 </div>

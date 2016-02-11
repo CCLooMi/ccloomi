@@ -99,6 +99,22 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 		}
 		return ls;
 	}
+	private List<Map<String, Object>> findViewsTreeByPid(Object pid){
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("v.id")
+		.SELECT_AS("v.name", "text")
+		.SELECT_AS("v.iconClass", "icon")
+		.FROM(new ViewEntity(), "v")
+		.WHERE("v.pid=?", pid);
+		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
+		for(Map<String, Object>m:ls){
+			List<Map<String, Object>>ls2=findViewsTreeByPid(m.get("id"));
+			if(ls2.size()>0){
+				m.put("children", ls2);
+			}
+		}
+		return ls;
+	}
 	@Override
 	public List<String> findViewIdsByRoleId(Object idRole){
 		List<String>ids=new ArrayList<>();
@@ -111,5 +127,43 @@ public class ViewServiceImp extends GenericService<ViewEntity> implements ViewSe
 			ids.add(String.valueOf(m.get("idView")));
 		}
 		return ids;
+	}
+	@Override
+	public Map<String, Object> findVisViews() {
+		Map<String, Object>map=new HashMap<>();
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("v.*")
+		.SELECT_AS("v.name", "label")
+		.SELECT_AS("v.idRoot", "group")
+		.FROM(new ViewEntity(), "v");
+		List<Map<String, Object>>nodes=viewDao.findBySQLGod(sm);
+		sm.clean();
+		sm.SELECT_AS("v.id", "from")
+		.SELECT_AS("v.pid", "to")
+		.FROM(new ViewEntity(), "v")
+		.WHERE("v.pid IS NOT NULL")
+		.AND("v.pid !=''");
+		List<Map<String, Object>>edges=viewDao.findBySQLGod(sm);
+		map.put("nodes", nodes);
+		map.put("edges", edges);
+		return map;
+	}
+	@Override
+	public List<Map<String, Object>> findViewsTree() {
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("v.id")
+		.SELECT_AS("v.name", "text")
+		.SELECT_AS("v.iconClass", "icon")
+		.FROM(new ViewEntity(), "v")
+		.WHERE("v.deepIndex=0");
+		List<Map<String, Object>>ls=viewDao.findBySQLGod(sm);
+		for(Map<String, Object>m:ls){
+			//根不能选中，不然下面所有的子选项都会选中
+			List<Map<String, Object>>ls2=findViewsTreeByPid(m.get("id"));
+			if(ls2.size()>0){
+				m.put("children", ls2);
+			}
+		}
+		return ls;
 	}
 }

@@ -23,5 +23,11 @@ angular.module('ccloomi')
                 $scope.views=data;
                 refreshScope($scope);
             });
+        };
+        if($('#network').length){
+            S_menu.network($scope);
+        };
+        if($('#tree').length){
+            S_menu.tree('view/tree.json',$scope);
         }
     }])

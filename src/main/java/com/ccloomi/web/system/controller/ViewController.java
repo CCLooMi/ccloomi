@@ -1,6 +1,7 @@
 package com.ccloomi.web.system.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -77,5 +78,17 @@ public class ViewController extends BaseController{
 		map.put("data", viewService.findViewsTreeByRoleId(role.getId()));
 		map.put("ids", viewService.findViewIdsByRoleId(role.getId()));
 		return map;
+	}
+	@RequestMapping("/vis")
+	@ResponseBody
+	@RequiresAuthentication
+	public Map<String, Object>visViews(){
+		return viewService.findVisViews();
+	}
+	@RequestMapping("/tree")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<Map<String, Object>>viewsTree(){
+		return viewService.findViewsTree();
 	}
 }

@@ -24,4 +24,16 @@ public interface ViewService extends BaseService<ViewEntity>{
 	 */
 	public List<Map<String, Object>>findViewsTreeByRoleId(Object idRole);
 	public List<String> findViewIdsByRoleId(Object idRole);
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2016年2月11日 - 下午3:10:16
+	 * @return
+	 */
+	public Map<String, Object> findVisViews();
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2016年2月12日 - 上午12:35:19
+	 * @return
+	 */
+	public List<Map<String, Object>> findViewsTree();
 }
