@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
+import com.ccloomi.web.projManager.bean.ProductBean;
 import com.ccloomi.web.projManager.entity.ProductEntity;
 import com.ccloomi.web.projManager.service.ProductService;
+import com.ccloomi.web.projManager.service.WhiteListService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：ProductController
@@ -28,6 +30,9 @@ import com.ccloomi.web.projManager.service.ProductService;
 public class ProductController extends BaseController{
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private WhiteListService whiteListService;
+	
 	@RequestMapping("/byPage")
 	@ResponseBody
 	@RequiresAuthentication
@@ -37,11 +42,21 @@ public class ProductController extends BaseController{
 	@RequestMapping("/add")
 	@ResponseBody
 	@RequiresAuthentication
-	public Message add(@RequestBody ProductEntity product){
+	public Message add(@RequestBody ProductBean p){
+		ProductEntity product=new ProductEntity();
+		product.setAccessType(p.getAccessType());
+		product.setCode(p.getCode());
+		product.setIntroduction(p.getIntroduction());
+		product.setName(p.getName());
+		product.setProductPIC(p.getProductPIC());
+		product.setReleasePIC(p.getReleasePIC());
+		product.setTestPIC(p.getTestPIC());
 		product.setCreatedDate(new Date());
 		product.setCreatedBy(currentUser().getUsername());
 		product.setIdUser(currentUser().getId());
 		Object id=productService.save(product);
+		
+		
 		if(id!=null){
 			return responseMessageSuccess(id);
 		}else{

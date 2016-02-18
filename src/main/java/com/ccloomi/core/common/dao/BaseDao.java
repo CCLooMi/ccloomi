@@ -31,6 +31,7 @@ public interface BaseDao<T> {
 	public int 							updateBySQLGod		(SQLGod sg);
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);
 	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
+	public List<T>						findAll				();
 	public int[]						batchDelete			(Object...ids);
 	public int[]						batchSave			(Collection<T>entities);
 	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);

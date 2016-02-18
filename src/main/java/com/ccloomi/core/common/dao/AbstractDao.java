@@ -203,4 +203,7 @@ public abstract class AbstractDao<T> {
 		}
 		return new ArrayList<E>();
 	}
+	public List<T>findAll(){
+		return findBySQLGod(SQLMakerFactory.getInstance().createMapker().SELECT("*").FROM((BaseEntity) TEntity(), "#"), getEntityClass());
+	}
 }

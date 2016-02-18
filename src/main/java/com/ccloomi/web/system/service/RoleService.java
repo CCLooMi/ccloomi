@@ -20,6 +20,7 @@ public interface RoleService extends BaseService<RoleEntity>{
 	public List<ViewEntity> findViewsByIdUser(Object idUser);
 	public List<PermissionEntity> findPermissionsByIdUser(Object idUser);
 	public List<RoleEntity> findRolesByIdUser(Object idUser);
+	public List<RoleEntity> findRolesByIdTarget(Object idProduct);
 	public boolean saveViewJstreeData(Map<String, Object>map);
 	public boolean savePermissionJstreeData(Map<String, Object>map);
 	/**描述：分页查找角色下的所有用户
@@ -50,4 +51,12 @@ public interface RoleService extends BaseService<RoleEntity>{
 	 * @return
 	 */
 	public boolean removeUserFromRole(Map<String, Map<String, Object>> map);
+	/**
+	 * 描述：查找所有角色及是否在白名单中
+	 * 作者：Chenxj
+	 * 日期：2016年2月14日 - 下午8:05:35
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String, Object>>findRolesWithWhiteListASChecked(Object id);
 }

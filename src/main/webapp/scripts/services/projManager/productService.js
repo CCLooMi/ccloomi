@@ -2,11 +2,17 @@
  * Created by chenxianjun on 15/12/26.
  */
 angular.module('ccloomi')
-    .factory('S_product',['$http','S_dialog', function ($http,S_dialog) {
+    .factory('S_product',['$http','S_dialog','S_role', function ($http,S_dialog,S_role) {
         var service={
             add: function (scope) {
                 scope.product={};
+                scope.allRoles=[];
+                S_role.findRolesWithWhiteListASChecked(function (data) {
+                    scope.allRoles=data;
+                    refreshScope(scope);
+                });
                 S_dialog.dialog('添加产品','views/projManager/product/add.html',scope, function () {
+                    scope.product.whiteList=scope.whiteListRoles;
                     $http.post('product/add.do',scope.product).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','添加产品['+scope.product.name+']成功','success');
@@ -30,7 +36,13 @@ angular.module('ccloomi')
             update: function (scope,product) {
                 var oldProduct=cloneFrom(product);
                 scope.product=product;
+                scope.allRoles=[];
+                S_role.findRolesWithWhiteListASChecked(function (data) {
+                    scope.allRoles=data;
+                    refreshScope(scope);
+                },product.id);
                 S_dialog.dialog('编辑产品','views/projManager/product/add.html',scope, function () {
+                    scope.product.whiteList=scope.whiteListRoles;
                     $http.post('product/update.do',scope.product).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('保存成功','修改产品['+scope.product.name+']成功','success');

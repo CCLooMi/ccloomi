@@ -39,7 +39,7 @@
 
         <div class="form-group">
             <label class="col-sm-2 control-label">访问控制</label>
-            <div class="col-sm-5">
+            <div class="col-sm-10">
                 <div class="radio">
                     <label>
                         <input type="radio" name="accessType" value="public" ng-model="product.accessType" ng-checked="product.accessType=='public'">公开(所有人可访问)
@@ -53,6 +53,11 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="accessType" value="protect" ng-model="product.accessType" ng-checked="product.accessType=='protect'">保护(指定人可访问)
+                    </label>
+                </div>
+                <div ng-if="product.accessType=='protect'">
+                    <label class="checkbox-inline" ng-repeat="role in allRoles">
+                        <input type="checkbox" ng-model="role.checked">{{role.code}}
                     </label>
                 </div>
             </div>

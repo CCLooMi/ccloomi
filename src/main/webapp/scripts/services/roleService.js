@@ -127,6 +127,11 @@ angular.module('ccloomi')
                     .error(function () {
                         S_dialog.alert('操作失败','接口调用失败','error');
                     });
+            },
+            findRolesWithWhiteListASChecked: function (callback,id) {
+                $http.get('role/findRolesWithWhiteListASChecked.json?id='+id).success(function (data) {
+                    callback(data);
+                });
             }
         };
         return service;

@@ -58,7 +58,9 @@ public abstract class AbstractService<T> {
 	public int[] batchDelete(Collection<? extends Object> ids) {
 		return baseDao.batchDelete(ids);
 	}
-
+	public List<T>findAll(){
+		return baseDao.findAll();
+	}
 	public long countBySQLGod(SQLGod sg){
 		return baseDao.countBySQLGod(sg);
 	}

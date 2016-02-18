@@ -254,6 +254,7 @@ var app=angular
                         return $ocLazyLoad.load({
                             name:'product',
                             files:[
+                                'scripts/services/roleService.js',
                                 'scripts/services/projManager/productService.js',
                                 'scripts/controllers/projManager/productController.js'
                             ]

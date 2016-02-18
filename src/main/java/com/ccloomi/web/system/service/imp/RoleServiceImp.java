@@ -12,6 +12,8 @@ import com.ccloomi.core.common.service.ByPageSelect;
 import com.ccloomi.core.component.sql.SQLMaker;
 import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.core.util.StringUtil;
+import com.ccloomi.web.projManager.entity.WhiteListEntity;
+import com.ccloomi.web.system.dao.RoleDao;
 import com.ccloomi.web.system.dao.RolePermissionDao;
 import com.ccloomi.web.system.dao.RoleUserDao;
 import com.ccloomi.web.system.dao.RoleViewDao;
@@ -33,8 +35,8 @@ import com.ccloomi.web.system.service.RoleService;
  */
 @Service("roleService")
 public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleService{
-//	@Autowired
-//	private RoleDao roleDao;
+	@Autowired
+	private RoleDao roleDao;
 	@Autowired
 	private RoleViewDao roleViewDao;
 	@Autowired
@@ -92,6 +94,15 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 			ls.add(r);
 		}
 		return ls;
+	}
+	@Override
+	public List<RoleEntity> findRolesByIdTarget(Object id) {
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("r.*")
+		.FROM(new WhiteListEntity(), "wl")
+		.LEFT_JOIN(new RoleEntity(), "r", "wl.idRole=r.id")
+		.WHERE("wl.idTarget=?", id);
+		return roleDao.findBySQLGod(sm, RoleEntity.class);
 	}
 	@Override
 	@SuppressWarnings("unchecked")
@@ -343,5 +354,14 @@ public class RoleServiceImp extends AbstractService<RoleEntity> implements RoleS
 		.AND("ru.idRole=?", idRole);
 		int i=updateBySQLGod(sm);
 		return i>0?true:false;
+	}
+	@Override
+	public List<Map<String, Object>> findRolesWithWhiteListASChecked(Object id) {
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("r.*")
+		.SELECT_AS("r.id=wl.idRole", "checked")
+		.FROM(new RoleEntity(), "r")
+		.LEFT_JOIN(new WhiteListEntity(), "wl", "(wl.idRole=r.id AND wl.idTarget=?)",id);
+		return roleDao.findBySQLGod(sm);
 	}
 }

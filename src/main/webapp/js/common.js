@@ -123,3 +123,33 @@ function getObjectPropertyValue(obj,p){
     }
     return t;
 }
+/*
+ var a=[1,2,4,5,9];
+ var b=[2,4,5,6,8];
+ console.log(JSON.stringify(getDeleteUpdateAdd(a,b)));
+ */
+function getDeleteUpdateAdd(o,n){
+    var result={delete:[],update:[],add:[]};
+    var on=[];
+    for(var i=0;i<o.length;i++){
+        var oi=o[i];
+        if(n.indexOf(oi)>-1){
+            on.push(oi);
+        }
+    };
+    for(var i=0;i<on.length;i++){
+        var oni=on[i];
+        n.splice(n.indexOf(oni),1);
+        o.splice(o.indexOf(oni),1);
+    };
+    for(var i=0;i<o.length;i++){
+        var oi=o[i];
+        if(n.length){
+            result.update.push({from:oi,to:n.shift()});
+        }else{
+            result.delete.push(oi);
+        }
+    }
+    result.add=n;
+    return result;
+};

@@ -14,10 +14,11 @@ public class RoleServiceTest extends BaseTest<RoleService>{
 
 	@Override
 	protected void test(RoleService testObj) {
-		String idUser="06f3c36bf1a74b35998215b999e4dd15";
-		System.out.println(testObj.findRolesByIdUser(idUser));
-		System.out.println(testObj.findViewsByIdUser(idUser));
-		System.out.println(testObj.findPermissionsByIdUser(idUser));
+//		String idUser="06f3c36bf1a74b35998215b999e4dd15";
+//		System.out.println(testObj.findRolesByIdUser(idUser));
+//		System.out.println(testObj.findViewsByIdUser(idUser));
+//		System.out.println(testObj.findPermissionsByIdUser(idUser));
+		System.out.println(testObj.findAll());
 	}
 	public static void main(String[] args) {
 		new RoleServiceTest().runTest();

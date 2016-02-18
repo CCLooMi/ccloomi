@@ -1,5 +1,6 @@
 package com.ccloomi.web.system.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -122,5 +123,11 @@ public class RoleController extends BaseController{
 		}else{
 			return responseMessageError("保存数据失败");
 		}
+	}
+	@RequestMapping("/findRolesWithWhiteListASChecked")
+	@ResponseBody
+	@RequiresAuthentication
+	public List<Map<String, Object>> findAll(String id){
+		return roleService.findRolesWithWhiteListASChecked(id);
 	}
 }

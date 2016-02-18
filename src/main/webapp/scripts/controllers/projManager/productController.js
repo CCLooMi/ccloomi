@@ -14,6 +14,11 @@ angular.module('ccloomi')
         $scope.remove= function (product) {
             S_product.remove($scope,product);
         };
+        $scope.$watch('allRoles|filter:{checked:true}', function (nv) {
+            $scope.whiteListRoles=nv.map(function (role) {
+                return role.id;
+            });
+        },true);
         productPagination();
         function productPagination(){
             if($('#pagination').length){
