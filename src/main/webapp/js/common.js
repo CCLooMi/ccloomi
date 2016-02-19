@@ -1,6 +1,15 @@
 /**
  * Created by chenxianjun on 15/11/7.
  */
+Object.prototype.equals=function(o){
+  return JSON.stringify(this)==JSON.stringify(o);
+}
+Array.prototype.inOf=function(o){
+  for(var i=0;i<this.length;i++){
+    if(this[i].equals(o))return i;
+  }
+  return -1;
+}
 function cloneFrom(a){
     var b;
     if(a[0]){b=[];}else{b={};}
@@ -129,25 +138,25 @@ function getObjectPropertyValue(obj,p){
  console.log(JSON.stringify(getDeleteUpdateAdd(a,b)));
  */
 function getDeleteUpdateAdd(o,n){
-    var result={delete:[],update:[],add:[]};
+    var result={del:[],upd:[],add:[]};
     var on=[];
     for(var i=0;i<o.length;i++){
         var oi=o[i];
-        if(n.indexOf(oi)>-1){
+        if(n.inOf(oi)>-1){
             on.push(oi);
         }
     };
     for(var i=0;i<on.length;i++){
         var oni=on[i];
-        n.splice(n.indexOf(oni),1);
-        o.splice(o.indexOf(oni),1);
+        n.splice(n.inOf(oni),1);
+        o.splice(o.inOf(oni),1);
     };
     for(var i=0;i<o.length;i++){
         var oi=o[i];
         if(n.length){
-            result.update.push({from:oi,to:n.shift()});
+            result.upd.push({from:oi,to:n.shift()});
         }else{
-            result.delete.push(oi);
+            result.del.push(oi);
         }
     }
     result.add=n;
