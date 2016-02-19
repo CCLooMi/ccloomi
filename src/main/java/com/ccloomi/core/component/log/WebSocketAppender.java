@@ -42,7 +42,9 @@ public abstract class WebSocketAppender extends AppenderBase<ILoggingEvent>{
 	}
 	public void sendMessage(String message){
 		try {this.session.getBasicRemote().sendText(message);}
-		catch (IOException e) {}
+		catch (IOException e) {
+			WebSocketAppender.appenders.add(this);
+		}
 	}
 	@OnOpen
 	public void onOpen(Session session){
