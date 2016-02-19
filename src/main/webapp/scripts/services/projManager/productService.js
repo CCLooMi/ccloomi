@@ -15,6 +15,11 @@ angular.module('ccloomi')
                             scope.whiteList_old.push(data[i].id);
                         }
                     }
+                    scope.$watch('allRoles|filter:{checked:true}', function (nv) {
+                        scope.whiteListRoles=nv.map(function (role) {
+                            return role.id;
+                        });
+                    },true);
                     refreshScope(scope);
                 });
                 S_dialog.dialog('添加产品','views/projManager/product/add.html',scope, function () {
@@ -51,6 +56,11 @@ angular.module('ccloomi')
                             scope.whiteList_old.push(data[i].id);
                         }
                     }
+                    scope.$watch('allRoles|filter:{checked:true}', function (nv) {
+                        scope.whiteListRoles=nv.map(function (role) {
+                            return role.id;
+                        });
+                    },true);
                     refreshScope(scope);
                 },product.id);
                 S_dialog.dialog('编辑产品','views/projManager/product/add.html',scope, function () {
