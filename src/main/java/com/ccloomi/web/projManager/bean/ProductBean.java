@@ -1,6 +1,7 @@
 package com.ccloomi.web.projManager.bean;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ccloomi.web.projManager.entity.ProductEntity;
 
@@ -13,13 +14,13 @@ import com.ccloomi.web.projManager.entity.ProductEntity;
  */
 public class ProductBean extends ProductEntity{
 	private static final long serialVersionUID = 3997003280105839188L;
-	private List<String>whiteList;
-	/**获取 whiteList*/
-	public List<String> getWhiteList() {
-		return whiteList;
+	private Map<String, List<String>>whiteListObject;
+	/**获取 whiteListObject*/
+	public Map<String, List<String>> getWhiteListObject() {
+		return whiteListObject;
 	}
-	/**设置 whiteList*/
-	public void setWhiteList(List<String> whiteList) {
-		this.whiteList = whiteList;
+	/**设置 whiteListObject*/
+	public void setWhiteListObject(Map<String, List<String>> whiteListObject) {
+		this.whiteListObject = whiteListObject;
 	}
 }

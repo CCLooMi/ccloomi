@@ -1,12 +1,9 @@
 /**
  * Created by chenxianjun on 15/11/7.
  */
-Object.prototype.equals=function(o){
-  return JSON.stringify(this)==JSON.stringify(o);
-}
 Array.prototype.inOf=function(o){
   for(var i=0;i<this.length;i++){
-    if(this[i].equals(o))return i;
+    if(JSON.stringify(this[i])==JSON.stringify(o))return i;
   }
   return -1;
 }
@@ -137,7 +134,9 @@ function getObjectPropertyValue(obj,p){
  var b=[2,4,5,6,8];
  console.log(JSON.stringify(getDeleteUpdateAdd(a,b)));
  */
-function getDeleteUpdateAdd(o,n){
+function getDeleteUpdateAdd(oo,nn){
+    var o=cloneFrom(oo);
+    var n=cloneFrom(nn);
     var result={del:[],upd:[],add:[]};
     var on=[];
     for(var i=0;i<o.length;i++){

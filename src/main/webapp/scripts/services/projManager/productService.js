@@ -9,10 +9,16 @@ angular.module('ccloomi')
                 scope.allRoles=[];
                 S_role.findRolesWithWhiteListASChecked(function (data) {
                     scope.allRoles=data;
+                    scope.whiteList_old=[];
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].checked){
+                            scope.whiteList_old.push(data[i].id);
+                        }
+                    }
                     refreshScope(scope);
                 });
                 S_dialog.dialog('添加产品','views/projManager/product/add.html',scope, function () {
-                    scope.product.whiteList=scope.whiteListRoles;
+                    scope.product.whiteListObject=getDeleteUpdateAdd(scope.whiteList_old,scope.whiteListRoles);
                     $http.post('product/add.do',scope.product).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','添加产品['+scope.product.name+']成功','success');
@@ -39,10 +45,16 @@ angular.module('ccloomi')
                 scope.allRoles=[];
                 S_role.findRolesWithWhiteListASChecked(function (data) {
                     scope.allRoles=data;
+                    scope.whiteList_old=[];
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].checked){
+                            scope.whiteList_old.push(data[i].id);
+                        }
+                    }
                     refreshScope(scope);
                 },product.id);
                 S_dialog.dialog('编辑产品','views/projManager/product/add.html',scope, function () {
-                    scope.product.whiteList=scope.whiteListRoles;
+                    scope.product.whiteListObject=getDeleteUpdateAdd(scope.whiteList_old,scope.whiteListRoles);
                     $http.post('product/update.do',scope.product).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('保存成功','修改产品['+scope.product.name+']成功','success');
