@@ -89,6 +89,30 @@ public abstract class SQLMaker implements SQLGod{
 		this.batchArgs = batchArgs;
 		return this;
 	}
+	/**
+	 * 描述：添加值
+	 * 作者：Chenxj
+	 * 日期：2016年2月20日 - 下午2:14:03
+	 * @param values
+	 * @return
+	 */
+	public SQLMaker addValues(Collection<? extends Object>values){
+		this.values.addAll(values);
+		return this;
+	}
+	/**
+	 * 描述：添加值
+	 * 作者：Chenxj
+	 * 日期：2016年2月20日 - 下午2:14:08
+	 * @param values
+	 * @return
+	 */
+	public SQLMaker addValues(Object[]values){
+		for(Object v:values){
+			this.values.add(v);
+		}
+		return this;
+	}
 	public SQLMaker SELECT(String...columns){
 		this.type=0;
 		if(this.columns==null){

@@ -1,6 +1,5 @@
 package com.ccloomi.web.projManager.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -33,6 +32,8 @@ public class ProductController extends BaseController{
 	@ResponseBody
 	@RequiresAuthentication
 	public Map<String, Object>findByPage(@RequestBody Map<String, Object>map){
+		map.put("userid", currentUser().getId());
+		map.put("roles", currentAllRoles());
 		return productService.findByPage(map);
 	}
 	@RequestMapping("/add")
@@ -69,13 +70,5 @@ public class ProductController extends BaseController{
 		}else{
 			return responseMessageError("删除产品["+product.getName()+"]失败");
 		}
-	}
-	@RequestMapping("/findMyAll")
-	@ResponseBody
-	@RequiresAuthentication
-	public List<Map<String, Object>> findUserAllProduct(@RequestBody Map<String, Object>map){
-		map.put("userid", currentUser().getId());
-		map.put("roles", currentAllRoles());
-		return productService.findUserAllProduct(map);
 	}
 }

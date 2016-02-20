@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
+import com.ccloomi.core.util.StringUtil;
 import com.ccloomi.web.projManager.bean.ProductBean;
 import com.ccloomi.web.projManager.dao.ProductDao;
 import com.ccloomi.web.projManager.dao.WhiteListDao;
 import com.ccloomi.web.projManager.entity.ProductEntity;
 import com.ccloomi.web.projManager.service.ProductService;
+import com.ccloomi.web.system.entity.RoleEntity;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：ProductServiceImp
@@ -35,16 +37,24 @@ public class ProductServiceImp extends GenericService<ProductEntity> implements 
 	
 	@Override
 	public Map<String, Object> findByPage(Map<String, Object> map) {
-		return byPage(map, ProductEntity.class,(sm,m)->sm.SELECT("*").FROM(new ProductEntity(), "p"));
+		return byPage(map, ProductEntity.class,(sm,m)->{
+			@SuppressWarnings("unchecked")
+			List<RoleEntity>roles=(List<RoleEntity>) m.get("roles");
+			List<String>rs=new ArrayList<>();
+			List<String>ss=new ArrayList<>();
+			for(RoleEntity role:roles){
+				rs.add(role.getId());
+				ss.add("?");
+			}
+			sm.SELECT("*")
+			.FROM(new ProductEntity(), "p")
+			.WHERE("p.accessType='public'")
+			.OR("(p.accessType='private' AND p.idUser=?)", m.get("userid"))
+			.OR("(p.accessType='protect' AND p.id IN (SELECT wl.idTarget FROM t_cc_white_list wl WHERE wl.type=0 AND wl.idRole IN ("+StringUtil.joinCollectionString(",", ss)+")))");
+			sm.addValues(rs);
+			});
 	}
-
-	@Override
-	public List<Map<String, Object>> findUserAllProduct(Map<String, Object> map) {
-		List<Map<String, Object>>ls=new ArrayList<>();
-		
-		return ls;
-	}
-
+	
 	@Override
 	public Object saveProduct(ProductBean p) {
 		ProductEntity product=new ProductEntity();

@@ -1,5 +1,8 @@
 package com.ccloomi.core.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -99,6 +102,9 @@ public class StringUtil {
 	 * @return StringBuilder
 	 */
 	public static StringBuilder join(String s,Object...objs){
+		return joinArray(s,objs);
+	}
+	public static StringBuilder joinArray(String s,Object[]objs){
 		StringBuilder sb=new StringBuilder();
 		int l=objs.length;
 		if(l>0){
@@ -121,6 +127,9 @@ public class StringUtil {
 			return sb;
 		}
 	}
+	public static StringBuilder joinCollection(String s,Collection<? extends Object>list){
+		return joinArray(s,list.toArray());
+	}
 	/**
 	 * 方法描述：连接字符串数组
 	 * 作者：Chenxj
@@ -131,6 +140,12 @@ public class StringUtil {
 	 */
 	public static String joinString(String s,Object...objs){
 		return join(s, objs).toString();
+	}
+	public static String joinArrayString(String s,Object[]objs){
+		return joinArray(s,objs).toString();
+	}
+	public static String joinCollectionString(String s,Collection<? extends Object>list){
+		return joinArray(s,list.toArray()).toString();
 	}
 	/**
 	 * 方法描述：连接字符串数组
@@ -164,5 +179,12 @@ public class StringUtil {
 		char[] strChar=str.toCharArray();
 		strChar[0]-=32;
 		return String.valueOf(strChar);
+	}
+	public static void main(String[] args) {
+		List<String>ss=new ArrayList<>();
+		for(int i=0;i<7;i++){
+			ss.add("?");
+		}
+		System.out.println(StringUtil.joinCollectionString(",", ss));
 	}
 }
