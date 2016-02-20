@@ -1,6 +1,5 @@
 package com.ccloomi.web.projManager.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.web.projManager.bean.ProductBean;
 import com.ccloomi.web.projManager.entity.ProductEntity;
 import com.ccloomi.web.projManager.service.ProductService;
-import com.ccloomi.web.projManager.service.WhiteListService;
 
 /**© 2015-2015 CCLooMi.Inc Copyright
  * 类    名：ProductController
@@ -30,8 +28,6 @@ import com.ccloomi.web.projManager.service.WhiteListService;
 public class ProductController extends BaseController{
 	@Autowired
 	private ProductService productService;
-	@Autowired
-	private WhiteListService whiteListService;
 	
 	@RequestMapping("/byPage")
 	@ResponseBody
@@ -43,20 +39,9 @@ public class ProductController extends BaseController{
 	@ResponseBody
 	@RequiresAuthentication
 	public Message add(@RequestBody ProductBean p){
-		ProductEntity product=new ProductEntity();
-		product.setAccessType(p.getAccessType());
-		product.setCode(p.getCode());
-		product.setIntroduction(p.getIntroduction());
-		product.setName(p.getName());
-		product.setProductPIC(p.getProductPIC());
-		product.setReleasePIC(p.getReleasePIC());
-		product.setTestPIC(p.getTestPIC());
-		product.setCreatedDate(new Date());
-		product.setCreatedBy(currentUser().getUsername());
-		product.setIdUser(currentUser().getId());
-		Object id=productService.save(product);
-		
-		
+		p.setCreatedBy(currentUser().getUsername());
+		p.setIdUser(currentUser().getId());
+		Object id=productService.saveProduct(p);
 		if(id!=null){
 			return responseMessageSuccess(id);
 		}else{
@@ -66,8 +51,8 @@ public class ProductController extends BaseController{
 	@RequestMapping("/update")
 	@ResponseBody
 	@RequiresAuthentication
-	public Message update(@RequestBody ProductEntity product){
-		int i=productService.update(product);
+	public Message update(@RequestBody ProductBean p){
+		int i=productService.updateProduct(p);
 		if(i>0){
 			return responseMessageSuccess();
 		}else{

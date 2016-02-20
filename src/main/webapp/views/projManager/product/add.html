@@ -57,7 +57,12 @@
                 </div>
                 <div ng-if="product.accessType=='protect'">
                     <label class="checkbox-inline" ng-repeat="role in allRoles">
-                        <input type="checkbox" ng-model="role.checked">{{role.code}}
+                        <!--
+                        checked在数据库中查出结果为0/1/null不是true/false,checkbox默认值是true/false,
+                        所以ng-model绑定的role.checked为1时checkbox不会选中
+                        所以需要设置ng-true-value和ng-false-value
+                        -->
+                        <input type="checkbox" ng-model="role.checked" ng-true-value="1" ng-false-value="0">{{role.code}}
                     </label>
                 </div>
             </div>

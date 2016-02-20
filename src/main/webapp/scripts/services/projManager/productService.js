@@ -15,7 +15,7 @@ angular.module('ccloomi')
                             scope.whiteList_old.push(data[i].id);
                         }
                     }
-                    scope.$watch('allRoles|filter:{checked:true}', function (nv) {
+                    scope.$watch('allRoles|filter:{checked:1}', function (nv) {
                         scope.whiteListRoles=nv.map(function (role) {
                             return role.id;
                         });
@@ -56,7 +56,7 @@ angular.module('ccloomi')
                             scope.whiteList_old.push(data[i].id);
                         }
                     }
-                    scope.$watch('allRoles|filter:{checked:true}', function (nv) {
+                    scope.$watch('allRoles|filter:{checked:1}', function (nv) {
                         scope.whiteListRoles=nv.map(function (role) {
                             return role.id;
                         });

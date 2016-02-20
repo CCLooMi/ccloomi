@@ -1,5 +1,8 @@
 package com.ccloomi.web.projManager.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.ccloomi.core.common.dao.BaseDao;
 import com.ccloomi.web.projManager.entity.WhiteListEntity;
 
@@ -11,5 +14,5 @@ import com.ccloomi.web.projManager.entity.WhiteListEntity;
  * 日    期：2016年2月14日-下午8:55:32
  */
 public interface WhiteListDao extends BaseDao<WhiteListEntity>{
-	
+	public void batchUpdateByDeleteUpdateAddMap(Map<String, List<Object>>deleteUpdateAddMap,Object targetId);
 }

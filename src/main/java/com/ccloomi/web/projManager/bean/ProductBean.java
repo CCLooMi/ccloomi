@@ -14,13 +14,13 @@ import com.ccloomi.web.projManager.entity.ProductEntity;
  */
 public class ProductBean extends ProductEntity{
 	private static final long serialVersionUID = 3997003280105839188L;
-	private Map<String, List<String>>whiteListObject;
+	private Map<String, List<Object>>whiteListObject;
 	/**获取 whiteListObject*/
-	public Map<String, List<String>> getWhiteListObject() {
+	public Map<String, List<Object>> getWhiteListObject() {
 		return whiteListObject;
 	}
 	/**设置 whiteListObject*/
-	public void setWhiteListObject(Map<String, List<String>> whiteListObject) {
+	public void setWhiteListObject(Map<String, List<Object>> whiteListObject) {
 		this.whiteListObject = whiteListObject;
 	}
 }

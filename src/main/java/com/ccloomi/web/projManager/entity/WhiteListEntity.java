@@ -20,11 +20,11 @@ public class WhiteListEntity extends IdEntity{
 	private String idTarget;
 	/**角色ID*/
 	private String idRole;
-	/**获取 type*/
+	/**获取 type 0产品1项目*/
 	public Integer getType() {
 		return type;
 	}
-	/**设置 type*/
+	/**设置 type 0产品1项目*/
 	public void setType(Integer type) {
 		this.type = type;
 	}
