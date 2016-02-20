@@ -5,7 +5,7 @@ angular.module('ccloomi')
     .factory('S_product',['$http','S_dialog','S_role', function ($http,S_dialog,S_role) {
         var service={
             add: function (scope) {
-                scope.product={};
+                scope.product={accessType:'public'};
                 scope.allRoles=[];
                 S_role.findRolesWithWhiteListASChecked(function (data) {
                     scope.allRoles=data;
