@@ -146,7 +146,7 @@ angular.module('ccloomi')
                                             focusNode(findNodes[0]);
                                         }
                                         var searchResulHtml='';
-                                        for(var i in findNodes){
+                                        for(var i=0;i<findNodes.length;i++){
                                             searchResulHtml+='<a class="list-group-item" data-index="'+i+'"><h4 class="list-group-item-heading">'+findNodes[i].id+'</h4><p class="list-group-item-text">'+findNodes[i].label+'</p></a>';
                                         }
                                         searchPanel.find('.list-group').html(searchResulHtml);

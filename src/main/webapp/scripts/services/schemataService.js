@@ -33,7 +33,7 @@ angular.module('ccloomi')
             getTableColumnsAsProperties: function (dbName,tableName,scope,container) {
                 $http.get('db/convertTableColumns2Properties.json?dbName='+dbName+'&tableName='+tableName).success(function (data) {
                     var plistStr='';
-                    for(var i in data){
+                    for(var i=0;i<data.length;i++){
                         plistStr+=data[i]+'<br>';
                     }
                     S_dialog.dialogHtml(dbName+'::'+tableName,plistStr,scope, null,null,null,768,{container:container});
