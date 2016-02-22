@@ -3,11 +3,8 @@ package com.ccloomi.web.siteAgent.controller;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.web.system.constant.DDConstant;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
@@ -18,12 +15,28 @@ import com.ccloomi.web.system.constant.DDConstant;
  * 日    期：2016年2月20日-下午4:42:13
  */
 @Controller
-public class Stackexchange extends BaseController{
+@RequestMapping("/stackexchange")
+public class Stackexchange extends BaseSiteAgentController{
 	private String url=DDConstant.stackexchangeMap().get("api-url");
-	@RequestMapping("/stackexchange")
-	@ResponseBody
-	public Object doAgent(@RequestBody Map<String, Object>map) throws Exception {
-		System.out.println(url);
-		return DDConstant.stackexchangeMap();
+
+	@Override
+	public void beforRequest(Map<String, String> map) {
+		
 	}
+
+	@Override
+	public void beforResponse(Map<String, Object> map, Map<String, Object> responseMap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getUrl(Map<String, String> map) {
+		String method=map.remove("method");
+		if(method==null){
+			method="";
+		}
+		return url+method;
+	}
+	
 }
