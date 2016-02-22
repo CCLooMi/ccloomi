@@ -231,7 +231,7 @@ app.factory('S_jstree',['$http', function ($http) {
             function getPids(ids){
                 var pidsToReturn=[];
                 var pids=[];
-                for(var i in ids){
+                for(var i=0;i<ids.length;i++){
                     var id=ids[i];
                     var pid=jstree.get_parent(id);
                     //pid=='#'表示没有父菜单

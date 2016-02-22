@@ -142,20 +142,6 @@ var app=angular
                     }
                 }
             })
-            .state('main.maven',{
-                url:'/maven',
-                templateUrl:'views/mavenSearch/mavenSearch.html',
-                resolve:{
-                    loadMyFile: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name:'ccloomi',
-                            files:[
-                                'scripts/controllers/mavenSearchController.js'
-                            ]
-                        })
-                    }
-                }
-            })
             .state('main.db',{
                 url:'/db',
                 templateUrl:'views/db/db.html',
@@ -220,132 +206,167 @@ var app=angular
                     }
                 }
             })
-            .state('proj',{
-                url:'/proj/main',
-                templateUrl:'views/projManager/main.html',
-                resolve:{
-                    loadMyFiles: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name:'loginCtrl',
-                            files:[
-                                'scripts/directives/projManager/header/header.js',
-                                'scripts/directives/projManager/footer/footer.js',
-                                'bower_components/paginationjs/dist/pagination.js',
-                                'js/CCDialog.js',
-                                'styles/pjm.css',
-                                'css/pagination.css'
-                            ]
-                        })
-                    }
-                }
-            })
-            .state('proj.product',{
-                url:'/product/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/product/'+params.operation+'.html';
-                        },
-                        controller:'productCtrl'
-                    }
-                },
-                resolve:{
-                    loadMyFiles: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name:'product',
-                            files:[
-                                'scripts/services/roleService.js',
-                                'scripts/services/projManager/productService.js',
-                                'scripts/controllers/projManager/productController.js'
-                            ]
-                        })
-                    }
-                }
-            })
-            .state('proj.demand',{
-                url:'/demand/:option',
-                templateUrl:'views/projManager/demand/list.html',
-                resolve:{
-                    loadMyFiles: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name:'demand',
-                            files:[
-                                'scripts/services/projManager/demandService.js',
-                                'scripts/controllers/projManager/demandController.js'
-                            ]
-                        })
-                    }
-                }
-            })
-            .state('proj.project',{
-                url:'/project/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/project/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
-            .state('proj.test',{
-                url:'/test/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/test/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
-            .state('proj.count',{
-                url:'/count/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/count/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
-            .state('proj.document',{
-                url:'/document/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/document/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
-            .state('proj.blog',{
-                url:'/blog/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/blog/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
-            .state('proj.tieba',{
-                url:'/tieba/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/tieba/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
-            .state('proj.workspace',{
-                url:'/workspace/:operation',
-                views:{
-                    '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
-                        templateUrl: function (params) {
-                            return 'views/projManager/workspace/'+params.operation+'.html';
-                        }
-                    }
-                }
-            })
 
     }]);
+
+
+app.config(['$stateProvider', function ($stateProvider) {
+    $stateProvider.state('main.maven',{
+        url:'/maven',
+        templateUrl:'views/mavenSearch/mavenSearch.html',
+        resolve:{
+            loadMyFile: function ($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name:'ccloomi',
+                    files:[
+                        'scripts/controllers/mavenSearchController.js'
+                    ]
+                })
+            }
+        }
+    }).state('main.shooter',{
+        url:'/shooter',
+        templateUrl:'views/shooter/shooter.html',
+        resolve:{
+            loadMyFile: function ($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name:'ccloomi',
+                    files:[
+                        'scripts/controllers/shooterController.js'
+                    ]
+                })
+            }
+        }
+    })
+}]);
+
+app.config(['$stateProvider', function ($stateProvider) {
+    $stateProvider
+        .state('proj',{
+            url:'/proj/main',
+            templateUrl:'views/projManager/main.html',
+            resolve:{
+                loadMyFiles: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name:'loginCtrl',
+                        files:[
+                            'scripts/directives/projManager/header/header.js',
+                            'scripts/directives/projManager/footer/footer.js',
+                            'bower_components/paginationjs/dist/pagination.js',
+                            'js/CCDialog.js',
+                            'styles/pjm.css',
+                            'css/pagination.css'
+                        ]
+                    })
+                }
+            }
+        })
+        .state('proj.product',{
+            url:'/product/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/product/'+params.operation+'.html';
+                    },
+                    controller:'productCtrl'
+                }
+            },
+            resolve:{
+                loadMyFiles: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name:'product',
+                        files:[
+                            'scripts/services/roleService.js',
+                            'scripts/services/projManager/productService.js',
+                            'scripts/controllers/projManager/productController.js'
+                        ]
+                    })
+                }
+            }
+        })
+        .state('proj.demand',{
+            url:'/demand/:option',
+            templateUrl:'views/projManager/demand/list.html',
+            resolve:{
+                loadMyFiles: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name:'demand',
+                        files:[
+                            'scripts/services/projManager/demandService.js',
+                            'scripts/controllers/projManager/demandController.js'
+                        ]
+                    })
+                }
+            }
+        })
+        .state('proj.project',{
+            url:'/project/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/project/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+        .state('proj.test',{
+            url:'/test/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/test/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+        .state('proj.count',{
+            url:'/count/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/count/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+        .state('proj.document',{
+            url:'/document/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/document/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+        .state('proj.blog',{
+            url:'/blog/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/blog/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+        .state('proj.tieba',{
+            url:'/tieba/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/tieba/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+        .state('proj.workspace',{
+            url:'/workspace/:operation',
+            views:{
+                '':{//如果在ui-view中没有指定,这里只需一个空字符串即可
+                    templateUrl: function (params) {
+                        return 'views/projManager/workspace/'+params.operation+'.html';
+                    }
+                }
+            }
+        })
+}]);
