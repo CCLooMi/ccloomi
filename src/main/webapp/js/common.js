@@ -8,10 +8,18 @@ Array.prototype.inOf=function(o){
   return -1;
 }
 function cloneFrom(a){
+    if(!a)return a;
     var b;
-    if(a[0]){b=[];}else{b={};}
-    for(var k in a){
-        b[k]=a[k];
+    if(a instanceof Array){
+        b=[];
+        for(var i=0;i< a.length;i++){
+            b[i]=a[i];
+        }
+    }else{
+        b={};
+        for(var k in a){
+            b[k]=a[k];
+        }
     }
     return b;
 }

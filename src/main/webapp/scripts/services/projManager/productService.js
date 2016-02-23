@@ -35,7 +35,7 @@ angular.module('ccloomi')
                         }else if(data.code==1){
                             S_dialog.alert('添加失败',data.info,'error');
                         }else{
-                            S_dialog.alert('添加失败','接口[view/add]调用失败','error');
+                            S_dialog.alert('添加失败','接口[product/add]调用失败','error');
                         }
                     }).error(function () {
                         S_dialog.alert('操作异常','网络错误','error');
