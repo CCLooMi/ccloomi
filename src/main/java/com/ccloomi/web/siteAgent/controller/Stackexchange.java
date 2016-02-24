@@ -21,13 +21,18 @@ public class Stackexchange extends BaseSiteAgentController{
 
 	@Override
 	public void beforRequest(Map<String, String> map) {
-		
+		String page=map.remove("pageNumber");
+		String pagesize=map.remove("pageSize");
+		if(page!=null)map.put("page", page);
+		if(pagesize!=null)map.put("pagesize", pagesize);
 	}
 
 	@Override
 	public void beforResponse(Map<String, Object> map, Map<String, Object> responseMap) {
 		// TODO Auto-generated method stub
-		
+		for(String key:map.keySet()){
+			responseMap.put(key, map.get(key));
+		}
 	}
 
 	@Override
