@@ -5,6 +5,22 @@
 @main-border-color:#e5e5e5;
 
 .pjm-main {
+  .nav-center {
+    li {
+      a {
+        &:hover {
+          &~ .dropdown-menu {
+            display: block;
+          }
+        }
+        &~ .dropdown-menu {
+          &:hover {
+            display: block;
+          }
+        }
+      }
+    }
+  }
   .navbar-right {
     .dropdown-menu {
       .dropdown-submenu {
@@ -14,41 +30,8 @@
       }
     }
   }
-  .pjm-wrapper {
+  #pjm-wrapper {
     min-height: 500px;
-  }
-  .proj-sidebar {
-    ul {
-      padding-left: 0;
-      li {
-        >a {
-          color: @three-color;
-          display: block;
-          font-size: 13px;
-          font-weight: 500;
-          padding: 4px 20px;
-          &:focus,&:hover {
-            border-left: 2px solid;
-            background-color: transparent;
-            color: @main-color;
-          }
-        }
-        li {
-          >a {
-            font-size: 12px;
-            font-weight: 400;
-            padding-bottom: 1px;
-            padding-left: 30px;
-            padding-top: 1px;
-            &:focus,&:hover {
-              border-left: 1px solid;
-              background-color: transparent;
-              color: @main-color;
-            }
-          }
-        }
-      }
-    }
   }
   footer {
     &.footer {

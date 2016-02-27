@@ -9,16 +9,12 @@ angular.module('ccloomi')
             replace: true,
             controller: function ($scope) {
                 $scope.views=[];
-                $scope.subViews=[];
                 $scope.toggleNav= function (e) {
                     var target=$(e.target);
                     if(target.is('a')){
                         target.closest('ul').find('li.active').removeClass('active');
                         target.closest('li').addClass('active');
                     }
-                };
-                $scope.navMenuClick= function (view) {
-                    $scope.subViews=$filter('filter')($scope.views,{pid:view.id});
                 };
                 S_user.loginStatus(function (status) {
                     if(status){
