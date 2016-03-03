@@ -79,7 +79,7 @@ function placeAunderB(a,b){
 }
 Array.minus = function(a,b){
     var r=[];
-    for(var i in a){
+    for(var i=0;i<a.length;i++){
         if(b.indexOf(a[i])==-1){
             r.push(a[i]);
         }

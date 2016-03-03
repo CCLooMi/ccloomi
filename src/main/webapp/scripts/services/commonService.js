@@ -224,7 +224,7 @@ app.factory('S_jstree',['$http', function ($http) {
             var jstree=$.jstree.reference('#jstree');
             var ids=jstree.get_selected();
             function pushAllA2B(a,b){
-                for(var i in a){
+                for(var i=0;i<a.length;i++){
                     b.push(a[i]);
                 }
             }
