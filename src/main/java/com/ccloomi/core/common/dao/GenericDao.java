@@ -17,6 +17,13 @@ import com.ccloomi.core.util.StringUtil;
  */
 @Service("baseDao")
 public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements BaseDao<T>{
+	/**
+	 * 描述：自动设置ID
+	 * 作者：Chenxj
+	 * 日期：2016年1月24日 - 下午3:10:34
+	 * @param entity
+	 * @return
+	 */
 	@Override
 	public Object save(T entity){
 		if(entity instanceof IdEntity){

@@ -40,7 +40,12 @@ public abstract class AbstractService<T> {
 	public int update(T entity) {
 		return baseDao.update(entity);
 	}
-
+	public int updateLazy(T entity) {
+		return baseDao.updateLazy(entity);
+	}
+	public int lazyUpdate(T entity) {
+		return baseDao.lazyUpdate(entity);
+	}
 	public int delete(Object id) {
 		return baseDao.delete(id);
 	}

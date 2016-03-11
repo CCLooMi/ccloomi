@@ -16,26 +16,20 @@ import com.ccloomi.core.component.sql.SQLGod;
  */
 public interface BaseDao<T> {
 	public int 							add					(T entity);
-	/**
-	 * 描述：自动设置ID
-	 * 作者：Chenxj
-	 * 日期：2016年1月24日 - 下午3:10:34
-	 * @param entity
-	 * @return
-	 */
 	public Object 						save				(T entity);
 	public int 							update				(T entity);
 	public int							updateLazy			(T entity);
 	public int							lazyUpdate			(T entity);
 	public int 							delete				(Object id);
-	public T 							getById				(Object id);
-	public long							countBySQLGod		(SQLGod sg);
 	public int 							updateBySQLGod		(SQLGod sg);
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);
-	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
-	public List<T>						findAll				();
 	public int[]						batchDelete			(Object...ids);
 	public int[]						batchSave			(Collection<T>entities);
-	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
 	public int[]						batchDelete			(Collection<? extends Object>ids);
+	
+	public T 							getById				(Object id);
+	public long							countBySQLGod		(SQLGod sg);
+	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
+	public List<T>						findAll				();
+	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
 }

@@ -14,21 +14,26 @@ import com.ccloomi.core.component.sql.SQLGod;
  * 日    期：2015年10月22日-下午9:32:35
  * @param <T>
  */
-public interface BaseService<T> {
+public interface BaseService<T>{
 	public int 							add					(T entity);
 	public Object 						save				(T entity);
 	public int 							update				(T entity);
+	public int							updateLazy			(T entity);
+	public int							lazyUpdate			(T entity);
 	public int 							delete				(Object id);
-	public T 							getById				(Object id);
-	public long							countBySQLGod		(SQLGod sg);
 	public int 							updateBySQLGod		(SQLGod sg);
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);
-	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
 	public int[]						batchDelete			(Object...ids);
 	public int[]						batchSave			(Collection<T>entities);
-	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
 	public int[]						batchDelete			(Collection<? extends Object>ids);
+	
+	public T 							getById				(Object id);
+	public long							countBySQLGod		(SQLGod sg);
+	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
 	public List<T>						findAll				();
+	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
+	
+	
 	public Map<String, Object>			byPage				(Map<String, Object>map,ByPageSelect byPageSelect);
 	public <E>Map<String, Object>		byPage				(Map<String, Object>map,Class<E>elementType,ByPageSelect byPageSelect);
 	//分页(适用于移动端)
