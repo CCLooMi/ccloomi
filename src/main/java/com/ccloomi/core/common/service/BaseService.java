@@ -21,6 +21,7 @@ public interface BaseService<T extends BaseEntity>{
 	public int 							update				(T entity);
 	public int							updateLazy			(T entity);
 	public int							lazyUpdate			(T entity);
+	public int							updateByMap			(Map<String, ? extends Object>map);
 	public int 							delete				(Object id);
 	public int 							updateBySQLGod		(SQLGod sg);
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);

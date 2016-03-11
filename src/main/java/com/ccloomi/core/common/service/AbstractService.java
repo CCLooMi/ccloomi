@@ -47,6 +47,9 @@ public abstract class AbstractService<T extends BaseEntity> {
 	public int lazyUpdate(T entity) {
 		return baseDao.lazyUpdate(entity);
 	}
+	public int updateByMap(Map<String, ? extends Object> map) {
+		return baseDao.updateByMap(map);
+	}
 	public int delete(Object id) {
 		return baseDao.delete(id);
 	}

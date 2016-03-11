@@ -3,6 +3,7 @@ package com.ccloomi.core.common.dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import com.ccloomi.core.util.JSONUtil;
 public abstract class AbstractDao<T extends BaseEntity> {
 	protected final Logger log=LoggerFactory.getLogger(getClass());
 	protected Class<T>entityClass;
+	protected T _entity;
 	protected String tableName;
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
@@ -38,6 +40,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 	public AbstractDao (){
 		this.entityClass=getEntityClass();
 		Table table=entityClass.getAnnotation(Table.class);
+		_entity=TEntity();
 		this.tableName=(table==null?entityClass.getName():table.name());
 	}
 	
@@ -93,6 +96,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 	public int updateLazy(T entity){
 		String alias="etlz";
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.UPDATE(entity, alias);
 		//记录是否有更新字段
 		int i=-1;
 		for(String p:entity.PVMap().keySet()){
@@ -117,6 +121,52 @@ public abstract class AbstractDao<T extends BaseEntity> {
 	 */
 	public int lazyUpdate(T entity){
 		return updateLazy(entity);
+	}
+	/**
+	 * 方法描述：更新map指定的字段不管字段值是否为null,
+	 * 这样可以直接将从客户端接收到的map数据直接进行更新数据库操作
+	 * 作者：Chenxj
+	 * 日期：2016年3月11日 - 下午3:53:29
+	 * @param map
+	 * @return
+	 */
+	public int updateByMap(Map<String, ? extends Object>map){
+		Map<String,Object>m=formateMapByEntity(map);
+		String alias="etlz";
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.UPDATE(_entity, alias);
+		//记录是否有更新字段
+		int i=-1;
+		for(String p:m.keySet()){
+			if(!"id".equals(p)){
+				Object pv=m.get(p);
+				if(pv!=null){
+					String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
+					sm.SET(ps,pv);
+					i++;
+				}
+			}
+		}
+		sm.WHERE(alias+".id=?", m.get("id"));
+		return i>0?updateBySQLGod(sm):0;
+	}
+	/**
+	 * 方法描述：格式化map,
+	 * 从map中取出entity中有的属性和值到新map中
+	 * 防止updateByMap出错
+	 * 作者：Chenxj
+	 * 日期：2016年3月11日 - 下午4:04:14
+	 */
+	private Map<String,Object> formateMapByEntity(Map<String, ? extends Object>map){
+		Map<String, Object>m=new HashMap<>();
+		_entity.prepareProperties();
+		List<String>ps=_entity.properties();
+		for(String p:ps){
+			if(map.containsKey(p)){
+				m.put(p, map.get(p));
+			}
+		}
+		return m;
 	}
 	public int delete(Object id) {
 		if(id!=null){
@@ -154,27 +204,20 @@ public abstract class AbstractDao<T extends BaseEntity> {
 		int[]r=new int[entities==null?0:entities.size()];
 		if(entities!=null&&entities.size()>0){
 			List<Object[]>batchArgs=new ArrayList<Object[]>();
-			List<String>properties=null;
-			BaseEntity firstBt=null;
+			_entity.prepareProperties();
+			List<String>properties=_entity.properties();
 			for(T t:entities){
 				BaseEntity bt=(BaseEntity) t;
+				//需要获取T内属性值
 				bt.prepareProperties();
-				if(properties==null){
-					firstBt=bt;
-					properties=firstBt.properties();
-				}
 				List<Object>args=new ArrayList<Object>();
 				for(String p:properties){
 					args.add(bt.PVMap().get(p));
 				}
 				batchArgs.add(args.toArray());
 			}
-			firstBt=(BaseEntity) TEntity();
-			if(firstBt==null){
-				return r;
-			}
 			SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-			sm.INSERT_INTO(firstBt, "#");
+			sm.INSERT_INTO(_entity, "#");
 			sm.setBatchArgs(batchArgs);
 			return batchUpdateBySQLGod(sm);
 		}
@@ -239,6 +282,6 @@ public abstract class AbstractDao<T extends BaseEntity> {
 		return new ArrayList<E>();
 	}
 	public List<T>findAll(){
-		return findBySQLGod(SQLMakerFactory.getInstance().createMapker().SELECT("*").FROM((BaseEntity) TEntity(), "#"), getEntityClass());
+		return findBySQLGod(SQLMakerFactory.getInstance().createMapker().SELECT("*").FROM(_entity, "#"), getEntityClass());
 	}
 }
