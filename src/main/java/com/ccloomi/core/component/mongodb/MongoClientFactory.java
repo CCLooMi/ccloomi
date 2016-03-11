@@ -10,10 +10,12 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 /**
- * 类名：MongoClientFactory
- * 描述：
- * 作者： Chenxj
- * 日期：2016年3月11日 - 下午5:29:36
+ * © 2015-2016 CCLooMi.Inc Copyright
+ * 类    名：MongoClientFactory
+ * 类 描 述：MongoDB工厂类
+ * 作    者：Chenxj
+ * 邮    箱：chenios@foxmail.com
+ * 日    期：2016年3月11日 - 下午5:29:36
  */
 public class MongoClientFactory {
 	private static MongoClientFactory instance;
