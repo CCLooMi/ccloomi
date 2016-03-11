@@ -86,4 +86,24 @@
 		</property>
 	</bean>
 	<bean id="smsSender" class="com.ccloomi.core.component.sms.SmsSender" factory-bean="smsSenderFactory" factory-method="createSmsSender"/>
+	<bean id="mongoClientFactory" class="com.ccloomi.core.component.mongodb.MongoClientFactory" init-method="init" destroy-method="destroy" factory-method="getInstance">
+		<property name="initProperties">
+			<map>
+				<!-- MongoDB配置参数 -->
+				<entry key="hosts">
+					<value>${mongo.hosts}</value>
+				</entry>
+				<entry key="username">
+					<value>${mongo.username}</value>
+				</entry>
+				<entry key="password">
+					<value>${mongo.password}</value>
+				</entry>
+				<entry key="db">
+					<value>${mongo.db}</value>
+				</entry>
+			</map>
+		</property>
+    </bean>
+    <bean id="mongoDatabase" class="com.mongodb.client.MongoDatabase" factory-bean="mongoClientFactory" factory-method="getMongoDatabase"/>
 </beans>
