@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ccloomi.core.common.dao.BaseDao;
+import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.component.sql.SQLGod;
 import com.ccloomi.core.component.sql.SQLMaker;
 import com.ccloomi.core.component.sql.SQLMakerFactory;
@@ -23,7 +24,7 @@ import com.ccloomi.core.component.sql.SQLMakerFactory;
  * 日    期：2015年10月22日-下午9:58:54
  * @param <T>
  */
-public abstract class AbstractService<T> {
+public abstract class AbstractService<T extends BaseEntity> {
 	protected final Logger log=LoggerFactory.getLogger(getClass());
 	
 	@Autowired

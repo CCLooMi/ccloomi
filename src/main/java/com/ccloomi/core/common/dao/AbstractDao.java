@@ -28,7 +28,7 @@ import com.ccloomi.core.util.JSONUtil;
  * 日    期：2015年10月19日-下午4:17:54
  * @param <T>
  */
-public abstract class AbstractDao<T> {
+public abstract class AbstractDao<T extends BaseEntity> {
 	protected final Logger log=LoggerFactory.getLogger(getClass());
 	protected Class<T>entityClass;
 	protected String tableName;
@@ -66,22 +66,21 @@ public abstract class AbstractDao<T> {
 		}
 	}
 	public int add(T entity) {
-		return updateBySQLGod(SQLMakerFactory.getInstance().createMapker().INSERT_INTO((BaseEntity)entity, "#"));
+		return updateBySQLGod(SQLMakerFactory.getInstance().createMapker().INSERT_INTO(entity, "#"));
 	}
 	
 	public int update(T entity) {
-		BaseEntity _bt=(BaseEntity) entity;
 		String alias="et";
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-		sm.UPDATE(_bt, alias);
-		for(String p:_bt.PVMap().keySet()){
+		sm.UPDATE(entity, alias);
+		for(String p:entity.PVMap().keySet()){
 			if(!"id".equals(p)){
-				Object pv=_bt.getPropertyValue(p);
+				Object pv=entity.getPropertyValue(p);
 				String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
 				sm.SET(ps,pv);
 			}
 		}
-		sm.WHERE(alias+".id=?", _bt.getPropertyValue(_bt.getPropertyA(0)));
+		sm.WHERE(alias+".id=?", entity.getPropertyValue(entity.getPropertyA(0)));
 		return updateBySQLGod(sm);
 	}
 	/**
@@ -92,14 +91,13 @@ public abstract class AbstractDao<T> {
 	 * @return
 	 */
 	public int updateLazy(T entity){
-		BaseEntity _bt=(BaseEntity)entity;
 		String alias="etlz";
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		//记录是否有更新字段
 		int i=-1;
-		for(String p:_bt.PVMap().keySet()){
+		for(String p:entity.PVMap().keySet()){
 			if(!"id".equals(p)){
-				Object pv=_bt.getPropertyValue(p);
+				Object pv=entity.getPropertyValue(p);
 				if(pv!=null){
 					String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
 					sm.SET(ps,pv);
@@ -107,7 +105,7 @@ public abstract class AbstractDao<T> {
 				}
 			}
 		}
-		sm.WHERE(alias+".id=?", _bt.getPropertyValue(_bt.getPropertyA(0)));
+		sm.WHERE(alias+".id=?", entity.getPropertyValue(entity.getPropertyA(0)));
 		return i>0?updateBySQLGod(sm):0;
 	}
 	/**

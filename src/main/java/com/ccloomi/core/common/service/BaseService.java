@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.component.sql.SQLGod;
 /**
  * © 2015-2015 CCLooMi.Inc Copyright
@@ -14,7 +15,7 @@ import com.ccloomi.core.component.sql.SQLGod;
  * 日    期：2015年10月22日-下午9:32:35
  * @param <T>
  */
-public interface BaseService<T>{
+public interface BaseService<T extends BaseEntity>{
 	public int 							add					(T entity);
 	public Object 						save				(T entity);
 	public int 							update				(T entity);
