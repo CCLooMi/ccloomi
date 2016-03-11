@@ -75,14 +75,51 @@ public abstract class AbstractDao<T> {
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.UPDATE(_bt, alias);
 		for(String p:_bt.PVMap().keySet()){
-			Object pv=_bt.getPropertyValue(p);
-			String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
-			sm.SET(ps,pv);
+			if(!"id".equals(p)){
+				Object pv=_bt.getPropertyValue(p);
+				String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
+				sm.SET(ps,pv);
+			}
 		}
 		sm.WHERE(alias+".id=?", _bt.getPropertyValue(_bt.getPropertyA(0)));
 		return updateBySQLGod(sm);
 	}
-
+	/**
+	 * 方法描述：懒更新，即不更新属性值为null的字段
+	 * 作者：Chenxj
+	 * 日期：2016年3月11日 - 下午1:18:12
+	 * @param entity
+	 * @return
+	 */
+	public int updateLazy(T entity){
+		BaseEntity _bt=(BaseEntity)entity;
+		String alias="etlz";
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		//记录是否有更新字段
+		int i=-1;
+		for(String p:_bt.PVMap().keySet()){
+			if(!"id".equals(p)){
+				Object pv=_bt.getPropertyValue(p);
+				if(pv!=null){
+					String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
+					sm.SET(ps,pv);
+					i++;
+				}
+			}
+		}
+		sm.WHERE(alias+".id=?", _bt.getPropertyValue(_bt.getPropertyA(0)));
+		return i>0?updateBySQLGod(sm):0;
+	}
+	/**
+	 * 方法描述：懒更新，updateLazy
+	 * 作者：Chenxj
+	 * 日期：2016年3月11日 - 下午1:17:45
+	 * @param entity
+	 * @return
+	 */
+	public int lazyUpdate(T entity){
+		return updateLazy(entity);
+	}
 	public int delete(Object id) {
 		if(id!=null){
 			String sql="DELETE FROM ? WHERE id=?".replaceFirst("\\?", tableName);

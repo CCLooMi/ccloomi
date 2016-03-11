@@ -25,6 +25,8 @@ public interface BaseDao<T> {
 	 */
 	public Object 						save				(T entity);
 	public int 							update				(T entity);
+	public int							updateLazy			(T entity);
+	public int							lazyUpdate			(T entity);
 	public int 							delete				(Object id);
 	public T 							getById				(Object id);
 	public long							countBySQLGod		(SQLGod sg);
