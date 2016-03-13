@@ -33,5 +33,19 @@ public interface BaseDao<T extends BaseEntity> {
 	public long							countBySQLGod		(SQLGod sg);
 	public List<Map<String, Object>>	findBySQLGod		(SQLGod sg);
 	public List<T>						findAll				();
+	public List<T>						getByIds			(Collection<? extends Object>ids);
 	public <E>List<E> 					findBySQLGod		(SQLGod sg,Class<E>elementType);
+	
+	public Map<String, Object>			findAsMap				(Object id);
+	public List<Map<String, Object>>	findAsListMap			(Collection<? extends Object>ids);
+	public List<Map<String, Object>>	findAsListMap			(Object[]ids);
+	public List<Map<String, Object>>	findAsListMap			(String...ids);
+	public T 							findAsEntity			(Object id);
+	public List<T> 						findAsListEntity		(Collection<? extends Object>ids);
+	public List<T> 						findAsListEntity		(Object[]ids);
+	public List<T> 						findAsListEntity		(String...ids);
+	public void							cacheMap				(Map<String, ? extends Object>map);
+	public void							cacheListMap			(List<Map<String, Object>>maps);
+	public void							cacheEntity				(T entity);
+	public void							cacheListEntity			(List<T>entities);
 }

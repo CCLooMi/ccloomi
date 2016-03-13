@@ -41,4 +41,7 @@ public interface BaseService<T extends BaseEntity>{
 	//分页(适用于移动端)
 	public List<Map<String, Object>>	byPageWithoutTotalNumber	(Map<String, Object>map,ByPageSelect byPageSelect);
 	public <E>List<E>					byPageWithoutTotalNumber	(Map<String, Object>map,Class<E>elementType,ByPageSelect byPageSelect);
+	
+	
+
 }

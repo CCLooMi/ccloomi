@@ -186,7 +186,13 @@ public abstract class AbstractDao<T extends BaseEntity> {
 		}
 		return null;
 	}	
-
+	public List<T> getByIds(Collection<? extends Object>ids){
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("*")
+		.FROM(TEntity(), "#")
+		.WHERE_IN("#.id", ids);
+		return findBySQLGod(sm, entityClass);
+	}
 	public int[] batchDelete(Object... ids) {
 		int[]r=new int[ids.length];
 		if(ids.length>0){
