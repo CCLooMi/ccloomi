@@ -1,4 +1,4 @@
-package com.ccloomi.core.directive;
+package com.ccloomi.web.system.rye.command;
 
 import com.ccloomi.core.common.entity.IdEntity;
 

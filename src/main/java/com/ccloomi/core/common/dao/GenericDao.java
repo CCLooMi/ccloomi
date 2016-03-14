@@ -69,6 +69,7 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		while(mc.hasNext()){
 			Document d=mc.next();
 			if(!d.isEmpty()){
+				d.put("id", d.remove("_id"));
 				return d;
 			}else{//缓存中没有找到则从数据库里面查询
 				T entity=getById(id);
@@ -94,7 +95,9 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		FindIterable<Document>rc=c.find(in("_id", Arrays.asList(ids)));
 		MongoCursor<Document>mc=rc.iterator();
 		while(mc.hasNext()){
-			ld.add(mc.next());
+			Document d=mc.next();
+			d.put("id", d.remove("_id"));
+			ld.add(d);
 		}
 		//缓存中没有的需要从数据库里面查询
 		if(ld.size()<ids.length){
@@ -121,7 +124,9 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		FindIterable<Document>rc=c.find(in("_id",ids));
 		MongoCursor<Document>mc=rc.iterator();
 		while(mc.hasNext()){
-			ld.add(mc.next());
+			Document d=mc.next();
+			d.put("id", d.remove("_id"));
+			ld.add(d);
 		}
 		//缓存中没有的需要从数据库里面查询
 		if(ld.size()<ids.length){
@@ -248,5 +253,56 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 			maps.add(entity.PVMap());
 		}
 		cacheListMap(maps);
+	}
+	@Override
+	public void uncache(Object id) {
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		c.deleteOne(eq("_id",id));
+	}
+	@Override
+	public void uncacheList(Collection<? extends Object> ids) {
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		c.deleteMany(in("_id",ids));
+	}
+	@Override
+	public void uncacheList(Object[] ids) {
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		List<Object>lds=new ArrayList<Object>();
+		for(Object id:ids){
+			lds.add(id);
+		}
+		c.deleteMany(in("_id",lds));
+	}
+	@Override
+	public void uncacheList(String... ids) {
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		c.deleteMany(in("_id",ids));
+	}
+	@Override
+	public void recacheMap(Map<String, ? extends Object> map) {
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		Map<String,Object>m=new HashMap<String, Object>();
+		m.putAll(map);
+		m.put("_id", m.remove("id"));
+		c.replaceOne(eq("_id",map.get("id")), new Document(m));
+	}
+	@Override
+	public void recacheListMap(List<Map<String, Object>> maps) {
+		for(Map<String, Object>map:maps){
+			recacheMap(map);
+		}
+	}
+	@Override
+	public void recacheEntity(T entity) {
+		if(entity!=null){
+			entity.prepareProperties();
+			recacheMap(entity.PVMap());
+		}
+	}
+	@Override
+	public void recacheListEntity(List<T> entities) {
+		for(T entity:entities){
+			recacheEntity(entity);
+		}
 	}
 }

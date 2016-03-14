@@ -48,4 +48,12 @@ public interface BaseDao<T extends BaseEntity> {
 	public void							cacheListMap			(List<Map<String, Object>>maps);
 	public void							cacheEntity				(T entity);
 	public void							cacheListEntity			(List<T>entities);
+	public void							uncache					(Object id);
+	public void							uncacheList				(Collection<? extends Object>ids);
+	public void							uncacheList				(Object[]ids);
+	public void							uncacheList				(String...ids);
+	public void							recacheMap				(Map<String, ? extends Object>map);
+	public void							recacheListMap			(List<Map<String, Object>>maps);
+	public void							recacheEntity			(T entity);
+	public void							recacheListEntity		(List<T>entities);
 }
