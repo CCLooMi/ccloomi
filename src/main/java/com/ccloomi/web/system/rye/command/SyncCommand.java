@@ -12,27 +12,18 @@ import com.ccloomi.web.system.rye.hub.CommandHub;
  * 邮    箱：chenios@foxmail.com
  * 日    期：2016年3月12日-下午2:00:49
  */
-public class SyncCommand<dao extends BaseDao<? extends IdEntity>>{
+public abstract class SyncCommand<dao extends BaseDao<? extends IdEntity>> implements Command{
 	
-	private dao dao;
-	private Command<dao> command;
+	protected dao dao;
 	
 	/**
 	 * 命令构造方法
 	 * @param dao 执行数据库操作的dao
-	 * @param command 命令接口
 	 */
-	public SyncCommand(dao dao,Command<dao> command){
+	public SyncCommand(dao dao){
 		this.dao=dao;
-		this.command=command;
 	}
 	
-	public void doUpdate() {
-		command.doUpdate(dao);
-	}
-	public void doRollback() {
-		command.doRollback(dao);
-	}
 	/**
 	 * 描述：发送命令到指令集中处理线程
 	 * 作者：Chenxj

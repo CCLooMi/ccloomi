@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.ccloomi.core.test.BaseTest;
 import com.ccloomi.web.system.dao.UserDao;
-import com.ccloomi.web.system.rye.command.Command;
+import com.ccloomi.web.system.entity.UserEntity;
 import com.ccloomi.web.system.rye.command.SyncCommand;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
@@ -35,18 +35,21 @@ public class UserDaoTest extends BaseTest<UserDao>{
 //		System.out.println(testObj.findAsListEntity("1111","1122"));
 //		System.out.println(testObj.findAsMap("110").isEmpty());
 		
-		new SyncCommand<UserDao>(testObj,new Command<UserDao>() {
-
+		new SyncCommand<UserDao>(testObj) {
 			@Override
-			public void doUpdate(UserDao dao) {
-				System.out.println("doUpdate");
+			public void doUpdate() {
+				UserEntity u=new UserEntity();
+				u.setId("8984fe05c7f048639df85564eb60c74c");
+				u.setNickname("abc");
+				int i=dao.lazyUpdate(u);
+				System.out.println("LazyUpdateResult::"+i);
 			}
 
 			@Override
-			public void doRollback(UserDao dao) {
-				System.out.println("doRollback");
+			public void doRollback() {
+				
 			}
-		}).fire();
+		}.fire();
 		
 	}
 	public static void main(String[] args) {

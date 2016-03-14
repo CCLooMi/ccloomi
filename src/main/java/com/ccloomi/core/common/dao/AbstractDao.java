@@ -110,7 +110,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 			}
 		}
 		sm.WHERE(alias+".id=?", entity.getPropertyValue(entity.getPropertyA(0)));
-		return i>0?updateBySQLGod(sm):0;
+		return i>-1?updateBySQLGod(sm):0;
 	}
 	/**
 	 * 方法描述：懒更新，updateLazy
@@ -148,7 +148,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 			}
 		}
 		sm.WHERE(alias+".id=?", m.get("id"));
-		return i>0?updateBySQLGod(sm):0;
+		return i>-1?updateBySQLGod(sm):0;
 	}
 	/**
 	 * 方法描述：格式化map,
