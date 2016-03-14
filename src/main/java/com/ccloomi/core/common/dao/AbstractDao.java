@@ -185,7 +185,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 			}
 		}
 		return null;
-	}	
+	}
 	public List<T> getByIds(Collection<? extends Object>ids){
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.SELECT("*")

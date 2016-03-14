@@ -106,7 +106,7 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 			}
 			List<T>entities=getByIds(misses);
 			for(T entity:entities){
-				entity.cleanProperties();
+				entity.prepareProperties();
 				ld.add(entity.PVMap());
 			}
 			cacheListEntity(entities);
@@ -133,7 +133,7 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 			}
 			List<T>entities=getByIds(misses);
 			for(T entity:entities){
-				entity.cleanProperties();
+				entity.prepareProperties();
 				ld.add(entity.PVMap());
 			}
 			cacheListEntity(entities);
