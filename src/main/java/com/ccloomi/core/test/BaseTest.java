@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @param <T>
  */
 public abstract class BaseTest<T>{
-	private static final ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/spring.xml");
+	public static final ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/spring.xml");
 	private Class<T>entityClass;
 	private T testObj;
 	public T getTestObj() {

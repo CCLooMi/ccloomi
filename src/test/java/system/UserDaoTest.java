@@ -7,8 +7,9 @@ import java.util.Map;
 
 import com.ccloomi.core.test.BaseTest;
 import com.ccloomi.web.system.dao.UserDao;
-import com.ccloomi.web.system.entity.UserEntity;
 import com.ccloomi.web.system.rye.command.Command;
+import com.ccloomi.web.system.rye.command.SyncCommand;
+import com.mongodb.client.MongoDatabase;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：UserDaoTest
@@ -34,18 +35,20 @@ public class UserDaoTest extends BaseTest<UserDao>{
 //		System.out.println(testObj.findAsListDocument("1111","1122"));
 //		System.out.println(testObj.findAsListEntity("1111","1122"));
 //		System.out.println(testObj.findAsMap("110").isEmpty());
-		new Command<UserEntity>() {
+		
+		new SyncCommand<UserDao>(new Command<UserDao>() {
 
 			@Override
-			public void doUpdate() {
-				System.out.println("This is doUpdate function.");
+			public void doUpdate(UserDao dao) {
+				System.out.println("doUpdate");
 			}
 
 			@Override
-			public void doRollback() {
-				System.out.println("This is doRollback function.");
+			public void doRollback(MongoDatabase mongoDatabase) {
+				System.out.println("doRollback");
 			}
-		}.fire();
+		},testObj).fire();
+		
 	}
 	public static void main(String[] args) {
 		new UserDaoTest().runTest();
