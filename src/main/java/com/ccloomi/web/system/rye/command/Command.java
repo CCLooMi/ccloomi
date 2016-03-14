@@ -2,7 +2,6 @@ package com.ccloomi.web.system.rye.command;
 
 import com.ccloomi.core.common.dao.BaseDao;
 import com.ccloomi.core.common.entity.IdEntity;
-import com.mongodb.client.MongoDatabase;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：Command
@@ -13,5 +12,5 @@ import com.mongodb.client.MongoDatabase;
  */
 public interface Command <dao extends BaseDao<? extends IdEntity>>{
 	public void doUpdate(dao dao);
-	public void doRollback(MongoDatabase mongoDatabase);
+	public void doRollback(dao dao);
 }

@@ -9,7 +9,6 @@ import com.ccloomi.core.test.BaseTest;
 import com.ccloomi.web.system.dao.UserDao;
 import com.ccloomi.web.system.rye.command.Command;
 import com.ccloomi.web.system.rye.command.SyncCommand;
-import com.mongodb.client.MongoDatabase;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：UserDaoTest
@@ -36,7 +35,7 @@ public class UserDaoTest extends BaseTest<UserDao>{
 //		System.out.println(testObj.findAsListEntity("1111","1122"));
 //		System.out.println(testObj.findAsMap("110").isEmpty());
 		
-		new SyncCommand<UserDao>(new Command<UserDao>() {
+		new SyncCommand<UserDao>(testObj,new Command<UserDao>() {
 
 			@Override
 			public void doUpdate(UserDao dao) {
@@ -44,10 +43,10 @@ public class UserDaoTest extends BaseTest<UserDao>{
 			}
 
 			@Override
-			public void doRollback(MongoDatabase mongoDatabase) {
+			public void doRollback(UserDao dao) {
 				System.out.println("doRollback");
 			}
-		},testObj).fire();
+		}).fire();
 		
 	}
 	public static void main(String[] args) {

@@ -1,13 +1,9 @@
 package com.ccloomi.web.system.rye.command;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ccloomi.core.common.dao.BaseDao;
 import com.ccloomi.core.common.entity.IdEntity;
 import com.ccloomi.core.hub.HubFactory;
-import com.ccloomi.core.spring.AutowiredSurpport;
 import com.ccloomi.web.system.rye.hub.CommandHub;
-import com.mongodb.client.MongoDatabase;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：SyncCommand
@@ -16,28 +12,26 @@ import com.mongodb.client.MongoDatabase;
  * 邮    箱：chenios@foxmail.com
  * 日    期：2016年3月12日-下午2:00:49
  */
-public class SyncCommand<dao extends BaseDao<? extends IdEntity>> extends AutowiredSurpport{
+public class SyncCommand<dao extends BaseDao<? extends IdEntity>>{
 	
-	@Autowired
-	protected MongoDatabase mongoDatabase;
-	/**此属性类型不能确定故要从构造方法里面设置,无法自动注入*/
 	private dao dao;
 	private Command<dao> command;
+	
 	/**
 	 * 命令构造方法
-	 * @param command 命令接口
 	 * @param dao 执行数据库操作的dao
+	 * @param command 命令接口
 	 */
-	public SyncCommand(Command<dao> command,dao dao){
-		this.command=command;
+	public SyncCommand(dao dao,Command<dao> command){
 		this.dao=dao;
+		this.command=command;
 	}
 	
 	public void doUpdate() {
 		command.doUpdate(dao);
 	}
 	public void doRollback() {
-		command.doRollback(mongoDatabase);
+		command.doRollback(dao);
 	}
 	/**
 	 * 描述：发送命令到指令集中处理线程
