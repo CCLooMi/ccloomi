@@ -89,39 +89,10 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 	}
 
 	@Override
-	public List<Map<String, Object>> findAsListMap(Object[] ids) {
+	public <id>List<Map<String, Object>> findAsListMap(@SuppressWarnings("unchecked") id...ids) {
 		List<Map<String, Object>>ld=new ArrayList<>();
 		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
 		FindIterable<Document>rc=c.find(in("_id", Arrays.asList(ids)));
-		MongoCursor<Document>mc=rc.iterator();
-		while(mc.hasNext()){
-			Document d=mc.next();
-			d.put("id", d.remove("_id"));
-			ld.add(d);
-		}
-		//缓存中没有的需要从数据库里面查询
-		if(ld.size()<ids.length){
-			List<Object>misses=new ArrayList<>();
-			for(Object id:ids){
-				if(!ld.contains(id)){
-					misses.add(id);
-				}
-			}
-			List<T>entities=getByIds(misses);
-			for(T entity:entities){
-				entity.prepareProperties();
-				ld.add(entity.PVMap());
-			}
-			cacheListEntity(entities);
-		}
-		return ld;
-	}
-
-	@Override
-	public List<Map<String, Object>> findAsListMap(String... ids) {
-		List<Map<String, Object>>ld=new ArrayList<>();
-		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
-		FindIterable<Document>rc=c.find(in("_id",ids));
 		MongoCursor<Document>mc=rc.iterator();
 		while(mc.hasNext()){
 			Document d=mc.next();
@@ -157,33 +128,7 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 	}
 
 	@Override
-	public List<T> findAsListEntity(Object[] ids) {
-		List<T>ld=new ArrayList<>();
-		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
-		FindIterable<Document>rc=c.find(in("_id",ids));
-		MongoCursor<Document>mc=rc.iterator();
-		while(mc.hasNext()){
-			Document d=mc.next();
-			d.put("id", d.remove("_id"));
-			ld.add(JSONUtil.convertMapToBean(d, entityClass));
-		}
-		//缓存中没有的需要从数据库里面查询
-		if(ld.size()<ids.length){
-			List<Object>misses=new ArrayList<>();
-			for(Object id:ids){
-				if(!ld.contains(id)){
-					misses.add(id);
-				}
-			}
-			List<T>entities=getByIds(misses);
-			ld.addAll(entities);
-			cacheListEntity(entities);
-		}
-		return ld;
-	}
-
-	@Override
-	public List<T> findAsListEntity(String... ids) {
+	public <id>List<T> findAsListEntity(@SuppressWarnings("unchecked") id...ids) {
 		List<T>ld=new ArrayList<>();
 		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
 		FindIterable<Document>rc=c.find(in("_id",ids));
@@ -265,7 +210,7 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		c.deleteMany(in("_id",ids));
 	}
 	@Override
-	public void uncacheList(Object[] ids) {
+	public <id>void uncacheList(@SuppressWarnings("unchecked") id...ids) {
 		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
 		List<Object>lds=new ArrayList<Object>();
 		for(Object id:ids){
@@ -273,11 +218,7 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		}
 		c.deleteMany(in("_id",lds));
 	}
-	@Override
-	public void uncacheList(String... ids) {
-		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
-		c.deleteMany(in("_id",ids));
-	}
+	
 	@Override
 	public void recacheMap(Map<String, ? extends Object> map) {
 		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);

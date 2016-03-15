@@ -38,20 +38,17 @@ public interface BaseDao<T extends BaseEntity> {
 	
 	public Map<String, Object>			findAsMap				(Object id);
 	public List<Map<String, Object>>	findAsListMap			(Collection<? extends Object>ids);
-	public List<Map<String, Object>>	findAsListMap			(Object[]ids);
-	public List<Map<String, Object>>	findAsListMap			(String...ids);
+	public <id>List<Map<String, Object>>findAsListMap			(@SuppressWarnings("unchecked") id...ids);
 	public T 							findAsEntity			(Object id);
 	public List<T> 						findAsListEntity		(Collection<? extends Object>ids);
-	public List<T> 						findAsListEntity		(Object[]ids);
-	public List<T> 						findAsListEntity		(String...ids);
+	public <id>List<T> 					findAsListEntity		(@SuppressWarnings("unchecked") id...ids);
 	public void							cacheMap				(Map<String, ? extends Object>map);
 	public void							cacheListMap			(List<Map<String, Object>>maps);
 	public void							cacheEntity				(T entity);
 	public void							cacheListEntity			(List<T>entities);
 	public void							uncache					(Object id);
 	public void							uncacheList				(Collection<? extends Object>ids);
-	public void							uncacheList				(Object[]ids);
-	public void							uncacheList				(String...ids);
+	public <id>void						uncacheList				(@SuppressWarnings("unchecked") id...ids);
 	public void							recacheMap				(Map<String, ? extends Object>map);
 	public void							recacheListMap			(List<Map<String, Object>>maps);
 	public void							recacheEntity			(T entity);
