@@ -107,7 +107,8 @@ public abstract class SQLMaker implements SQLGod{
 	 * @param values
 	 * @return
 	 */
-	public SQLMaker addValues(Object[]values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker addValues(value...values){
 		for(Object v:values){
 			this.values.add(v);
 		}
@@ -175,7 +176,8 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker INTO_VALUES(Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker INTO_VALUES(value...values){
 		for(Object value:values){
 			this.values.add(value);
 			this.vSets.add("?");
@@ -207,7 +209,8 @@ public abstract class SQLMaker implements SQLGod{
 		this.values.addAll(beforeValues);
 		return this;
 	}
-	public SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on,Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on,value...values){
 		this.join_table_alias_on.add(" LEFT JOIN "+entity.tableName()+" "+alias+" ON "+on);
 		this.alias_entity.put(alias, entity);
 		for(Object value:values){
@@ -215,7 +218,8 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker RIGHT_JOIN(BaseEntity entity,String alias,String on,Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker RIGHT_JOIN(BaseEntity entity,String alias,String on,value...values){
 		this.join_table_alias_on.add(" RIGHT JOIN "+entity.tableName()+" "+alias+" ON "+on);
 		this.alias_entity.put(alias, entity);
 		for(Object value:values){
@@ -223,21 +227,26 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker WHERE(String str,Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker WHERE(String str,value...values){
 		this.where=str;
 		for(Object value:values){
 			this.values.add(value);
 		}
 		return this;
 	}
-	public SQLMaker WHERE_IN(String str,Collection<? extends Object>valuse){
+	public SQLMaker WHERE_IN(String str,Collection<? extends Object>values){
+		return WHERE_IN(str, values.toArray());
+	}
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker WHERE_IN(String str,value...values){
 		StringBuilder sbu=new StringBuilder();
 		List<String>vs=new ArrayList<String>();
-		for(Object obj:valuse){
+		for(Object obj:values){
 			this.values.add(obj);
 			vs.add("?");
 		}
-		if(valuse.size()>0){
+		if(values.length>0){
 			this.where=sbu.append(str)
 					.append(" IN (")
 					.append(StringUtil.join(",",vs.toArray()))
@@ -250,21 +259,24 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker AND(String str,Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker AND(String str,value...values){
 		this.andor.add(" AND "+str);
 		for(Object value:values){
 			this.values.add(value);
 		}
 		return this;
 	}
-	public SQLMaker OR(String str,Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker OR(String str,value...values){
 		this.andor.add(" OR "+str);
 		for(Object value:values){
 			this.values.add(value);
 		}
 		return this;
 	}
-	public SQLMaker SET(String str,Object...values){
+	@SuppressWarnings("unchecked")
+	public <value>SQLMaker SET(String str,value...values){
 		this.columns.add(str);
 		for(Object value:values){
 			this.values.add(value);
