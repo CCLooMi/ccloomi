@@ -42,6 +42,14 @@ public interface BaseDao<T extends BaseEntity> {
 	public T 							findAsEntity			(Object id);
 	public List<T> 						findAsListEntity		(Collection<? extends Object>ids);
 	public <id>List<T> 					findAsListEntity		(@SuppressWarnings("unchecked") id...ids);
+	
+	public Map<String, Object>			findAsMap				(Map<String, Integer>columnFilterMap,Object id);
+	public List<Map<String, Object>>	findAsListMap			(Map<String, Integer>columnFilterMap,Collection<? extends Object>ids);
+	public <id>List<Map<String, Object>>findAsListMap			(Map<String, Integer>columnFilterMap,@SuppressWarnings("unchecked") id...ids);
+	public T 							findAsEntity			(Map<String, Integer>columnFilterMap,Object id);
+	public List<T> 						findAsListEntity		(Map<String, Integer>columnFilterMap,Collection<? extends Object>ids);
+	public <id>List<T> 					findAsListEntity		(Map<String, Integer>columnFilterMap,@SuppressWarnings("unchecked") id...ids);
+	
 	public void							cacheMap				(Map<String, ? extends Object>map);
 	public void							cacheListMap			(List<Map<String, Object>>maps);
 	public void							cacheEntity				(T entity);

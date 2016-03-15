@@ -82,12 +82,42 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		}
 		return new Document();
 	}
+	
+	@Override
+	public Map<String, Object> findAsMap(Map<String, Integer> columnFilterMap,Object id) {
+		Document projection=new Document();
+		projection.putAll(columnFilterMap);
+		
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		FindIterable<Document>rs=c.find(eq("_id", id)).projection(projection);
+		MongoCursor<Document>mc=rs.iterator();
+		while(mc.hasNext()){
+			Document d=mc.next();
+			if(!d.isEmpty()){
+				d.put("id", d.remove("_id"));
+				return d;
+			}else{//缓存中没有找到则从数据库里面查询
+				T entity=getById(id);
+				if(entity!=null){
+					entity.prepareProperties();
+					cacheMap(entity.PVMap());
+					return entity.PVMap();
+				}
+			}
+		}
+		return new Document();
+	}
 
 	@Override
 	public List<Map<String, Object>> findAsListMap(Collection<? extends Object> ids) {
 		return findAsListMap(ids.toArray());
 	}
 
+	@Override
+	public List<Map<String, Object>> findAsListMap(Map<String, Integer> columnFilterMap,Collection<? extends Object> ids) {
+		return findAsListMap(columnFilterMap,ids.toArray());
+	}
+	
 	@Override
 	public <id>List<Map<String, Object>> findAsListMap(@SuppressWarnings("unchecked") id...ids) {
 		List<Map<String, Object>>ld=new ArrayList<>();
@@ -118,15 +148,57 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public <id> List<Map<String, Object>> findAsListMap(Map<String, Integer> columnFilterMap, id... ids) {
+		Document projection=new Document();
+		projection.putAll(columnFilterMap);
+		List<Map<String, Object>>ld=new ArrayList<>();
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		FindIterable<Document>rc=c.find(in("_id", ids)).projection(projection);
+		MongoCursor<Document>mc=rc.iterator();
+		while(mc.hasNext()){
+			Document d=mc.next();
+			d.put("id", d.remove("_id"));
+			ld.add(d);
+		}
+		//缓存中没有的需要从数据库里面查询
+		if(ld.size()<ids.length){
+			List<Object>misses=new ArrayList<>();
+			for(Object id:ids){
+				if(!ld.contains(id)){
+					misses.add(id);
+				}
+			}
+			List<T>entities=getByIds(misses);
+			for(T entity:entities){
+				entity.prepareProperties();
+				ld.add(entity.PVMap());
+			}
+			cacheListEntity(entities);
+		}
+		return ld;
+	}
+	
+	@Override
 	public T findAsEntity(Object id) {
 		return JSONUtil.convertMapToBean(findAsMap(id), entityClass);
 	}
 
 	@Override
+	public T findAsEntity(Map<String, Integer> columnFilterMap, Object id) {
+		return JSONUtil.convertMapToBean(findAsMap(columnFilterMap,id), entityClass);
+	}
+	
+	@Override
 	public List<T> findAsListEntity(Collection<? extends Object> ids) {
 		return findAsListEntity(ids.toArray());
 	}
 
+	@Override
+	public List<T> findAsListEntity(Map<String, Integer> columnFilterMap,Collection<? extends Object> ids) {
+		return findAsListEntity(columnFilterMap,ids.toArray());
+	}
+	
 	@Override
 	public <id>List<T> findAsListEntity(@SuppressWarnings("unchecked") id...ids) {
 		List<T>ld=new ArrayList<>();
@@ -153,6 +225,35 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		return ld;
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public <id> List<T> findAsListEntity(Map<String, Integer> columnFilterMap,id... ids) {
+		Document projection=new Document();
+		projection.putAll(columnFilterMap);
+		List<T>ld=new ArrayList<>();
+		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
+		FindIterable<Document>rc=c.find(in("_id",ids)).projection(projection);
+		MongoCursor<Document>mc=rc.iterator();
+		while(mc.hasNext()){
+			Document d=mc.next();
+			d.put("id", d.remove("_id"));
+			ld.add(JSONUtil.convertMapToBean(d, entityClass));
+		}
+		//缓存中没有的需要从数据库里面查询
+		if(ld.size()<ids.length){
+			List<Object>misses=new ArrayList<>();
+			for(Object id:ids){
+				if(!ld.contains(id)){
+					misses.add(id);
+				}
+			}
+			List<T>entities=getByIds(misses);
+			ld.addAll(entities);
+			cacheListEntity(entities);
+		}
+		return ld;
+	}
+	
 	@Override
 	public void cacheMap(Map<String, ? extends Object> map) {
 		Map<String, Object>m=new HashMap<>();
