@@ -6,13 +6,13 @@ import com.ccloomi.core.hub.HubFactory;
 import com.ccloomi.web.system.rye.hub.CommandHub;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
- * 类    名：SyncCommand
+ * 类    名：AutoSyncCommand
  * 类 描 述：命令
  * 作    者：Chenxj
  * 邮    箱：chenios@foxmail.com
  * 日    期：2016年3月12日-下午2:00:49
  */
-public abstract class SyncCommand<dao extends BaseDao<? extends IdEntity>> implements Command{
+public abstract class AutoSyncCommand<dao extends BaseDao<? extends IdEntity>> implements Command{
 	
 	protected dao dao;
 	protected Object[] args;
@@ -24,9 +24,10 @@ public abstract class SyncCommand<dao extends BaseDao<? extends IdEntity>> imple
 	 * @param args 需要传人的参数
 	 */
 	@SafeVarargs
-	public <T>SyncCommand(dao dao,T...args){
+	public <T>AutoSyncCommand(dao dao,T...args){
 		this.dao=dao;
 		this.args=args;
+		fire();
 	}
 	
 	/**
@@ -35,7 +36,7 @@ public abstract class SyncCommand<dao extends BaseDao<? extends IdEntity>> imple
 	 * 日期：2016年3月13日 - 下午11:08:40
 	 * @return
 	 */
-	public SyncCommand<dao>fire(){
+	private AutoSyncCommand<dao>fire(){
 		CommandHub hub=HubFactory.getHub(CommandHub.class);
 		hub.addData(this);
 		return this;

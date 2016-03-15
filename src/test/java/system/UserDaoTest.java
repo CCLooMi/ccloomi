@@ -8,7 +8,7 @@ import java.util.Map;
 import com.ccloomi.core.test.BaseTest;
 import com.ccloomi.web.system.dao.UserDao;
 import com.ccloomi.web.system.entity.UserEntity;
-import com.ccloomi.web.system.rye.command.SyncCommand;
+import com.ccloomi.web.system.rye.command.AutoSyncCommand;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：UserDaoTest
@@ -35,7 +35,7 @@ public class UserDaoTest extends BaseTest<UserDao>{
 //		System.out.println(testObj.findAsListEntity("1111","1122"));
 //		System.out.println(testObj.findAsMap("110").isEmpty());
 		
-		new SyncCommand<UserDao>(testObj) {
+		new AutoSyncCommand<UserDao>(testObj) {
 			@Override
 			public void doUpdate() {
 				UserEntity u=new UserEntity();
@@ -49,7 +49,7 @@ public class UserDaoTest extends BaseTest<UserDao>{
 			public void doRollback() {
 				
 			}
-		}.fire();
+		};
 		
 	}
 	public static void main(String[] args) {
