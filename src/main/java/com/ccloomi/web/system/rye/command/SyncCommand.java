@@ -15,13 +15,18 @@ import com.ccloomi.web.system.rye.hub.CommandHub;
 public abstract class SyncCommand<dao extends BaseDao<? extends IdEntity>> implements Command{
 	
 	protected dao dao;
-	
+	protected Object[] args;
 	/**
 	 * 命令构造方法
+	 * 此处不用args不用Object...args
+	 * 因为当传入一个Object[]类型的参数时this.args成了二维数组
 	 * @param dao 执行数据库操作的dao
+	 * @param args 需要传人的参数
 	 */
-	public SyncCommand(dao dao){
+	@SafeVarargs
+	public <T>SyncCommand(dao dao,T...args){
 		this.dao=dao;
+		this.args=args;
 	}
 	
 	/**
