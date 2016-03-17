@@ -347,6 +347,16 @@ app.config(['$stateProvider', function ($stateProvider) {
                         return 'views/projManager/blog/'+params.operation+'.html';
                     }
                 }
+            },
+            resolve:{
+                loadMyFiles: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name:'blog',
+                        files:[
+                            'styles/blog.css'
+                        ]
+                    })
+                }
             }
         })
         .state('proj.tieba',{

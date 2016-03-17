@@ -268,7 +268,8 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 			if(a<b){
 				T t=getById(map.get("id"));
 				t.prepareProperties();
-				c.updateOne(eq("_id", map.get("id")), new Document("$set", new Document(t.PVMap())));
+				t.PVMap().putAll(map);
+				cacheMap(t.PVMap());
 			}
 		}catch(Exception e){
 			c.updateOne(eq("_id", map.get("id")), new Document("$set", new Document(m)));
