@@ -262,6 +262,14 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);
 		try{
 			c.insertOne(new Document(m));
+			int a=m.keySet().size();
+			_entity.prepareProperties();
+			int b=_entity.properties().size();
+			if(a<b){
+				T t=getById(map.get("id"));
+				t.prepareProperties();
+				c.updateOne(eq("_id", map.get("id")), new Document("$set", new Document(t.PVMap())));
+			}
 		}catch(Exception e){
 			c.updateOne(eq("_id", map.get("id")), new Document("$set", new Document(m)));
 		}
