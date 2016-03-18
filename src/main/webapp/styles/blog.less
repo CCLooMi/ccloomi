@@ -5,6 +5,7 @@ li {
   margin: 0 auto;
   text-align: left;
   width: 928px;
+  margin-top: 80px;
 }
 .g-mn {
   float: left;
@@ -16,13 +17,18 @@ li {
     transition: opacity 0.35s ease 0s,visivility 0.35s ease 0s;
   }
 }
+.m-nav2,
+.m-nav2 a,
+.m-activity-1 .m-nav2 span {
+  background: transparent url("../img/nav224.png") no-repeat scroll 999px 999px;
+}
 .m-nav2 {
-  background-position: 0 0 !important;
+  background-position: 0 0;
   margin: 0 0 18px;
   padding: 1px 2px 3px;
   position: relative;
   z-index: 9;
-  height: 110px;
+  height: 115px;
   .m-nav2 {
     li {
       height: 110px;
@@ -57,10 +63,30 @@ li {
       height: 110px;
       width: 110px;
     }
+    a {
+      &:hover {
+        background-position: -2px -133px;
+      }
+    }
   }
-}
-.m-nav2,
-.m-nav2 a,
-.m-activity-1 .m-nav2 span {
-  background: transparent url("../img/nav224.png") no-repeat scroll 999px 999px;
+  .n21 {
+    &:hover {
+      background-position: -112px -133px;
+    }
+  }
+  .n22 {
+    &:hover {
+      background-position: -252px -133px;
+    }
+  }
+  .n23 {
+    &:hover {
+      background-position: -392px -133px;
+    }
+  }
+  .n24 {
+    &:hover {
+      background-position: -532px -133px;
+    }
+  }
 }
