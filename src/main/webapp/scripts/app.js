@@ -353,7 +353,9 @@ app.config(['$stateProvider', function ($stateProvider) {
                     return $ocLazyLoad.load({
                         name:'blog',
                         files:[
-                            'styles/blog.css'
+                            'styles/blog.css',
+                            'scripts/services/projManager/blog/blogService.js',
+                            'scripts/controllers/projManager/blog/indexController.js'
                         ]
                     })
                 }
