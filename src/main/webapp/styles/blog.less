@@ -69,10 +69,9 @@ li {
 }
 
 .g-bd {
-  margin: 0 auto;
+  margin: 80px auto 0 auto;
   text-align: left;
   width: 1098px;
-  margin-top: 80px;
 }
 .g-mn {
   float: left;
@@ -226,6 +225,17 @@ li {
   .menum {
     .shadow-box;
   }
+  .noipt {
+    background-color: #e7e7e7;
+    border-color: #b2b2b2;
+    height: 32px;
+    .mi {
+      border: 0 none;
+      font-size: 12px;
+      padding-bottom: 7px;
+      padding-top: 8px;
+    }
+  }
   .inf {
     color: darkgray;
     float: right;
@@ -268,6 +278,10 @@ li {
       .fa-envelope {
         color: yellowgreen;
       }
+      .fa-cog {
+        font-size: 14px;
+        animation: 2s linear 0s normal none infinite running fa-spin;
+      }
     }
   }
 }
@@ -294,6 +308,9 @@ li {
     text-indent: -2000px;
     width: 21px;
   }
+  .isaym,.isaym2,.isaym3 {
+    padding: 3px 32px 28px 53px;
+  }
 }
 .w-who {
   line-height: 19px;
@@ -303,6 +320,36 @@ li {
 .m-icnt {
   line-height: normal;
   width: 100%;
+  .img {
+    float: left;
+    margin: 0 25px 5px 0;
+    width: 164px;
+    img {
+      vertical-align: top;
+    }
+  }
+  .img,.imgc {
+    overflow: hidden;
+    position: relative;
+  }
+  .imgc {
+    width: 100%;
+    max-height: 164px;
+  }
+  .tit {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 16px;
+    word-wrap: break-word;
+  }
+  .total {
+    bottom: 5px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    right: 5px;
+    width: 20px;
+  }
 }
 .w-img {
   position: relative;
@@ -313,5 +360,35 @@ li {
   }
   a,img {
     display: block;
+  }
+}
+.w-opt {
+  color: #aaa;
+  height: 19px;
+  line-height: 19px;
+  margin: 11px 0 0;
+  position: relative;
+  .opta {
+    float: left;
+    height: 19px;
+    overflow: hidden;
+    position: relative;
+    max-width: 260px;
+    &:before {
+      content: "";
+      float: left;
+    }
+  }
+  .optb {
+    clear: both;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .opti {
+    float: left;
+    margin-left: 18px;
+    position: relative;
+    white-space: nowrap;
   }
 }
