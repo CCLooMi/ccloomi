@@ -9,7 +9,7 @@
             </button>
             <a class="navbar-brand">CC项目管理系统</a>
         </div>
-        <ul class="nav navbar-nav nav-center" ng-click="toggleNav($event)">
+        <ul class="nav navbar-nav nav-center collapse navbar-collapse" ng-click="toggleNav($event)">
             <li ng-repeat="view in views|filter:{pid:'11d84c99800446828e6a20b2a63d7092'}|orderBy:'orderIndex'">
                 <a href="{{view.url}}">
                     <span class="{{view.iconClass}}" ng-if="view.iconClass"></span>
@@ -20,7 +20,7 @@
                 </ul>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <span class="fa fa-user"></span>
