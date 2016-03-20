@@ -18,5 +18,5 @@ public interface ByPageSelect {
 	 * @param sm
 	 * @param map
 	 */
-	public abstract void doSelect(SQLMaker sm,Map<String, Object>map);
+	public void doSelect(SQLMaker sm,Map<String, Object>map);
 }

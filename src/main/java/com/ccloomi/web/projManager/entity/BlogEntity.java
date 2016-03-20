@@ -18,6 +18,8 @@ public class BlogEntity extends IdEntity{
 	private static final long serialVersionUID = 2421117295044689880L;
 	/**用户ID*/
 	private String idUser;
+	/**标题*/
+	private String title;
 	/**博客内容*/
 	private String content;
 	/**日期*/
@@ -32,6 +34,14 @@ public class BlogEntity extends IdEntity{
 	/**设置 idUser*/
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
+	}
+	/**获取 title*/
+	public String getTitle() {
+		return title;
+	}
+	/**设置 title*/
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	/**获取 content*/
 	public String getContent() {

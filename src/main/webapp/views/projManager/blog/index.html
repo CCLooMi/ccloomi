@@ -6,7 +6,7 @@
                     <li class="user">
                         <a href="http://fiber.lofter.com/"><img src="img/3100446868485815285.jpg"></a>
                     </li>
-                    <li><a class="publishlink n21">文字</a></li>
+                    <li><a class="publishlink n21" ng-click="add()">文字</a></li>
                     <li><a class="publishlink n22">图片</a></li>
                     <li><a class="publishlink n23">音乐</a></li>
                     <li><a class="publishlink publishlink-video n24">视频</a></li>
@@ -16,7 +16,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="m-mlist">
+            <div class="m-mlist" ng-repeat="blog in blogs">
                 <div class="mlistimg">
                     <div class="w-img">
                         <a href="#">
@@ -31,7 +31,7 @@
                             <div class="w-who"></div>
                             <div>
                                 <div class="m-icnt">
-                                    <h2 class="tit">测试标题</h2>
+                                    <h2 class="tit" ng-if="blog.title">{{blog.title}}</h2>
                                     <div class="cnt">
                                         <div class="img">
                                             <div class="imgc">
@@ -43,9 +43,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="txt">
-                                            <p>Littering a dark and dreary road lay the past relics of browser-specific tags, incompatible DOMs, broken CSS support, and abandoned browsers.
-                                        </div>
+                                        <div class="txt" ng-bind-html="blog.content"></div>
                                     </div>
                                 </div>
                             </div>
@@ -87,6 +85,7 @@
                     </div>
                 </div>
             </div>
+            <div id="pagination"></div>
         </div>
         <div class="g-sd">
             <div class="g-box">
