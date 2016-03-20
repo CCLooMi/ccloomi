@@ -298,3 +298,16 @@ app.directive('ddSelect',['$http','S_constant', function ($http,S_constant) {
         }
     }
 }])
+app.directive('code', function () {
+    return {
+        restrict: 'E',
+        link: function (scope,element,attrs) {
+            var worker=new Worker('js/Highlight.worker.js');
+            console.log(element.text());
+            worker.postMessage(element.text());
+            worker.onmessage= function (event) {
+                element.html(event.data);
+            };
+        }
+    }
+});
