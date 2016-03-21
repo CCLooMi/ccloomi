@@ -303,11 +303,23 @@ app.directive('code', function () {
         restrict: 'E',
         link: function (scope,element,attrs) {
             var worker=new Worker('js/Highlight.worker.js');
-            console.log(element.text());
-            worker.postMessage(element.text());
+            worker.postMessage({text:element.text(),language:attrs.class});
             worker.onmessage= function (event) {
                 element.html(event.data);
             };
         }
     }
-});
+})
+app.directive('ngBindHtmlCompile',['$compile',function ($compile) {
+    return {
+        restrict: 'A',
+        link: function (scope,element,attrs) {
+            scope.$watch(function (scope) {
+                return scope.$eval(attrs.ngBindHtmlCompile);
+            }, function (value) {
+                element.html(value);
+                $compile(element.contents())(scope);
+            })
+        }
+    }
+}])
