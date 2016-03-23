@@ -5,6 +5,7 @@ angular.module('ccloomi')
     .factory('S_blog',['$http','S_dialog', function ($http,S_dialog) {
         var service={
             add: function (scope) {
+                scope.blog={};
                 S_dialog.dialog('发布博客','views/projManager/blog/publish.html',scope, function () {
                     $http.post('blog/add.do',scope.blog)
                         .success(function (data) {
