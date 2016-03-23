@@ -6,7 +6,7 @@ angular.module('ccloomi')
         var service={
             add: function (scope) {
                 S_dialog.dialog('添加图标','views/icon/addIcon.html',scope, function () {
-                    $http.post('/'+app.name+'/icon/add.do',scope.icon)
+                    $http.post('icon/add.do',scope.icon)
                         .success(function (data) {
                             if(data.code==0){
                                 scope.icon.id=data.info;
@@ -26,7 +26,7 @@ angular.module('ccloomi')
                 var cloneObj=cloneFrom(icon);
                 scope.icon=icon;
                 S_dialog.dialog('修改图标','views/icon/addIcon.html',scope, function () {
-                    $http.post('/'+app.name+'/icon/update.do',scope.icon)
+                    $http.post('icon/update.do',scope.icon)
                         .success(function (data) {
                             if(data.code==0){
                                 S_dialog.alert('修改成功','成功修改图标','success');

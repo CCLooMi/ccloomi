@@ -7,7 +7,7 @@ angular.module('ccloomi')
             add: function (scope,role) {
                 scope.role=role;
                 S_dialog.dialog('添加菜单','views/role/addRole.html',scope, function () {
-                    $http.post('/'+app.name+'/role/add.do',scope.role).success(function (data) {
+                    $http.post('role/add.do',scope.role).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','添加菜单['+scope.role.username+']成功','success');
                             if(!scope.role.id){
@@ -29,7 +29,7 @@ angular.module('ccloomi')
                 var cloneObj=cloneFrom(role);
                 scope.role=role;
                 S_dialog.dialog('修改菜单','views/role/addRole.html',scope, function () {
-                    $http.post('/'+app.name+'/role/update.do',scope.role).success(function (data) {
+                    $http.post('role/update.do',scope.role).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('修改成功','修改菜单['+scope.role.name+']成功','success');
                         }else if(data.code==1){
@@ -56,7 +56,7 @@ angular.module('ccloomi')
                 var saveData=S_jstree.getChangeData(scope);
                 if(saveData){
                     saveData.role=role;
-                    $http.post('/'+app.name+'/role/saveViewJstree.do',saveData)
+                    $http.post('role/saveViewJstree.do',saveData)
                         .success(function (data) {
                             if(data.code==0){
                                 S_dialog.alert('保存成功','数据已保存成功','success');
@@ -77,7 +77,7 @@ angular.module('ccloomi')
                 var saveData=S_jstree.getChangeData(scope);
                 if(saveData){
                     saveData.role=role;
-                    $http.post('/'+app.name+'/role/savePermissionJstree.do',saveData)
+                    $http.post('role/savePermissionJstree.do',saveData)
                         .success(function (data) {
                             if(data.code==0){
                                 S_dialog.alert('保存成功','数据已保存成功','success');
@@ -95,7 +95,7 @@ angular.module('ccloomi')
                 }
             },
             addUserToRole: function (scope,user) {
-                $http.post('/'+app.name+'/role/addUserToRole.do',{user:user,role:scope.role})
+                $http.post('role/addUserToRole.do',{user:user,role:scope.role})
                     .success(function (data) {
                         if(data.code==0){
                             scope.usersInRole.push(user);

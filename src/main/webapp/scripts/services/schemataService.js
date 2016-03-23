@@ -6,7 +6,7 @@ angular.module('ccloomi')
         var service={
             createDb: function (scope) {
                 S_dialog.dialog('创建数据库','views/db/createDatabase.html',scope, function () {
-                    $http.post('/'+app.name+'/db/createDb.do',scope.schemata)
+                    $http.post('db/createDb.do',scope.schemata)
                         .success(function (data) {
                             if(data.code==0){
                                 S_dialog.alert('创建成功','创建数据库成功','success');
@@ -23,15 +23,15 @@ angular.module('ccloomi')
                 });
             },
             getCharacterSets: function (callback) {
-                $http.post('/'+app.name+'/db/allCharacterSets.json')
+                $http.post('db/allCharacterSets.json')
                     .success(callback);
             },
             getCollationsByCharacter: function (characterName,callback) {
-                $http.get('/'+app.name+'/db/collationsByCharacter.json?characterName='+characterName)
+                $http.get('db/collationsByCharacter.json?characterName='+characterName)
                     .success(callback);
             },
             getTableColumnsAsProperties: function (dbName,tableName,scope,container) {
-                $http.get('/'+app.name+'/db/convertTableColumns2Properties.json?dbName='+dbName+'&tableName='+tableName).success(function (data) {
+                $http.get('db/convertTableColumns2Properties.json?dbName='+dbName+'&tableName='+tableName).success(function (data) {
                     var plistStr='';
                     for(var i=0;i<data.length;i++){
                         plistStr+=data[i]+'<br>';

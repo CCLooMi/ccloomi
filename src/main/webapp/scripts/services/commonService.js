@@ -132,7 +132,7 @@ app.factory('S_pagination',['$http','$location','S_user', function ($http,$locat
                 paginationContainer.pagination('destroy');
             }
             paginationContainer.pagination({
-                dataSource:dataUrl,
+                dataSource:'/'+app.name+'/'+dataUrl,
                 locator:'docs',
                 alias:{pageSize:'rows',pageNumber:'start',totalNumber:'numFound'},
                 pageSize: pageSize,

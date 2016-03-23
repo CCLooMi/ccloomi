@@ -11,7 +11,7 @@ angular.module('ccloomi')
                     scope.menu={deepIndex:0};
                 }
                 S_dialog.dialog('添加菜单','views/menu/addMenu.html',scope, function () {
-                    $http.post('/'+app.name+'/view/add.do',scope.menu).success(function (data) {
+                    $http.post('view/add.do',scope.menu).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','添加菜单['+scope.menu.name+']成功','success');
                             if(!scope.menu.id){
@@ -34,7 +34,7 @@ angular.module('ccloomi')
                 var cloneObj=cloneFrom(menu);
             	scope.menu=menu;
                 S_dialog.dialog('修改菜单','views/menu/addMenu.html',scope, function () {
-                    $http.post('/'+app.name+'/view/update.do',scope.menu).success(function (data) {
+                    $http.post('view/update.do',scope.menu).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('修改成功','修改菜单['+scope.menu.name+']成功','success');
                         }else if(data.code==1){
@@ -84,7 +84,7 @@ angular.module('ccloomi')
                     searchable:true,
                     fullscreen:true
                 };
-                $http.get('/'+app.name+'/view/vis.json').success(function (data) {
+                $http.get('view/vis.json').success(function (data) {
                     S_vis.network(scope,data,document.getElementById('network'),options);
                 });
 
