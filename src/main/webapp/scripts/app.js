@@ -21,7 +21,7 @@ var app=angular
         $stateProvider
             .state('main',{
                 url:'/main',
-                templateUrl:'views/pages/main.jsp',
+                templateUrl:'views/pages/main.html',
                 resolve:{
                     loadMyDirectives: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
@@ -193,7 +193,7 @@ var app=angular
             })
             .state('login',{
                 url:'/login',
-                templateUrl:'views/pages/login.jsp',
+                templateUrl:'views/pages/login.html',
                 resolve:{
                     loadMyFiles: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
