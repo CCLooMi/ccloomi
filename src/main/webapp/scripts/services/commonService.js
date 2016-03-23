@@ -9,7 +9,7 @@ app.factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http
         add: function (scope,user) {
             scope.user=user;
             S_dialog.dialog('添加用户','views/user/addUser.html',scope, function () {
-                $http.post('user/add.do',scope.user).success(function (data) {
+                $http.post('/'+app.name+'/user/add.do',scope.user).success(function (data) {
                     if(data.code==0){
                         S_dialog.alert('添加成功','添加用户['+scope.user.username+']成功','success');
                         scope.user.id=data.info;
@@ -29,7 +29,7 @@ app.factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http
             var cloneObj=cloneFrom(user);
             scope.user=user;
             S_dialog.dialog('修改用户','views/user/addUser.html',scope, function () {
-                $http.post('user/update.do',scope.user).success(function (data) {
+                $http.post('/'+app.name+'/user/update.do',scope.user).success(function (data) {
                     if(data.code==0){
                         S_dialog.alert('修改成功','修改用户['+scope.user.username+']成功','success');
                     }else if(data.code==1){
@@ -66,7 +66,7 @@ app.factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http
         },
         login: function (user,callback,from) {
             from=from||service.from||'/main';
-            $http.post('sys/login.do',user).success(function(data){
+            $http.post('/'+app.name+'/sys/login.do',user).success(function(data){
                 if(data.code==0){
                     service.user=data.info.user;
                     service.views=data.info.views;
@@ -84,14 +84,14 @@ app.factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http
             });
         },
         loginStatus: function (callback) {
-            $http.post('sys/loginStatus.json')
+            $http.post('/'+app.name+'/sys/loginStatus.json')
                 .success(function (status) {
                     service.isLogin=status;
                     callback(service.isLogin);
                 });
         },
         currentUser: function (scope,callback) {
-            $http.post('sys/currentUser.json').success(function (data) {
+            $http.post('/'+app.name+'/sys/currentUser.json').success(function (data) {
                 service.user=data.user;
                 service.views=data.views;
                 service.roles=data.roles;
@@ -110,7 +110,7 @@ app.factory('S_pagination',['$http','$location','S_user', function ($http,$locat
                 paginationContainer.pagination('destroy');
             }
             paginationContainer.pagination({
-                dataSource: dataUrl,
+                dataSource: '/'+app.name+'/'+dataUrl,
                 locator: 'data',
                 pageSize: pageSize,
                 ajax: {
@@ -200,7 +200,7 @@ app.factory('S_dialog',['$http','$compile', function ($http,$compile) {
                 showLoaderOnConfirm:true
             }, function (isConfirm) {
                 if(isConfirm){
-                    $http.post(url,data).success(function (dt) {
+                    $http.post('/'+app.name+'/'+url,data).success(function (dt) {
                         if(dt.code==0){
                             swal('删除成功','数据已删除','success');
                             callback();
@@ -262,13 +262,13 @@ app.factory('S_jstree',['$http', function ($http) {
         jstree: function (url,data,scope,dnd) {
             var plugins=["checkbox"];
             dnd&&plugins.push("dnd");
-            $http.post(url,data).success(function (dt) {
+            $http.post('/'+app.name+'/'+url,data).success(function (dt) {
                 $('#jstree').jstree({'plugins':plugins, 'core' : {'data' :dt.data}});
                 scope.selectedIds=dt.ids;
             });
         },
         tree: function (url,data,scope) {
-            $http.post(url,data).success(function (dt) {
+            $http.post('/'+app.name+'/'+url,data).success(function (dt) {
                 $('#tree').jstree({'plugins':["contextmenu","sort","types","dnd"], 'core' : {'data' :dt}});
             });
         }
@@ -277,7 +277,7 @@ app.factory('S_jstree',['$http', function ($http) {
 }])
 app.factory('S_constant',['$http', function ($http) {
     var service={
-        dd:['dd/findByCode.json']
+        dd:['/'+app.name+'/dd/findByCode.json']
     };
     return service;
 }])

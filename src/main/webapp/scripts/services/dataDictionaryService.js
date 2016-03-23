@@ -10,7 +10,7 @@ app.factory('S_dataDictionary',['$http','S_dialog', function ($http,S_dialog) {
             if(dd){
                 scope.dd_new={deepIndex: dd.deepIndex+1,pid: dd.id,rootId: dd.rootId};
                 S_dialog.dialog('添加键值','views/dataDictionary/addDictionaryValue.html',scope, function () {
-                    $http.post('dd/add.do',scope.dd_new).success(function (data) {
+                    $http.post('/'+app.name+'/dd/add.do',scope.dd_new).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','成功添加键值','success');
                             scope.dd_new.id=data.info;
@@ -24,7 +24,7 @@ app.factory('S_dataDictionary',['$http','S_dialog', function ($http,S_dialog) {
             }else{
                 scope.dd_new={};
                 S_dialog.dialog('添加数据','views/dataDictionary/addDictionaryKey.html', scope, function () {
-                    $http.post('dd/add.do',scope.dd_new).success(function (data) {
+                    $http.post('/'+app.name+'/dd/add.do',scope.dd_new).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','成功添加字典数据','success');
                             scope.dd_new.id=data.info;
@@ -47,7 +47,7 @@ app.factory('S_dataDictionary',['$http','S_dialog', function ($http,S_dialog) {
             scope.dd_new=dd;
             if(dd.deepIndex==0){
                 S_dialog.dialog('修改数据','views/dataDictionary/addDictionaryKey.html',scope, function () {
-                    $http.post('dd/update.do',scope.dd_new).success(function (data) {
+                    $http.post('/'+app.name+'/dd/update.do',scope.dd_new).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('修改成功','成功修改数据','success');
                         }else{
@@ -62,7 +62,7 @@ app.factory('S_dataDictionary',['$http','S_dialog', function ($http,S_dialog) {
                 })
             }else{
                 S_dialog.dialog('修改键值','views/dataDictionary/addDictionaryValue.html',scope, function () {
-                    $http.post('dd/update.do',scope.dd_new).success(function (data) {
+                    $http.post('/'+app.name+'/dd/update.do',scope.dd_new).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('修改成功','成功修改键值','success');
                         }else{

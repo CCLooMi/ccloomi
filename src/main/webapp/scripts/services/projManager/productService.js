@@ -24,7 +24,7 @@ angular.module('ccloomi')
                 });
                 S_dialog.dialog('添加产品','views/projManager/product/add.html',scope, function () {
                     scope.product.whiteListObject=getDeleteUpdateAdd(scope.whiteList_old,scope.whiteListRoles);
-                    $http.post('product/add.do',scope.product).success(function (data) {
+                    $http.post('/'+app.name+'/product/add.do',scope.product).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('添加成功','添加产品['+scope.product.name+']成功','success');
                             if(!scope.product.id){
@@ -65,7 +65,7 @@ angular.module('ccloomi')
                 },product.id);
                 S_dialog.dialog('编辑产品','views/projManager/product/add.html',scope, function () {
                     scope.product.whiteListObject=getDeleteUpdateAdd(scope.whiteList_old,scope.whiteListRoles);
-                    $http.post('product/update.do',scope.product).success(function (data) {
+                    $http.post('/'+app.name+'/product/update.do',scope.product).success(function (data) {
                         if(data.code==0){
                             S_dialog.alert('保存成功','修改产品['+scope.product.name+']成功','success');
                         }else if(data.code==1){

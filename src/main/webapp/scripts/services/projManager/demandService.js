@@ -6,7 +6,7 @@ angular.module('ccloomi')
         var service={
             add: function (scope) {
                 S_dialog.dialog('添加需求','views/projManager/demand/add.html',scope, function () {
-                    $http.post('demand/add.do',scope.demand)
+                    $http.post('/'+app.name+'/demand/add.do',scope.demand)
                         .success(function (data) {
                             if(data.code==0){
                                 S_dialog.alert('添加成功','添加需求['+scope.demand.title+']成功','success');

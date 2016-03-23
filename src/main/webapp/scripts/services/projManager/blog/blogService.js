@@ -6,7 +6,7 @@ angular.module('ccloomi')
         var service={
             add: function (scope) {
                 S_dialog.dialog('发布博客','views/projManager/blog/publish.html',scope, function () {
-                    $http.post('blog/add.do',scope.blog)
+                    $http.post('/'+app.name+'/blog/add.do',scope.blog)
                         .success(function (data) {
                             if(data.code==0){
                                 scope.blog=data.info;
