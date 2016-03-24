@@ -303,10 +303,10 @@ app.directive('code', function () {
         restrict: 'E',
         link: function (scope,element,attrs) {
             var worker=new Worker('js/Highlight.worker.js');
-            worker.postMessage({text:element.text(),language:attrs.class});
             worker.onmessage= function (event) {
                 element.html(event.data);
             };
+            worker.postMessage({text:element.text(),language:attrs.class});
         }
     }
 })
@@ -317,8 +317,13 @@ app.directive('ngBindHtmlCompile',['$compile',function ($compile) {
             scope.$watch(function (scope) {
                 return scope.$eval(attrs.ngBindHtmlCompile);
             }, function (value) {
-                element.html(value);
-                $compile(element.contents())(scope);
+                var v=$(value);
+                element.html(v);
+                v.find('code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
+                v.find('code').removeClass('hljs');
+                //$compile(element.contents())(scope);
             })
         }
     }
