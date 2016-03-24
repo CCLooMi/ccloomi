@@ -253,7 +253,7 @@ app.config(['$stateProvider', function ($stateProvider) {
                             'scripts/directives/projManager/header/header.js',
                             'scripts/directives/projManager/footer/footer.js',
                             'bower_components/paginationjs/dist/pagination.js',
-                            'bower_components/highlight/src/styles/rainbow.css',
+                            'bower_components/highlight/src/styles/monokai-sublime.css',
                             'js/CCDialog.js',
                             'styles/pjm.css',
                             'css/pagination.css'
