@@ -259,7 +259,6 @@ public abstract class AbstractDao<T extends BaseEntity> {
 		}
 		return 0;
 	}
-
 	public int[] batchUpdateBySQLGod(SQLGod sg) {
 		Map<String,List<Object[]>>map=sg.batchSql();
 		for(String sql:map.keySet()){

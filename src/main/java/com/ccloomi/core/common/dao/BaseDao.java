@@ -24,6 +24,7 @@ public interface BaseDao<T extends BaseEntity> {
 	public int							updateByMap			(Map<String, ? extends Object>map);
 	public int 							delete				(Object id);
 	public int 							updateBySQLGod		(SQLGod sg);
+	public void							saveOrUpdate		(T entity);
 	public int[] 						batchUpdateBySQLGod	(SQLGod sg);
 	public int[]						batchDelete			(Object...ids);
 	public int[]						batchSave			(Collection<T>entities);

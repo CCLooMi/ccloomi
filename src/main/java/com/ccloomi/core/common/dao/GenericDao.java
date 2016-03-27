@@ -60,7 +60,14 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 			return add(entity);
 		}
 	}
-
+	@Override
+	public void saveOrUpdate(T entity){
+		try{
+			update(entity);
+		}catch(Exception e){
+			save(entity);
+		}
+	}
 	@Override
 	public Map<String,Object> findAsMap(Object id) {
 		MongoCollection<Document>c=mongoDatabase.getCollection(tableName);

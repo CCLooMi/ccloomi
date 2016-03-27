@@ -173,6 +173,14 @@ public abstract class SQLMaker implements SQLGod{
 	public SQLMaker INTO_COLUMNS(String...columns){
 		for(String column:columns){
 			this.columns.add(column);
+			this.vSets.add("?");
+		}
+		return this;
+	}
+	public SQLMaker INTO_COLUMNS(Collection<? extends Object>columns){
+		for(Object column:columns){
+			this.columns.add(String.valueOf(column));
+			this.vSets.add("?");
 		}
 		return this;
 	}
@@ -180,7 +188,6 @@ public abstract class SQLMaker implements SQLGod{
 	public <value>SQLMaker INTO_VALUES(value...values){
 		for(Object value:values){
 			this.values.add(value);
-			this.vSets.add("?");
 		}
 		return this;
 	}
