@@ -19,7 +19,7 @@ public class StockImport extends BaseTest<StockService>{
 	
 	@Override
 	protected void test(StockService testObj) {
-		File excelFile=new File("/Users/chenxianjun/Desktop/沪深Ａ股20160325.xlsx");
+		File excelFile=new File("C:/Users/Idccapp25/Desktop/工作簿1.xlsx");
 		testObj.importStockInfoFromFile(excelFile);
 	}
 }

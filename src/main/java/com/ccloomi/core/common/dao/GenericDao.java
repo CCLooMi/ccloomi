@@ -62,9 +62,8 @@ public class GenericDao<T extends BaseEntity> extends AbstractDao<T> implements 
 	}
 	@Override
 	public void saveOrUpdate(T entity){
-		try{
-			update(entity);
-		}catch(Exception e){
+		int i=update(entity);
+		if(i!=1){
 			save(entity);
 		}
 	}
