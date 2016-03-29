@@ -11,7 +11,7 @@ import com.ccloomi.core.common.entity.IdEntity;
  * 作者： Chenxj
  * 日期：2016年3月29日 - 下午1:07:45
  */
-@Table(name="t_s_mingline")
+@Table(name="t_s_minline")
 public class MinlineEntity extends IdEntity{
 	private static final long serialVersionUID = -5405195171720460340L;
 	private String idStock;
@@ -26,9 +26,9 @@ public class MinlineEntity extends IdEntity{
 	/**收盘价*/
 	private Float close;
 	/**成交量*/
-	private String trading;
+	private int trading;
 	/**成交额*/
-	private Float turnover;
+	private double turnover;
 	public String getIdStock() {
 		return idStock;
 	}
@@ -65,16 +65,16 @@ public class MinlineEntity extends IdEntity{
 	public void setClose(Float close) {
 		this.close = close;
 	}
-	public String getTrading() {
+	public int getTrading() {
 		return trading;
 	}
-	public void setTrading(String trading) {
+	public void setTrading(int trading) {
 		this.trading = trading;
 	}
-	public Float getTurnover() {
+	public double getTurnover() {
 		return turnover;
 	}
-	public void setTurnover(Float turnover) {
+	public void setTurnover(double turnover) {
 		this.turnover = turnover;
 	}
 }
