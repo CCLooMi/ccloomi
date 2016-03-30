@@ -77,15 +77,15 @@ public class MinlineServiceImp extends GenericService<MinlineEntity> implements 
 					args[4]=Float.valueOf(rs[3]);
 					args[5]=Float.valueOf(rs[4]);
 					args[6]=Float.valueOf(rs[5]);
-					args[7]=Integer.valueOf(rs[6]);
+					args[7]=Long.valueOf(rs[6]);
 					args[8]=Double.valueOf(rs[7]);
 					batchArgs.add(args);
 				}
 			}
 			//有需要插入的数据
 			if(batchArgs.size()>0){
-				sm=SQLMakerFactory.getInstance().createMapker();
-				sm.INSERT_INTO(new MinlineEntity(), "m")
+				sm.clean()
+				.INSERT_INTO(new MinlineEntity(), "m")
 				.INTO_COLUMNS("id","idStock","datetime","open","high","low","close","trading","turnover");
 				sm.setBatchArgs(batchArgs);
 				minlineDao.batchUpdateBySQLGod(sm);

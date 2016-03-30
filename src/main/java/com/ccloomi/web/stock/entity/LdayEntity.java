@@ -26,7 +26,7 @@ public class LdayEntity extends IdEntity{
 	/**收盘价*/
 	private Float close;
 	/**成交量*/
-	private String trading;
+	private long trading;
 	/**成交额*/
 	private double turnover;
 	public String getIdStock() {
@@ -65,10 +65,10 @@ public class LdayEntity extends IdEntity{
 	public void setClose(Float close) {
 		this.close = close;
 	}
-	public String getTrading() {
+	public long getTrading() {
 		return trading;
 	}
-	public void setTrading(String trading) {
+	public void setTrading(long trading) {
 		this.trading = trading;
 	}
 	public double getTurnover() {
