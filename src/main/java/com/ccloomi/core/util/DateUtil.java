@@ -72,4 +72,10 @@ public class DateUtil {
 			return null;
 		}
 	}
+	public static void main(String[] args) {
+		Date d1=DateUtil.dateFromString("2009-01-021212");
+		Date d2=DateUtil.dateFromString("2009-01-021200");
+		System.out.println(d2.after(d1));
+		System.out.println(d2.before(d1));
+	}
 }

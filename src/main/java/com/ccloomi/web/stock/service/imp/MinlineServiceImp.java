@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,27 +44,35 @@ public class MinlineServiceImp extends GenericService<MinlineEntity> implements 
 			List<String[]>datalist=new ArrayList<>();
 			while((textLine=br.readLine())!=null){
 				String[]rs=textLine.split("\t| ");
-				System.out.println(textLine);
 				if(rs.length>1&&rs.length<7){
 					headLine=rs;
 				}else if(rs.length>7){
 					datalist.add(rs);
 				}
 			}
+			//查找最大和最小日期
+			SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+			sm.SELECT_AS("MIN(m.datetime) ","min")
+			.SELECT_AS("MAX(m.datetime) ", "max")
+			.FROM(new MinlineEntity(), "m")
+			.WHERE("m.idStock=?", headLine[0]);
+			List<Map<String, Object>>lm=minlineDao.findBySQLGod(sm);
+			Date min=null;
+			Date max=null;
+			if(lm.size()>0){
+				min=(Date) lm.get(0).get("min");
+				max=(Date) lm.get(0).get("max");
+			}
+			//处理数据
 			datalist.remove(0);
 			List<Object[]>batchArgs=new ArrayList<>();
 			for(String[]rs:datalist){
 				Object[]args=new Object[9];
-				SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-				sm.SELECT("COUNT(*)")
-				.FROM(new MinlineEntity(), "m")
-				.WHERE("m.datetime=?", DateUtil.dateFromString(rs[0]+rs[1]))
-				.AND("m.idStock=?", headLine[0]);
-				long l=minlineDao.countBySQLGod(sm);
-				if(l<1){
+				Date date=DateUtil.dateFromString(rs[0]+rs[1]);
+				if(min==null||max==null||date.before(min)||date.after(max)){
 					args[0]=StringUtil.buildUUID();
 					args[1]=headLine[0];
-					args[2]=DateUtil.dateFromString(rs[0]+rs[1]);
+					args[2]=date;
 					args[3]=Float.valueOf(rs[2]);
 					args[4]=Float.valueOf(rs[3]);
 					args[5]=Float.valueOf(rs[4]);
@@ -72,11 +82,14 @@ public class MinlineServiceImp extends GenericService<MinlineEntity> implements 
 					batchArgs.add(args);
 				}
 			}
-			SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-			sm.INSERT_INTO(new MinlineEntity(), "m")
-			.INTO_COLUMNS("id","idStock","datetime","open","high","low","close","trading","turnover");
-			sm.setBatchArgs(batchArgs);
-			minlineDao.batchUpdateBySQLGod(sm);
+			//有需要插入的数据
+			if(batchArgs.size()>0){
+				sm=SQLMakerFactory.getInstance().createMapker();
+				sm.INSERT_INTO(new MinlineEntity(), "m")
+				.INTO_COLUMNS("id","idStock","datetime","open","high","low","close","trading","turnover");
+				sm.setBatchArgs(batchArgs);
+				minlineDao.batchUpdateBySQLGod(sm);
+			}
 			read.close();
 		} catch (Exception e) {
 			log.error("分钟线导入出现异常", e);

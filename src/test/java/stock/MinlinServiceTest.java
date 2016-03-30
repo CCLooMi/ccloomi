@@ -3,6 +3,9 @@ package stock;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ccloomi.core.test.BaseTest;
 import com.ccloomi.web.stock.service.MinlineService;
 
@@ -14,7 +17,7 @@ import com.ccloomi.web.stock.service.MinlineService;
  * 日    期：2016年3月29日-下午9:08:34
  */
 public class MinlinServiceTest extends BaseTest<MinlineService>{
-
+	private Logger log=LoggerFactory.getLogger(getClass());
 	@Override
 	protected void test(MinlineService testObj) {
 		File file=new File("/Volumes/Macintosh/Documents/stock/gupM");
@@ -28,9 +31,13 @@ public class MinlinServiceTest extends BaseTest<MinlineService>{
 				}
 			}
 		});
+		int i=0;
+		int totol=files.length;
+		float rate=0;
 		for(File f:files){
 			testObj.importMinlineInfoFromMinlineFile(f);
-			break;
+			rate=++i/totol;
+			log.debug("数据导入进度：[{}]", rate);
 		}
 	}
 	public static void main(String[] args) {
