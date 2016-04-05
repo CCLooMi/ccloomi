@@ -28,7 +28,8 @@ public class TemplateParserUtil {
 		/**匹配html标签*/
 		String regex="<[^<>]+>";
 		/**用于匹配参数*/
-		String argRegex="{[^{}]+}";
+		/**用于匹配参数*/
+		String argRegex="\\{[^\\{\\}]+\\}";
 		String[] htmls=html.split(regex);
 		String[] temps=template.split(regex);
 		
