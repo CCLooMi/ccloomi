@@ -25,7 +25,10 @@ public class TemplateParserUtil {
 	 */
 	public static Map<String, String> parserHtmlTemplate2Map(String html,String template){
 		Map<String, String>map=new HashMap<String, String>();
+		/**匹配html标签*/
 		String regex="<[^<>]+>";
+		/**用于匹配参数*/
+		String argRegex="{[^{}]+}";
 		String[] htmls=html.split(regex);
 		String[] temps=template.split(regex);
 		
@@ -63,8 +66,8 @@ public class TemplateParserUtil {
 					j++;
 					ht=htmlList.get(j);
 				}
-			}else{
-				map.put(tp, ht);
+			}else if(tp.matches(argRegex)){
+				map.put(tp.substring(1, tp.length()-1), ht);
 			}
 			j++;
 		}
