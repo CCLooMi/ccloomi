@@ -1,9 +1,12 @@
 package com.ccloomi.core.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 类名：StringUtil
@@ -180,11 +183,36 @@ public class StringUtil {
 		strChar[0]-=32;
 		return String.valueOf(strChar);
 	}
+	/**
+	 * 描述：String的splite方法有空字符串合并问题
+	 * 作者：Chenxj
+	 * 日期：2016年4月5日 - 下午10:31:13
+	 * @param regex
+	 * @param input
+	 * @return
+	 */
+	public static List<String> splite(String regex,String input){
+		Pattern pattern=Pattern.compile(regex);
+		 int index = 0;
+	        ArrayList<String> matchList = new ArrayList<>();
+	        Matcher m = pattern.matcher(input);
+	        // Add segments before each match found
+	        while(m.find()) {
+	        	if(index!=m.start()){
+	        		matchList.add(input.substring(index, m.start()));
+	        		index=m.start();
+	        	}
+                matchList.add(m.group());
+                index = m.end();
+	        }
+	        // If no match was found, return this
+	        if (index == 0){
+	        	return Arrays.asList(input);
+	        }
+	        return matchList;
+	}
 	public static void main(String[] args) {
-		List<String>ss=new ArrayList<>();
-		for(int i=0;i<7;i++){
-			ss.add("?");
-		}
-		System.out.println(StringUtil.joinCollectionString(",", ss));
+		String h="<body><div></div><span>123</span><span>abc</span></body>";
+		System.out.println(splite("<[^<>]+>",h));
 	}
 }
