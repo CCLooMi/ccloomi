@@ -192,6 +192,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static List<String> splite(String regex,String input){
+		input=cleanHtml(input);
 		Pattern pattern=Pattern.compile(regex);
 		 int index = 0;
 	        ArrayList<String> matchList = new ArrayList<>();
@@ -212,7 +213,27 @@ public class StringUtil {
 	        return matchList;
 	}
 	/**
-	 * 方法描述：清除标签里面的属性值
+	 * 方法描述：清除html标签所有属性及style和script标签和空格,用来生成模板和提纯
+	 * 作者：Chenxj
+	 * 日期：2016年4月16日 - 下午12:35:07
+	 * @param str
+	 * @return
+	 */
+	public static String cleanHtml(String html){
+		StringBuffer sbf=new StringBuffer();
+		Pattern pattern=Pattern.compile("<[^<>]+>");
+		Matcher m = pattern.matcher(html.replaceAll("<!--.*?-->", ""));
+		while(m.find()){
+			m.appendReplacement(sbf, cleanProperties(m.group()));
+		}
+		return sbf
+				.toString()
+				.replaceAll("<script>[^<>]+=\".*?\"</script>|<script>.*?</script>", "<script></script>")
+				.replaceAll("<style>[^<>]+=\".*?\"</style>|<style>.*?</style>", "<style></style>")
+				.replaceAll(" +|\t+", "");
+	}
+	/**
+	 * 方法描述：清除单个标签里面的属性值
 	 * 作者：Chenxj
 	 * 日期：2016年4月16日 - 下午12:11:38
 	 * @param str
@@ -228,8 +249,9 @@ public class StringUtil {
 		}
 	}
 	public static void main(String[] args) {
-		String h="<body><div></div><span>123</span><span>abc</span></body>";
+		String h="<body id=\"abc\"><div id=\"d\"></div><span>123</span><span>abc</span></body>";
 		System.out.println(splite("<[^<>]+>",h));
 		System.out.println(cleanProperties("<body id='123456' name=\"hello\">"));
+		System.out.println(cleanHtml(h));
 	}
 }

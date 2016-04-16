@@ -1,8 +1,7 @@
 package com.ccloomi.core.util;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -14,8 +13,11 @@ import java.util.Map;
  * 作者： Chenxj
  * 日期：2016年4月5日 - 下午3:56:00
  */
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class TemplateParserUtil {
-	
+	private static Logger log=LoggerFactory.getLogger(TemplateParserUtil.class);
 	/**
 	 * 方法描述：html模板逆向到map对象
 	 * 作者：Chenxj
@@ -49,21 +51,28 @@ public class TemplateParserUtil {
 		}
 		return map;
 	}
-	public static String cleanHtml(String html){
-		File f=new File("C:/Users/Idccapp25/Desktop/cp.html");
+	/**
+	 * 方法描述：从输入流逆向到map对象
+	 * 作者：Chenxj
+	 * 日期：2016年4月16日 - 下午3:07:32
+	 * @param inputStream
+	 * @param template
+	 * @return
+	 */
+	public static Map<String, String>parserHtmlTemplate2MapFromInputStream(InputStream inputStream,String template){
 		StringBuilder sb=new StringBuilder();
 		try {
-			InputStreamReader read=new InputStreamReader(new FileInputStream(f),Charset.forName("GBK"));
+			InputStreamReader read=new InputStreamReader(inputStream,Charset.forName("GBK"));
 			BufferedReader br=new BufferedReader(read);
 			String line=null;
 			while((line=br.readLine())!=null){
 				sb.append(line);
 			}
 			br.close();
-			return sb.toString();
+			return parserHtmlTemplate2Map(sb.toString(), template);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("从输入流逆向到map对象失败", e);
 		}
-		return null;
+		return new HashMap<>();
 	}
 }
