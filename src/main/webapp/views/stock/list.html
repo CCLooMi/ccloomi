@@ -1,0 +1,41 @@
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>代码</th>
+            <th>名称</th>
+            <th>公司</th>
+            <th>主营</th>
+            <th>地址</th>
+            <th>板块</th>
+            <th>董事</th>
+            <th>董秘</th>
+            <th>上市</th>
+            <th>实权</th>
+            <th>经纬</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="stock in stocks">
+            <td>{{stock.id}}</td>
+            <td>{{stock.name}}</td>
+            <td>{{stock.company}}</td>
+            <td>{{stock.mainBusiness}}</td>
+            <td>{{stock.registeredAddress}}</td>
+            <td>{{stock.industry}}</td>
+            <td>{{stock.chairman}}</td>
+            <td>{{stock.secretaries}}</td>
+            <td>{{stock.listedDate}}</td>
+            <td>{{stock.coordinates}}</td>
+            <td>{{stock.actualController}}</td>
+            <td>
+                <button class="btn shadow-box" ng-click="add(view)">添加</button>
+                <button class="btn shadow-box" ng-click="update(view)">修改</button>
+                <button class="btn shadow-box" ng-click="remove(view)">删除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="pagination"></div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container-fluid stock" ng-controller="stockCtrl">
+    <fieldset class="shadow-box">
+        <legend>
+            <dl>
+                <dt class="btn-group">
+                    <button class="btn btn-default" ng-click="add()">
+                        <span class="fa fa-plus"></span>Stock.
+                    </button>
+                    <a class="btn btn-default" href="#/main/stock/list" ng-class="{true:'active'}[showType=='list']" ng-click="changeShowType('list')">
+                        <span class="fa fa-th-list"></span>
+                    </a>
+                    <a class="btn btn-default" href="#/main/stock/map" ng-class="{true:'active'}[showType=='tree']" ng-click="changeShowType('tree')">
+                        <span class="fa fa-map"></span>
+                    </a>
+                    <a class="btn btn-default" href="#/main/stock/vis" ng-class="{true:'active'}[showType=='vis']" ng-click="changeShowType('vis')">
+                        <span class="fa fa-pagelines"></span>
+                    </a>
+                </dt>
+            </dl>
+        </legend>
+        <div ui-view="showType"></div>
+    </fieldset>
+</div>

@@ -41,7 +41,6 @@ app.factory('S_user', ['$http','$location','$timeout','S_dialog',function ($http
                     S_dialog.alert('操作异常','网络错误','error');
                 });
             }, function () {
-                S_dialog.alert('取消修改','已取消修改','error');
                 cloneA2B(cloneObj,scope.user);
                 refreshScope(scope);
             })

@@ -206,6 +206,32 @@ var app=angular
                     }
                 }
             })
+            .state('main.stock',{
+                url:'/stock',
+                templateUrl:'views/stock/stock.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/controllers/stockController.js',
+                                'styles/stock.css'
+                            ]
+                        })
+                    }
+                }
+            })
+            .state('main.stock.showType',{
+                url:'/:showType',
+                views:{
+                    'showType':{
+                        templateUrl: function (params) {
+                            return 'views/stock/'+params.showType+'.html';
+                        },
+                        controller:'stockCtrl'
+                    }
+                }
+            })
 
     }]);
 
