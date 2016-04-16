@@ -12,7 +12,7 @@ import com.ccloomi.core.util.TemplateParserUtil;
 public class TemplateParserTest {
 	public static void main(String[] args) {
 		String template="<body><span>{name}</span><span>{age}</span></body>";
-		String html="<body><div></div><span>jack</span><span>25</span></body>";
+		String html="<body id='12312313'><div></div><span>jack</span><span>25</span></body>";
 		System.out.println(TemplateParserUtil.parserHtmlTemplate2Map(html, template));
 	}
 }

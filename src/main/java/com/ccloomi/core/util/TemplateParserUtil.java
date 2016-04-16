@@ -1,5 +1,10 @@
 package com.ccloomi.core.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,5 +48,22 @@ public class TemplateParserUtil {
 			j++;
 		}
 		return map;
+	}
+	public static String cleanHtml(String html){
+		File f=new File("C:/Users/Idccapp25/Desktop/cp.html");
+		StringBuilder sb=new StringBuilder();
+		try {
+			InputStreamReader read=new InputStreamReader(new FileInputStream(f),Charset.forName("GBK"));
+			BufferedReader br=new BufferedReader(read);
+			String line=null;
+			while((line=br.readLine())!=null){
+				sb.append(line);
+			}
+			br.close();
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

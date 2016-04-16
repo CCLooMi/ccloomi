@@ -202,7 +202,7 @@ public class StringUtil {
 	        		matchList.add(input.substring(index, m.start()));
 	        		index=m.start();
 	        	}
-                matchList.add(m.group());
+                matchList.add(cleanProperties(m.group()));
                 index = m.end();
 	        }
 	        // If no match was found, return this
@@ -211,8 +211,25 @@ public class StringUtil {
 	        }
 	        return matchList;
 	}
+	/**
+	 * 方法描述：清除标签里面的属性值
+	 * 作者：Chenxj
+	 * 日期：2016年4月16日 - 下午12:11:38
+	 * @param str
+	 * @return
+	 */
+	private static String cleanProperties(String str){
+		String[]ss=str.split(" ", 2);
+		if(ss.length>1){
+			char[]cs=ss[1].toCharArray();
+			return ss[0]+String.valueOf(cs[cs.length-1]);
+		}else{
+			return str;
+		}
+	}
 	public static void main(String[] args) {
 		String h="<body><div></div><span>123</span><span>abc</span></body>";
 		System.out.println(splite("<[^<>]+>",h));
+		System.out.println(cleanProperties("<body id='123456' name=\"hello\">"));
 	}
 }
