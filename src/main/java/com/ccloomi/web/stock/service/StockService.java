@@ -29,4 +29,12 @@ public interface StockService extends BaseService<StockEntity>{
 	 * @return
 	 */
 	public Map<String, Object> findByPage(Map<String, Object> map);
+
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2016年4月17日 - 下午6:55:59
+	 * @param id
+	 * @return
+	 */
+	public boolean syncCompanyInfo(Object idStock);
 }

@@ -9,13 +9,20 @@ import org.springframework.stereotype.Service;
 
 import com.ccloomi.core.common.service.GenericService;
 import com.ccloomi.core.util.ExcelUtil;
+import com.ccloomi.core.util.HttpUtil;
+import com.ccloomi.core.util.JSONUtil;
 import com.ccloomi.core.util.StringUtil;
+import com.ccloomi.core.util.TemplateParserUtil;
+import com.ccloomi.web.stock.dao.ListedCompanyDao;
 import com.ccloomi.web.stock.dao.StockDao;
 import com.ccloomi.web.stock.dao.TagDao;
+import com.ccloomi.web.stock.entity.ListedCompanyEntity;
 import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.entity.TagEntity;
 import com.ccloomi.web.stock.service.StockService;
+import com.ccloomi.web.system.constant.DDConstant;
 import com.ccloomi.web.system.constant.TagConstant;
+import com.ccloomi.web.system.constant.TemplateConstant;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：StockServiceImp
@@ -30,7 +37,8 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 	private StockDao stockDao;
 	@Autowired
 	private TagDao tagDao;
-	
+	@Autowired
+	private ListedCompanyDao listedCompanyDao;
 	@Override
 	public void importStockInfoFromFile(File excelFile) {
 		List<List<Object>>dataList=ExcelUtil.readOneSheetFromExcel(excelFile);
@@ -81,4 +89,16 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 		return result;
 	}
 
+	@Override
+	public boolean syncCompanyInfo(Object idStock) {
+		String template=TemplateConstant.getTemplateConstantMap().get("ths-company-info");
+		String dataUrl=DDConstant.thsMap().get("ths-company-info").replaceFirst("\\{[^\\{\\}]+\\}", String.valueOf(idStock));
+		String htmlData=HttpUtil.getHtmlAsString(dataUrl);
+		Map<String, String>dataMap=TemplateParserUtil.parserHtmlTemplate2Map(htmlData, template);
+		ListedCompanyEntity listedCompany=JSONUtil.convertMapToBean(dataMap, ListedCompanyEntity.class);
+		listedCompany.setId(StringUtil.buildUUID());
+		listedCompany.setIssuePrice(Integer.valueOf(dataMap.get("other").split("/", 2)[0]));
+		listedCompanyDao.saveOrUpdate(listedCompany);
+		return true;
+	}
 }

@@ -233,6 +233,21 @@ var app=angular
                     }
                 }
             })
+            .state('main.template',{
+                url:'/template',
+                templateUrl:'views/template/template.html',
+                resolve:{
+                    loadMyFiles: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name:'ccloomi',
+                            files:[
+                                'scripts/services/templateService.js',
+                                'scripts/controllers/templateController.js'
+                            ]
+                        })
+                    }
+                }
+            })
 
     }]);
 

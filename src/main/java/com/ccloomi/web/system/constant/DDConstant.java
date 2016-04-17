@@ -16,4 +16,7 @@ public class DDConstant extends BaseDDConstant{
 	public static Map<String, String>stackexchangeMap(){
 		return getConstantMap("stackexchange");
 	}
+	public static Map<String, String>thsMap(){
+		return getConstantMap("ths");
+	}
 }

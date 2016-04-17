@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
+import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.service.StockService;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
@@ -31,5 +33,41 @@ public class StockController extends BaseController{
 	@RequiresAuthentication
 	public Map<String, Object>findByPage(@RequestBody Map<String, Object>map){
 		return stockService.findByPage(map);
+	}
+	@RequestMapping("/syncCompanyInfo")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message syncCompanyInfo(@RequestBody StockEntity stock){
+		boolean isOK=stockService.syncCompanyInfo(stock.getId());
+		return null;
+	}
+	@RequestMapping("/syncAllCompanyInfo")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message syncAllCompanyInfo(){
+		return null;
+	}
+	@RequestMapping("/syncCoordinates")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message syncCoordinates(@RequestBody StockEntity stock){
+		return null;
+	}
+	@RequestMapping("/syncAllCoordinates")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message syncAllCoordinates(){
+		return null;
+	}
+	@RequestMapping("/remove")
+	@ResponseBody
+	@RequiresAuthentication
+	public Message remove(@RequestBody StockEntity stock){
+		int i=stockService.delete(stock.getId());
+		if(i>0){
+			return responseMessageSuccess();
+		}else{
+			return responseMessageError("删除股票失败");
+		}
 	}
 }
