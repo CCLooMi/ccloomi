@@ -1,6 +1,7 @@
 package com.ccloomi.web.stock.service;
 
 import java.io.File;
+import java.util.Map;
 
 import com.ccloomi.core.common.service.BaseService;
 import com.ccloomi.web.stock.entity.StockEntity;
@@ -20,4 +21,12 @@ public interface StockService extends BaseService<StockEntity>{
 	 * @param excelFile [id	name	type	area	industry]
 	 */
 	public void importStockInfoFromFile(File excelFile);
+
+	/**描述：
+	 * 作者：Chenxj
+	 * 日期：2016年4月16日 - 下午11:32:39
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> findByPage(Map<String, Object> map);
 }

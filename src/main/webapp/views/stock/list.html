@@ -30,9 +30,9 @@
             <td>{{stock.coordinates}}</td>
             <td>{{stock.actualController}}</td>
             <td>
-                <button class="btn shadow-box" ng-click="add(view)">添加</button>
-                <button class="btn shadow-box" ng-click="update(view)">修改</button>
-                <button class="btn shadow-box" ng-click="remove(view)">删除</button>
+                <button class="btn shadow-box" ng-click="syncCompanyInfo(stock)">同步公司信息</button>
+                <button class="btn shadow-box" ng-click="syncCoordinates(stock)">同步经纬信息</button>
+                <button class="btn shadow-box" ng-click="remove(stock)">删除</button>
             </td>
         </tr>
         </tbody>

@@ -65,4 +65,20 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 		
 	}
 
+	@Override
+	public Map<String, Object> findByPage(Map<String, Object> map) {
+		Map<String, Object>result=byPage(map, (sm,m)->{
+			sm.SELECT("s.id")
+			.SELECT("s.name")
+			.SELECT("s.industry")
+			.FROM(new StockEntity(), "s");
+		});
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>>data=(List<Map<String, Object>>) result.get("data");
+		for(Map<String, Object>mm:data){
+			mm.put("industry", TagConstant.getId2NameMap().get(mm.get("industry")));
+		}
+		return result;
+	}
+
 }

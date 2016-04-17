@@ -214,6 +214,7 @@ var app=angular
                         return $ocLazyLoad.load({
                             name:'ccloomi',
                             files:[
+                                'scripts/services/stockService.js',
                                 'scripts/controllers/stockController.js',
                                 'styles/stock.css'
                             ]
