@@ -107,8 +107,7 @@ public abstract class SQLMaker implements SQLGod{
 	 * @param values
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public <value>SQLMaker addValues(value...values){
+	public <value>SQLMaker addValues(@SuppressWarnings("unchecked") value...values){
 		for(Object v:values){
 			this.values.add(v);
 		}
@@ -274,8 +273,7 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	@SuppressWarnings("unchecked")
-	public <value>SQLMaker OR(String str,value...values){
+	public <value>SQLMaker OR(String str,@SuppressWarnings("unchecked") value...values){
 		this.andor.add(" OR "+str);
 		for(Object value:values){
 			this.values.add(value);
