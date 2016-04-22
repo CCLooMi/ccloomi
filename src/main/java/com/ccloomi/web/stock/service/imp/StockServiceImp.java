@@ -97,7 +97,7 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 		Map<String, String>dataMap=TemplateParserUtil.parserHtmlTemplate2Map(htmlData, template);
 		ListedCompanyEntity listedCompany=JSONUtil.convertMapToBean(dataMap, ListedCompanyEntity.class);
 		listedCompany.setId(StringUtil.buildUUID());
-		listedCompany.setIssuePrice(Integer.valueOf(dataMap.get("other").split("/", 2)[0]));
+		listedCompany.setIssuePrice(Float.valueOf(dataMap.get("other").replaceAll("元", "").split("/", 2)[0]));
 		listedCompanyDao.saveOrUpdate(listedCompany);
 		return true;
 	}

@@ -39,7 +39,7 @@ public class StockController extends BaseController{
 	@RequiresAuthentication
 	public Message syncCompanyInfo(@RequestBody StockEntity stock){
 		boolean isOK=stockService.syncCompanyInfo(stock.getId());
-		return null;
+		return responseMessageSuccess(isOK);
 	}
 	@RequestMapping("/syncAllCompanyInfo")
 	@ResponseBody

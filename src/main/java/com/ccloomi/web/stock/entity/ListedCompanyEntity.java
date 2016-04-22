@@ -23,7 +23,7 @@ public class ListedCompanyEntity extends IdEntity{
 	/**注册地址*/
 	private String registeredAddress;
 	/**发行价*/
-	private Integer IssuePrice;
+	private Float IssuePrice;
 	/**董事长*/
 	private String chairman;
 	/**董秘*/
@@ -57,11 +57,11 @@ public class ListedCompanyEntity extends IdEntity{
 		this.registeredAddress = registeredAddress;
 	}
 	/**获取 issuePrice*/
-	public Integer getIssuePrice() {
+	public Float getIssuePrice() {
 		return IssuePrice;
 	}
 	/**设置 issuePrice*/
-	public void setIssuePrice(Integer issuePrice) {
+	public void setIssuePrice(Float issuePrice) {
 		IssuePrice = issuePrice;
 	}
 	/**获取 chairman*/

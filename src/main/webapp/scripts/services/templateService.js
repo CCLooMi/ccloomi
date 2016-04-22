@@ -9,8 +9,7 @@ angular.module('ccloomi')
                     $http.post('template/add.do',scope.template)
                         .success(function (data) {
                             if(data.code==0){
-                                scope.template.id=data.info;
-                                scope.templates.push(scope.template);
+                                scope.templates.push(data.info);
                                 refreshScope(scope);
                                 S_dialog.alert('修改成功','成功添加模版','success');
                             }else if(data.code==1){
