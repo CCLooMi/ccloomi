@@ -51,6 +51,6 @@ public class HttpUtil {
 		}catch(Exception e){
 			return "";
 		}
-		return sb.toString();
+		return StringUtil.cleanHtml(sb.toString());
 	}
 }

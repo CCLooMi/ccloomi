@@ -21,6 +21,7 @@ import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.entity.TagEntity;
 import com.ccloomi.web.stock.service.StockService;
 import com.ccloomi.web.system.constant.DDConstant;
+import com.ccloomi.web.system.constant.ListedCompanyNameConstant;
 import com.ccloomi.web.system.constant.TagConstant;
 import com.ccloomi.web.system.constant.TemplateConstant;
 
@@ -79,26 +80,44 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 			sm.SELECT("s.id")
 			.SELECT("s.name")
 			.SELECT("s.industry")
+			.SELECT("s.idListedCompany")
 			.FROM(new StockEntity(), "s");
 		});
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>>data=(List<Map<String, Object>>) result.get("data");
 		for(Map<String, Object>mm:data){
 			mm.put("industry", TagConstant.getId2NameMap().get(mm.get("industry")));
+			mm.put("idListedCompany", ListedCompanyNameConstant.getListedCompanyNameConstantMap().get(mm.get("idListedCompany")));
 		}
 		return result;
 	}
 
 	@Override
-	public boolean syncCompanyInfo(Object idStock) {
+	public ListedCompanyEntity syncCompanyInfo(StockEntity stock) {
 		String template=TemplateConstant.getTemplateConstantMap().get("ths-company-info");
-		String dataUrl=DDConstant.thsMap().get("ths-company-info").replaceFirst("\\{[^\\{\\}]+\\}", String.valueOf(idStock));
+		String dataUrl=DDConstant.thsMap().get("ths-company-info").replaceFirst("\\{[^\\{\\}]+\\}", String.valueOf(stock.getId()));
 		String htmlData=HttpUtil.getHtmlAsString(dataUrl);
 		Map<String, String>dataMap=TemplateParserUtil.parserHtmlTemplate2Map(htmlData, template);
 		ListedCompanyEntity listedCompany=JSONUtil.convertMapToBean(dataMap, ListedCompanyEntity.class);
-		listedCompany.setId(StringUtil.buildUUID());
-		listedCompany.setIssuePrice(Float.valueOf(dataMap.get("other").replaceAll("元", "").split("/", 2)[0]));
-		listedCompanyDao.saveOrUpdate(listedCompany);
-		return true;
+		Map<String, String>listedCompanyNameMap=ListedCompanyNameConstant.getListedCompanyNameConstantMap();
+		//检查公司名是否已经存在
+		if(!listedCompanyNameMap.containsKey(listedCompany.getName())){
+			listedCompany.setId(StringUtil.buildUUID());
+			listedCompany.setIssuePrice(Float.valueOf(dataMap.get("other").replaceAll("元", "").split("/", 2)[0]));
+			listedCompanyDao.saveOrUpdate(listedCompany);
+			//将公司名称和ID保存到map中
+			listedCompanyNameMap.put(listedCompany.getId(), listedCompany.getName());
+			listedCompanyNameMap.put(listedCompany.getName(), listedCompany.getId());
+		}else{
+			listedCompany.setId(listedCompanyNameMap.get(listedCompany.getName()));
+		}
+		if(stock.getIdListedCompany()==null||"".equals(stock.getIdListedCompany())){
+			//更新股票的公司ID
+			StockEntity st=new StockEntity();
+			st.setId(stock.getId());
+			st.setIdListedCompany(listedCompany.getId());
+			stockDao.lazyUpdate(st);
+		}
+		return listedCompany;
 	}
 }

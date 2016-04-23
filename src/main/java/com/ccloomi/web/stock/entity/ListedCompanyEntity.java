@@ -32,67 +32,67 @@ public class ListedCompanyEntity extends IdEntity{
 	private Date listedDate;
 	/**实际控制人*/
 	private String actualController;
-	/**获取 name*/
+	/**获取 公司名称*/
 	public String getName() {
 		return name;
 	}
-	/**设置 name*/
+	/**设置 公司名称*/
 	public void setName(String name) {
 		this.name = name;
 	}
-	/**获取 mainBusiness*/
+	/**获取 主营业务*/
 	public String getMainBusiness() {
 		return mainBusiness;
 	}
-	/**设置 mainBusiness*/
+	/**设置 主营业务*/
 	public void setMainBusiness(String mainBusiness) {
 		this.mainBusiness = mainBusiness;
 	}
-	/**获取 registeredAddress*/
+	/**获取 注册地址*/
 	public String getRegisteredAddress() {
 		return registeredAddress;
 	}
-	/**设置 registeredAddress*/
+	/**设置 注册地址*/
 	public void setRegisteredAddress(String registeredAddress) {
 		this.registeredAddress = registeredAddress;
 	}
-	/**获取 issuePrice*/
+	/**获取 发行价*/
 	public Float getIssuePrice() {
 		return IssuePrice;
 	}
-	/**设置 issuePrice*/
+	/**设置 发行价*/
 	public void setIssuePrice(Float issuePrice) {
 		IssuePrice = issuePrice;
 	}
-	/**获取 chairman*/
+	/**获取 董事长*/
 	public String getChairman() {
 		return chairman;
 	}
-	/**设置 chairman*/
+	/**设置 董事长*/
 	public void setChairman(String chairman) {
 		this.chairman = chairman;
 	}
-	/**获取 secretaries*/
+	/**获取 董秘*/
 	public String getSecretaries() {
 		return secretaries;
 	}
-	/**设置 secretaries*/
+	/**设置 董秘*/
 	public void setSecretaries(String secretaries) {
 		this.secretaries = secretaries;
 	}
-	/**获取 listedDate*/
+	/**获取 上市日期*/
 	public Date getListedDate() {
 		return listedDate;
 	}
-	/**设置 listedDate*/
+	/**设置 上市日期*/
 	public void setListedDate(Date listedDate) {
 		this.listedDate = listedDate;
 	}
-	/**获取 actualController*/
+	/**获取 实际控制人*/
 	public String getActualController() {
 		return actualController;
 	}
-	/**设置 actualController*/
+	/**设置 实际控制人*/
 	public void setActualController(String actualController) {
 		this.actualController = actualController;
 	}

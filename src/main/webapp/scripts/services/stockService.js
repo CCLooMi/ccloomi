@@ -8,8 +8,11 @@ angular.module('ccloomi')
                 $http.post('stock/syncCompanyInfo.do',stock)
                     .success(function (data) {
                         if(data.code==0){
-                            stock.id=data.info;
-                            scope.stocks.push(stock);
+                            data.info.company=data.info.name;
+                            data.info.companyId=data.info.id;
+                            delete data.info.id;
+                            delete data.info.name;
+                            $.extend(stock,data.info);
                             refreshScope(scope);
                         }else if(data.code==1){
                             S_dialog.alert('添加失败',data.info,'error');

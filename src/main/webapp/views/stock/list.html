@@ -26,9 +26,9 @@
             <td>{{stock.industry}}</td>
             <td>{{stock.chairman}}</td>
             <td>{{stock.secretaries}}</td>
-            <td>{{stock.listedDate}}</td>
-            <td>{{stock.coordinates}}</td>
+            <td>{{stock.listedDate|date:'yyyy-MM-dd'}}</td>
             <td>{{stock.actualController}}</td>
+            <td>{{stock.coordinates}}</td>
             <td>
                 <button class="btn shadow-box" ng-click="syncCompanyInfo(stock)">同步公司信息</button>
                 <button class="btn shadow-box" ng-click="syncCoordinates(stock)">同步经纬信息</button>

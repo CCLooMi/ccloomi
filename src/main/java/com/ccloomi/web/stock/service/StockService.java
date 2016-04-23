@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import com.ccloomi.core.common.service.BaseService;
+import com.ccloomi.web.stock.entity.ListedCompanyEntity;
 import com.ccloomi.web.stock.entity.StockEntity;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
@@ -33,8 +34,8 @@ public interface StockService extends BaseService<StockEntity>{
 	/**描述：
 	 * 作者：Chenxj
 	 * 日期：2016年4月17日 - 下午6:55:59
-	 * @param id
+	 * @param stock
 	 * @return
 	 */
-	public boolean syncCompanyInfo(Object idStock);
+	public ListedCompanyEntity syncCompanyInfo(StockEntity stock);
 }

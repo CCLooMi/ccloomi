@@ -22,7 +22,8 @@ public class StockEntity extends IdEntity{
 	private String area;
 	/**行业*/
 	private String industry;
-	
+	/**所属上市公司*/
+	private String idListedCompany;
 	/**获取 name*/
 	public String getName() {
 		return name;
@@ -54,5 +55,13 @@ public class StockEntity extends IdEntity{
 	/**设置 industry*/
 	public void setIndustry(String industry) {
 		this.industry = industry;
+	}
+	/**获取 所属上市公司*/
+	public String getIdListedCompany() {
+		return idListedCompany;
+	}
+	/**设置 所属上市公司*/
+	public void setIdListedCompany(String idListedCompany) {
+		this.idListedCompany = idListedCompany;
 	}
 }
