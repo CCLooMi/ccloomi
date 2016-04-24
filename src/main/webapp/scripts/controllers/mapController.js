@@ -46,6 +46,9 @@ angular.module('ccloomi')
                 tileUrl: 'http://mt{1,2,3,0}.google.cn/vt/lyrs=m@142&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galil'
             });
             googleLayer.setMap(map);
+            //添加卫星图层
+            //var weixing=new AMap.TileLayer.Satellite();
+            //weixing.setMap(map);
         };
         if(!$scope.key||!$scope.table){
             $http.get('stock/gaodeMap.json')
