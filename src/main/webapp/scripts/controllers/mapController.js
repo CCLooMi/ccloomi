@@ -27,7 +27,11 @@ angular.module('ccloomi')
                         photo = ['<img width=240 height=100 src="' + clouddata._image[0]._preurl + '"><br>'];
                     }
                     var infoWindow = new AMap.InfoWindow({
-                        content: "<font class='title'>" + clouddata._name + "</font><hr/>" + photo.join("") + "地址：" + clouddata._address + "<br />" + "创建时间：" + clouddata._createtime + "<br />" + "更新时间：" + clouddata._updatetime,
+                        content: "<font class='title'>" + clouddata.brand_name + "</font>" +
+                        "<hr/>" + photo.join("") + "公司：" + clouddata._name + "<br />"+
+                        "地址:"+clouddata._address+"<br/>"+
+                        "主营:"+clouddata.intro+"<br/>"+
+                        "发行价:"+clouddata.price+"元<br/>",
                         size: new AMap.Size(0, 0),
                         autoMove: true,
                         offset: new AMap.Pixel(0, -25)
