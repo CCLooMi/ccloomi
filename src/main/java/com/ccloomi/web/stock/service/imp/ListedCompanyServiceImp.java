@@ -11,6 +11,7 @@ import com.ccloomi.core.component.sql.SQLMaker;
 import com.ccloomi.core.component.sql.SQLMakerFactory;
 import com.ccloomi.web.stock.dao.ListedCompanyDao;
 import com.ccloomi.web.stock.entity.ListedCompanyEntity;
+import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.service.ListedCompanyService;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
@@ -32,7 +33,11 @@ public class ListedCompanyServiceImp extends GenericService<ListedCompanyEntity>
 		.SELECT_AS("lc.longitude", "x")
 		.SELECT_AS("lc.latitude", "y")
 		.SELECT_AS("'010-00000000'", "telephone")
-		.FROM(new ListedCompanyEntity(), "lc");
+		.SELECT_AS("CONCAT(s.name,'(',s.id,')')", "brand_name")
+		.SELECT_AS("lc.mainBusiness", "intro")
+		.SELECT_AS("lc.IssuePrice", "price")
+		.FROM(new StockEntity(), "s")
+		.LEFT_JOIN(new ListedCompanyEntity(), "lc","s.idListedCompany=lc.id");
 		return listedCompanyDao.findBySQLGod(sm);
 	}
 }
