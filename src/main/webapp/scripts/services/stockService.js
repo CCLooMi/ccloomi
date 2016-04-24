@@ -22,11 +22,11 @@ angular.module('ccloomi')
                     })
                     .error(function () {S_dialog.alert('操作失败','接口调用失败','error');});
             },
-            syncAllCompanyInfo: function (scope) {
+            syncAllCompanyInfo: function (scope,callback) {
                 $http.get('stock/syncAllCompanyInfo.do')
                     .success(function (data) {
                         if(data.code==0){
-                            S_dialog.alert('同步完成','已同步所有公司信息','success');
+                            callback();
                         }else if(data.code==1){
                             S_dialog.alert('同步失败',data.info,'error');
                         }else{

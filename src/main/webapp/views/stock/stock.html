@@ -16,7 +16,7 @@
                         <span class="fa fa-pagelines"></span>
                     </a>
                     <button class="btn btn-default" title="同步所有公司信息" ng-click="syncAllCompanyInfo()">
-                        <span class="glyphicon glyphicon-refresh"></span>
+                        <span class="glyphicon glyphicon-refresh" ng-class="{true:'fa-spin',false:''}[onSyncAllCompanyInfo]"></span>
                         公司信息
                     </button>
                     <button class="btn btn-default" title="同步所有经纬信息" ng-click="syncAllCoordinates()">

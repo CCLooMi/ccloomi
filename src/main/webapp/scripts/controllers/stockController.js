@@ -5,6 +5,7 @@ angular.module('ccloomi')
     .controller('stockCtrl',['$scope','S_pagination','S_stock','$stateParams', function ($scope,S_pagination,S_stock,$stateParams) {
         $scope.showType=$stateParams.showType;
         $scope.stocks=[];
+        $scope.onSyncAllCompanyInfo=false;
         $scope.changeShowType= function (showType) {
             $scope.showType=showType;
         };
@@ -12,7 +13,10 @@ angular.module('ccloomi')
             S_stock.syncCompanyInfo($scope,stock);
         };
         $scope.syncAllCompanyInfo= function () {
-            S_stock.syncAllCompanyInfo($scope);
+            $scope.onSyncAllCompanyInfo=true;
+            S_stock.syncAllCompanyInfo($scope, function () {
+                $scope.onSyncAllCompanyInfo=false;
+            });
         };
         $scope.syncCoordinates= function (stock) {
             S_stock.syncCoordinates($scope,stock);
