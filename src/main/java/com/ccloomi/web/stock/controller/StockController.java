@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
+import com.ccloomi.core.component.progress.ProgressBean;
 import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.service.StockService;
+import com.ccloomi.web.system.constant.StockNameConstant;
+import com.ccloomi.web.system.progress.SystemProgress;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：StockController
@@ -44,7 +47,23 @@ public class StockController extends BaseController{
 	@ResponseBody
 	@RequiresAuthentication
 	public Message syncAllCompanyInfo(){
-		return null;
+		Map<String, String>stockMap=StockNameConstant.getStockNameConstantMap();
+		float complete=0;
+		float total=stockMap.keySet().size();
+		for(String idStock:stockMap.keySet()){
+			StockEntity stock=stockService.getById(idStock);
+			if(stock.getIdListedCompany()==null||"".equals(stock.getIdListedCompany())){
+				stockService.syncCompanyInfo(stock);
+			}
+			complete++;
+			//发送进度
+			ProgressBean progeressBean=new ProgressBean();
+			progeressBean.setType("syncAllCompanyInfo");
+			progeressBean.setProgress(complete/total);
+			progeressBean.setTitle("同步所有公司信息");
+			SystemProgress.updateProgress(progeressBean);
+		}
+		return responseMessageSuccess();
 	}
 	@RequestMapping("/syncCoordinates")
 	@ResponseBody

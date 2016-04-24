@@ -20,7 +20,12 @@ import com.ccloomi.web.stock.entity.TagEntity;
 public class TagConstant {
 	private static TagDao tagDao=SpringContextUtil.getBean("tagDao", TagDao.class);
 	private static Map<String, Map<String, String>>map=new HashMap<>();
-
+	/**
+	 * 描述：股票ID对应板块的map
+	 * 作者：Chenxj
+	 * 日期：2016年4月24日 - 上午7:49:33
+	 * @return
+	 */
 	public static Map<String, String> getId2NameMap(){
 		return getTagConstantMap("stock_id2name");
 	}

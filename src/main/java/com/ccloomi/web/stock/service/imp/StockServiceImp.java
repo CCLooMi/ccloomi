@@ -81,7 +81,17 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 			.SELECT("s.name")
 			.SELECT("s.industry")
 			.SELECT("s.idListedCompany")
-			.FROM(new StockEntity(), "s");
+			.SELECT_AS("lc.id", "companyId")
+			.SELECT_AS("lc.name", "company")
+			.SELECT("lc.mainBusiness")
+			.SELECT("lc.registeredAddress")
+			.SELECT("lc.issuePrice")
+			.SELECT("lc.chairman")
+			.SELECT("lc.secretaries")
+			.SELECT("lc.listedDate")
+			.SELECT("lc.actualController")
+			.FROM(new StockEntity(), "s")
+			.LEFT_JOIN(new ListedCompanyEntity(), "lc", "s.idListedCompany=lc.id");
 		});
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>>data=(List<Map<String, Object>>) result.get("data");
@@ -103,7 +113,11 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 		//检查公司名是否已经存在
 		if(!listedCompanyNameMap.containsKey(listedCompany.getName())){
 			listedCompany.setId(StringUtil.buildUUID());
-			listedCompany.setIssuePrice(Float.valueOf(dataMap.get("other").replaceAll("元", "").split("/", 2)[0]));
+			try{
+				listedCompany.setIssuePrice(Float.valueOf(dataMap.get("other").replaceAll("元", "").split("/", 2)[0]));
+			}catch(Exception e){
+				listedCompany.setIssuePrice(-1f);
+			}
 			listedCompanyDao.saveOrUpdate(listedCompany);
 			//将公司名称和ID保存到map中
 			listedCompanyNameMap.put(listedCompany.getId(), listedCompany.getName());

@@ -38,10 +38,14 @@ public abstract class AbstractDao<T extends BaseEntity> {
 	protected JdbcTemplate jdbcTemplate;
 	
 	public AbstractDao (){
-		this.entityClass=getEntityClass();
-		Table table=entityClass.getAnnotation(Table.class);
-		_entity=TEntity();
-		this.tableName=(table==null?entityClass.getName():table.name());
+		try{
+			this.entityClass=getEntityClass();
+			Table table=entityClass.getAnnotation(Table.class);
+			_entity=TEntity();
+			this.tableName=(table==null?entityClass.getName():table.name());
+		}catch(Exception e){
+			log.debug("dao构造出现异常，可能是没有指定T的具体类型，在某些constant类中才会这样使用", e);
+		}
 	}
 	
 	/**
@@ -177,14 +181,24 @@ public abstract class AbstractDao<T extends BaseEntity> {
 	}
 
 	public T getById(Object id) {
-		if(id!=null){
-			String sql="SELECT * FROM ? WHERE id=?".replaceFirst("\\?", tableName);
-			List<T>tList=jdbcTemplate.queryForList(sql, entityClass, id);
-			if(tList!=null&&tList.size()>0){
-				return tList.get(0);
-			}
+//		if(id!=null){
+//			String sql="SELECT * FROM ? WHERE id=?".replaceFirst("\\?", tableName);
+//			List<T>tList=jdbcTemplate.queryForList(sql, entityClass, id);
+//			if(tList!=null&&tList.size()>0){
+//				return tList.get(0);
+//			}
+//		}
+//		return null;
+		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+		sm.SELECT("*")
+		.FROM(TEntity(), "temp")
+		.WHERE("temp.id=?", id);
+		List<T>tList=findBySQLGod(sm, entityClass);
+		if(tList!=null&&tList.size()>0){
+			return tList.get(0);
+		}else{
+			return null;
 		}
-		return null;
 	}
 	public List<T> getByIds(Collection<? extends Object>ids){
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
