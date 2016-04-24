@@ -150,15 +150,19 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 			//解析数据
 			@SuppressWarnings("unchecked")
 			List<Map<String, Object>>geocodes=(List<Map<String, Object>>) data.get("geocodes");
-			Map<String, Object>m0=geocodes.get(0);
-			ListedCompanyEntity lc=new ListedCompanyEntity();
-			lc.setId(listedComapny.getId());
-			lc.setAddressCode(String.valueOf(m0.get("adcode")));
-			String[]ll=String.valueOf(m0.get("location")).split(",");
-			lc.setLongitude(ll[0]);
-			lc.setLatitude(ll[1]);
-			listedCompanyDao.lazyUpdate(lc);
-			return lc;
+			if(geocodes.size()>0){
+				Map<String, Object>m0=geocodes.get(0);
+				ListedCompanyEntity lc=new ListedCompanyEntity();
+				lc.setId(listedComapny.getId());
+				lc.setAddressCode(String.valueOf(m0.get("adcode")));
+				String[]ll=String.valueOf(m0.get("location")).split(",");
+				lc.setLongitude(ll[0]);
+				lc.setLatitude(ll[1]);
+				listedCompanyDao.lazyUpdate(lc);
+				return lc;
+			}else{
+				log.debug("同步经纬信息出错::{}", data);
+			}
 		}
 		return listedComapny;
 	}

@@ -4,20 +4,30 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.ccloomi.core.constant.Constant;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：ExcelUtil
@@ -190,6 +200,228 @@ public class ExcelUtil {
 				return c.getStringCellValue();
 			}
 			return "Unknown Cell Type:" + c.getCellType();
+		}
+	}
+	/**
+	 * 描述：
+	 * 作者：Chenxj
+	 * 日期：2016年4月24日 - 下午8:15:27
+	 * @param dataMap 要写入excel的数据
+	 * @param cloName 自定义头
+	 * @param out 要写入的Excel文件流
+	 * @param excelType 要创建excel的版本，1是xls，2是xlsx
+	 */
+	public  static void createExcel(Map<String, List<Map<String, Object>>> dataMap,Map<String, String> cloNames,OutputStream out,int excelType){
+		Workbook wb=null;
+		switch (excelType) {
+		case 1:
+			wb=new HSSFWorkbook();
+			break;
+		case 2:
+			wb=new XSSFWorkbook();
+			break;
+		default:
+			wb=new HSSFWorkbook();
+			break;
+		}
+		//创建一个日期格式style
+		CellStyle cellStyle=wb.createCellStyle();
+		DataFormat dataFormat=wb.createDataFormat();
+		cellStyle.setDataFormat(dataFormat.getFormat("yyyy/MM/dd"));
+		for(Entry<String, List<Map<String, Object>>> entry:dataMap.entrySet()){
+			Sheet sheet=wb.createSheet(entry.getKey());
+			List<Map<String, Object>> mapList=entry.getValue();
+			int rowNum=mapList.size();
+			if(rowNum>0){
+				Row firstRow=sheet.createRow(0);
+				Map<String,Object>m=mapList.get(0);
+				List<String>titleList=new ArrayList<String>();
+				if(cloNames==null){
+					//获取title
+					for(String title:m.keySet()){
+						titleList.add(title);
+					}
+					//设置title
+					for(int i=0;i<titleList.size();i++){
+						firstRow.createCell(i).setCellValue(titleList.get(i));
+					}
+				}else{
+					//获取title
+					for(String title:cloNames.keySet()){
+						titleList.add(title);
+					}
+					//设置title
+					for(int i=0;i<titleList.size();i++){
+						firstRow.createCell(i).setCellValue(cloNames.get(titleList.get(i)));
+					}
+				}
+				//设置值
+				for(int i=0;i<rowNum;i++){
+					Row row=sheet.createRow(i+1);
+					m=mapList.get(i);
+					for(int j=0;j<m.size();j++){
+						Cell c=row.createCell(j);
+						Object o=m.get(titleList.get(j));
+						if(o instanceof String){
+							c.setCellValue(o+"");
+						}else if(o instanceof Date){
+							c.setCellStyle(cellStyle);
+							c.setCellValue((Date)o);
+						}else if(o instanceof Calendar){
+							c.setCellValue((Calendar)o);
+						}else if(o instanceof Boolean){
+							c.setCellValue(((Boolean) o).booleanValue());
+						}else if(o instanceof Double){
+							c.setCellValue(((Double) o).doubleValue());
+						}else if(o instanceof Integer){
+							c.setCellValue(((Integer) o).doubleValue());
+						}else if(o instanceof Float){
+							c.setCellValue(((Float) o).floatValue());
+						}else if(o instanceof Long){
+							c.setCellValue(((Long) o).longValue());
+						}else if(o instanceof Byte){
+							c.setCellErrorValue(((Byte) o).byteValue());
+						}else if(o==null){
+							c.setCellValue("");
+						}else{
+							c.setCellValue("未知数据类型！");
+						}
+					}
+				}
+			}//
+		}
+		//写入Excel流
+		try {
+			wb.write(out);
+		} catch (IOException e1) {
+			log.error("写入Excel流失败", e1);
+		}
+		//关闭workbook对象
+		try {
+			wb.close();
+		} catch (IOException e) {
+			log.error("关闭workbook对象失败", e);
+		}
+	}
+	/**
+	 * 描述：
+	 * 作者：Chenxj
+	 * 日期：2016年4月24日 - 下午8:17:47
+	 * @param dataMap 要写入excel的数据
+	 * @param cloNames 自定义头
+	 * @param out 输出
+	 * @param overtake65535RenderNewSheet 超过65535新建sheet
+	 * @param excelType 文件类型
+	 */
+	public static void createExcel(Map<String, List<Map<String, Object>>> dataMap,Map<String, String> cloNames,OutputStream out,boolean overtake65535RenderNewSheet,int excelType){
+		Workbook wb=null;
+		switch (excelType) {
+		case 1:
+			wb=new HSSFWorkbook();
+			break;
+		case 2:
+			wb=new XSSFWorkbook();
+			break;
+		default:
+			wb=new HSSFWorkbook();
+			break;
+		}
+		//创建一个日期格式style
+		CellStyle cellStyle=wb.createCellStyle();
+		DataFormat dataFormat=wb.createDataFormat();
+		cellStyle.setDataFormat(dataFormat.getFormat("yyyy/MM/dd"));
+		//用于超过最大row是新sheet的名称中
+		int flag=1;
+		for(Entry<String, List<Map<String, Object>>> entry:dataMap.entrySet()){
+			Sheet sheet=wb.createSheet(entry.getKey());
+			List<Map<String, Object>> mapList=entry.getValue();
+			int rowNum=mapList.size();
+			if(rowNum>0){
+				Row firstRow=sheet.createRow(0);
+				Map<String,Object>m=mapList.get(0);
+				List<String>titleList=new ArrayList<String>();
+				if(cloNames==null){
+					//获取title
+					for(String title:m.keySet()){
+						titleList.add(title);
+					}
+					//设置title
+					for(int i=0;i<titleList.size();i++){
+						firstRow.createCell(i).setCellValue(titleList.get(i));
+					}
+				}else{
+					//获取title
+					for(String title:cloNames.keySet()){
+						titleList.add(title);
+					}
+					//设置title
+					for(int i=0;i<titleList.size();i++){
+						firstRow.createCell(i).setCellValue(cloNames.get(titleList.get(i)));
+					}
+				}
+				//设置值
+				for(int i=0,f=0;i<rowNum;i++,f++){
+					//如果超过65535行数据则新建一个Sheet
+					if(i!=0&&i%Constant.EXCEL_MAX_ROW==0){
+						i=0;rowNum=rowNum-Constant.EXCEL_MAX_ROW;
+						sheet=wb.createSheet(entry.getKey()+(flag++));
+						firstRow=sheet.createRow(0);
+						if(cloNames==null){
+							//设置title
+							for(int j=0;j<titleList.size();j++){
+								firstRow.createCell(j).setCellValue(titleList.get(j));
+							}
+						}else{
+							//设置title
+							for(int j=0;j<titleList.size();j++){
+								firstRow.createCell(j).setCellValue(cloNames.get(titleList.get(j)));
+							}
+						}
+					}
+					Row row=sheet.createRow(i+1);
+					m=mapList.get(f);
+					for(int j=0;j<m.size();j++){
+						Cell c=row.createCell(j);
+						Object o=m.get(titleList.get(j));
+						if(o instanceof String){
+							c.setCellValue(o+"");
+						}else if(o instanceof Date){
+							c.setCellStyle(cellStyle);
+							c.setCellValue((Date)o);
+						}else if(o instanceof Calendar){
+							c.setCellValue((Calendar)o);
+						}else if(o instanceof Boolean){
+							c.setCellValue(((Boolean) o).booleanValue());
+						}else if(o instanceof Double){
+							c.setCellValue(((Double) o).doubleValue());
+						}else if(o instanceof Integer){
+							c.setCellValue(((Integer) o).doubleValue());
+						}else if(o instanceof Float){
+							c.setCellValue(((Float) o).floatValue());
+						}else if(o instanceof Long){
+							c.setCellValue(((Long) o).longValue());
+						}else if(o instanceof Byte){
+							c.setCellErrorValue(((Byte) o).byteValue());
+						}else if(o==null){
+							c.setCellValue("");
+						}else{
+							c.setCellValue("未知数据类型！");
+						}
+					}
+				}
+			}
+		}
+		//写入Excel流
+		try {
+			wb.write(out);
+		} catch (IOException e1) {
+			log.error("写入Excel流失败", e1);
+		}
+		//关闭workbook对象
+		try {
+			wb.close();
+		} catch (IOException e) {
+			log.error("关闭workbook对象失败", e);
 		}
 	}
 }

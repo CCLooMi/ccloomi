@@ -1,6 +1,10 @@
 package com.ccloomi.web.stock.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.core.component.progress.ProgressBean;
+import com.ccloomi.core.util.ExcelUtil;
 import com.ccloomi.web.stock.entity.StockEntity;
+import com.ccloomi.web.stock.service.ListedCompanyService;
 import com.ccloomi.web.stock.service.StockService;
 import com.ccloomi.web.system.constant.DDConstant;
 import com.ccloomi.web.system.constant.StockNameConstant;
@@ -31,6 +37,8 @@ public class StockController extends BaseController{
 	
 	@Autowired
 	private StockService stockService;
+	@Autowired
+	private ListedCompanyService listedCompanyService;
 	
 	@RequestMapping("/byPage")
 	@ResponseBody
@@ -108,5 +116,23 @@ public class StockController extends BaseController{
 	@RequiresAuthentication
 	public Map<String, String>gaodeMap(){
 		return DDConstant.gaodeMap();
+	}
+	@RequestMapping("/downloadStockMapExcelTemplate")
+	@ResponseBody
+	@RequiresAuthentication
+	public void downloadStockMapExcelTemplate(HttpServletResponse response){
+		List<Map<String, Object>>dataMap=listedCompanyService.getMapExcelTemplateData();
+//		response.setContentType("application/vnd.ms-excel");
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		response.setHeader("Content-Disposition", "attachment; filename=excelTemplate.xlsx");
+		try{
+			Map<String, List<Map<String,Object>>>dm=new HashMap<>();
+			dm.put("云图基础模版",dataMap);
+			ExcelUtil.createExcel(dm, null, response.getOutputStream(), 2);
+			response.getOutputStream().flush();
+		}catch(Exception e){
+			log.error("模版生成出现异常", e);
+		}
+		
 	}
 }
