@@ -6,6 +6,7 @@ angular.module('ccloomi')
         $scope.showType=$stateParams.showType;
         $scope.stocks=[];
         $scope.onSyncAllCompanyInfo=false;
+        $scope.onSyncAllCoordinates=false;
         $scope.changeShowType= function (showType) {
             $scope.showType=showType;
         };
@@ -22,7 +23,10 @@ angular.module('ccloomi')
             S_stock.syncCoordinates($scope,stock);
         };
         $scope.syncAllCoordinates= function () {
-            S_stock.syncAllCoordinates($scope);
+            $scope.onSyncAllCoordinates=true;
+            S_stock.syncAllCoordinates($scope, function () {
+                $scope.onSyncAllCoordinates=false;
+            });
         };
         $scope.remove= function (stock) {
             S_stock.removeStock($scope,stock);

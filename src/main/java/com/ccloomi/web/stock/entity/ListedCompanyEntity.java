@@ -32,6 +32,12 @@ public class ListedCompanyEntity extends IdEntity{
 	private Date listedDate;
 	/**实际控制人*/
 	private String actualController;
+	/**经度*/
+	private String longitude;
+	/**纬度*/
+	private String latitude;
+	/**区域编码*/
+	private String addressCode;
 	/**获取 公司名称*/
 	public String getName() {
 		return name;
@@ -95,5 +101,29 @@ public class ListedCompanyEntity extends IdEntity{
 	/**设置 实际控制人*/
 	public void setActualController(String actualController) {
 		this.actualController = actualController;
+	}
+	/**获取 经度*/
+	public String getLongitude() {
+		return longitude;
+	}
+	/**设置 经度*/
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	/**获取 纬度*/
+	public String getLatitude() {
+		return latitude;
+	}
+	/**设置 纬度*/
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	/**获取 区域编码*/
+	public String getAddressCode() {
+		return addressCode;
+	}
+	/**设置 区域编码*/
+	public void setAddressCode(String addressCode) {
+		this.addressCode = addressCode;
 	}
 }

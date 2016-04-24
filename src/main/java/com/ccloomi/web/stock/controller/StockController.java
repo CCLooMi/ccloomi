@@ -14,6 +14,7 @@ import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.core.component.progress.ProgressBean;
 import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.service.StockService;
+import com.ccloomi.web.system.constant.DDConstant;
 import com.ccloomi.web.system.constant.StockNameConstant;
 import com.ccloomi.web.system.progress.SystemProgress;
 
@@ -69,13 +70,27 @@ public class StockController extends BaseController{
 	@ResponseBody
 	@RequiresAuthentication
 	public Message syncCoordinates(@RequestBody StockEntity stock){
-		return null;
+		return responseMessageSuccess(stockService.syncCoordinates(stock));
 	}
 	@RequestMapping("/syncAllCoordinates")
 	@ResponseBody
 	@RequiresAuthentication
 	public Message syncAllCoordinates(){
-		return null;
+		Map<String, String>stockMap=StockNameConstant.getStockNameConstantMap();
+		float complete=0;
+		float total=stockMap.keySet().size();
+		for(String idStock:stockMap.keySet()){
+			StockEntity stock=stockService.getById(idStock);
+			stockService.syncCoordinates(stock);
+			complete++;
+			//发送进度
+			ProgressBean progeressBean=new ProgressBean();
+			progeressBean.setType("syncAllCoordinates");
+			progeressBean.setProgress(complete/total);
+			progeressBean.setTitle("同步所有经纬信息");
+			SystemProgress.updateProgress(progeressBean);
+		}
+		return responseMessageSuccess();
 	}
 	@RequestMapping("/remove")
 	@ResponseBody
@@ -87,5 +102,11 @@ public class StockController extends BaseController{
 		}else{
 			return responseMessageError("删除股票失败");
 		}
+	}
+	@RequestMapping("/gaodeMap")
+	@ResponseBody
+	@RequiresAuthentication
+	public Map<String, String>gaodeMap(){
+		return DDConstant.gaodeMap();
 	}
 }

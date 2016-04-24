@@ -1,5 +1,7 @@
 package com.ccloomi.web.stock.service.imp;
 
+import static com.ccloomi.core.util.MapUtil.objectMap;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,6 @@ import com.ccloomi.web.system.constant.DDConstant;
 import com.ccloomi.web.system.constant.ListedCompanyNameConstant;
 import com.ccloomi.web.system.constant.TagConstant;
 import com.ccloomi.web.system.constant.TemplateConstant;
-
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：StockServiceImp
  * 类 描 述：
@@ -90,6 +91,7 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 			.SELECT("lc.secretaries")
 			.SELECT("lc.listedDate")
 			.SELECT("lc.actualController")
+			.SELECT_AS("CONCAT(lc.longitude,',',lc.latitude)", "coordinates")
 			.FROM(new StockEntity(), "s")
 			.LEFT_JOIN(new ListedCompanyEntity(), "lc", "s.idListedCompany=lc.id");
 		});
@@ -133,5 +135,31 @@ public class StockServiceImp extends GenericService<StockEntity> implements Stoc
 			stockDao.lazyUpdate(st);
 		}
 		return listedCompany;
+	}
+
+	@Override
+	public ListedCompanyEntity syncCoordinates(StockEntity stock) {
+		ListedCompanyEntity listedComapny=listedCompanyDao.getById(stock.getIdListedCompany());
+		if(listedComapny.getLatitude()==null||listedComapny.getLongitude()==null||listedComapny.getAddressCode()==null){
+			Map<String, String>gaodeMap=DDConstant.gaodeMap();
+			//设置请求参数
+			Map<String, Object>args=objectMap("key",gaodeMap.get("amap-web-key"),
+					"address",listedComapny.getRegisteredAddress());
+			//请求
+			Map<String, Object>data=HttpUtil.getJsonAsMap(gaodeMap.get("amap-geocode"),args);
+			//解析数据
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>>geocodes=(List<Map<String, Object>>) data.get("geocodes");
+			Map<String, Object>m0=geocodes.get(0);
+			ListedCompanyEntity lc=new ListedCompanyEntity();
+			lc.setId(listedComapny.getId());
+			lc.setAddressCode(String.valueOf(m0.get("adcode")));
+			String[]ll=String.valueOf(m0.get("location")).split(",");
+			lc.setLongitude(ll[0]);
+			lc.setLatitude(ll[1]);
+			listedCompanyDao.lazyUpdate(lc);
+			return lc;
+		}
+		return listedComapny;
 	}
 }

@@ -19,4 +19,7 @@ public class DDConstant extends BaseDDConstant{
 	public static Map<String, String>thsMap(){
 		return getConstantMap("ths");
 	}
+	public static Map<String, String>gaodeMap(){
+		return getConstantMap("lbs.amap.com");
+	}
 }

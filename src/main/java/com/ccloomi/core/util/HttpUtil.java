@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
@@ -13,6 +14,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：HttpUtil
@@ -52,5 +55,35 @@ public class HttpUtil {
 			return "";
 		}
 		return StringUtil.cleanHtml(sb.toString());
+	}
+	/**
+	 * 描述：请求地址返回json数据转map
+	 * 作者：Chenxj
+	 * 日期：2016年4月24日 - 下午4:59:05
+	 * @param url
+	 * @param args
+	 * @return
+	 */
+	public static Map<String, Object>getJsonAsMap(String url,Map<String, ? extends Object>args){
+		CloseableHttpClient client=HttpClients.createDefault();
+		try{
+			URIBuilder uriBuilder=new URIBuilder(url);
+			for(String key:args.keySet()){
+				uriBuilder.setParameter(key, String.valueOf(args.get(key)));
+			}
+			URI uri=uriBuilder.build();
+			HttpGet httpGet=new HttpGet(uri);
+			CloseableHttpResponse resp = client.execute(httpGet);
+			HttpEntity entity=resp.getEntity();
+			InputStream input=entity.getContent();
+			ObjectMapper objMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			Map<String, Object>jsonMap=objMapper.readValue(input,Map.class);
+			input.close();
+			resp.close();
+			return jsonMap;
+		}catch(Exception e){
+			return new HashMap<>();
+		}
 	}
 }

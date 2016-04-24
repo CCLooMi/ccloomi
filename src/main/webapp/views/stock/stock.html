@@ -20,7 +20,7 @@
                         公司信息
                     </button>
                     <button class="btn btn-default" title="同步所有经纬信息" ng-click="syncAllCoordinates()">
-                        <span class="glyphicon glyphicon-refresh"></span>
+                        <span class="glyphicon glyphicon-refresh" ng-class="{true:'fa-spin',false:''}[onSyncAllCoordinates]"></span>
                         经纬信息
                     </button>
                     <button class="btn btn-default" title="导入股票数据" ng-click="importStock()">

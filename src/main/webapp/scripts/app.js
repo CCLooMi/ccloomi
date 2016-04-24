@@ -249,7 +249,7 @@ var app=angular
                 }
             })
             .state('map',{
-                url:'/map',
+                url:'/map/:key/:table',
                 templateUrl:'views/stock/map.html',
                 resolve:{
                     loadMyFiles: function ($ocLazyLoad) {
@@ -258,8 +258,6 @@ var app=angular
                             files:[
                                 'http://cache.amap.com/lbs/static/main.css?v=1.0',
                                 'http://cache.amap.com/lbs/static/main1119.css',
-                                //'http://webapi.amap.com/maps?v=1.3&key=13ec7895d85bbc64112efb7338e05d73',
-                                'js/maps.js?v=1.3&key=13ec7895d85bbc64112efb7338e05d73',
                                 'scripts/controllers/mapController.js'
                             ]
                         })

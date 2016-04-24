@@ -38,4 +38,13 @@ public interface StockService extends BaseService<StockEntity>{
 	 * @return
 	 */
 	public ListedCompanyEntity syncCompanyInfo(StockEntity stock);
+
+	/**
+	 * 描述：同步经纬度信息
+	 * 作者：Chenxj
+	 * 日期：2016年4月24日 - 下午5:02:03
+	 * @param stock
+	 * @return
+	 */
+	public ListedCompanyEntity syncCoordinates(StockEntity stock);
 }
