@@ -17,7 +17,7 @@ public class KmlBean extends BaseBean{
 		for(int i=0;i<10;i++){
 			placemarks.add(stringMap("name",i,
 					"open",0,
-					"description","This is "+i,
+					"description","<html>This is "+i+"</html>",
 					"longitude",i*2,
 					"latitude",i*7));
 		}

@@ -11,7 +11,7 @@ angular.module('ccloomi')
                             if(data.code==0){
                                 scope.templates.push(data.info);
                                 refreshScope(scope);
-                                S_dialog.alert('修改成功','成功添加模版','success');
+                                S_dialog.alert('添加成功','成功添加模版','success');
                             }else if(data.code==1){
                                 S_dialog.alert('添加失败',data.info,'error');
                             }else{

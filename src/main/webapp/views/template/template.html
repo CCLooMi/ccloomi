@@ -26,7 +26,7 @@
             <tr ng-repeat="template in templates|filter:keyword">
                 <td ng-bind-html="template.code|highlight:keyword"></td>
                 <td ng-bind-html="template.name|highlight:keyword"></td>
-                <td ng-bind-html="template.content|highlight:keyword"></td>
+                <td>{{template.content}}</td>
                 <td ng-bind-html="template.dsc|highlight:keyword"></td>
                 <td>
                     <button class="btn shadow-box" ng-click="update(template)">修改</button>

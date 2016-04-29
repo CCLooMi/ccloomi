@@ -21,5 +21,12 @@ public interface ListedCompanyService extends BaseService<ListedCompanyEntity>{
 	 * @return
 	 */
 	public List<Map<String, Object>> getMapExcelTemplateData();
+	/**
+	 * 描述：获取谷歌地球KML数据
+	 * 作者：Chenxj
+	 * 日期：2016年4月29日 - 下午10:51:15
+	 * @return
+	 */
+	public List<Map<String, Object>> getMapKMLTemplateData();
 	
 }

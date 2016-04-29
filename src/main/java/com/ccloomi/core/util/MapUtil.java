@@ -36,7 +36,11 @@ public class MapUtil {
 		Map<String, String>map=new HashMap<>();
 		for(int i=0;i<tt.length;i++){
 			if(i%2!=0){
-				map.put(String.valueOf(tt[i-1]), String.valueOf(tt[i]));
+				if(tt[i]==null){
+					map.put(String.valueOf(tt[i-1]), null);
+				}else{
+					map.put(String.valueOf(tt[i-1]), String.valueOf(tt[i]));
+				}
 			}
 		}
 		return map;

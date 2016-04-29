@@ -17,12 +17,17 @@ import com.ccloomi.core.common.bean.Message;
 import com.ccloomi.core.common.controller.BaseController;
 import com.ccloomi.core.component.progress.ProgressBean;
 import com.ccloomi.core.util.ExcelUtil;
+import com.ccloomi.web.stock.bean.KmlBean;
 import com.ccloomi.web.stock.entity.StockEntity;
 import com.ccloomi.web.stock.service.ListedCompanyService;
 import com.ccloomi.web.stock.service.StockService;
 import com.ccloomi.web.system.constant.DDConstant;
 import com.ccloomi.web.system.constant.StockNameConstant;
+import com.ccloomi.web.system.freemarker.DBTemplateLoader;
 import com.ccloomi.web.system.progress.SystemProgress;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：StockController
@@ -134,5 +139,23 @@ public class StockController extends BaseController{
 			log.error("模版生成出现异常", e);
 		}
 		
+	}
+	@RequestMapping("/downloadStockMapAsGoogleKML")
+	@ResponseBody
+	@RequiresAuthentication
+	public void downloadStockMapAsGoogleKML(HttpServletResponse response){
+		List<Map<String, Object>>dataMap=listedCompanyService.getMapKMLTemplateData();
+		response.setHeader("Content-Disposition", "attachment; filename=CCLooMi-StockMap.kml");
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_24);
+		cfg.setTemplateLoader(new DBTemplateLoader());
+		try {
+			Template t=cfg.getTemplate("google-kml");
+			KmlBean kml=new KmlBean();
+			kml.addByMapList(dataMap);
+			System.out.println(kml);
+			t.process(kml, response.getWriter());
+		}catch (Exception e) {
+			log.error("KML文件生成异常", e);
+		}
 	}
 }

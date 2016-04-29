@@ -14,7 +14,7 @@
 						<![CDATA[${pm.description}]]></description>
 					<styleUrl>#1052804</styleUrl>
 					<Point>
-						<coordinates>${pm.longitude},${pm.latitude},0</coordinates>
+						<coordinates><#if pm.longitude??>${pm.longitude}<#else>0</#if>,<#if pm.latitude??>${pm.latitude}<#else>0</#if>,0</coordinates>
 					</Point>
 				</Placemark>
 			</#list>
