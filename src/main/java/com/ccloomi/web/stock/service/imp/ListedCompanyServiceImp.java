@@ -43,13 +43,10 @@ public class ListedCompanyServiceImp extends GenericService<ListedCompanyEntity>
 	@Override
 	public List<Map<String, Object>> getMapKMLTemplateData() {
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-		sm.SELECT("lc.name")
-		.SELECT_AS("lc.registeredAddress", "address")
+		sm.SELECT("s.id")
+		.SELECT_AS("CONCAT(s.name,'(',s.id,')')", "brand_name")
 		.SELECT("lc.longitude")
 		.SELECT("lc.latitude")
-		.SELECT_AS("CONCAT(s.name,'(',s.id,')')", "brand_name")
-		.SELECT_AS("lc.mainBusiness", "description")
-		.SELECT("lc.IssuePrice")
 		.FROM(new StockEntity(), "s")
 		.LEFT_JOIN(new ListedCompanyEntity(), "lc","s.idListedCompany=lc.id");
 		return listedCompanyDao.findBySQLGod(sm);

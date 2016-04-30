@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ccloomi.core.common.bean.BaseBean;
 import com.ccloomi.core.util.StringUtil;
+import com.ccloomi.web.system.constant.DDConstant;
 
 import static com.ccloomi.core.util.MapUtil.*;
 
@@ -27,11 +28,13 @@ public class KmlBean extends BaseBean{
 	}
 	public void addByMapList(List<Map<String, Object>>maps){
 		for(Map<String, Object>m:maps){
-			String discription="<html><body>公司::?<br>地址::?<br>主营::?<br>发行价::?<br></body></html>";
-			
+//			String discription="<html><body>公司::?<br>地址::?<br>主营::?<br>发行价::?<br></body></html>";
+			String discription="<html><body><iframe src='?' style='width: 1024px; height: 600px; border: medium none; box-shadow: 0px 0px 3px; border-radius: 4px;'</iframe></body></html>";
+			String dataUrl=DDConstant.thsMap().get("ths-company-info2").replaceFirst("\\{[^\\{\\}]+\\}", String.valueOf(m.get("id")));
 			placemarks.add(stringMap("name",m.get("brand_name"),
 					"open",0,
-					"description",StringUtil.format(discription, m.get("name"),m.get("address"),m.get("description"),m.get("IssuePrice")),
+					"description",StringUtil.format(discription,dataUrl),
+					//StringUtil.format(discription, m.get("name"),m.get("address"),m.get("description"),m.get("IssuePrice")),
 					"longitude",m.get("longitude"),
 					"latitude",m.get("latitude")));
 		}
