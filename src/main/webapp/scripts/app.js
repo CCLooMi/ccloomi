@@ -169,8 +169,7 @@ var app=angular
                             files:[
                                 'scripts/services/visService.js',
                                 'scripts/services/schemataService.js',
-                                'scripts/controllers/dbDesignController.js',
-                                'styles/dbDesign.css'
+                                'scripts/controllers/dbDesignController.js'
                             ]
                         })
                     }
