@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.ccloomi.core.common.entity.BaseEntity;
 import com.ccloomi.core.component.sql.SQLGod;
@@ -36,6 +37,8 @@ public abstract class AbstractDao<T extends BaseEntity> {
 	protected String tableName;
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
+	@Autowired
+	protected TransactionTemplate transactionTemplate;
 	
 	public AbstractDao (){
 		try{
