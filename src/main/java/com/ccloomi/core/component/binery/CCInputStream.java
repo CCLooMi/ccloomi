@@ -1,5 +1,8 @@
 package com.ccloomi.core.component.binery;
 
+import java.io.DataInputStream;
+import java.io.InputStream;
+
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：BaseBineryReader
  * 类 描 述：
@@ -7,7 +10,12 @@ package com.ccloomi.core.component.binery;
  * 邮    箱：chenios@foxmail.com
  * 日    期：2016年6月6日-下午9:35:30
  */
-public abstract class BaseBineryReader {
+public class CCInputStream extends DataInputStream{
+	
+	public CCInputStream(InputStream in) {
+		super(in);
+	}
+	
 	/**
 	 * 描述：字节数组转整形
 	 * 作者：Chenxj
