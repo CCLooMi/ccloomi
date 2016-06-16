@@ -2,6 +2,11 @@ package com.ccloomi.core.component.binery;
 
 import java.io.DataInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+import com.ccloomi.core.component.binery.annotation.BytesLength;
+import com.ccloomi.core.util.ClassUtil;
 
 /**© 2015-2016 CCLooMi.Inc Copyright
  * 类    名：BaseBineryReader
@@ -15,7 +20,35 @@ public class CCInputStream extends DataInputStream{
 	public CCInputStream(InputStream in) {
 		super(in);
 	}
-	
+	protected void read(CCStructure structure){
+		Class<?>c=getClass();
+		Field[]fields=structure.getClass().getDeclaredFields();
+		for(Field f:fields){
+			String pName=f.getName();
+			Method getMethod=null;
+			Method setMethod=null;
+			try{
+				getMethod=ClassUtil.getMethod(c, pName);
+				setMethod=ClassUtil.setMethod(c, pName);
+				byte[]bytes=(byte[]) getMethod.invoke(structure);
+				if(bytes==null){
+					BytesLength bl=c.getDeclaredAnnotation(BytesLength.class);
+					if(bl!=null){
+						String refPName=bl.ref();
+						Method refGetMethod=ClassUtil.getMethod(c, refPName);
+						byte[]bytes2=(byte[]) refGetMethod.invoke(structure);
+						int byteLength=readBytesToInt(bytes2);
+						byte[]b=new byte[byteLength];
+						setMethod.invoke(structure, b);
+					}
+				}else{
+					this.in.read(bytes);
+				}
+			}catch(Exception e){
+				continue;
+			}
+		}
+	}
 	/**
 	 * 描述：字节数组转整形
 	 * 作者：Chenxj
