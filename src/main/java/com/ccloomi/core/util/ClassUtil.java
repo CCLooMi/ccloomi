@@ -14,7 +14,7 @@ public class ClassUtil {
 		String mName=property.substring(0,1).toUpperCase()+property.substring(1);
 		String getMethodName="get"+mName;
 		try {
-			return clazz.getDeclaredMethod(getMethodName, parameterTypes);
+			return clazz.getDeclaredMethod(getMethodName);
 		} catch (Exception e) {
 			return null;
 		}

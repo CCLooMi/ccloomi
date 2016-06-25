@@ -124,19 +124,11 @@ dependencies {
 			["org.apache.xmlgraphics:xmlgraphics-commons:$xmlgraphicsVersion"],
 			["org.apache.xmlgraphics:batik-parser:1.8"],
 			["org.freemarker:freemarker:2.3.24-incubating"],
+			["org.quickfixj:quickfixj-all:$quickfixjVersion"],
 			["org.quickfixj:quickfixj-core:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-parent:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-distribution:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-dictgenerator:$quickfixjVersion"],
 			["org.quickfixj:quickfixj-codegenerator:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix40:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix41:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix42:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix43:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix44:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix50:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix50sp1:$quickfixjVersion"],
-			["org.quickfixj:quickfixj-messages-fix50sp2:$quickfixjVersion"],
+			["org.quickfixj:quickfixj-dictgenerator:$quickfixjVersion"],
+			["org.quickfixj:quickfixj-messages-all:$quickfixjVersion"],
 			fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar'))
 	providedCompile(["javax.servlet:javax.servlet-api:3.1.0"],["javax.servlet:jsp-api:2.0"])
     testCompile group: 'junit', name: 'junit', version: '4.+'
