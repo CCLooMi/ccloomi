@@ -62,54 +62,65 @@ app.directive('formSelect',['$filter', function ($filter) {
                 var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                     .insertAfter(element);
                 var r=analyzeEL(EL);
-                var tempObj={};
                 if(r.b&&scope[r.b]){
-                    var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
-                    for(var i=0;i<scope[r.b].length;i++){
-                        if(scope[r.b][i]==modelVL||scope[r.b][i][r.d]==modelVL){
-                            element.val(scope[r.b][i][r.c]);
-                            //防止model中的值写入到view中,因为两者不想等
-                            ngModel.$render= function () {};
-                            break;
-                        }
-                    }
-                    if(!r.e){
-                        var d='';
-                        for(var i=0;i<scope[r.b].length;i++){
-                            tempObj[r.a]=scope[r.b][i];
-                            var label=tempObj[r.a][r.c];
-                            d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
-                            dropdown.html(d);
-                        }
-                    }else{
-                        var d='';
-                        var group;
-                        var groupBy= r.e
-                        //先排序
-                        scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
-                        for(var i=0;i<scope[r.b].length;i++){
-                            tempObj[r.a]=scope[r.b][i];
-                            var label=tempObj[r.a][r.c];
-                            if(group==undefined){
-                                group=tempObj[r.a][groupBy];
-                                d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
-                            }
-                            var currentGroup=tempObj[r.a][groupBy];
-                            if(currentGroup==group){
-                                d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
-                            }else{
-                                group=currentGroup;
-                                d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
-                            }
-
-                        }
-                        dropdown.html(d);
-                    }
-                    searchBar.prependTo(dropdown);
+                    scope.$watchCollection(r.b, function () {
+                        dropdownHtml(r);
+                        ngModel.$setViewValue(null);
+                        element.val(null);
+                    });
                 }
                 element.click(function () {
                     dropdown.removeAttr('style');
                 });
+                function dropdownHtml(r){
+                    var tempObj={};
+                    dropdown.html('');
+                    if(r.b&&scope[r.b]){
+                        var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
+                        for(var i=0;i<scope[r.b].length;i++){
+                            if(scope[r.b][i]==modelVL||scope[r.b][i][r.d]==modelVL){
+                                element.val(scope[r.b][i][r.c]);
+                                //防止model中的值写入到view中,因为两者不想等
+                                ngModel.$render= function () {};
+                                break;
+                            }
+                        }
+                        if(!r.e){
+                            var d='';
+                            for(var i=0;i<scope[r.b].length;i++){
+                                tempObj[r.a]=scope[r.b][i];
+                                var label=tempObj[r.a][r.c];
+                                d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
+                                dropdown.html(d);
+                            }
+                        }else{
+                            var d='';
+                            var group;
+                            var groupBy= r.e
+                            //先排序
+                            scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
+                            for(var i=0;i<scope[r.b].length;i++){
+                                tempObj[r.a]=scope[r.b][i];
+                                var label=tempObj[r.a][r.c];
+                                if(group==undefined){
+                                    group=tempObj[r.a][groupBy];
+                                    d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
+                                }
+                                var currentGroup=tempObj[r.a][groupBy];
+                                if(currentGroup==group){
+                                    d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
+                                }else{
+                                    group=currentGroup;
+                                    d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
+                                }
+
+                            }
+                            dropdown.html(d);
+                        }
+                        if(attrs['searchAble'])
+                        searchBar.prependTo(dropdown);
+                    }
+                }
                 function click(e){
                     var target=$(e.target);
                     if(target.is('a')){
@@ -144,51 +155,59 @@ app.directive('formSelectPanel',['$filter',function($filter){
                 var searchBar=$(searchBarTemplate);
                 var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                     .insertAfter(element);
-                var tempObj={};
                 if(r.b&&scope[r.b]){
-                    var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
-                    for(var i=0;i<scope[r.b].length;i++){
-                        if(scope[r.b][i]==modelVL||scope[r.b][i][r.d]==modelVL){
-                            element.val(scope[r.b][i][r.c]);
-                            //防止model中的值写入到view中,因为两者不想等
-                            ngModel.$render= function () {};
-                            break;
-                        }
-                    }
-                    if(!r.e){
-                        var d='<div class="panel panel-default"><div class="panel-body">';
+                    scope.$watchCollection(r.b, function () {
+                       dropdownHtml(r);
+                    });
+                }
+                function dropdownHtml(r){
+                    var tempObj={};
+                    if(r.b&&scope[r.b]){
+                        var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
                         for(var i=0;i<scope[r.b].length;i++){
-                            tempObj[r.a]=scope[r.b][i];
-                            var label=tempObj[r.a][r.c];
-                            d+='<span data-index="'+i+'">'+label+'</span>';
-                        }
-                        selectPicker.html(d+'</div></div>');
-                    }else{
-                        var d='';
-                        var group;
-                        var groupBy= r.e;
-                        //先排序
-                        scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
-                        for(var i=0;i<scope[r.b].length;i++){
-                            tempObj[r.a]=scope[r.b][i];
-                            var label=tempObj[r.a][r.c];
-                            if(group==undefined){
-                                group=tempObj[r.a][groupBy];
-                                d+='<div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">';
+                            if(scope[r.b][i]==modelVL||scope[r.b][i][r.d]==modelVL){
+                                element.val(scope[r.b][i][r.c]);
+                                //防止model中的值写入到view中,因为两者不想等
+                                ngModel.$render= function () {};
+                                break;
                             }
-                            var currentGroup=tempObj[r.a][groupBy];
-                            if(currentGroup==group){
+                        }
+                        if(!r.e){
+                            var d='<div class="panel panel-default"><div class="panel-body">';
+                            for(var i=0;i<scope[r.b].length;i++){
+                                tempObj[r.a]=scope[r.b][i];
+                                var label=tempObj[r.a][r.c];
                                 d+='<span data-index="'+i+'">'+label+'</span>';
-                            }else{
-                                group=currentGroup;
-                                d+='</div></div><div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">'+'<span data-index="'+i+'">'+label+'</span>';
                             }
+                            selectPicker.html(d+'</div></div>');
+                        }else{
+                            var d='';
+                            var group;
+                            var groupBy= r.e;
+                            //先排序
+                            scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
+                            for(var i=0;i<scope[r.b].length;i++){
+                                tempObj[r.a]=scope[r.b][i];
+                                var label=tempObj[r.a][r.c];
+                                if(group==undefined){
+                                    group=tempObj[r.a][groupBy];
+                                    d+='<div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">';
+                                }
+                                var currentGroup=tempObj[r.a][groupBy];
+                                if(currentGroup==group){
+                                    d+='<span data-index="'+i+'">'+label+'</span>';
+                                }else{
+                                    group=currentGroup;
+                                    d+='</div></div><div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">'+'<span data-index="'+i+'">'+label+'</span>';
+                                }
 
+                            }
+                            d+='</div></div>';
+                            selectPicker.html(d);
                         }
-                        d+='</div></div>';
-                        selectPicker.html(d);
+                        if(attrs['searchAble'])
+                        searchBar.prependTo(selectPicker);
                     }
-                    searchBar.prependTo(selectPicker);
                 }
                 function click (e) {
                     var target=$(e.target);

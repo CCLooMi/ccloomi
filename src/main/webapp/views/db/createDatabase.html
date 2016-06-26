@@ -16,7 +16,8 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">排序规则</label>
         <div class="col-sm-8">
-            <select class="form-control" ng-options="collation.collation_name as collation.collation_name for collation in collations" ng-model="schemata.default_collation_name"></select>
+            <!--<select class="form-control" ng-options="collation.collation_name as collation.collation_name for collation in collations" ng-model="schemata.default_collation_name"></select>-->
+            <input class="form-control" form-select="collation@collations collation.collation_name&collation.collation_name" ng-model="schemata.default_collation_name">
         </div>
     </div>
 </form>
