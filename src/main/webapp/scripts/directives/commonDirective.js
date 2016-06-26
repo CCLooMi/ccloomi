@@ -246,17 +246,20 @@ app.directive('ddSelect',['$http','$parse','S_constant', function ($http,$parse,
                 var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                     .insertAfter(element);
                 var r=analyzeEL(EL);
+                var bs=[];
                 if(r.b){
                     $http.post(S_constant.dd[0],{code: r.b})
                         .success(function (data) {
                             //设置data到scope中对应的属性值
-                            $parse(r.b).assign(scope,data);
+                            //此处注意和ngModel绑定的对象冲突,故去掉点前面的字符(例如a.b-->b)
+                            $parse(r.b.split('\\.')[0]).assign(scope,data);
+                            bs=data;
                             //var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
                             var modelVL=$parse(attrs['ngModel'])(scope);
                             if(modelVL){
-                                for(var i=0;i<data.length;i++){
-                                    if(data[i]==modelVL||$parse(r.d)(data[i])==modelVL){
-                                        element.val($parse(r.c)(data[i]));
+                                for(var i=0;i<bs.length;i++){
+                                    if(bs[i]==modelVL||$parse(r.d)(bs[i])==modelVL){
+                                        element.val($parse(r.c)(bs[i]));
                                         break;
                                     }
                                 }
@@ -264,8 +267,8 @@ app.directive('ddSelect',['$http','$parse','S_constant', function ($http,$parse,
 
                             if(!r.e){
                                 var d='';
-                                for(var i=0;i<data.length;i++){
-                                    var label=$parse(r.c)(data[i]);
+                                for(var i=0;i<bs.length;i++){
+                                    var label=$parse(r.c)(bs[i]);
                                     d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
                                     dropdown.html(d);
                                 }
@@ -274,14 +277,14 @@ app.directive('ddSelect',['$http','$parse','S_constant', function ($http,$parse,
                                 var group;
                                 var groupBy= r.e
                                 //先排序
-                                data=$filter('orderBy')(data,groupBy);
-                                for(var i=0;i<data.length;i++){
-                                    var label=$parse(r.c)(data[i]);
+                                bs=$filter('orderBy')(bs,groupBy);
+                                for(var i=0;i<bs.length;i++){
+                                    var label=$parse(r.c)(bs[i]);
                                     if(group==undefined){
-                                        group=$parse(groupBy)(data);
+                                        group=$parse(groupBy)(bs[i]);
                                         d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
                                     }
-                                    var currentGroup=$parse(groupBy)(data);
+                                    var currentGroup=$parse(groupBy)(bs[i]);
                                     if(currentGroup==group){
                                         d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
                                     }else{
@@ -302,7 +305,6 @@ app.directive('ddSelect',['$http','$parse','S_constant', function ($http,$parse,
                 });
                 function click(e){
                     var target=$(e.target);
-                    var bs=$parse(r.b)(scope);
                     if(target.is('a')){
                         e.preventDefault();
                         if(r.d){
