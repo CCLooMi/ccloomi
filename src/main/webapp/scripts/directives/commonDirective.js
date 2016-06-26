@@ -46,7 +46,7 @@ app.directive('formDate',function(){
         }
     }
 })
-app.directive('formSelect',['$filter', function ($filter) {
+app.directive('formSelect',['$filter','$parse', function ($filter,$parse) {
     return {
         restrict:'A',
         require:'ngModel',
@@ -62,24 +62,25 @@ app.directive('formSelect',['$filter', function ($filter) {
                 var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                     .insertAfter(element);
                 var r=analyzeEL(EL);
-                if(r.b&&scope[r.b]){
+                if(r.b){
                     scope.$watchCollection(r.b, function () {
-                        dropdownHtml(r);
                         ngModel.$setViewValue(null);
                         element.val(null);
+                        dropdownHtml(r);
                     });
                 }
                 element.click(function () {
                     dropdown.removeAttr('style');
                 });
                 function dropdownHtml(r){
-                    var tempObj={};
                     dropdown.html('');
-                    if(r.b&&scope[r.b]){
-                        var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
-                        for(var i=0;i<scope[r.b].length;i++){
-                            if(scope[r.b][i]==modelVL||scope[r.b][i][r.d]==modelVL){
-                                element.val(scope[r.b][i][r.c]);
+                    var bs=$parse(r.b)(scope);
+                    if(bs){
+                        //var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
+                        var modelVL=$parse(attrs['ngModel'])(scope);
+                        for(var i=0;i<bs.length;i++){
+                            if(bs[i]==modelVL||$parse(r.d)(bs[i])==modelVL){
+                                element.val($parse(r.c)(bs[i]));
                                 //防止model中的值写入到view中,因为两者不想等
                                 ngModel.$render= function () {};
                                 break;
@@ -87,9 +88,8 @@ app.directive('formSelect',['$filter', function ($filter) {
                         }
                         if(!r.e){
                             var d='';
-                            for(var i=0;i<scope[r.b].length;i++){
-                                tempObj[r.a]=scope[r.b][i];
-                                var label=tempObj[r.a][r.c];
+                            for(var i=0;i<bs.length;i++){
+                                var label=$parse(r.c)(bs[i]);
                                 d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
                                 dropdown.html(d);
                             }
@@ -98,15 +98,14 @@ app.directive('formSelect',['$filter', function ($filter) {
                             var group;
                             var groupBy= r.e
                             //先排序
-                            scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
+                            bs=$filter('orderBy')(bs,groupBy);
                             for(var i=0;i<scope[r.b].length;i++){
-                                tempObj[r.a]=scope[r.b][i];
-                                var label=tempObj[r.a][r.c];
+                                var label=$parse(r.c)(bs[i]);
                                 if(group==undefined){
-                                    group=tempObj[r.a][groupBy];
+                                    group=$parse(groupBy)(bs[i]);
                                     d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
                                 }
-                                var currentGroup=tempObj[r.a][groupBy];
+                                var currentGroup=$parse(groupBy)(bs[i]);
                                 if(currentGroup==group){
                                     d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
                                 }else{
@@ -123,14 +122,15 @@ app.directive('formSelect',['$filter', function ($filter) {
                 }
                 function click(e){
                     var target=$(e.target);
+                    var bs=$parse(r.b)(scope);
                     if(target.is('a')){
                         e.preventDefault();
                         if(r.d){
-                            ngModel.$setViewValue(scope[r.b][target.data('index')][r.d]);
+                            ngModel.$setViewValue($parse(r.d)(bs[target.data('index')]));
                         }else{
-                            ngModel.$setViewValue(scope[r.b][target.data('index')]);
+                            ngModel.$setViewValue(bs[target.data('index')]);
                         }
-                        element.val(scope[r.b][target.data('index')][r.c]);
+                        element.val($parse(r.c)(bs[target.data('index')]));
                         dropdown.slideUp(150);
                     }
                 }
@@ -138,7 +138,7 @@ app.directive('formSelect',['$filter', function ($filter) {
         }
     }
 }])
-app.directive('formSelectPanel',['$filter',function($filter){
+app.directive('formSelectPanel',['$filter','$parse',function($filter,$parse){
     return {
         restrict: 'A',
         require:'ngModel',
@@ -155,18 +155,21 @@ app.directive('formSelectPanel',['$filter',function($filter){
                 var searchBar=$(searchBarTemplate);
                 var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                     .insertAfter(element);
-                if(r.b&&scope[r.b]){
+                if(r.b){
                     scope.$watchCollection(r.b, function () {
+                        ngModel.$setViewValue(null);
+                        element.val(null);
                        dropdownHtml(r);
                     });
                 }
                 function dropdownHtml(r){
-                    var tempObj={};
-                    if(r.b&&scope[r.b]){
-                        var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
-                        for(var i=0;i<scope[r.b].length;i++){
-                            if(scope[r.b][i]==modelVL||scope[r.b][i][r.d]==modelVL){
-                                element.val(scope[r.b][i][r.c]);
+                    var bs=$parse(r.b)(scope);
+                    if(bs){
+                        //var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
+                        var modelVL=$parse(attrs['ngModel'])(scope);
+                        for(var i=0;i<bs.length;i++){
+                            if(bs[i]==modelVL||$parse(r.d)(bs[i])==modelVL){
+                                element.val($parse(r.c)(bs[i]));
                                 //防止model中的值写入到view中,因为两者不想等
                                 ngModel.$render= function () {};
                                 break;
@@ -174,9 +177,8 @@ app.directive('formSelectPanel',['$filter',function($filter){
                         }
                         if(!r.e){
                             var d='<div class="panel panel-default"><div class="panel-body">';
-                            for(var i=0;i<scope[r.b].length;i++){
-                                tempObj[r.a]=scope[r.b][i];
-                                var label=tempObj[r.a][r.c];
+                            for(var i=0;i<bs.length;i++){
+                                var label=$parse(r.c)(bs[i]);
                                 d+='<span data-index="'+i+'">'+label+'</span>';
                             }
                             selectPicker.html(d+'</div></div>');
@@ -185,15 +187,14 @@ app.directive('formSelectPanel',['$filter',function($filter){
                             var group;
                             var groupBy= r.e;
                             //先排序
-                            scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
+                            bs=$filter('orderBy')(bs,groupBy);
                             for(var i=0;i<scope[r.b].length;i++){
-                                tempObj[r.a]=scope[r.b][i];
-                                var label=tempObj[r.a][r.c];
+                                var label=$parse(r.c)(bs[i]);
                                 if(group==undefined){
-                                    group=tempObj[r.a][groupBy];
+                                    group=$parse(groupBy)(bs[i]);
                                     d+='<div class="panel panel-default"><div class="panel-heading">'+groupBy+'::'+group+'</div><div class="panel-body">';
                                 }
-                                var currentGroup=tempObj[r.a][groupBy];
+                                var currentGroup=$parse(groupBy)(bs[i]);
                                 if(currentGroup==group){
                                     d+='<span data-index="'+i+'">'+label+'</span>';
                                 }else{
@@ -211,13 +212,14 @@ app.directive('formSelectPanel',['$filter',function($filter){
                 }
                 function click (e) {
                     var target=$(e.target);
+                    var bs=$parse(r.b)(scope);
                     if(target.is('span')){
                         if(r.d){
-                            ngModel.$setViewValue(scope[r.b][target.data('index')][r.d]);
+                            ngModel.$setViewValue($parse(r.d)(bs[target.data('index')]));
                         }else{
-                            ngModel.$setViewValue(scope[r.b][target.data('index')]);
+                            ngModel.$setViewValue(bs[target.data('index')]);
                         }
-                        element.val(scope[r.b][target.data('index')][r.c]);
+                        element.val($parse(r.c)(bs[target.data('index')]));
                         selectPicker.slideUp(150);
                     }
                 };
@@ -228,7 +230,7 @@ app.directive('formSelectPanel',['$filter',function($filter){
         }
     }
 }])
-app.directive('ddSelect',['$http','S_constant', function ($http,S_constant) {
+app.directive('ddSelect',['$http','$parse','S_constant', function ($http,$parse,S_constant) {
     return {
         restrict: 'A',
         require:'ngModel',
@@ -244,17 +246,17 @@ app.directive('ddSelect',['$http','S_constant', function ($http,S_constant) {
                 var feedback=$('<span class="glyphicon glyphicon-asterisk form-control-feedback"></span>')
                     .insertAfter(element);
                 var r=analyzeEL(EL);
-                var tempObj={};
                 if(r.b){
                     $http.post(S_constant.dd[0],{code: r.b})
                         .success(function (data) {
-                            scope[r.b]=data;
-
-                            var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
+                            //设置data到scope中对应的属性值
+                            $parse(r.b).assign(scope,data);
+                            //var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
+                            var modelVL=$parse(attrs['ngModel'])(scope);
                             if(modelVL){
                                 for(var i=0;i<data.length;i++){
-                                    if(data[i]==modelVL||data[i][r.d]==modelVL){
-                                        element.val(data[i][r.c]);
+                                    if(data[i]==modelVL||$parse(r.d)(data[i])==modelVL){
+                                        element.val($parse(r.c)(data[i]));
                                         break;
                                     }
                                 }
@@ -262,9 +264,8 @@ app.directive('ddSelect',['$http','S_constant', function ($http,S_constant) {
 
                             if(!r.e){
                                 var d='';
-                                for(var i=0;i<scope[r.b].length;i++){
-                                    tempObj[r.a]=scope[r.b][i];
-                                    var label=tempObj[r.a][r.c];
+                                for(var i=0;i<data.length;i++){
+                                    var label=$parse(r.c)(data[i]);
                                     d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
                                     dropdown.html(d);
                                 }
@@ -273,15 +274,14 @@ app.directive('ddSelect',['$http','S_constant', function ($http,S_constant) {
                                 var group;
                                 var groupBy= r.e
                                 //先排序
-                                scope[r.b]=$filter('orderBy')(scope[r.b],groupBy);
-                                for(var i=0;i<scope[r.b].length;i++){
-                                    tempObj[r.a]=scope[r.b][i];
-                                    var label=tempObj[r.a][r.c];
+                                data=$filter('orderBy')(data,groupBy);
+                                for(var i=0;i<data.length;i++){
+                                    var label=$parse(r.c)(data[i]);
                                     if(group==undefined){
-                                        group=tempObj[r.a][groupBy];
+                                        group=$parse(groupBy)(data);
                                         d+='<li class="dropdown-header">'+groupBy+'::'+group+'</li>';
                                     }
-                                    var currentGroup=tempObj[r.a][groupBy];
+                                    var currentGroup=$parse(groupBy)(data);
                                     if(currentGroup==group){
                                         d+='<li><a href="#" data-index="'+i+'">'+label+'</a></li>';
                                     }else{
@@ -302,14 +302,15 @@ app.directive('ddSelect',['$http','S_constant', function ($http,S_constant) {
                 });
                 function click(e){
                     var target=$(e.target);
+                    var bs=$parse(r.b)(scope);
                     if(target.is('a')){
                         e.preventDefault();
                         if(r.d){
-                            ngModel.$setViewValue(scope[r.b][target.data('index')][r.d]);
+                            ngModel.$setViewValue($parse(r.d)(bs[target.data('index')]));
                         }else{
-                            ngModel.$setViewValue(scope[r.b][target.data('index')]);
+                            ngModel.$setViewValue(bs[target.data('index')]);
                         }
-                        element.val(scope[r.b][target.data('index')][r.c]);
+                        element.val($parse(r.c)(bs[target.data('index')]));
                         dropdown.slideUp(150);
                     }
                 }

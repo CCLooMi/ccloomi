@@ -8,9 +8,12 @@
     <div class="form-group">
             <label class="col-sm-2 control-label">字符集</label>
         <div class="col-sm-8">
-            <select class="form-control" ng-options="character.character_set_name as (character.character_set_name+'('+character.description+')') for character in characters"
-                    ng-model="schemata.default_character_set_name"
-                    ng-change="getCollationsByCharacter(schemata.default_character_set_name)"></select>
+            <!--<select class="form-control" ng-options="character.character_set_name as (character.character_set_name+'('+character.description+')') for character in characters"-->
+                    <!--ng-model="schemata.default_character_set_name"-->
+                    <!--ng-change="getCollationsByCharacter(schemata.default_character_set_name)"></select>-->
+            <input class="form-control" form-select="character@characters (character.character_set_name+'('+character.description+')')&character.character_set_name"
+                   ng-model="schemata.default_character_set_name"
+                   ng-change="getCollationsByCharacter(schemata.default_character_set_name)">
         </div>
     </div>
     <div class="form-group">

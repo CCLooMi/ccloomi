@@ -94,9 +94,9 @@ function analyzeEL(EL){
         console.error(e);
     };
     try{
-        var el2=EL.match(/\w+\.\w+&\w+\.\w+/g)[0].match(/\w+\.\w+/g);
+        var el2=EL.match(/[^ /@|]+\.[^ /@|]+&[^ /@|]+\.[^ /@|]+/g)[0].split('&');
     }catch(e){
-        var el2=EL.match(/^\w+\.\w+| \w+\.\w+/g);
+        var el2=EL.match(/^[^ /@|]+\.[^ /@|]+| [^ /@|]+\.[^ /@|]+/g);
     };
     try{
         var el3=EL.match(/\/\w+\.\w+/g)[0].match(/\w+\.\w+/g);
@@ -108,10 +108,10 @@ function analyzeEL(EL){
     }
     if(el2){
         if(el2[1]){
-            c=el2[0].split('\.')[1];
-            d=el2[1].split('\.')[1];
+            c=el2[0].replace(new RegExp(a+'\\.','gm'),'');
+            d=el2[1].replace(new RegExp(a+'\\.','gm'),'');
         }else{
-            c=el2[0].split('\.')[1];
+            c=el2[0];
         }
     }
     if(el3){
