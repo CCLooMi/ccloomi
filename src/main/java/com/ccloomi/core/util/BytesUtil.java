@@ -25,7 +25,7 @@ public class BytesUtil {
 			}
 		}else if(endianness==-1){
 			for(int i=0;i<length;i++){
-				a|=(bytes[i]&0xFF)<<((length-i-1)*8);
+				a|=(bytes[i]&0xFF)<<((length-1-i)*8);
 			}
 		}
 		return a;
