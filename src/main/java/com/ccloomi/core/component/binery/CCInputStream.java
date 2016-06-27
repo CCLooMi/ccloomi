@@ -38,7 +38,7 @@ public class CCInputStream extends DataInputStream{
 						String refPName=bl.ref();
 						Method refGetMethod=ClassUtil.getMethod(c, refPName);
 						byte[]bytes2=(byte[]) refGetMethod.invoke(structure);
-						int byteLength=readBytesToInt(bytes2);
+						int byteLength=readBytesToInt(bytes2,structure.endianness());
 						byte[]b=new byte[byteLength];
 						setMethod.invoke(structure, b);
 					}

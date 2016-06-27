@@ -27,6 +27,12 @@ public class LdayStructure extends CCStructure{
 	private byte[]vol=new byte[4];
 	@BytesType(propertyType="int")
 	private byte[]refClose=new byte[4];
+
+	@Override
+	protected int endianness() {
+		return 1;
+	}
+	
 	/**获取 date*/
 	public byte[] getDate() {
 		return date;

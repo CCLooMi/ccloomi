@@ -21,6 +21,13 @@ import com.ccloomi.core.util.ClassUtil;
  */
 public abstract class CCStructure {
 	private Map<String, Object>pvMap=new HashMap<>();
+	/**
+	 * 方法描述：获取数据字节序
+	 * 作者：Chenxj
+	 * 日期：2016年6月27日 - 下午5:25:41
+	 * @return
+	 */
+	protected abstract int endianness();
 	public Map<String, Object>toMap(){
 		if(pvMap.isEmpty()){
 			findAllProperties(getClass());
@@ -44,13 +51,13 @@ public abstract class CCStructure {
 						if(bt!=null){
 							String ptype=bt.propertyType();
 							if("int".equalsIgnoreCase(ptype)){
-								pvMap.put(pname, readBytesToInt((byte[])value));
+								pvMap.put(pname, readBytesToInt((byte[])value,endianness()));
 							}else if("float".equalsIgnoreCase(ptype)){
-								pvMap.put(pname, readBytesToFloat((byte[])value));
+								pvMap.put(pname, readBytesToFloat((byte[])value,endianness()));
 							}else if("double".equalsIgnoreCase(ptype)){
-								pvMap.put(pname, readBytesToDouble((byte[])value));
+								pvMap.put(pname, readBytesToDouble((byte[])value,endianness()));
 							}else if("long".equalsIgnoreCase(ptype)){
-								pvMap.put(pname, readBytesToLong((byte[])value));
+								pvMap.put(pname, readBytesToLong((byte[])value,endianness()));
 							}else if("string".equalsIgnoreCase(ptype)){
 								pvMap.put(pname, new String((byte[])value, Charset.forName(bt.charset())));
 							}else{
