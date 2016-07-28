@@ -169,6 +169,15 @@ function getDeleteUpdateAdd(oo,nn){
     result.add=n;
     return result;
 };
+function getUrlIcon(url){
+    var result='';
+    try{
+        result+=url.match(/[^\/]+:\/\/[^\/]+/g)[0]+'/favicon.ico';
+    }catch(e){
+        console.error(e);
+    }
+    return result;
+};
 //倒计时a间隔单位毫秒b时长f回调函数c结束回调函数
 function countDown(a,b,f,c){
     var i=b;
