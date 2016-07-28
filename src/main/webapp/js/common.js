@@ -169,3 +169,15 @@ function getDeleteUpdateAdd(oo,nn){
     result.add=n;
     return result;
 };
+//倒计时a间隔单位毫秒b时长f回调函数c结束回调函数
+function countDown(a,b,f,c){
+    var i=b;
+    var cd=setInterval(function(){
+        f&&f(i);
+        i--;
+        if(i<0){
+            clearInterval(cd);
+            c&&c();
+        };
+    },a);
+};
