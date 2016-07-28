@@ -25,4 +25,19 @@
             </div>
         </div>
     </form>
+
+    <div style="width: 400px;height: 250px;background-color: #3CA5EA" cc-upload-field>
+        <h2>文件上传测试</h2>
+        <div cc-file="f1">
+            <div cc-file-preview></div>
+            <button cc-file-add>ADD_FILE</button>
+            <input ng-model="f1.fileId">
+            <p>{{f1.name}}{{f1.progress}}</p>
+        </div>
+        <div cc-file="f2">
+            <button cc-files-add>ADD_FILES</button>
+            <input ng-model="f2.fileId">
+        </div>
+        <button cc-upload-start>START_UPLOAD</button>
+    </div>
 </div>

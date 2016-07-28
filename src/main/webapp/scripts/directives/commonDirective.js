@@ -332,6 +332,7 @@ app.directive('code', function () {
         }
     }
 })
+//用于博客中html代码中的code语法高亮
 app.directive('ngBindHtmlCompile',['$compile',function ($compile) {
     return {
         restrict: 'A',
@@ -350,3 +351,63 @@ app.directive('ngBindHtmlCompile',['$compile',function ($compile) {
         }
     }
 }])
+app.directive('ccUploadField',['$parse',function ($parse) {
+        return {
+            restrict:'A',
+            link:function (scope,element,attrs) {
+                var cf=new CCFileUpload({
+                    wsuri:'ws://localhost:8080/CCFileUploadServer/springSocket/fileup',
+                    addFileButton:element.find('[cc-file-add]'),
+                    addFilesButton:element.find('[cc-files-add]'),
+                    startButton:$('[cc-upload-start]'),
+                    onComplete:function (files) {
+                        for(var i=0,f;f=files[i];i++){
+                            var container=f.addFileTarget.closest('[cc-file]');
+                            var ngModel=container.find('[ng-model]').attr('ng-model');
+                            console.log(f.addFileTarget);
+                            if(f.addFileTarget.is('[cc-files-add]')||f.addFileTarget.is('[cc-files-add] *')){
+                                var ngModelValue=$parse(ngModel)(scope,f.fileId);
+                                if(!ngModelValue)ngModelValue=[];
+                                ngModelValue.push(f.fileId);
+                                $parse(ngModel).assign(scope,ngModelValue);
+                            }else if(f.addFileTarget.is('[cc-file-add]')||f.addFileTarget.is('[cc-file-add] *')){
+                                $parse(ngModel).assign(scope,f.fileId);
+                            }
+                        }
+                        scope.onComplete&&scope.onComplete(files);
+                    },
+                    beforeAdd:function (addFileTarget,files) {
+                        var container=addFileTarget.closest('[cc-file]');
+                        container.find('.progress').remove();
+                        var ccFile=container.attr('cc-file');
+                        if(files.length>1){
+                            $parse(ccFile).assign(scope,files);
+                            refreshScope(scope);
+                        }else if(files.length){
+                            $parse(ccFile).assign(scope,files[0]);
+                            refreshScope(scope);
+                        }
+                    },
+                    fileFilter:function (f) {
+                        return true;
+                    },
+                    onAdd:function (f) {
+                        f.progressBar.appendTo(f.addFileTarget.closest('[cc-file]'));
+                        f.readSelfAsDataURL(function (dataUrl) {
+                            var img=$('<img>').attr('src',dataUrl);
+                            f.addFileTarget.closest('[cc-file]').find('[cc-file-preview]').html(img);
+                        });
+                    },
+                    onProcess:function (f) {
+                        refreshScope(scope);
+                    },
+                    onError:function (o) {
+
+                    },
+                    onHashComplete:function (f) {
+
+                    }
+                });
+            }
+        }
+    }])

@@ -9,29 +9,45 @@
         this.concurrentHash=option.concurrentHash||option.concurrentUpload||3;
         this.concurrentUpload=option.concurrentUpload||3;
         this.concurrentHashCurrent=0;
-        if(option.wsuri&&option.wsuri.match(/http:\/\//)){
+        if(option.wsuri&&option.wsuri.match(/ws:\/\//)){
             this.wsuri=option.wsuri;
         }else{
             this.wsuri='ws'+window.location.href.match(/:\/\/\w+\.\w+\.\w+\.\w+:?\w*\/\w+\/|:\/\/\w+:?\w*\/\w+\//)[0]+option.wsuri;
         }
-        this.multiple=option.multiple||true;
-        this.draggable=option.draggable||true;
+        this.multiple=option.multiple;
+        this.draggable=option.draggable||false;
         UPGlobal.debugMode=option.debugMode||false;
-        if($('[type="file"]')){
-            this.fileInput=$('[type="file"]').on({change: $.proxy(this.fileSelect,this)});
-        }else{
-            this.fileInput=this.multiple?$(UPGlobal.multipleFileInput):$(UPGlobal.singleFileInput);
-            this.fileInput.appendTo(this.container).on({change: $.proxy(this.fileSelect,this)});
+        this.fileFilter=option.fileFilter;
+        this.fileInput=$(UPGlobal.singleFileInput);
+        this.fileInput.appendTo(this.container).on({change: $.proxy(this.fileSelect,this)});
+        this.filesInput=$(UPGlobal.multipleFileInput);
+        this.filesInput.appendTo(this.container).on({change: $.proxy(this.fileSelect,this)});
+
+        this.addFileButton=option.addFileButton;
+        if(this.addFileButton){
+            this.addFileButton
+                .on({click: $.proxy(function(e){
+                this.addFileTarget=$(e.target);
+                this.fileInput.trigger('click');
+            },this)});
+        }
+        this.addFilesButton=option.addFilesButton;
+        if(this.addFilesButton){
+            this.addFilesButton.
+            on({click: $.proxy(function(e){
+                this.addFileTarget=$(e.target);
+                this.filesInput.trigger('click');
+            },this)});
         };
-        this.addfilesbutton=option.addfilesbutton;
-        if(this.addfilesbutton){this.addfilesbutton.on({click: $.proxy(function(){this.fileInput.trigger('click')},this)});};
-        this.startbutton=option.startbutton;
-        if(this.startbutton){this.startbutton.on({click: $.proxy(function(){this.startUpload()},this)});};
+        this.startButton=option.startButton;
+        if(this.startButton){this.startButton.on({click: $.proxy(function(){this.startUpload()},this)});};
         if(this.draggable){this.attachDragEvents(this.element);}
         this.onProcess=function(f){
             f.progressBar.find('.progress-bar').css({width: f.progress});
+            option.onProcess&&option.onProcess(f);
         };
         this.onComplete=option.onComplete||function(filesUploaded){};
+        this.beforeAdd=option.beforeAdd||function (addFileTarget,files) {};
         this.onAdd=option.onAdd||function(f){};
         this.onError=option.onError||function(o){};
         this.onHashComplete=option.onHashComplete|| function (f) {};
@@ -97,6 +113,10 @@
             e.stopPropagation();
             e.preventDefault();
             var files= e.dataTransfer ? e.dataTransfer.files : e.target.files;
+            if(e.dataTransfer){
+                //表示是拖动事件
+                this.addFileTarget=$(e.target);
+            }
             this.addFiles(files);
         },
         startHashFile:function(){
@@ -257,12 +277,37 @@
             return r;
         },
         addFiles:function(files){
+            //移除和当前addFileTarget相关的历史文件
+            var fs=[];
+            for(var i=0,f;f=UPGlobal.filesToUpload[i];i++){
+                if(!f.addFileTarget.is(this.addFileTarget)){
+                    fs.push(f);
+                }else {
+                    UPGlobal.allFilesCount--;
+                }
+            }
+            UPGlobal.filesToUpload=fs;
+            this.beforeAdd(this.addFileTarget,files);
             for(var i= 0,f;f=files[i];i++){
-                UPGlobal.filesToUpload.push(f);
-                f.formatFileSize=this.formatFileSize(f.size);
-                f.progressBar=$('<div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>');
-                this.onAdd(f);
-                UPGlobal.allFilesCount++;
+                if(!this.fileFilter||this.fileFilter(f)){
+                    UPGlobal.filesToUpload.push(f);
+                    f.formatFileSize=this.formatFileSize(f.size);
+                    f.progressBar=$('<div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>');
+                    f.addFileTarget=this.addFileTarget;
+                    f.readSelfAsDataURL=function (callback) {
+                        var thisFile=this;
+                        if(!f.type.match('image.*')){
+                            return;
+                        }
+                        var reader=new FileReader();
+                        reader.onload=function (e) {
+                            callback&&callback(e.target.result);
+                        };
+                        reader.readAsDataURL(thisFile);
+                    }
+                    this.onAdd(f);
+                    UPGlobal.allFilesCount++;
+                }
             }
         },
         startUpload:function(){
