@@ -42,6 +42,13 @@ a {
     outline: none !important;
   }
 }
+.help-block {
+  * {
+    &:not(.cc-show) {
+      display: none;
+    }
+  }
+}
 pre {
   background-color: black;
   .shadow-box;

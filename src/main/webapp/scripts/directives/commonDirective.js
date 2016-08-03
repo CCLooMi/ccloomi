@@ -411,3 +411,114 @@ app.directive('ccUploadField',['$parse',function ($parse) {
             }
         }
     }])
+app.directive('ccForm',['$parse',function ($parse) {
+    return {
+        restrict:'A',
+        link:function (scope,element,attrs) {
+            var first=true;
+            var errors=0;
+            var checkInterval;
+            function showError(input,errorIndex) {
+                if(first){
+                    errors++;
+                    $parse(element.attr('cc-form')).assign(scope,false);
+                    refreshScope(scope);
+                    return;
+                }
+                input.addClass('hasError');
+                input.closest('.form-group').addClass('hasError');
+                input.next('.help-block').find('.cc-show').removeClass('cc-show');
+                input.next('.help-block').find('[cc-error-'+errorIndex+']').addClass('cc-show');
+                input.closest('.form-group').next('.help-block').find('.cc-show').removeClass('cc-show');
+                input.closest('.form-group').next('.help-block').find('[cc-error-'+errorIndex+']').addClass('cc-show');
+            }
+            function  hidError(input,errorIndex) {
+                errors--;
+                if(errors==0){
+                    $parse(element.attr('cc-form')).assign(scope,true);
+                    refreshScope(scope);
+                }
+                input.removeClass('hasError');
+                input.closest('.form-group').removeClass('hasError');
+                input.next('.help-block').find('[cc-error-'+errorIndex+']').removeClass('cc-show');
+                input.closest('.form-group').next('.help-block').find('[cc-error-'+errorIndex+']').removeClass('cc-show');
+            }
+            function checkInput(input) {
+                var that=$(input);
+                var attrs=input.getAttributeNames();
+                var value=that.val();
+                for(var i=0,attr;attr=attrs[i];i++){
+                    var attrValue=that.attr(attr);
+                    if(attr=='cc-email'){
+                        if(/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)){
+                            hidError(that,attrValue)
+                        }else{
+                            showError(that,attrValue);
+                            break;
+                        }
+                    }else  if(attr=='cc-phone'){
+                        if(/\d{11}/.test(value)){
+                            hidError(that,attrValue);
+                        }else {
+                            showError(that,attrValue);
+                            break;
+                        }
+                    }else if(attr=='cc-max'){
+                        if(value.length>attrValue){
+                            showError(that,that.attr(attr+'-error'));
+                            break;
+                        }else {
+                            hidError(that,that.attr(attr+'-error'));
+                        }
+                    }else if(attr=='cc-min'){
+                        if(value.length<attrValue){
+                            showError(that,that.attr(attr+'-error'));
+                            break;
+                        }else {
+                            hidError(that,that.attr(attr+'-error'));
+                        }
+                    }else if(attr=='cc-regex'){
+                        var patten=new RegExp(attrValue);
+                        if(patten.test(value)){
+                            hidError(that,that.attr(attr+'-error'));
+                        }else {
+                            showError(that,that.attr(attr+'-error'));
+                            break;
+                        }
+                    }else if(attr=='cc-require'){
+                        if(!value||value.trim()==''){
+                            showError(that,attrValue);
+                            break;
+                        }else {
+                            hidError(that,attrValue);
+                        }
+                    }
+                }
+            }
+            function checkForm(form) {
+                form.find('input,textarea').each(function () {
+                    checkInput(this);
+                });
+            }
+            element.find('input,textarea').focus(function (e) {
+                var that=this;
+                first=false;
+                checkInterval=setInterval(function () {
+                    checkInput(that);
+                },500);
+            });
+            element.find('input,textarea').blur(function (e) {
+                first=false;
+                checkInput(this);
+                clearInterval(checkInterval);
+            });
+            element.find('[cc-submit]').click(function (e) {
+                first=false;
+                clearInterval(checkInterval);
+                checkForm(element);
+            });
+            //预检测时不显示错误提示
+            checkForm(element);
+        }
+    }
+}]);
