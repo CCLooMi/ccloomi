@@ -3,8 +3,11 @@ package com.sql.entity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.sql.annotation.Column;
@@ -24,6 +27,8 @@ import com.sql.bean.ValuePair;
 public abstract class BaseEntity extends BaseBean{
 	private static final long serialVersionUID = -37893553063050791L;
 	private boolean hasPrepareProperties=false;
+	private List<String>propertiesA=new ArrayList<String>();
+	private List<String>propertiesV=new ArrayList<String>();
 	private Map<String, ValuePair> mapping=new LinkedHashMap<>();
 	private Map<String, Object>extendTypeMap=new HashMap<>();
 	//用于临时存储
@@ -45,6 +50,26 @@ public abstract class BaseEntity extends BaseBean{
 	 */
 	public Object getPropertyValue(Object name){
 		return getObjectPropertyValue(this,(String)name);
+	}
+	/**
+	 * 方法描述：从最顶层开始查找
+	 * 作者：Chenxj
+	 * 日期：2015年7月24日 - 下午2:57:03
+	 * @param index
+	 * @return
+	 */
+	public String getPropertyA(int index){
+		return propertiesA.get(index);
+	}
+	/**
+	 * 方法描述：从本实体开始向上查找
+	 * 作者：Chenxj
+	 * 日期：2015年7月24日 - 下午2:57:08
+	 * @param index
+	 * @return
+	 */
+	public String getPropertyV(int index){
+		return propertiesV.get(index);
 	}
 	/**
 	 * 描述：
@@ -90,9 +115,33 @@ public abstract class BaseEntity extends BaseBean{
 		}
 		return null;
 	}
+	/**
+	 * 描述：用于缓存整个对象
+	 * 作者：Chenxj
+	 * 日期：2016年8月3日 - 下午10:29:12
+	 * @return
+	 */
+	public Map<String, Object>PVMap(){
+		Map<String,Object>map=new HashMap<>();
+		for(String p:propertiesA){
+			map.put(p, getPropertyValue(p));
+		}
+		return map;
+	}
+	/**
+	 * 方法描述：属性列表
+	 * 作者：Chenxj
+	 * 日期：2015年9月11日 - 上午10:13:16
+	 * @return
+	 */
+	public List<String> properties(){
+		return this.propertiesA;
+	}
 	public void prepareProperties(){
 		if(!hasPrepareProperties){
 			this.findAllProperties(getClass());
+			Collections.reverse(propertiesA);
+			this.hasPrepareProperties=true;
 		}
 	}
 	public boolean hasExtendType(){
@@ -100,6 +149,7 @@ public abstract class BaseEntity extends BaseBean{
 	}
 	private void findAllProperties(Class<?>c){
 		Field[]fields=c.getDeclaredFields();
+		int l=fields.length;
 		String tableName=getTableName(c);
 		if(tableName==null)tableName="common";
 		ValuePair valuePair=mapping.get(tableName);
@@ -126,7 +176,8 @@ public abstract class BaseEntity extends BaseBean{
 			}
 			String columnName=column==null?pName:column.name();
 			valuePair.addPair(pName, columnName);
-			
+			propertiesV.add(pName);
+			propertiesA.add(fields[--l].getName());
 			//处理extendType
 			ExtendType et=getMethod.getDeclaredAnnotation(ExtendType.class);
 			if(et==null){
