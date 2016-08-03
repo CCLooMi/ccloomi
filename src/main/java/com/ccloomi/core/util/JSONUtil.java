@@ -35,8 +35,6 @@ public class JSONUtil {
 					if(value==null){value=map.get(p);}
 					field.set(b, objMapper.convertValue(value, field.getType()));
 				}
-				//此处ebj的PVMap一定没有值，故要Reset,以免在SQLMaker中无法获取entity属性值
-				b.cleanProperties();
 			}else{
 				for(Field field:elementType.getDeclaredFields()){
 					String columnName=field.getName();

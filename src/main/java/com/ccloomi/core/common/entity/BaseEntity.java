@@ -28,7 +28,6 @@ public abstract class BaseEntity extends BaseBean{
 	private List<String>propertiesV=new ArrayList<String>();
 	private Map<String, String>propertiesMap=new HashMap<String, String>();
 	private Map<String, String>propertiesTableColumnsMap=new HashMap<String, String>();
-	private Map<String, Object>PVMap=new HashMap<String, Object>();
 	
 	public void prepareProperties(){
 		if(!hasPrepareProperties){
@@ -37,13 +36,18 @@ public abstract class BaseEntity extends BaseBean{
 			this.hasPrepareProperties=true;
 		}
 	};
-	public void cleanProperties(){
-		this.hasPrepareProperties=false;
-		this.propertiesA=new ArrayList<String>();
-		this.propertiesV=new ArrayList<String>();
-		this.propertiesMap=new HashMap<String, String>();
-		this.propertiesTableColumnsMap=new HashMap<String, String>();
-		this.PVMap=new HashMap<String, Object>();
+	/**
+	 * 描述：用于缓存整个对象
+	 * 作者：Chenxj
+	 * 日期：2016年8月3日 - 下午10:29:12
+	 * @return
+	 */
+	public Map<String, Object>PVMap(){
+		Map<String,Object>map=new HashMap<>();
+		for(String p:propertiesA){
+			map.put(p, getPropertyValue(p));
+		}
+		return map;
 	}
 	/**
 	 * 描述：
@@ -91,20 +95,7 @@ public abstract class BaseEntity extends BaseBean{
 	 * @return
 	 */
 	public Object getPropertyValue(String name){
-		if(PVMap.containsKey(name)){
-			return PVMap.get(name);
-		}else{
-			return null;
-		}
-	}
-	/**
-	 * 描述：
-	 * 作者：Chenxj
-	 * 日期：2015年10月22日 - 下午9:33:25
-	 * @return
-	 */
-	public Map<String, Object>PVMap(){
-		return PVMap;
+		return getObjectPropertyValue(this, name);
 	}
 	/**
 	 * 方法描述：从最顶层开始查找
@@ -146,7 +137,6 @@ public abstract class BaseEntity extends BaseBean{
 			Method getMethod=null;
 			try{
 				getMethod=c.getDeclaredMethod(getMethodName);
-				PVMap.put(pName, getMethod.invoke(this));
 			}catch(Exception e){
 				continue;
 			}

@@ -23,10 +23,9 @@ import com.sql.bean.ValuePair;
  */
 public abstract class BaseEntity extends BaseBean{
 	private static final long serialVersionUID = -37893553063050791L;
+	private boolean hasPrepareProperties=false;
 	private Map<String, ValuePair> mapping=new LinkedHashMap<>();
 	private Map<String, Object>extendTypeMap=new HashMap<>();
-	//存储属性和值
-	private Map<String, Object>pvMap=new HashMap<>();
 	//用于临时存储
 	private Object extendType;
 	/**获取 mapping*/
@@ -37,10 +36,6 @@ public abstract class BaseEntity extends BaseBean{
 	public Map<String, Object> getExtendTypeMap() {
 		return extendTypeMap;
 	}
-	/**获取 pvMap*/
-	public Map<String, Object> getPvMap() {
-		return pvMap;
-	}
 	/**
 	 * 描述：
 	 * 作者：Chenxj
@@ -49,7 +44,7 @@ public abstract class BaseEntity extends BaseBean{
 	 * @return
 	 */
 	public Object getPropertyValue(Object name){
-		return pvMap.get(name);
+		return getObjectPropertyValue(this,(String)name);
 	}
 	/**
 	 * 描述：
@@ -96,7 +91,9 @@ public abstract class BaseEntity extends BaseBean{
 		return null;
 	}
 	public void prepareProperties(){
-		this.findAllProperties(getClass());
+		if(!hasPrepareProperties){
+			this.findAllProperties(getClass());
+		}
 	}
 	public boolean hasExtendType(){
 		return this.classHasExtendTypeAnnotation(getClass());
@@ -120,7 +117,6 @@ public abstract class BaseEntity extends BaseBean{
 			Method getMethod=null;
 			try{
 				getMethod=c.getDeclaredMethod(getMethodName);
-				pvMap.put(pName, getMethod.invoke(this));
 			}catch(Exception e){
 				continue;
 			}
@@ -159,6 +155,5 @@ public abstract class BaseEntity extends BaseBean{
 		su.prepareProperties();
 		System.out.println("INFO::"+su.getExtendTypeMap());
 		System.out.println("INFO::"+su.getMapping());
-		System.out.println("INFO::"+su.getPvMap());
 	}
 }

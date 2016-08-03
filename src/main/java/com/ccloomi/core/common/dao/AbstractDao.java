@@ -83,7 +83,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 		String alias="et";
 		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
 		sm.UPDATE(entity, alias);
-		for(String p:entity.PVMap().keySet()){
+		for(String p:entity.properties()){
 			if(!"id".equals(p)){
 				Object pv=entity.getPropertyValue(p);
 				String ps=new StringBuilder().append(alias).append(".").append(p).append("=?").toString();
@@ -106,7 +106,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 		sm.UPDATE(entity, alias);
 		//记录是否有更新字段
 		int i=-1;
-		for(String p:entity.PVMap().keySet()){
+		for(String p:entity.properties()){
 			if(!"id".equals(p)){
 				Object pv=entity.getPropertyValue(p);
 				if(pv!=null){
@@ -228,7 +228,7 @@ public abstract class AbstractDao<T extends BaseEntity> {
 				bt.prepareProperties();
 				List<Object>args=new ArrayList<Object>();
 				for(String p:properties){
-					args.add(bt.PVMap().get(p));
+					args.add(bt.getPropertyValue(p));
 				}
 				batchArgs.add(args.toArray());
 			}

@@ -1,6 +1,7 @@
 package com.ccloomi.core.common.bean;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,6 +14,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class BaseBean implements Serializable{
 	private static final long serialVersionUID = 5295720500778299760L;
 
+	@SuppressWarnings("unchecked")
+	public <T>T getObjectPropertyValue(Object obj,String property){
+		String mName=property.substring(0,1).toUpperCase()+property.substring(1);
+		String getMethodName="get"+mName;
+		try {
+			Method m=obj.getClass().getMethod(getMethodName);
+			if(m!=null){
+				return (T) m.invoke(obj);
+			}
+		} catch (Exception e) {
+		}
+		return null;
+	}
+	@SuppressWarnings("unchecked")
+	public <T>T getObjectPropertyValue(Object obj,String property,Class<T>clazz){
+		String mName=property.substring(0,1).toUpperCase()+property.substring(1);
+		String getMethodName="get"+mName;
+		try {
+			Method m=obj.getClass().getMethod(getMethodName);
+			if(m!=null){
+				return (T) m.invoke(obj);
+			}
+		} catch (Exception e) {
+		}
+		return null;
+	}
 	/**
 	 * 方法描述：转化为JSON字符串
 	 * 作        者：Chenxj
