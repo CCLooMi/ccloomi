@@ -355,16 +355,46 @@ app.directive('ccUploadField',['$parse',function ($parse) {
         return {
             restrict:'A',
             link:function (scope,element,attrs) {
+                var fileAcceptPatten;
                 var cf=new CCFileUpload({
-                    wsuri:'ws://localhost:8080/CCFileUploadServer/springSocket/fileup',
+                    // wsuri:'ws://192.168.248.129:8080/CCFileUploadServer/springSocket/fileup',
+                    wsuri:'ws://192.168.1.122:8080/CCFileUploadServer/springSocket/fileup',
+                    // wsuri:'ws://localhost:8080/CCFileUploadServer/springSocket/fileup',
                     addFileButton:element.find('[cc-file-add]'),
                     addFilesButton:element.find('[cc-files-add]'),
                     startButton:$('[cc-upload-start]'),
+                    beforeAddEvent:function (e) {
+                        var target=$(e.target);
+                        var ccFile=$(e.target).closest('[cc-file]');
+                        var fileAccept;
+                        if(target.is('[cc-file-add]')){
+                            fileAccept=ccFile.attr('cc-file-accept');
+                            if(fileAccept&&fileAccept!=''){
+                                $('[cc-single]').attr('accept',fileAccept);
+                            }
+                        }else if(target.is('[cc-files-add]')){
+                            fileAccept=ccFile.attr('cc-file-accept');
+                            if(fileAccept&&fileAccept!=''){
+                                $('[cc-multiple]').attr('accept',fileAccept);
+                            }
+                        }
+                        if(fileAccept&&fileAccept!=''){
+                            var fa=fileAccept.split(',');
+                            var fap='';
+                            for(var i=0,fp;fp=fa[i];i++){
+                                if(i!=fa.length-1){
+                                    fap+='\\'+fp+'$|';
+                                }else{
+                                    fap+='\\'+fp+'$';
+                                }
+                            }
+                            fileAcceptPatten=new RegExp(fap);
+                        }
+                    },
                     onComplete:function (files) {
                         for(var i=0,f;f=files[i];i++){
                             var container=f.addFileTarget.closest('[cc-file]');
                             var ngModel=container.find('[ng-model]').attr('ng-model');
-                            console.log(f.addFileTarget);
                             if(f.addFileTarget.is('[cc-files-add]')||f.addFileTarget.is('[cc-files-add] *')){
                                 var ngModelValue=$parse(ngModel)(scope,f.fileId);
                                 if(!ngModelValue)ngModelValue=[];
@@ -389,6 +419,9 @@ app.directive('ccUploadField',['$parse',function ($parse) {
                         }
                     },
                     fileFilter:function (f) {
+                        if(fileAcceptPatten){
+                            return fileAcceptPatten.test(f.name);
+                        }
                         return true;
                     },
                     onAdd:function (f) {
@@ -410,7 +443,7 @@ app.directive('ccUploadField',['$parse',function ($parse) {
                 });
             }
         }
-    }])
+    }]);
 app.directive('ccForm',['$parse',function ($parse) {
     return {
         restrict:'A',
@@ -445,52 +478,51 @@ app.directive('ccForm',['$parse',function ($parse) {
             }
             function checkInput(input) {
                 var that=$(input);
-                var attrs=input.getAttributeNames();
+                var attrs=input.attributes;
                 var value=that.val();
                 for(var i=0,attr;attr=attrs[i];i++){
-                    var attrValue=that.attr(attr);
-                    if(attr=='cc-email'){
+                    if(attr.name=='cc-email'){
                         if(/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)){
-                            hidError(that,attrValue)
+                            hidError(that,attr.value)
                         }else{
-                            showError(that,attrValue);
+                            showError(that,attr.value);
                             break;
                         }
-                    }else  if(attr=='cc-phone'){
+                    }else  if(attr.name=='cc-phone'){
                         if(/\d{11}/.test(value)){
-                            hidError(that,attrValue);
+                            hidError(that,attr.value);
                         }else {
-                            showError(that,attrValue);
+                            showError(that,attr.value);
                             break;
                         }
-                    }else if(attr=='cc-max'){
-                        if(value.length>attrValue){
-                            showError(that,that.attr(attr+'-error'));
+                    }else if(attr.name=='cc-max'){
+                        if(value.length>attr.value){
+                            showError(that,that.attr(attr.name+'-error'));
                             break;
                         }else {
-                            hidError(that,that.attr(attr+'-error'));
+                            hidError(that,that.attr(attr.name+'-error'));
                         }
-                    }else if(attr=='cc-min'){
-                        if(value.length<attrValue){
-                            showError(that,that.attr(attr+'-error'));
+                    }else if(attr.name=='cc-min'){
+                        if(value.length<attr.value){
+                            showError(that,that.attr(attr.name+'-error'));
                             break;
                         }else {
-                            hidError(that,that.attr(attr+'-error'));
+                            hidError(that,that.attr(attr.name+'-error'));
                         }
-                    }else if(attr=='cc-regex'){
-                        var patten=new RegExp(attrValue);
+                    }else if(attr.name=='cc-regex'){
+                        var patten=new RegExp(attr.value);
                         if(patten.test(value)){
-                            hidError(that,that.attr(attr+'-error'));
+                            hidError(that,that.attr(attr.name+'-error'));
                         }else {
-                            showError(that,that.attr(attr+'-error'));
+                            showError(that,that.attr(attr.name+'-error'));
                             break;
                         }
-                    }else if(attr=='cc-require'){
+                    }else if(attr.name=='cc-require'){
                         if(!value||value.trim()==''){
-                            showError(that,attrValue);
+                            showError(that,attr.value);
                             break;
                         }else {
-                            hidError(that,attrValue);
+                            hidError(that,attr.value);
                         }
                     }
                 }

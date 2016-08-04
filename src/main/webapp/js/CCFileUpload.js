@@ -17,24 +17,27 @@
         this.multiple=option.multiple;
         this.draggable=option.draggable||false;
         UPGlobal.debugMode=option.debugMode||false;
-        this.fileFilter=option.fileFilter;
+        this.fileFilter=option.fileFilter||function () {return true;};
         this.fileInput=$(UPGlobal.singleFileInput);
         this.fileInput.appendTo(this.container).on({change: $.proxy(this.fileSelect,this)});
         this.filesInput=$(UPGlobal.multipleFileInput);
         this.filesInput.appendTo(this.container).on({change: $.proxy(this.fileSelect,this)});
-
+        //在添加文件事件触发之前调用的方法
+        this.beforeAddEvent=option.beforeAddEvent||function (e) {};
         this.addFileButton=option.addFileButton;
         if(this.addFileButton){
             this.addFileButton
                 .on({click: $.proxy(function(e){
-                this.addFileTarget=$(e.target);
-                this.fileInput.trigger('click');
+                    this.beforeAddEvent(e);
+                    this.addFileTarget=$(e.target);
+                    this.fileInput.trigger('click');
             },this)});
         }
         this.addFilesButton=option.addFilesButton;
         if(this.addFilesButton){
             this.addFilesButton.
             on({click: $.proxy(function(e){
+                this.beforeAddEvent(e);
                 this.addFileTarget=$(e.target);
                 this.filesInput.trigger('click');
             },this)});
@@ -72,7 +75,8 @@
                     UPGlobal.WSpool.push(ws);
                 }
             }else{
-                alert("WebSocket create error.");
+                log("WebSocket create error.");
+                this.onError({code:1,info:'WebSocket create error.'});
             }
         },
         onOpen:function(){
@@ -114,6 +118,7 @@
             e.preventDefault();
             var files= e.dataTransfer ? e.dataTransfer.files : e.target.files;
             if(e.dataTransfer){
+                this.beforeAddEvent(e);
                 //表示是拖动事件
                 this.addFileTarget=$(e.target);
             }
@@ -287,27 +292,31 @@
                 }
             }
             UPGlobal.filesToUpload=fs;
-            this.beforeAdd(this.addFileTarget,files);
+            var selectedfiles=[];
             for(var i= 0,f;f=files[i];i++){
-                if(!this.fileFilter||this.fileFilter(f)){
-                    UPGlobal.filesToUpload.push(f);
-                    f.formatFileSize=this.formatFileSize(f.size);
-                    f.progressBar=$('<div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>');
-                    f.addFileTarget=this.addFileTarget;
-                    f.readSelfAsDataURL=function (callback) {
-                        var thisFile=this;
-                        if(!f.type.match('image.*')){
-                            return;
-                        }
-                        var reader=new FileReader();
-                        reader.onload=function (e) {
-                            callback&&callback(e.target.result);
-                        };
-                        reader.readAsDataURL(thisFile);
-                    }
-                    this.onAdd(f);
-                    UPGlobal.allFilesCount++;
+                if(this.fileFilter(f)){
+                    selectedfiles.push(f);
                 }
+            }
+            this.beforeAdd(this.addFileTarget,selectedfiles);
+            for(var i= 0,f;f=selectedfiles[i];i++){
+                UPGlobal.filesToUpload.push(f);
+                f.formatFileSize=this.formatFileSize(f.size);
+                f.progressBar=$('<div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>');
+                f.addFileTarget=this.addFileTarget;
+                f.readSelfAsDataURL=function (callback) {
+                    var thisFile=this;
+                    if(!f.type.match('image.*')){
+                        return;
+                    }
+                    var reader=new FileReader();
+                    reader.onload=function (e) {
+                        callback&&callback(e.target.result);
+                    };
+                    reader.readAsDataURL(thisFile);
+                }
+                this.onAdd(f);
+                UPGlobal.allFilesCount++;
             }
         },
         startUpload:function(){
@@ -352,8 +361,8 @@
             'YB':Math.pow(10,24),
             'BB':Math.pow(10,27)
         },
-        multipleFileInput:'<input id="files" type="file" multiple style="display: none"/>',
-        singleFileInput:'<input id="files" type="file" style="display: none"/>'
+        multipleFileInput:'<input cc-multiple type="file" multiple style="display: none"/>',
+        singleFileInput:'<input cc-single type="file" style="display: none"/>'
     };
     var countProperties=function(o){
         var i=0;
@@ -361,7 +370,7 @@
         return i;
     };
     var getWorker=function(){
-        return new Worker("../../js/CCHashFile.worker.js");
+        return new Worker("js/CCHashFile.worker.js");
     };
     var log=function(message){
         if(UPGlobal.debugMode){
