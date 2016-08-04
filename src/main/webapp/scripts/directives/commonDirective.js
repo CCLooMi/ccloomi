@@ -352,98 +352,107 @@ app.directive('ngBindHtmlCompile',['$compile',function ($compile) {
     }
 }])
 app.directive('ccUploadField',['$parse',function ($parse) {
-        return {
-            restrict:'A',
-            link:function (scope,element,attrs) {
-                var fileAcceptPatten;
-                var cf=new CCFileUpload({
-                    // wsuri:'ws://192.168.248.129:8080/CCFileUploadServer/springSocket/fileup',
-                    wsuri:'ws://192.168.1.122:8080/CCFileUploadServer/springSocket/fileup',
-                    // wsuri:'ws://localhost:8080/CCFileUploadServer/springSocket/fileup',
-                    addFileButton:element.find('[cc-file-add]'),
-                    addFilesButton:element.find('[cc-files-add]'),
-                    startButton:$('[cc-upload-start]'),
-                    beforeAddEvent:function (e) {
-                        var target=$(e.target);
-                        var ccFile=$(e.target).closest('[cc-file]');
-                        var fileAccept;
-                        if(target.is('[cc-file-add]')){
-                            fileAccept=ccFile.attr('cc-file-accept');
-                            if(fileAccept&&fileAccept!=''){
-                                $('[cc-single]').attr('accept',fileAccept);
-                            }
-                        }else if(target.is('[cc-files-add]')){
-                            fileAccept=ccFile.attr('cc-file-accept');
-                            if(fileAccept&&fileAccept!=''){
-                                $('[cc-multiple]').attr('accept',fileAccept);
-                            }
-                        }
+    return {
+        restrict:'A',
+        link:function (scope,element,attrs) {
+            var fileAcceptPatten;
+            var cf=new CCFileUpload({
+                // wsuri:'ws://192.168.248.129:8080/CCFileUploadServer/springSocket/fileup',
+                wsuri:'ws://192.168.1.122:8080/CCFileUploadServer/springSocket/fileup',
+                // wsuri:'ws://localhost:8080/CCFileUploadServer/springSocket/fileup',
+                addFileButton:element.find('[cc-file-add]'),
+                addFilesButton:element.find('[cc-files-add]'),
+                startButton:$('[cc-upload-start]'),
+                beforeAddEvent:function (e) {
+                    var target=$(e.target);
+                    var ccFile=$(e.target).closest('[cc-file]');
+                    var fileAccept;
+                    if(target.is('[cc-file-add]')){
+                        fileAccept=ccFile.attr('cc-file-accept');
                         if(fileAccept&&fileAccept!=''){
-                            var fa=fileAccept.split(',');
-                            var fap='';
-                            for(var i=0,fp;fp=fa[i];i++){
-                                if(i!=fa.length-1){
-                                    fap+='\\'+fp+'$|';
-                                }else{
-                                    fap+='\\'+fp+'$';
-                                }
-                            }
-                            fileAcceptPatten=new RegExp(fap);
+                            $('[cc-single]').attr('accept',fileAccept);
                         }
-                    },
-                    onComplete:function (files) {
-                        for(var i=0,f;f=files[i];i++){
-                            var container=f.addFileTarget.closest('[cc-file]');
-                            var ngModel=container.find('[ng-model]').attr('ng-model');
-                            if(f.addFileTarget.is('[cc-files-add]')||f.addFileTarget.is('[cc-files-add] *')){
-                                var ngModelValue=$parse(ngModel)(scope,f.fileId);
-                                if(!ngModelValue)ngModelValue=[];
-                                ngModelValue.push(f.fileId);
-                                $parse(ngModel).assign(scope,ngModelValue);
-                            }else if(f.addFileTarget.is('[cc-file-add]')||f.addFileTarget.is('[cc-file-add] *')){
-                                $parse(ngModel).assign(scope,f.fileId);
-                            }
+                    }else if(target.is('[cc-files-add]')){
+                        fileAccept=ccFile.attr('cc-file-accept');
+                        if(fileAccept&&fileAccept!=''){
+                            $('[cc-multiple]').attr('accept',fileAccept);
                         }
-                        scope.onComplete&&scope.onComplete(files);
-                    },
-                    beforeAdd:function (addFileTarget,files) {
-                        var container=addFileTarget.closest('[cc-file]');
-                        container.find('.progress').remove();
-                        var ccFile=container.attr('cc-file');
-                        if(files.length>1){
-                            $parse(ccFile).assign(scope,files);
-                            refreshScope(scope);
-                        }else if(files.length){
-                            $parse(ccFile).assign(scope,files[0]);
-                            refreshScope(scope);
-                        }
-                    },
-                    fileFilter:function (f) {
-                        if(fileAcceptPatten){
-                            return fileAcceptPatten.test(f.name);
-                        }
-                        return true;
-                    },
-                    onAdd:function (f) {
-                        f.progressBar.appendTo(f.addFileTarget.closest('[cc-file]'));
-                        f.readSelfAsDataURL(function (dataUrl) {
-                            var img=$('<img>').attr('src',dataUrl);
-                            f.addFileTarget.closest('[cc-file]').find('[cc-file-preview]').html(img);
-                        });
-                    },
-                    onProcess:function (f) {
-                        refreshScope(scope);
-                    },
-                    onError:function (o) {
-
-                    },
-                    onHashComplete:function (f) {
-
                     }
-                });
-            }
+                    if(fileAccept&&fileAccept!=''){
+                        var fa=fileAccept.split(',');
+                        var fap='';
+                        for(var i=0,fp;fp=fa[i];i++){
+                            if(i!=fa.length-1){
+                                fap+='\\'+fp+'$|';
+                            }else{
+                                fap+='\\'+fp+'$';
+                            }
+                        }
+                        fileAcceptPatten=new RegExp(fap);
+                    }
+                },
+                onComplete:function (files) {
+                    for(var i=0,f;f=files[i];i++){
+                        var container=f.addFileTarget.closest('[cc-file]');
+                        var ngModel=container.find('[ng-model]').attr('ng-model');
+                        if(f.addFileTarget.is('[cc-files-add]')||f.addFileTarget.is('[cc-files-add] *')){
+                            var ngModelValue=$parse(ngModel)(scope);
+                            ngModelValue=[];
+                            ngModelValue.push({id:fileId,name:f.name,size:f.size,type:f.type});
+                            $parse(ngModel).assign(scope,ngModelValue);
+                        }else if(f.addFileTarget.is('[cc-file-add]')||f.addFileTarget.is('[cc-file-add] *')){
+                            $parse(ngModel).assign(scope,{id:fileId,name:f.name,size:f.size,type:f.type});
+                        }
+                    }
+                    scope.onComplete&&scope.onComplete(files);
+                },
+                beforeAdd:function (addFileTarget,files) {
+                    var container=addFileTarget.closest('[cc-file]');
+                    container.find('.progress').remove();
+                    container.find('[cc-file-preview]').html('');
+                    var ccFile=container.attr('cc-file');
+                    if(files.length>1){
+                        $parse(ccFile).assign(scope,files);
+                        refreshScope(scope);
+                    }else if(files.length){
+                        $parse(ccFile).assign(scope,files[0]);
+                        refreshScope(scope);
+                    }
+                },
+                fileFilter:function (f) {
+                    if(fileAcceptPatten){
+                        return fileAcceptPatten.test(f.name);
+                    }
+                    return true;
+                },
+                onAdd:function (f) {
+                    var progessInside=false;
+                    f.readSelfAsDataURL(function (dataUrl) {
+                        var img=$('<img>').attr('src',dataUrl);
+                        var thumbnail=$('<div class="thumbnail"></div>');
+                        var caption=$('<div class="caption"></div>');
+                        caption.append(f.progressBar);
+                        thumbnail.append(img).append(caption);
+                        f.addFileTarget.closest('[cc-file]').find('[cc-file-preview]').append(thumbnail);
+                        progessInside=true;
+                    });
+                    if(!progessInside){
+                        f.progressBar.appendTo(f.addFileTarget.closest('[cc-file]'));
+                    }
+                },
+                onProcess:function (f) {
+                    refreshScope(scope);
+                },
+                onError:function (o) {
+
+                },
+                onHashComplete:function (f) {
+
+                }
+            });
         }
-    }]);
+    }
+}]);
 app.directive('ccForm',['$parse',function ($parse) {
     return {
         restrict:'A',
