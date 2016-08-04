@@ -393,24 +393,22 @@ app.directive('ccUploadField',['$parse',function ($parse) {
                 },
                 onComplete:function (files) {
                     for(var i=0,f;f=files[i];i++){
-                        var container=f.addFileTarget.closest('[cc-file]');
-                        var ngModel=container.find('[ng-model]').attr('ng-model');
-                        if(f.addFileTarget.is('[cc-files-add]')||f.addFileTarget.is('[cc-files-add] *')){
+                        var ngModel=addFileTarget.find('[ng-model]').attr('ng-model');
+                        if(f.addFileTarget.find('[cc-files-add]').length){
                             var ngModelValue=$parse(ngModel)(scope);
                             ngModelValue=[];
                             ngModelValue.push({id:fileId,name:f.name,size:f.size,type:f.type});
                             $parse(ngModel).assign(scope,ngModelValue);
-                        }else if(f.addFileTarget.is('[cc-file-add]')||f.addFileTarget.is('[cc-file-add] *')){
+                        }else if(f.addFileTarget.find('[cc-file-add]').length){
                             $parse(ngModel).assign(scope,{id:fileId,name:f.name,size:f.size,type:f.type});
                         }
                     }
                     scope.onComplete&&scope.onComplete(files);
                 },
                 beforeAdd:function (addFileTarget,files) {
-                    var container=addFileTarget.closest('[cc-file]');
-                    container.find('.progress').remove();
-                    container.find('[cc-file-preview]').html('');
-                    var ccFile=container.attr('cc-file');
+                    addFileTarget.find('.progress').remove();
+                    addFileTarget.find('[cc-file-preview]').html('');
+                    var ccFile=addFileTarget.attr('cc-file');
                     if(files.length>1){
                         $parse(ccFile).assign(scope,files);
                         refreshScope(scope);
@@ -433,11 +431,11 @@ app.directive('ccUploadField',['$parse',function ($parse) {
                         var caption=$('<div class="caption"></div>');
                         caption.append(f.progressBar);
                         thumbnail.append(img).append(caption);
-                        f.addFileTarget.closest('[cc-file]').find('[cc-file-preview]').append(thumbnail);
+                        f.addFileTarget.find('[cc-file-preview]').append(thumbnail);
                         progessInside=true;
                     });
                     if(!progessInside){
-                        f.progressBar.appendTo(f.addFileTarget.closest('[cc-file]'));
+                        f.progressBar.appendTo(f.addFileTarget);
                     }
                 },
                 onProcess:function (f) {

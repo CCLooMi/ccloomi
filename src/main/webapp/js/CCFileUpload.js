@@ -29,16 +29,16 @@
             this.addFileButton
                 .on({click: $.proxy(function(e){
                     this.beforeAddEvent(e);
-                    this.addFileTarget=$(e.target);
+                    this.addFileTarget=$(e.target).closest('[cc-file]');
                     this.fileInput.trigger('click');
-            },this)});
+                },this)});
         }
         this.addFilesButton=option.addFilesButton;
         if(this.addFilesButton){
             this.addFilesButton.
             on({click: $.proxy(function(e){
                 this.beforeAddEvent(e);
-                this.addFileTarget=$(e.target);
+                this.addFileTarget=$(e.target).closest('[cc-file]');
                 this.filesInput.trigger('click');
             },this)});
         };
@@ -120,7 +120,7 @@
             if(e.dataTransfer){
                 this.beforeAddEvent(e);
                 //表示是拖动事件
-                this.addFileTarget=$(e.target);
+                this.addFileTarget=$(e.target).closest('[cc-file]');
             }
             this.addFiles(files);
         },
