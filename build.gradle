@@ -119,6 +119,7 @@ dependencies {
 			["org.apache.poi:poi-scratchpad:$poiVersion"],
 			["org.apache.poi:poi:$poiVersion"],
 			["org.freemarker:freemarker:2.3.24-incubating"],
+			["org.jfree:jfreesvg:3.1"],
 			/**
 			["org.quickfixj:quickfixj-all:$quickfixjVersion"],
 			["org.quickfixj:quickfixj-core:$quickfixjVersion"],
