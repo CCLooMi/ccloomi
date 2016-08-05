@@ -532,6 +532,15 @@ app.directive('ccForm',['$parse',function ($parse) {
                         }else {
                             hidError(that,attr.value);
                         }
+                    }else if(attr.name=='cc-require-condition'){
+                        if($parse(attr.value)(scope)){
+                            if(!value||value.trim()==''){
+                                showError(that,that.attr(attr.name+'-error'));
+                                break;
+                            }else {
+                                hidError(that,that.attr(attr.name+'-error'));
+                            }
+                        }
                     }
                 }
             }
