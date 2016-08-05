@@ -541,9 +541,12 @@ app.directive('ccForm',['$parse',function ($parse) {
             }
             element.find('input,textarea').focus(function (e) {
                 var that=this;
+                var value=$(this).val();
                 first=false;
                 checkInterval=setInterval(function () {
-                    checkInput(that);
+                    if($(that).val()!=value){
+                        checkInput(that);
+                    }
                 },500);
             });
             element.find('input,textarea').blur(function (e) {
