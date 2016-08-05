@@ -485,6 +485,7 @@ app.directive('ccForm',['$parse',function ($parse) {
             }
             function checkInput(input) {
                 var that=$(input);
+                // $('[cc-email]')[0].attributes[0].name
                 var attrs=input.attributes;
                 var value=that.val();
                 for(var i=0,attr;attr=attrs[i];i++){
@@ -535,11 +536,11 @@ app.directive('ccForm',['$parse',function ($parse) {
                 }
             }
             function checkForm(form) {
-                form.find('input,textarea').each(function () {
+                form.find('input,textarea,select').each(function () {
                     checkInput(this);
                 });
             }
-            element.find('input,textarea').focus(function (e) {
+            element.find('input,textarea,select').focus(function (e) {
                 var that=this;
                 var value=$(this).val();
                 first=false;
@@ -549,7 +550,7 @@ app.directive('ccForm',['$parse',function ($parse) {
                     }
                 },500);
             });
-            element.find('input,textarea').blur(function (e) {
+            element.find('input,textarea,select').blur(function (e) {
                 first=false;
                 checkInput(this);
                 clearInterval(checkInterval);
