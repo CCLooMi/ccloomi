@@ -2,9 +2,7 @@
  * Created by Chenxj on 2016/1/12.
  */
 (function ($) {
-    var CCFileUpload= function (option,element) {
-        //var that=this;
-        this.element=$(element);
+    var CCFileUpload= function (option) {
         this.container=option.container||'body';
         this.concurrentHash=option.concurrentHash||option.concurrentUpload||3;
         this.concurrentUpload=option.concurrentUpload||3;
@@ -15,7 +13,6 @@
             this.wsuri='ws'+window.location.href.match(/:\/\/\w+\.\w+\.\w+\.\w+:?\w*\/\w+\/|:\/\/\w+:?\w*\/\w+\//)[0]+option.wsuri;
         }
         this.multiple=option.multiple;
-        this.draggable=option.draggable||false;
         UPGlobal.debugMode=option.debugMode||false;
         this.fileFilter=option.fileFilter||function () {return true;};
         this.fileInput=$(UPGlobal.singleFileInput);
@@ -41,10 +38,10 @@
                 this.addFileTarget=$(e.target).closest('[cc-file]');
                 this.filesInput.trigger('click');
             },this)});
+            this.attachDragEvents(this.addFilesButton);
         };
         this.startButton=option.startButton;
         if(this.startButton){this.startButton.on({click: $.proxy(function(){this.startUpload()},this)});};
-        if(this.draggable){this.attachDragEvents(this.element);}
         this.onProcess=function(f){
             f.progressBar.find('.progress-bar').css({width: f.progress});
             option.onProcess&&option.onProcess(f);
@@ -95,6 +92,7 @@
                         that.doUploadByCommand(ws,command);
                     }else{
                         f.progress='100%';
+                        f.step=4;//onSuccess
                         that.onProcess(f);
                         log('文件上传完成，开始上传下一个文件。');
                         that.uploadNextFile(ws);//该ws完成文件上传，接着继续上传下一个文件
@@ -146,6 +144,7 @@
         },
         doHashWork:function(file,worker){
             file.worker=worker;
+            file.step=1;
             var buffer_size = 512 * 1024 ;//512KB
             worker.addEventListener('message', function (event) {
                 var block=event.data.block;
@@ -229,6 +228,7 @@
                 UPGlobal.filesUploaded.push(f);
             }else{
                 UPGlobal.filesHasHashed.push(f);
+                f.step=2;
                 log('ws连接池中没有可用连接，已将['+ f.name+']放入已计算Hash文件池中.')
             }
         },
@@ -250,6 +250,7 @@
             fileInfo.fileInfo= f.type;
             fileInfo.fileId= f.fileId;
             ws.send(JSON.stringify(fileInfo));
+            f.step=3;
         },
         doUploadByCommand:function(ws,command){
             var f=UPGlobal.allFiles[command.fileId];
@@ -282,6 +283,7 @@
             return r;
         },
         addFiles:function(files){
+            var that=this;
             //移除和当前addFileTarget相关的历史文件
             var fs=[];
             for(var i=0,f;f=UPGlobal.filesToUpload[i];i++){
@@ -304,6 +306,10 @@
                 f.formatFileSize=this.formatFileSize(f.size);
                 f.progressBar=$('<div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>');
                 f.addFileTarget=this.addFileTarget;
+                f.step=0;
+                f.removeSelf=function(){
+                    that.doRemoveFileWork(this);
+                }
                 f.readSelfAsDataURL=function (callback) {
                     var thisFile=this;
                     if(!f.type.match('image.*')){
@@ -317,6 +323,49 @@
                 }
                 this.onAdd(f);
                 UPGlobal.allFilesCount++;
+            }
+        },
+        doRemoveFileWork:function(f){
+            switch (f.step){
+                case 0:
+                    //alert('nothing');
+                    //delete file from filesToUpload
+                    this.removeFileFromArray(f,UPGlobal.filesToUpload);
+                    break;
+                case 1:
+                    //alert('onHashing');
+                    f.worker.terminate();
+                    //delete file from filesHasHashed ??不需要，这个时候还没有放入filesHasHashed中
+                    this.concurrentHashCurrent--;
+                    this.removeFileFromArray(f);
+                    this.hashNextFile();
+                    break;
+                case 2:
+                    //alert('onWaiting');
+                    //delete file from filesHasHashed
+                    this.removeFileFromArray(f,UPGlobal.filesHasHashed);
+                    break;
+                case 3:
+                    //alert('onUploading');
+                    //delete file from filesUploaded ??不需要，这个时候还没有放入fileHasHashed中
+                    this.removeFileFromArray(f);//移除之后通过command上传将找不到file而终止文件上传。并自动开始上传下一个文件
+                    break;
+                case 4:
+                    //alert('onSuccess');
+                    //delete file from filesUploaded
+                    this.removeFileFromArray(f,UPGlobal.filesUploaded);
+                    break;
+            }
+        },
+        removeFileFromArray:function(file,filesArray){
+            delete UPGlobal.allFiles[file.fileId];
+            if(filesArray){
+                for(var i=0;i<filesArray.length;i++){
+                    if(file===filesArray[i]){
+                        delete filesArray[i];
+                        break;
+                    }
+                }
             }
         },
         startUpload:function(){

@@ -72,9 +72,10 @@ app.directive('formSelect',['$filter','$parse', function ($filter,$parse) {
                 element.click(function () {
                     dropdown.removeAttr('style');
                 });
+                var  bs=[];
                 function dropdownHtml(r){
                     dropdown.html('');
-                    var bs=$parse(r.b)(scope);
+                    bs=$parse(r.b)(scope);
                     if(bs){
                         //var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
                         var modelVL=$parse(attrs['ngModel'])(scope);
@@ -122,7 +123,7 @@ app.directive('formSelect',['$filter','$parse', function ($filter,$parse) {
                 }
                 function click(e){
                     var target=$(e.target);
-                    var bs=$parse(r.b)(scope);
+                    //var bs=$parse(r.b)(scope);
                     if(target.is('a')){
                         e.preventDefault();
                         if(r.d){
@@ -162,8 +163,9 @@ app.directive('formSelectPanel',['$filter','$parse',function($filter,$parse){
                        dropdownHtml(r);
                     });
                 }
+                var bs=[];
                 function dropdownHtml(r){
-                    var bs=$parse(r.b)(scope);
+                    bs=$parse(r.b)(scope);
                     if(bs){
                         //var modelVL=getObjectPropertyValue(scope,attrs['ngModel']);
                         var modelVL=$parse(attrs['ngModel'])(scope);
@@ -212,7 +214,8 @@ app.directive('formSelectPanel',['$filter','$parse',function($filter,$parse){
                 }
                 function click (e) {
                     var target=$(e.target);
-                    var bs=$parse(r.b)(scope);
+                    //使用$parse取的值都是复制出来的故前面的排序对这里是失效的,故bs需要在外定义
+                    //var bs=$parse(r.b)(scope);
                     if(target.is('span')){
                         if(r.d){
                             ngModel.$setViewValue($parse(r.d)(bs[target.data('index')]));
@@ -425,17 +428,25 @@ app.directive('ccUploadField',['$parse',function ($parse) {
                 },
                 onAdd:function (f) {
                     var progessInside=false;
+                    var closeButton=$('<button type="button">╳</button>');
+                    var operation=$('<div class="operation"></div>').append(closeButton);
+                    var a=$('<a></a>').append(operation);
+                    var caption=$('<div class="caption"></div>');
+                    caption.append(f.progressBar);
+                    var thumbnail=$('<div class="thumbnail"></div>');
+                    thumbnail.append(a).append(caption);
+                    closeButton.click(function(e){
+                        e.stopPropagation();
+                        f.removeSelf();
+                        thumbnail.remove();
+                    });
+                    f.addFileTarget.find('[cc-file-preview]').append(thumbnail);
                     f.readSelfAsDataURL(function (dataUrl) {
-                        var img=$('<img>').attr('src',dataUrl);
-                        var thumbnail=$('<div class="thumbnail"></div>');
-                        var caption=$('<div class="caption"></div>');
-                        caption.append(f.progressBar);
-                        thumbnail.append(img).append(caption);
-                        f.addFileTarget.find('[cc-file-preview]').append(thumbnail);
+                        a.css({background:'url('+dataUrl+') no-repeat center center','background-size':'cover'});
                         progessInside=true;
                     });
                     if(!progessInside){
-                        f.progressBar.appendTo(f.addFileTarget);
+                        a.append('<span>'+(f.name+'---'+ f.formatFileSize)+'</span>');
                     }
                 },
                 onProcess:function (f) {
@@ -456,32 +467,25 @@ app.directive('ccForm',['$parse',function ($parse) {
         restrict:'A',
         link:function (scope,element,attrs) {
             var first=true;
-            var errors=0;
             var checkInterval;
             function showError(input,errorIndex) {
                 if(first){
-                    errors++;
-                    $parse(element.attr('cc-form')).assign(scope,false);
-                    refreshScope(scope);
                     return;
                 }
+                var formGroup=input.closest('.form-group');
                 input.addClass('hasError');
-                input.closest('.form-group').addClass('hasError');
-                input.next('.help-block').find('.cc-show').removeClass('cc-show');
-                input.next('.help-block').find('[cc-error-'+errorIndex+']').addClass('cc-show');
-                input.closest('.form-group').next('.help-block').find('.cc-show').removeClass('cc-show');
-                input.closest('.form-group').next('.help-block').find('[cc-error-'+errorIndex+']').addClass('cc-show');
+                formGroup.addClass('hasError');
+                formGroup.find('.help-block').find('.cc-show').removeClass('cc-show');
+                formGroup.find('.help-block').find('[cc-error-'+errorIndex+']').addClass('cc-show');
+                formGroup.next('.help-block').find('.cc-show').removeClass('cc-show');
+                formGroup.next('.help-block').find('[cc-error-'+errorIndex+']').addClass('cc-show');
             }
             function  hidError(input,errorIndex) {
-                errors--;
-                if(errors==0){
-                    $parse(element.attr('cc-form')).assign(scope,true);
-                    refreshScope(scope);
-                }
+                var formGroup=input.closest('.form-group');
                 input.removeClass('hasError');
-                input.closest('.form-group').removeClass('hasError');
-                input.next('.help-block').find('[cc-error-'+errorIndex+']').removeClass('cc-show');
-                input.closest('.form-group').next('.help-block').find('[cc-error-'+errorIndex+']').removeClass('cc-show');
+                formGroup.removeClass('hasError');
+                formGroup.find('.help-block').find('[cc-error-'+errorIndex+']').removeClass('cc-show');
+                formGroup.next('.help-block').find('[cc-error-'+errorIndex+']').removeClass('cc-show');
             }
             function checkInput(input) {
                 var that=$(input);
@@ -557,17 +561,23 @@ app.directive('ccForm',['$parse',function ($parse) {
                     if($(that).val()!=value){
                         checkInput(that);
                     }
-                },500);
+                },250);
             });
             element.find('input,textarea,select').blur(function (e) {
                 first=false;
                 checkInput(this);
-                clearInterval(checkInterval);
+                //对于某些慢些的下拉选择列表需要延迟清除检测
+                setTimeout(function(){
+                    clearInterval(checkInterval);
+                },500);
             });
             element.find('[cc-submit]').click(function (e) {
                 first=false;
                 clearInterval(checkInterval);
                 checkForm(element);
+                if(!element.find('.cc-show').length){
+                    $parse($(this).attr('cc-submit'))(scope);
+                }
             });
             //预检测时不显示错误提示
             checkForm(element);

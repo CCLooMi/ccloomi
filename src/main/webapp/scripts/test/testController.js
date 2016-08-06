@@ -30,4 +30,7 @@ angular.module('ccloomi')
             {id:'BK010',name:'金凤凰',type:'现代小说'}
         ];
         $scope.book=$scope.books[0];
+        $scope.submit=function(){
+            alert('form1 pass success!');
+        }
     }]);

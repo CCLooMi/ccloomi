@@ -118,6 +118,74 @@ fieldset {
     padding: 10px;
   }
 }
+[cc-file-preview] {
+  flex-wrap: wrap;
+  &,.thumbnail {
+    display: flex;
+  }
+  .thumbnail {
+    position: relative;
+    &:not(:last-child){
+      margin-right: 10px;
+    }
+    &>a {
+      position: relative;
+      width: 400px;
+      height: 300px;
+      overflow: hidden;
+      &[style] {
+        span {
+          display: none;
+        }
+      }
+      &:not([style]) {
+        height: auto;
+        min-height: 50px;
+        overflow: visible;
+        span {
+          display: block;
+          font-size: medium;
+          margin-left: 6px;
+          margin-right: 20px;
+          padding-bottom: 16px;
+        }
+      }
+      .operation {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        &:hover {
+          button {
+            opacity: 1;
+          }
+        }
+        button {
+          background-color: rgba(255,255,255,0.618);
+          border: none;
+          padding: 0 3px;
+          position: absolute;
+          right: 0;
+          border-radius: 3px;
+          margin: 3px;
+          opacity: 0;
+          transition: opacity ease 1s;
+        }
+      }
+    }
+    .caption {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      .progress {
+        margin: 0;
+        height: 10px;
+      }
+    }
+  }
+}
 input {
   &:focus {
     color: @main-color;

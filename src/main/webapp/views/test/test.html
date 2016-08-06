@@ -1,9 +1,35 @@
 <div class="container-fluid" ng-controller="testCtrl">
-    <form class="form-horizontal">
+    <form class="form-horizontal" cc-form cc-upload-field>
         <div class="form-group">
             <label class="col-sm-2 control-label">日期测试</label>
             <div class="col-sm-8">
-                <input class="form-control" form-date>
+                <input class="form-control" form-date cc-require="1">
+            </div>
+            <div class="help-block">
+                <p cc-error-1>请输入日期</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">日期测试</label>
+            <div class="col-sm-8">
+                <input class="form-control" form-date cc-require="1">
+            </div>
+            <div class="help-block">
+                <p cc-error-1>请输入日期</p>
+            </div>
+        </div>
+        <div class="form-group" cc-file="f1">
+            <label class="col-sm-2 control-label">文件</label>
+            <div class="col-sm-8">
+                <div cc-file-preview cc-file-add></div>
+                <input class="form-control" cc-file-add>
+            </div>
+        </div>
+        <div class="form-group" cc-file="f2">
+            <label class="col-sm-2 control-label">多文件</label>
+            <div class="col-sm-8">
+                <div cc-file-preview cc-files-add></div>
+                <input class="form-control" cc-files-add>
             </div>
         </div>
         <div class="form-group">
@@ -24,20 +50,10 @@
                 <input class="form-control" dd-select="d@demandFrom d.name&d.vl|filterBy:{$index:0}" ng-model="dd.vl">
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                <button class="btn btn-default" cc-submit="submit()">提交</button>
+            </div>
+        </div>
     </form>
-
-    <div style="width: 400px;height: 250px;background-color: #3CA5EA" cc-upload-field>
-        <h2>文件上传测试</h2>
-        <div cc-file="f1">
-            <div cc-file-preview></div>
-            <button cc-file-add>ADD_FILE</button>
-            <input ng-model="f1.fileId">
-            <p>{{f1.name}}{{f1.progress}}</p>
-        </div>
-        <div cc-file="f2">
-            <button cc-files-add>ADD_FILES</button>
-            <input ng-model="f2.fileId">
-        </div>
-        <button cc-upload-start>START_UPLOAD</button>
-    </div>
 </div>
