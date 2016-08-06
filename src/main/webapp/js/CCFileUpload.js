@@ -419,7 +419,7 @@
         return i;
     };
     var getWorker=function(){
-        return new Worker("js/CCHashFile.worker.js");
+        return new Worker("js/CCMD5File.worker.js");
     };
     var log=function(message){
         if(UPGlobal.debugMode){

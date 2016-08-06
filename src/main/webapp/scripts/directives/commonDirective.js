@@ -361,7 +361,8 @@ app.directive('ccUploadField',['$parse',function ($parse) {
             var fileAcceptPatten;
             var cf=new CCFileUpload({
                 // wsuri:'ws://192.168.248.129:8080/CCFileUploadServer/springSocket/fileup',
-                wsuri:'ws://192.168.1.122:8080/CCFileUploadServer/springSocket/fileup',
+                //wsuri:'ws://192.168.1.122:8080/CCFileUploadServer/springSocket/fileup',
+                wsuri:'ws://192.168.31.249:8080/CCFileUploadServer/springSocket/fileup',
                 // wsuri:'ws://localhost:8080/CCFileUploadServer/springSocket/fileup',
                 addFileButton:element.find('[cc-file-add]'),
                 addFilesButton:element.find('[cc-files-add]'),
