@@ -396,16 +396,17 @@ app.directive('ccUploadField',['$parse',function ($parse) {
                 },
                 onComplete:function (files) {
                     for(var i=0,f;f=files[i];i++){
-                        var ngModel=f.addFileTarget.find('[ng-model]').attr('ng-model');
+                        var ccModel=f.addFileTarget.find('[cc-model]').attr('cc-model');
                         if(f.addFileTarget.find('[cc-files-add]').length){
-                            var ngModelValue=$parse(ngModel)(scope);
-                            ngModelValue=[];
-                            ngModelValue.push({id:f.fileId,name:f.name,size:f.size,type:f.type});
-                            $parse(ngModel).assign(scope,ngModelValue);
+                            var modelValue=$parse(ccModel)(scope)||[];
+                            if(!modelValue.push)modelValue=[];
+                            modelValue.push({id:f.fileId,name:f.name,size:f.size,type:f.type});
+                            $parse(ccModel).assign(scope,modelValue);
                         }else if(f.addFileTarget.find('[cc-file-add]').length){
-                            $parse(ngModel).assign(scope,{id:f.fileId,name:f.name,size:f.size,type:f.type});
+                            $parse(ccModel).assign(scope,{id:f.fileId,name:f.name,size:f.size,type:f.type});
                         }
                     }
+                    refreshScope(scope);
                     scope.onComplete&&scope.onComplete(files);
                 },
                 beforeAdd:function (addFileTarget,files) {

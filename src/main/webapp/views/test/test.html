@@ -22,7 +22,8 @@
             <label class="col-sm-2 control-label">文件</label>
             <div class="col-sm-8">
                 <div cc-file-preview cc-file-add></div>
-                <input class="form-control" cc-file-add value="{{f1.fileId}}">
+                <input class="form-control" cc-file-add ng-model="f1.fileId">
+                <input class="form-control" cc-model="ff" ng-model="ff.type">
             </div>
         </div>
         <div class="form-group" cc-file="f2">
