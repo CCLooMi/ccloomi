@@ -561,7 +561,7 @@ app.directive('ccForm',['$parse',function ($parse) {
                     if($(that).val()!=value){
                         checkInput(that);
                     }
-                },250);
+                },100);
             });
             element.find('input,textarea,select').blur(function (e) {
                 first=false;
@@ -571,12 +571,16 @@ app.directive('ccForm',['$parse',function ($parse) {
                     clearInterval(checkInterval);
                 },500);
             });
+
+            var ccSubmit=$parse(element.find('[cc-submit]').attr('cc-submit'));
             element.find('[cc-submit]').click(function (e) {
                 first=false;
                 clearInterval(checkInterval);
                 checkForm(element);
                 if(!element.find('.cc-show').length){
-                    $parse($(this).attr('cc-submit'))(scope);
+                    scope.$apply(function(){
+                        ccSubmit(scope,{$event:e});
+                    });
                 }
             });
             //预检测时不显示错误提示
