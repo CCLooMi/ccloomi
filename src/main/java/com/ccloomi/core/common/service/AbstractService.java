@@ -1,6 +1,5 @@
 package com.ccloomi.core.common.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -135,17 +134,17 @@ public abstract class AbstractService<T extends BaseEntity> {
 	 * @param byPageSelect
 	 * @return
 	 */
-	public List<Map<String, Object>> byPageWithoutTotalNumber(Map<String, Object>map,ByPageSelect byPageSelect){
-		List<Map<String, Object>>ls=new ArrayList<>();
-		int page=(int)map.get("page");
-		int pageSize=10;
-		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-		byPageSelect.doSelect(sm, map);
-		processConditions(sm, map);
-		sm.LIMIT(page*pageSize, pageSize);
-		ls=baseDao.findBySQLGod(sm);
-		return ls;
-	}
+//	public List<Map<String, Object>> byPageWithoutTotalNumber(Map<String, Object>map,ByPageSelect byPageSelect){
+//		List<Map<String, Object>>ls=new ArrayList<>();
+//		int page=(int)map.get("page");
+//		int pageSize=10;
+//		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+//		byPageSelect.doSelect(sm, map);
+//		processConditions(sm, map);
+//		sm.LIMIT(page*pageSize, pageSize);
+//		ls=baseDao.findBySQLGod(sm);
+//		return ls;
+//	}
 	/**
 	 * 方法描述：分页查询（移动端）
 	 * 作        者：Chenxj
@@ -155,48 +154,48 @@ public abstract class AbstractService<T extends BaseEntity> {
 	 * @param byPageSelect
 	 * @return
 	 */
-	public <E> List<E> byPageWithoutTotalNumber(Map<String, Object> map,Class<E> elementType,ByPageSelect byPageSelect) {
-		List<E>ls=new ArrayList<>();
-		int page=(int)map.get("page");
-		int pageSize=10;
-		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
-		byPageSelect.doSelect(sm, map);
-		processConditions(sm, map);
-		sm.LIMIT(page*pageSize, pageSize);
-		ls=baseDao.findBySQLGod(sm,elementType);
-		return ls;
-	}
-	private void processConditions(SQLMaker sm,Map<String,Object>map){
-		if(map.get("keyword")!=null||map.get("filterBy")!=null||map.get("orderBy")!=null){
-			//需要在select before之前执行
-			List<String>columns=sm.getColumns();
-			sm.SELECT_BEFORE_AS("temp").SELECT("*");
-			if(map.get("keyword")!=null){
-				StringBuilder sb=new StringBuilder("(");
-				int i=0;
-				for(String column:columns){
-					//column 格式例子:: a.name;a.name AS 'name';a.name,a.age
-					if(i!=0)sb.append(" OR");
-					sb.append(" temp.").append(column).append(" LIKE '%").append(map.get("keyword")).append("%'");
-					i++;
-				}
-				sb.append(")");
-				sm.AND(sb.toString());
-			}
-			if(map.get("filterBy")!=null){
-				@SuppressWarnings("unchecked")
-				Map<String, Object>filterByMap=(Map<String, Object>) map.get("filterBy");
-				for(String filterBy:filterByMap.keySet()){
-					sm.AND("temp."+filterBy+"=?", filterByMap.get(filterBy));
-				}
-			}
-			if(map.get("orderBy")!=null){
-				@SuppressWarnings("unchecked")
-				List<String>orderByList=(List<String>) map.get("orderBy");
-				for(String orderBy:orderByList){
-					sm.ORDER_BY("temp."+orderBy);
-				}
-			}
-		}//end if
-	}
+//	public <E> List<E> byPageWithoutTotalNumber(Map<String, Object> map,Class<E> elementType,ByPageSelect byPageSelect) {
+//		List<E>ls=new ArrayList<>();
+//		int page=(int)map.get("page");
+//		int pageSize=10;
+//		SQLMaker sm=SQLMakerFactory.getInstance().createMapker();
+//		byPageSelect.doSelect(sm, map);
+//		processConditions(sm, map);
+//		sm.LIMIT(page*pageSize, pageSize);
+//		ls=baseDao.findBySQLGod(sm,elementType);
+//		return ls;
+//	}
+//	private void processConditions(SQLMaker sm,Map<String,Object>map){
+//		if(map.get("keyword")!=null||map.get("filterBy")!=null||map.get("orderBy")!=null){
+//			//需要在select before之前执行
+//			List<String>columns=sm.getColumns();
+//			sm.SELECT_BEFORE_AS("temp").SELECT("*");
+//			if(map.get("keyword")!=null){
+//				StringBuilder sb=new StringBuilder("(");
+//				int i=0;
+//				for(String column:columns){
+//					//column 格式例子:: a.name;a.name AS 'name';a.name,a.age
+//					if(i!=0)sb.append(" OR");
+//					sb.append(" temp.").append(column).append(" LIKE '%").append(map.get("keyword")).append("%'");
+//					i++;
+//				}
+//				sb.append(")");
+//				sm.AND(sb.toString());
+//			}
+//			if(map.get("filterBy")!=null){
+//				@SuppressWarnings("unchecked")
+//				Map<String, Object>filterByMap=(Map<String, Object>) map.get("filterBy");
+//				for(String filterBy:filterByMap.keySet()){
+//					sm.AND("temp."+filterBy+"=?", filterByMap.get(filterBy));
+//				}
+//			}
+//			if(map.get("orderBy")!=null){
+//				@SuppressWarnings("unchecked")
+//				List<String>orderByList=(List<String>) map.get("orderBy");
+//				for(String orderBy:orderByList){
+//					sm.ORDER_BY("temp."+orderBy);
+//				}
+//			}
+//		}//end if
+//	}
 }

@@ -57,9 +57,9 @@ public abstract class SQLMaker implements SQLGod{
 		this.vSets					= new ArrayList<String>();
 	}
 	/** 获取：columns */
-	public List<String> getColumns() {
-		return getColumns(columns);
-	}
+//	public List<String> getColumns() {
+//		return getColumns(columns);
+//	}
 	public SQLMaker clean(){
 		this.init();
 		this.batchArgs=null;
@@ -206,15 +206,15 @@ public abstract class SQLMaker implements SQLGod{
 		}
 		return this;
 	}
-	public SQLMaker SELECT_BEFORE_AS(String alias){
-		String beforeSQL=sqlString();
-		List<Object>beforeValues=new ArrayList<Object>();
-		beforeValues.addAll(values);
-		this.clean();
-		this.table_alias.put("("+beforeSQL+")", alias);
-		this.values.addAll(beforeValues);
-		return this;
-	}
+//	public SQLMaker SELECT_BEFORE_AS(String alias){
+//		String beforeSQL=sqlString();
+//		List<Object>beforeValues=new ArrayList<Object>();
+//		beforeValues.addAll(values);
+//		this.clean();
+//		this.table_alias.put("("+beforeSQL+")", alias);
+//		this.values.addAll(beforeValues);
+//		return this;
+//	}
 	@SuppressWarnings("unchecked")
 	public <value>SQLMaker LEFT_JOIN(BaseEntity entity,String alias,String on,value...values){
 		this.join_table_alias_on.add(" LEFT JOIN "+entity.tableName()+" "+alias+" ON "+on);
@@ -416,47 +416,47 @@ public abstract class SQLMaker implements SQLGod{
 	 * @param columns
 	 * @return
 	 */
-	private List<String> getColumns(List<String>columns){
-		List<String>rs=new ArrayList<String>();
-		for(String column:columns){
-			if(column.contains("AS")){
-				String c=getColumn(column.substring(column.lastIndexOf("AS")));
-				if(c!=null){
-					rs.add(c);
-				}
-			}else if(column.contains(",")){
-				for(String s:column.split(",")){
-					String c=getColumn(s);
-					if(c!=null){
-						rs.add(c);
-					}
-				}
-			}else if(column.contains("\\*")){
-				String tableAlias=column.split("\\.")[0];
-				BaseEntity entity=alias_entity.get(tableAlias);
-				for(String p:entity.properties()){
-					rs.add(entity.getPropertyTableColumn(p));
-				}
-			}else{
-				String c=getColumn(column);
-				if(c!=null){
-					rs.add(c);
-				}
-			}
-		}
-		return rs;
-	};
-	private String getColumn(String column){
-		try{
-			if(column.contains("AS")){
-				return column.split("'")[1];
-			}else{
-				return column.split("\\.")[1];
-			}
-		}catch(Exception e){
-			return null;
-		}
-	};
+//	private List<String> getColumns(List<String>columns){
+//		List<String>rs=new ArrayList<String>();
+//		for(String column:columns){
+//			if(column.contains("AS")){
+//				String c=getColumn(column.substring(column.lastIndexOf("AS")));
+//				if(c!=null){
+//					rs.add(c);
+//				}
+//			}else if(column.contains(",")){
+//				for(String s:column.split(",")){
+//					String c=getColumn(s);
+//					if(c!=null){
+//						rs.add(c);
+//					}
+//				}
+//			}else if(column.contains("\\*")){
+//				String tableAlias=column.split("\\.")[0];
+//				BaseEntity entity=alias_entity.get(tableAlias);
+//				for(String p:entity.properties()){
+//					rs.add(entity.getPropertyTableColumn(p));
+//				}
+//			}else{
+//				String c=getColumn(column);
+//				if(c!=null){
+//					rs.add(c);
+//				}
+//			}
+//		}
+//		return rs;
+//	};
+//	private String getColumn(String column){
+//		try{
+//			if(column.contains("AS")){
+//				return column.split("'")[1];
+//			}else{
+//				return column.split("\\.")[1];
+//			}
+//		}catch(Exception e){
+//			return null;
+//		}
+//	};
 	@Override
 	public Map<String, List<? extends Object>> sql(){
 		Map<String, List<? extends Object>>result=new HashMap<String, List<? extends Object>>();
