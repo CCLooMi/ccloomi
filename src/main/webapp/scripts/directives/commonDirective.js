@@ -470,6 +470,7 @@ app.directive('ccForm',['$parse',function ($parse) {
         link:function (scope,element,attrs) {
             var first=true;
             var checkInterval;
+            var checkTimeout;
             function showError(input,errorIndex) {
                 if(first){
                     return;
@@ -559,6 +560,7 @@ app.directive('ccForm',['$parse',function ($parse) {
                 var that=this;
                 var value=$(this).val();
                 first=false;
+                clearTimeout(checkTimeout);
                 checkInterval=setInterval(function () {
                     if($(that).val()!=value){
                         checkInput(that);
@@ -569,7 +571,7 @@ app.directive('ccForm',['$parse',function ($parse) {
                 first=false;
                 checkInput(this);
                 //对于某些慢些的下拉选择列表需要延迟清除检测
-                setTimeout(function(){
+                checkTimeout=setTimeout(function(){
                     clearInterval(checkInterval);
                 },500);
             });

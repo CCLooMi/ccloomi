@@ -44,8 +44,13 @@ a {
 }
 .help-block {
   * {
-    &:not(.cc-show) {
+    &:not(.cc-show){
       display: none;
+    }
+    //解决自己处理错误提示时要让错误提示显示时的bug，
+    //自己处理的错误提示不能加cc-show类，这会导致form不能提交
+    .cc-show-force {
+      display: block;
     }
   }
 }
