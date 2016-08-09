@@ -10,7 +10,7 @@
         if(option.wsuri&&option.wsuri.match(/ws:\/\//)){
             this.wsuri=option.wsuri;
         }else{
-            this.wsuri='ws'+window.location.href.match(new RegExp(':\/\/\w+\.\w+\.\w+\.\w+:?\w*\/[^/]+\/|:\/\/\w+:?\w*\/[^/]+\/'))[0]+option.wsuri;
+            this.wsuri='ws'+window.location.href.match(/:\/\/\w+\.\w+\.\w+\.\w+:?\w*\/[^\/]+\/|:\/\/\w+:?\w*\/[^\/]+\//)[0]+option.wsuri;
         }
         this.multiple=option.multiple;
         UPGlobal.debugMode=option.debugMode||false;
