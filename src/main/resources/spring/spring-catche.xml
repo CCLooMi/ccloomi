@@ -41,5 +41,5 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="catcheClient" class="com.ccloomi.core.component.catche.CacheClient" factory-bean="catcheClientFactory" factory-method="createCatcheClient"/>
+	<bean id="cacheClient" class="com.ccloomi.core.component.catche.CacheClient" factory-bean="catcheClientFactory" factory-method="createCatcheClient"/>
 </beans>

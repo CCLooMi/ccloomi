@@ -198,7 +198,7 @@ function uuid(len, radix) {
 function getUrlIcon(url){
     var result='';
     try{
-        result+=url.match(/[^\/]+:\/\/[^\/]+/g)[0]+'/favicon.ico';
+        result+=url.match(/[^\/]+:\/\/[^\/]+||file:\/\/.+\//g)[0]+'/favicon.ico';
     }catch(e){
         console.error(e);
     }
